@@ -28,15 +28,18 @@ public data class NativeCharacterLimit(
 )
 
 /**
- * iOS keyboard input-accessory toolbar config. When [doneButton] is true, a native toolbar with a
- * "[doneText]" button appears above the keyboard; tapping it dismisses the keyboard (and fires the
- * field's `onSubmit` for single-line). Documented no-op on Android.
+ * iOS keyboard input-accessory config. When [doneButton] is true (the default), a standard `UIToolbar` with a
+ * "[doneText]" button appears above the keyboard; tapping it dismisses the keyboard (and fires the field's
+ * `onSubmit` for single-line). It's on by default so every field — including keyboards whose return key isn't a
+ * dismiss (number/decimal/email) and the multiline editor (whose return key inserts a newline) — has a reliable
+ * way to close. A `UIToolbar` is the standard accessory the OS measures into the keyboard frame, so the kit's
+ * keyboard insets account for it and it doesn't overlap content. Documented no-op on Android.
  */
 @Immutable
 public data class NativeKeyboardAccessory(
-    val doneButton: Boolean = false,
+    val doneButton: Boolean = true,
     val doneText: String = "Done",
-    val style: NativeKeyboardAccessoryStyle = NativeKeyboardAccessoryStyle.FullWidthBar,
+    val style: NativeKeyboardAccessoryStyle = NativeKeyboardAccessoryStyle.Toolbar,
 )
 
 /** Focus + submit callbacks for NativeTextField. */

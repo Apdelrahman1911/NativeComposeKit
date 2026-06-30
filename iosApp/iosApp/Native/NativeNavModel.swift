@@ -57,6 +57,12 @@ final class NativeNavModel: ObservableObject {
 
     // SwiftUI → SoT (guarded so Kotlin-driven updates don't loop back as user changes).
     func userChangedPath(tab: String, to tail: [String]) {
+        // Keep our published path consistent with SwiftUI's actual NavigationStack *immediately*. Otherwise it
+        // lags a back-swipe until the async SoT refresh, and a quick pop-then-repush of the SAME route leaves the
+        // binding holding the stale (still-pushed) value: the refresh then sees the SoT already equal to that
+        // stale path and skips updating it, so the stack (popped, then re-pushed) and the binding stay desynced —
+        // the blank/stuck screen with broken back.
+        if pathByTab[tab] != tail { pathByTab[tab] = tail }
         guard !applyingFromKotlin else { return }
         bridge.reconcileStack(tabId: tab, routeIds: [bridge.rootRouteId(tabId: tab)] + tail)
     }
