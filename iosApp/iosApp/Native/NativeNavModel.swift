@@ -37,14 +37,22 @@ final class NativeNavModel: ObservableObject {
     /// SoT → SwiftUI: re-read the navigator and mirror into the published state (avoids bridging the Kotlin Map).
     private func refresh() {
         applyingFromKotlin = true
-        selectedTab = bridge.selectedTabId()
-        sheetId = bridge.sheetId()
+        // Only publish values that actually changed — replacing selectedTab / the whole pathByTab map on every
+        // notification churns every tab's NavigationStack and can drop a freshly pushed destination.
+        let newSelected = bridge.selectedTabId()
+        if selectedTab != newSelected { selectedTab = newSelected }
+        let newSheet = bridge.sheetId()
+        if sheetId != newSheet { sheetId = newSheet }
         var next: [String: [String]] = [:]
         for t in tabIds {
             next[t] = Array((((bridge.stackIds(tabId: t)) as? [String]) ?? []).dropFirst())
         }
-        pathByTab = next
-        applyingFromKotlin = false
+        if next != pathByTab { pathByTab = next }
+        // Hold the guard until SwiftUI has applied this path on the next runloop. SwiftUI emits transitional
+        // `set` callbacks on the path binding during the push/pop animation; releasing the guard synchronously
+        // here lets those stale callbacks be mistaken for user navigation and reconcile the stack backward —
+        // popping the just-pushed screen and landing on an empty/wrong destination.
+        DispatchQueue.main.async { self.applyingFromKotlin = false }
     }
 
     // SwiftUI → SoT (guarded so Kotlin-driven updates don't loop back as user changes).

@@ -434,14 +434,22 @@ private fun MultilineField(
 
             // A multiline UITextView's Return key inserts a newline, so — unlike the single-line field, which
             // dismisses on Return — it has no built-in way to close the keyboard. Always give it a Done accessory
-            // bar so the keyboard can be dismissed (no per-call opt-in needed).
+            // so the keyboard can be dismissed (no per-call opt-in needed).
             if (textView.inputAccessoryView == null) {
-                textView.inputAccessoryView = makeAccessory(
-                    ios.keyboardAccessory,
-                    style.colors,
-                    events,
-                    sel_registerName("doneTapped"),
-                )
+                textView.inputAccessoryView = if (ios.keyboardAccessory.doneButton) {
+                    // Explicit opt-in keeps the caller's chosen style.
+                    makeAccessory(ios.keyboardAccessory, style.colors, events, sel_registerName("doneTapped"))
+                } else {
+                    // Default: a standard UIToolbar. The OS reports a toolbar accessory as part of the keyboard
+                    // frame, so Compose's ime inset includes its height and it sits above the content instead of
+                    // covering it (a plain custom bar isn't always measured into that frame).
+                    makeDoneToolbar(
+                        ios.keyboardAccessory.doneText,
+                        style.colors.focusedBorder.toUIColor(),
+                        events,
+                        sel_registerName("doneTapped"),
+                    )
+                }
             }
 
             textView.accessibilityLabel = accessibilityLabel
