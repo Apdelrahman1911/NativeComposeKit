@@ -15,6 +15,9 @@ final class NativeNavModel: ObservableObject {
     private let bridge: NativeNavBridge
     private var cancellable: NativeNavCancellable?
     private var applyingFromKotlin = false
+    // When each tab's path last grew from a Kotlin-driven push. SwiftUI fires a stale `set` (its pre-push path)
+    // during the push transition; a "pop" landing within this window of a push is that write-back, not a user back.
+    private var lastPushAt: [String: Date] = [:]
 
     init(bridge: NativeNavBridge) {
         self.bridge = bridge
@@ -47,7 +50,13 @@ final class NativeNavModel: ObservableObject {
         for t in tabIds {
             next[t] = Array((((bridge.stackIds(tabId: t)) as? [String]) ?? []).dropFirst())
         }
-        if next != pathByTab { print("NCK-Nav-iOS: refresh pathByTab \(pathByTab) -> \(next)"); pathByTab = next }
+        if next != pathByTab {
+            // Stamp tabs whose path just grew — that's a push driven by Kotlin. SwiftUI replays the pre-push
+            // path back to us as a `set` during the push transition; the stamp lets userChangedPath tell that
+            // stale write-back (lands within a beat) from a real user back (lands after they've seen the screen).
+            for t in tabIds where (next[t] ?? []).count > (pathByTab[t] ?? []).count { lastPushAt[t] = Date() }
+            print("NCK-Nav-iOS: refresh pathByTab \(pathByTab) -> \(next)"); pathByTab = next
+        }
         // Hold the guard until SwiftUI has applied this path on the next runloop. SwiftUI emits transitional
         // `set` callbacks on the path binding during the push/pop animation; releasing the guard synchronously
         // here lets those stale callbacks be mistaken for user navigation and reconcile the stack backward —
@@ -70,6 +79,13 @@ final class NativeNavModel: ObservableObject {
         let isValidPop = tail.count <= current.count && Array(current.prefix(tail.count)) == tail
         if !isValidPop {
             print("NCK-Nav-iOS: ignore spurious set tab=\(tab) tail=\(tail) current=\(current) applyingFromKotlin=\(applyingFromKotlin)")
+            return
+        }
+        // A pop landing within a beat of a Kotlin-driven push is SwiftUI replaying its pre-push path during the
+        // push transition, not a user back — honoring it would reconcile the SoT backward and pop the screen we
+        // just opened (the empty/stuck destination). A real back arrives well after the user has seen the screen.
+        if tail.count < current.count, let pushedAt = lastPushAt[tab], Date().timeIntervalSince(pushedAt) < 0.6 {
+            print("NCK-Nav-iOS: ignore stale pop tab=\(tab) tail=\(tail) current=\(current) age=\(Date().timeIntervalSince(pushedAt))s")
             return
         }
         print("NCK-Nav-iOS: userPath tab=\(tab) tail=\(tail) current=\(current) applyingFromKotlin=\(applyingFromKotlin)")

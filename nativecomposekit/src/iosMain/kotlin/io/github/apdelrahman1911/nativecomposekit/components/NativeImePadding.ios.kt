@@ -21,6 +21,11 @@ import platform.UIKit.UIScreen
 import platform.darwin.NSObjectProtocol
 import kotlin.math.max
 
+/** Opt-in diagnostic logging for [nativeImePadding]'s keyboard-frame observer (off by default). */
+public object NativeImeLog {
+    public var enabled: Boolean = false
+}
+
 /**
  * iOS: pad by the real keyboard frame. The system's `UIKeyboardWillChangeFrame` reports the end frame of the
  * whole keyboard — keys + input-accessory bar + QuickType row — so the overlap we apply already includes the
@@ -44,6 +49,9 @@ public actual fun Modifier.nativeImePadding(): Modifier {
                 max(0.0, screenHeight - keyboardTop)
             } else {
                 0.0
+            }
+            if (NativeImeLog.enabled) {
+                println("NCK-Kbd: frameEnd present=${frameValue != null} inset=${bottomPoints}pt")
             }
         }
         onDispose { center.removeObserver(observer) }

@@ -7,6 +7,7 @@ import io.github.apdelrahman1911.nativecomposekit.app.appNavGraph
 import io.github.apdelrahman1911.nativecomposekit.app.appRootRoute
 import io.github.apdelrahman1911.nativecomposekit.app.appRouteTitle
 import io.github.apdelrahman1911.nativecomposekit.app.configureCoilImageLoader
+import io.github.apdelrahman1911.nativecomposekit.components.NativeImeLog
 import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavBridge
 import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavLog
 import io.github.apdelrahman1911.nativecomposekit.navigation.createNativeNavigator
@@ -28,6 +29,7 @@ fun MainViewController(): UIViewController {
  */
 fun createNativeNavBridge(): NativeNavBridge {
     NativeNavLog.enabled = true // demo: trace navigation (Xcode console tag "NCK-Nav") to diagnose stack issues
+    NativeImeLog.enabled = true // demo: trace keyboard-frame inset (Xcode console tag "NCK-Kbd")
     configureCoilImageLoader() // app-level image loader (Coil + Ktor/Darwin); the kit stays dependency-free
     val navigator = createNativeNavigator(
         tabs = AppTab.entries.toList(),
