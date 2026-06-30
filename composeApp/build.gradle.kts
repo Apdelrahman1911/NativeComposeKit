@@ -28,10 +28,10 @@ kotlin {
             // Swift host (iosApp/iosApp/ContentView.swift).
             baseName = "ComposeApp"
             isStatic = true
-            // Re-export the :brandkit library's public ObjC symbols into ComposeApp-Swift.h so the SwiftUI
+            // Re-export the :nativecomposekit library's public ObjC symbols into ComposeApp-Swift.h so the SwiftUI
             // shell can still see NativeNavBridge / NativeNavCancellable / NativeShellChromeKt (now living in
-            // :brandkit). Requires `api(project(":brandkit"))` below (export needs the api configuration).
-            export(project(":brandkit"))
+            // :nativecomposekit). Requires `api(project(":nativecomposekit"))` below (export needs the api configuration).
+            export(project(":nativecomposekit"))
         }
     }
 
@@ -40,8 +40,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // The design-system kit, extracted to its own module. `api` (not implementation) is required so
-            // the iOS framework's `export(project(":brandkit"))` can re-export its public ObjC symbols.
-            api(project(":brandkit"))
+            // the iOS framework's `export(project(":nativecomposekit"))` can re-export its public ObjC symbols.
+            api(project(":nativecomposekit"))
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)

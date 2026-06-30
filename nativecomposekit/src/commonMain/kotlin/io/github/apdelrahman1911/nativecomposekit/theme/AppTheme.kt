@@ -68,7 +68,7 @@ private val AppShapes = Shapes(
  * via [MaterialTheme] + [NativeTheme.tokens].
  *
  * **Reskinnable:** every styling input is an optional parameter defaulting to the brand defaults, so a host
- * (or a future consumer of an extracted `:brandkit` module) can reskin the whole kit by passing its own
+ * (or a future consumer of an extracted `:nativecomposekit` module) can reskin the whole kit by passing its own
  * [lightColors]/[darkColors]/[typography]/[shapes]/[tokens]/status colors without forking the kit. The simple
  * call — `AppTheme { … }` — is unchanged. (Note: the top-level [nativeLightBackground]/[nativeDarkBackground]
  * the native iOS shell reads still reflect the *default* palette; a host injecting custom colors that also

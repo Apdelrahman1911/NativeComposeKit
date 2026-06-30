@@ -1,54 +1,54 @@
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeColorWell_androidKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeColorWell_androidKt;
 	public fun <init> ()V
-	public final fun getLambda$-466861596$brandkit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1672545611$brandkit_release ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-466861596$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1672545611$nativecomposekit_release ()Lkotlin/jvm/functions/Function3;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeDialogKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeDialogKt;
 	public fun <init> ()V
-	public final fun getLambda$1103775555$brandkit_release ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1103775555$nativecomposekit_release ()Lkotlin/jvm/functions/Function3;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeScaffoldKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeScaffoldKt;
 	public fun <init> ()V
-	public final fun getLambda$-1751752731$brandkit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-354774283$brandkit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1064568021$brandkit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1751752731$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-354774283$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1064568021$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSearchBar_androidKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSearchBar_androidKt;
 	public fun <init> ()V
-	public final fun getLambda$-345083620$brandkit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1507857686$brandkit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-345083620$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1507857686$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSheet_androidKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSheet_androidKt;
 	public fun <init> ()V
-	public final fun getLambda$-431233516$brandkit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-431233516$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSplitButton_androidKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSplitButton_androidKt;
 	public fun <init> ()V
-	public final fun getLambda$-983008380$brandkit_release ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-983008380$nativecomposekit_release ()Lkotlin/jvm/functions/Function3;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeStepper_androidKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeStepper_androidKt;
 	public fun <init> ()V
-	public final fun getLambda$197706142$brandkit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$249180405$brandkit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$197706142$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$249180405$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeTopBarKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeTopBarKt;
 	public fun <init> ()V
-	public final fun getLambda$-1949479215$brandkit_release ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-1949479215$nativecomposekit_release ()Lkotlin/jvm/functions/Function3;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeAvatarKt {
@@ -891,8 +891,8 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 public final class io/github/apdelrahman1911/nativecomposekit/navigation/ComposableSingletons$NativeNavHostKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/navigation/ComposableSingletons$NativeNavHostKt;
 	public fun <init> ()V
-	public final fun getLambda$-1008416180$brandkit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-277273280$brandkit_release ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-1008416180$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-277273280$nativecomposekit_release ()Lkotlin/jvm/functions/Function3;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavBarItem {

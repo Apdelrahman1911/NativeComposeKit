@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 // The Native UI design-system kit as a standalone KMP library. It does NOT emit its own iOS framework —
 // `:composeApp` owns the single `ComposeApp` framework and links this module statically into it (and
-// `export(project(":brandkit"))` re-exports the kit's public ObjC symbols into the framework header so the
+// `export(project(":nativecomposekit"))` re-exports the kit's public ObjC symbols into the framework header so the
 // SwiftUI shell can see NativeNavBridge / NativeShellChromeKt / etc.). Dependency-pure: Compose-official
 // artifacts only, no Coil/Ktor (those stay app-side in :composeApp).
 plugins {
@@ -15,8 +15,8 @@ plugins {
     alias(libs.plugins.binary.compatibility.validator)
 }
 
-// ABI lock: the public surface is dumped to brandkit/api/*.api (JVM) + *.klib.api (native), and `apiCheck`
-// (wired into `check`) fails the build if the public API changes without an intentional `:brandkit:apiDump`.
+// ABI lock: the public surface is dumped to nativecomposekit/api/*.api (JVM) + *.klib.api (native), and `apiCheck`
+// (wired into `check`) fails the build if the public API changes without an intentional `:nativecomposekit:apiDump`.
 apiValidation {
     @OptIn(ExperimentalBCVApi::class)
     klib {

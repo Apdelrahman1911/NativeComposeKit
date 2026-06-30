@@ -30,7 +30,7 @@ ktor = "3.1.0"
 robolectric = "4.14.1"
 junit = "4.13.2"
 
-# ABI lock for the :brandkit library — dumps the public KLIB/JVM ABI to brandkit/api and fails the build
+# ABI lock for the :nativecomposekit library — dumps the public KLIB/JVM ABI to nativecomposekit/api and fails the build
 # (apiCheck) if the public surface changes without an intentional apiDump.
 binary-compat = "0.16.3"
 

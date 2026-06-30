@@ -33,7 +33,7 @@ import platform.darwin.NSObject
  * same native sheet flow everywhere, independent of where the trigger lives in the SwiftUI tree.
  */
 // Constructor is `public` (not `internal`): the app's `createNativeNavBridge()` lives in the consumer module
-// (it wires app-specific routes), so once `navigation` ships in the `:brandkit` library the factory must be
+// (it wires app-specific routes), so once `navigation` ships in the `:nativecomposekit` library the factory must be
 // able to construct this across the module boundary. The ctor takes only public types (no app types leak in).
 public class NativeNavBridge public constructor(
     private val navigator: NativeNavigator,

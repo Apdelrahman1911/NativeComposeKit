@@ -55,13 +55,13 @@ Multiplatform 1.11 no longer supports the Apple x86_64 target.
 | minSdk | 26 |
 | iOS deployment target | 15.0 |
 
-These are pinned in `gradle/libs.versions.toml`. The library module (`:brandkit`) depends only on
+These are pinned in `gradle/libs.versions.toml`. The library module (`:nativecomposekit`) depends only on
 Compose artifacts — no third-party runtime dependencies.
 
 ## Modules
 
 ```
-:brandkit     the UI kit (published surface; ABI-locked with binary-compatibility-validator)
+:nativecomposekit     the UI kit (published surface; ABI-locked with binary-compatibility-validator)
 :composeApp   the sample catalog app that exercises every component on both platforms
 iosApp        thin SwiftUI host that loads the shared Compose UI
 ```
@@ -69,13 +69,13 @@ iosApp        thin SwiftUI host that loads the shared Compose UI
 ## Setup
 
 NativeComposeKit isn't on Maven Central yet (see [development notes](#development-notes)). For now,
-consume `:brandkit` as a source module.
+consume `:nativecomposekit` as a source module.
 
 Clone it next to your project and pull the module into your `settings.gradle.kts`:
 
 ```kotlin
 // settings.gradle.kts
-includeBuild("../NativeComposeKit") // or vendor :brandkit into your own tree
+includeBuild("../NativeComposeKit") // or vendor :nativecomposekit into your own tree
 ```
 
 Then depend on it from a Compose Multiplatform module:
@@ -85,7 +85,7 @@ Then depend on it from a Compose Multiplatform module:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.apdelrahman1911.nativecomposekit:brandkit") // coordinates TBD; see development notes
+            implementation("io.github.apdelrahman1911.nativecomposekit:nativecomposekit") // coordinates TBD; see development notes
         }
     }
 }
@@ -278,16 +278,16 @@ cd iosApp && xcodegen generate && open iosApp.xcodeproj
 ### Tests and checks
 
 ```bash
-./gradlew :brandkit:apiCheck              # fail if the public ABI changed without an apiDump
-./gradlew :brandkit:testDebugUnitTest     # unit + Robolectric Compose tests (no emulator)
+./gradlew :nativecomposekit:apiCheck              # fail if the public ABI changed without an apiDump
+./gradlew :nativecomposekit:testDebugUnitTest     # unit + Robolectric Compose tests (no emulator)
 ./gradlew :composeApp:testDebugUnitTest
 ./gradlew check                           # everything
 ```
 
 The library's public API is locked with
 [binary-compatibility-validator](https://github.com/Kotlin/binary-compatibility-validator). After an
-intentional API change, regenerate the baseline with `./gradlew :brandkit:apiDump` and commit the
-updated files under `brandkit/api/`.
+intentional API change, regenerate the baseline with `./gradlew :nativecomposekit:apiDump` and commit the
+updated files under `nativecomposekit/api/`.
 
 ## Contributing
 
@@ -296,15 +296,15 @@ Contributions are welcome. Before opening a pull request:
 - Read [`docs/design-system-rules.md`](docs/design-system-rules.md) — a new component must resolve
   its style from the theme, render natively per platform (or be a documented exception), and add real
   design-system value rather than wrap a library.
-- Keep `:brandkit` free of third-party runtime dependencies.
-- Run `./gradlew check` and, for any public API change, `:brandkit:apiDump`.
+- Keep `:nativecomposekit` free of third-party runtime dependencies.
+- Run `./gradlew check` and, for any public API change, `:nativecomposekit:apiDump`.
 - Add the component to the sample catalog so it's exercised on both platforms.
 
 ## Development notes
 
 - **Naming.** The Kotlin package is `io.github.apdelrahman1911.nativecomposekit`, the Android
   namespace is `io.github.apdelrahman1911.nativecomposekit.kit`, and the public components use the
-  `Native*` prefix. The Gradle module is still named `:brandkit` — an internal build name, not the
+  `Native*` prefix. The Gradle module is still named `:nativecomposekit` — an internal build name, not the
   published group, so there's no need to churn it.
 - **Publishing.** Maven Central coordinates aren't set up yet; that's the next step toward consuming
   the kit as a normal dependency. The dependency line above is illustrative until then.

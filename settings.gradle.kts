@@ -25,4 +25,4 @@ dependencyResolutionManagement {
 rootProject.name = "NativeComposeKit"
 
 include(":composeApp")
-include(":brandkit")
+include(":nativecomposekit")

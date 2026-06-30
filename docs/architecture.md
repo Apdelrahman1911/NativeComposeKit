@@ -236,7 +236,7 @@ Rules:
 - Renderer actions → intents → `NativeNavigator`: Android back press → `pop()`; iOS back-swipe →
   `pop()`; tab tap → `selectTab(...)`; deep link → `replaceStack(...)`.
 - **Module boundaries: packages now, modules later.** Adopt the layering as packages inside one
-  navigation module; extract `:brand-navigation-nav3`, `:brand-navigation-ios-swiftui`, etc. only when
+  navigation module; extract `:native-navigation-nav3`, `:native-navigation-ios-swiftui`, etc. only when
   a second adapter/consumer actually exists. (Five Gradle modules up front is premature.)
 
 **Biggest risk in the whole system:** binding a native SwiftUI `NavigationStack` to an *external*
