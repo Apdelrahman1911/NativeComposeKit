@@ -21,6 +21,5 @@ open iosApp.xcodeproj
 `./gradlew :composeApp:embedAndSignAppleFrameworkForXcode`, so building the iOS app also links the
 Kotlin/Compose framework automatically.
 
-Build settings (app name, bundle id, signing team) live in `iosApp/Configuration/Config.xcconfig`. A
-template is checked in with `TEAM_ID` left blank — simulator builds work as-is; set `TEAM_ID` to run on a
-physical device.
+Build settings (app name, bundle id, signing team) live in `iosApp/iosApp/Configuration/Config.xcconfig`.
+`TEAM_ID` is left blank — simulator builds work as-is; set it to run on a physical device.

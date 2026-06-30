@@ -1,6 +1,6 @@
 name: iosApp
 options:
-  bundleIdPrefix: com.ukkera.brandkit
+  bundleIdPrefix: io.github.apdelrahman1911.nativecomposekit
   deploymentTarget:
     iOS: "15.0"
   createIntermediateGroups: true

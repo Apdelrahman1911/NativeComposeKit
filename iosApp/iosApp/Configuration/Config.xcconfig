@@ -1,5 +1,5 @@
 // Xcode build settings for the iosApp target.
 // Set TEAM_ID to your Apple Developer Team ID to run on a physical device.
-BUNDLE_ID = com.ukkera.brandkit.iosApp
-APP_NAME = BrandUIKit
+BUNDLE_ID = io.github.apdelrahman1911.nativecomposekit.iosApp
+APP_NAME = NativeComposeKit
 TEAM_ID =

@@ -4,7 +4,7 @@ Library-agnostic navigation per `architecture.md` §7: **`BrandNavigator` is the
 the platform renderers are projections that render the shared state and report user actions back as intents.
 There is never a second independent stack (no `NavController`/SwiftUI `NavigationPath` owning state).
 
-## Core (commonMain `com.ukkera.brandkit.navigation`)
+## Core (commonMain `io.github.apdelrahman1911.nativecomposekit.navigation`)
 - **`BrandRoute { val id: String }`** / **`BrandTab { val id: String }`** — caller-defined contracts. The app
   declares a sealed `BrandRoute` hierarchy; the library only uses `id`, which must be **stable & unique per
   destination** (encode args, e.g. `"detail/$chapter"`). `id` is the projection used at the Swift boundary

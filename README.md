@@ -85,7 +85,7 @@ Then depend on it from a Compose Multiplatform module:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("com.ukkera.brandkit:brandkit") // module coordinates; see development notes
+            implementation("io.github.apdelrahman1911.nativecomposekit:brandkit") // coordinates TBD; see development notes
         }
     }
 }
@@ -96,12 +96,12 @@ iOS UIKit interop to compile.
 
 ## Usage
 
-Every component is a `Brand*` composable from `com.ukkera.brandkit.components`. Wrap your UI in
-`AppTheme` once, then call components directly:
+Every component is a `Brand*` composable from `io.github.apdelrahman1911.nativecomposekit.components`. Wrap
+your UI in `AppTheme` once, then call components directly:
 
 ```kotlin
-import com.ukkera.brandkit.components.*
-import com.ukkera.brandkit.theme.AppTheme
+import io.github.apdelrahman1911.nativecomposekit.components.*
+import io.github.apdelrahman1911.nativecomposekit.theme.AppTheme
 
 @Composable
 fun SignInForm(onSignIn: (String) -> Unit) {
@@ -302,12 +302,12 @@ Contributions are welcome. Before opening a pull request:
 
 ## Development notes
 
-- **Package names.** The Kotlin package is currently `com.ukkera.brandkit` and the Android namespace
-  is `com.ukkera.brandkit.kit`. These predate the NativeComposeKit name. Renaming them is a breaking
-  change to the public API, so it's deferred to a dedicated pass alongside Maven publishing rather
-  than folded into the rename.
+- **Naming.** The Kotlin package is `io.github.apdelrahman1911.nativecomposekit` and the Android
+  namespace is `io.github.apdelrahman1911.nativecomposekit.kit`. The Gradle module is still named
+  `:brandkit` and components keep the `Brand*` prefix — those are stable names, not the published
+  group, so there's no reason to churn them.
 - **Publishing.** Maven Central coordinates aren't set up yet; that's the next step toward consuming
-  the kit as a normal dependency.
+  the kit as a normal dependency. The dependency line above is illustrative until then.
 
 ## License
 

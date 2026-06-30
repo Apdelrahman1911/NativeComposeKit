@@ -77,11 +77,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.ukkera.brandkit"
+    namespace = "io.github.apdelrahman1911.nativecomposekit"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.ukkera.brandkit"
+        applicationId = "io.github.apdelrahman1911.nativecomposekit"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1

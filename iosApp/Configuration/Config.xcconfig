@@ -1,6 +1,0 @@
-// Build settings for the iOS sample host. Referenced by iosApp/project.yml.
-// Simulator builds work with TEAM_ID blank; set it to your Apple Developer team to run on a device.
-
-APP_NAME = NativeComposeKit
-BUNDLE_ID = com.ukkera.brandkit.sample
-TEAM_ID =

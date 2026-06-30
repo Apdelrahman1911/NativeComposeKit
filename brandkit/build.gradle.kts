@@ -74,10 +74,10 @@ kotlin {
 }
 
 android {
-    // Android namespace is distinct from :composeApp's (com.ukkera.brandkit) to avoid R-class ambiguity — it
-    // maps to the R-class package only, and is independent of the Kotlin package (com.ukkera.brandkit.*) and
-    // the iOS framework. The kit ships no Android resources.
-    namespace = "com.ukkera.brandkit.kit"
+    // Android namespace is distinct from :composeApp's (io.github.apdelrahman1911.nativecomposekit) to avoid
+    // R-class ambiguity — it maps to the R-class package only, and is independent of the Kotlin package
+    // (io.github.apdelrahman1911.nativecomposekit.*) and the iOS framework. The kit ships no Android resources.
+    namespace = "io.github.apdelrahman1911.nativecomposekit.kit"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
