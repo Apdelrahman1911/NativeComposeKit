@@ -28,5 +28,6 @@ fun ShowcaseCategoryScreen(key: String) {
         "display" -> DisplayShowcase()
         "typography" -> TypographyShowcase()
         "accessibility" -> AccessibilityShowcase()
+        else -> ShowcaseScreen(intro = "Unknown category: \"$key\".") {}
     }
 }

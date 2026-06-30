@@ -19,17 +19,26 @@ public class NativeNavigator internal constructor(public val state: NativeNaviga
 
     // ---- Intent API (architecture.md §7) ----
 
+    /** Compact dump of every tab's stack for tracing. */
+    private fun stacksDump(): String =
+        state.tabs.joinToString("  ") { t -> "${t.id}=[${state.stackFor(t).joinToString(",") { it.id }}]" }
+
     /** Push [route] onto the selected tab's stack. */
     public fun push(route: NativeRoute) {
         state.stackFor(state.selectedTab).add(route)
+        NativeNavLog.log { "push '${route.id}' -> sel=${state.selectedTab.id}  ${stacksDump()}" }
         notifyObservers()
     }
 
     /** Pop the top of the selected tab's stack. Returns false (and does nothing) if already at the root. */
     public fun pop(): Boolean {
         val stack = state.stackFor(state.selectedTab)
-        if (stack.size <= 1) return false
-        stack.removeAt(stack.lastIndex)
+        if (stack.size <= 1) {
+            NativeNavLog.log { "pop ignored (at root) sel=${state.selectedTab.id}  ${stacksDump()}" }
+            return false
+        }
+        val removed = stack.removeAt(stack.lastIndex)
+        NativeNavLog.log { "pop '${removed.id}' -> sel=${state.selectedTab.id}  ${stacksDump()}" }
         notifyObservers()
         return true
     }
@@ -46,6 +55,7 @@ public class NativeNavigator internal constructor(public val state: NativeNaviga
     public fun selectTab(tab: NativeTab) {
         if (state.selectedTab.id == tab.id) return
         state.selectedTab = tab
+        NativeNavLog.log { "selectTab '${tab.id}'  ${stacksDump()}" }
         notifyObservers()
     }
 
@@ -112,14 +122,27 @@ public class NativeNavigator internal constructor(public val state: NativeNaviga
      * in the stack are honored (pushes are Kotlin-driven via [push], never reported up from SwiftUI).
      */
     internal fun reconcileStack(tabId: String, routeIds: List<String>) {
-        val tab = state.tabById(tabId) ?: return
+        val tab = state.tabById(tabId)
+        if (tab == null) {
+            NativeNavLog.log { "reconcileStack IGNORED: unknown tab '$tabId' (requested $routeIds)" }
+            return
+        }
         val stack = state.stackFor(tab)
-        if (stack.map { it.id } == routeIds) return // idempotent no-op
+        val current = stack.map { it.id }
+        if (current == routeIds) return // idempotent no-op (no log: this is the common echo case)
         val byId = stack.associateBy { it.id }
         val resolved = routeIds.mapNotNull { byId[it] }
-        if (resolved.isEmpty() || resolved.size != routeIds.size) return // unknown id → ignore (shouldn't happen)
+        if (resolved.isEmpty() || resolved.size != routeIds.size) {
+            // The renderer reported a path the source of truth can't satisfy from this tab's live routes — the
+            // desync to watch for. Logged with both sides so the offending id is obvious.
+            NativeNavLog.log {
+                "reconcileStack IGNORED (unknown id): tab='$tabId' requested=$routeIds current=$current"
+            }
+            return
+        }
         stack.clear()
         stack.addAll(resolved)
+        NativeNavLog.log { "reconcileStack '$tabId' -> ${resolved.map { it.id }} (was $current)" }
         notifyObservers()
     }
 }

@@ -8,6 +8,7 @@ import io.github.apdelrahman1911.nativecomposekit.app.appRootRoute
 import io.github.apdelrahman1911.nativecomposekit.app.appRouteTitle
 import io.github.apdelrahman1911.nativecomposekit.app.configureCoilImageLoader
 import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavBridge
+import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavLog
 import io.github.apdelrahman1911.nativecomposekit.navigation.createNativeNavigator
 import platform.UIKit.UIViewController
 
@@ -26,6 +27,7 @@ fun MainViewController(): UIViewController {
  * (the source of truth) + the app graph; the shell holds the returned bridge for the app's lifetime.
  */
 fun createNativeNavBridge(): NativeNavBridge {
+    NativeNavLog.enabled = true // demo: trace navigation (Xcode console tag "NCK-Nav") to diagnose stack issues
     configureCoilImageLoader() // app-level image loader (Coil + Ktor/Darwin); the kit stays dependency-free
     val navigator = createNativeNavigator(
         tabs = AppTab.entries.toList(),

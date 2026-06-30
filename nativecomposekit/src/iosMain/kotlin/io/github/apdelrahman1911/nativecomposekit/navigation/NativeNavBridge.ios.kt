@@ -1,11 +1,22 @@
 package io.github.apdelrahman1911.nativecomposekit.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeUIViewController
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackHost
 import io.github.apdelrahman1911.nativecomposekit.components.topmostUIViewController
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearanceScope
+import platform.UIKit.UIApplication
+import platform.objc.sel_registerName
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.valueForKey
@@ -45,11 +56,31 @@ public class NativeNavBridge public constructor(
 ) {
     private var sheetVC: UIViewController? = null
     private var sheetDelegate: NavSheetDismissDelegate? = null
+    private var lastNavKey: String? = null
 
     init {
         // The bridge owns native sheet presentation, driven by the SoT (so it works no matter which tab/stack
         // the trigger lives in). Other observers (the Swift shell) handle tabs + stacks.
-        navigator.observe { snapshot -> syncNativeSheet(snapshot.sheetId) }
+        navigator.observe { snapshot ->
+            syncNativeSheet(snapshot.sheetId)
+            // Dismiss the keyboard whenever the tab or any stack changes (push/pop/tab-switch). Otherwise an open
+            // keyboard's inset can linger onto the destination screen and cover its content. Sheet-only changes
+            // (which may carry their own fields) are excluded.
+            val navKey = snapshot.selectedTabId + "|" + snapshot.stackIdsByTab.toString()
+            if (lastNavKey != null && navKey != lastNavKey) dismissKeyboard()
+            lastNavKey = navKey
+        }
+    }
+
+    /** Resign whatever holds first-responder, dismissing the keyboard (and clearing its layout inset). */
+    @OptIn(ExperimentalForeignApi::class)
+    private fun dismissKeyboard() {
+        UIApplication.sharedApplication.sendAction(
+            sel_registerName("resignFirstResponder"),
+            to = null,
+            from = null,
+            forEvent = null,
+        )
     }
 
     // ---- READ ----
@@ -91,9 +122,17 @@ public class NativeNavBridge public constructor(
     // ---- RENDER (nav destinations: opaque, hosted by SwiftUI NavigationStack) ----
     public fun viewController(forRouteId: String): UIViewController {
         val route = navigator.state.routeById(forRouteId)
-            ?: error("NativeNavBridge: no live route for id '$forRouteId'")
+        if (route == null) {
+            // The shell asked for a route the source of truth no longer holds — a stack desync. Don't crash;
+            // render a visible, logged placeholder so the failure is diagnosable instead of a blank screen.
+            NativeNavLog.log {
+                "viewController MISS for id '$forRouteId' — not in any live stack. ${navigator.snapshot().stackIdsByTab}"
+            }
+            return ComposeUIViewController { NativeAppearanceScope { MissingRouteScreen(forRouteId) } }
+        }
+        NativeNavLog.log { "viewController resolve '$forRouteId'" }
         // Each hosted route is its own composition, so it needs its own appearance scope AND feedback host
-        // (the latter provides LocalNativeFeedbackController, which screens like the catalog read).
+        // (the latter provides LocalNativeFeedbackController, which screens like the showcase read).
         return ComposeUIViewController { NativeAppearanceScope { NativeFeedbackHost { graph.Content(route) } } }
     }
 
@@ -149,4 +188,16 @@ private class NavSheetDismissDelegate(val onDismiss: () -> Unit) :
     NSObject(), UIAdaptivePresentationControllerDelegateProtocol {
     override fun presentationControllerWillDismiss(presentationController: UIPresentationController) = onDismiss()
     override fun presentationControllerDidDismiss(presentationController: UIPresentationController) = onDismiss()
+}
+
+/** Shown when the shell requests a route id the source of truth no longer holds (a stack desync). */
+@Composable
+private fun MissingRouteScreen(routeId: String) {
+    Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) {
+        Text(
+            "Missing route: $routeId",
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodyLarge,
+        )
+    }
 }

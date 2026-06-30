@@ -432,17 +432,16 @@ private fun MultilineField(
             placeholderLabel.setHidden(textView.text.isNotEmpty())
             placeholderLabel.setFrame(CGRectMake(H_PADDING + 5.0, V_PADDING, 220.0, 22.0))
 
-            if (ios.keyboardAccessory.doneButton) {
-                if (textView.inputAccessoryView == null) {
-                    textView.inputAccessoryView = makeAccessory(
-                        ios.keyboardAccessory,
-                        style.colors,
-                        events,
-                        sel_registerName("doneTapped"),
-                    )
-                }
-            } else {
-                textView.inputAccessoryView = null
+            // A multiline UITextView's Return key inserts a newline, so — unlike the single-line field, which
+            // dismisses on Return — it has no built-in way to close the keyboard. Always give it a Done accessory
+            // bar so the keyboard can be dismissed (no per-call opt-in needed).
+            if (textView.inputAccessoryView == null) {
+                textView.inputAccessoryView = makeAccessory(
+                    ios.keyboardAccessory,
+                    style.colors,
+                    events,
+                    sel_registerName("doneTapped"),
+                )
             }
 
             textView.accessibilityLabel = accessibilityLabel

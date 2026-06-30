@@ -932,6 +932,13 @@ public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeN
 	public static final fun NativeNavHost (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavigator;Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavGraph;Ljava/util/List;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 
+public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavLog {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavLog;
+	public final fun getEnabled ()Z
+	public final fun setEnabled (Z)V
+}
+
 public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavSnapshot {
 	public static final field $stable I
 	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/Map;Ljava/lang/String;)V
