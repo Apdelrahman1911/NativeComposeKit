@@ -1,0 +1,55 @@
+[versions]
+# Toolchain — pinned to the same proven combo used by the other local CMP projects.
+kotlin = "2.3.21"
+agp = "8.13.0"
+compose-multiplatform = "1.11.0"
+
+# Android SDK levels
+compileSdk = "36"
+minSdk = "26"
+targetSdk = "36"
+
+# AndroidX (android source set only)
+androidx-activity-compose = "1.10.1"
+
+# Image loading — APP-LEVEL ONLY (the kit's commonMain stays third-party-dependency-free). Coil 3 is the
+# Compose-Multiplatform loader (memory cache, request de-dup, decode); its network fetcher is Ktor-3 based,
+# which needs a Ktor engine per platform (OkHttp on Android, Darwin on iOS). Bump as a pair if a Kotlin/Compose
+# compatibility issue surfaces (Ktor 3.x ↔ coil-network-ktor3).
+# Coil 3.3.0 = latest STABLE built with Kotlin ≤ 2.3 (KLIB ABI ≤ 2.3.0); 3.5.0 is a Kotlin-2.4 build whose
+# ABI 2.4.0 our Kotlin 2.3.21 compiler can't consume. Keep these in lockstep with the toolchain.
+# Ktor MUST match the version coil-network-ktor3 resolves `ktor-client-core` to — Coil 3.3.0 forces core to
+# 3.1.0, so the per-platform engines (darwin/okhttp) MUST be 3.1.0 too. A lower engine (e.g. 3.0.3) links
+# against 3.1.0 core and crashes at runtime with an IrLinkageError on `dropCompressionHeaders` (signature
+# changed 3.0.x→3.1.0). If you bump Coil, re-check `:composeApp:dependencies` and realign this to the resolved core.
+coil = "3.3.0"
+ktor = "3.1.0"
+
+# Test-only (androidUnitTest): Robolectric runs Compose UI tests on the JVM (no emulator). Robolectric's
+# bundled Android runtime lags the SDK — tests pin @Config(sdk ≤ 35), not compileSdk 36.
+robolectric = "4.14.1"
+junit = "4.13.2"
+
+# ABI lock for the :brandkit library — dumps the public KLIB/JVM ABI to brandkit/api and fails the build
+# (apiCheck) if the public surface changes without an intentional apiDump.
+binary-compat = "0.16.3"
+
+[libraries]
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+junit = { module = "junit:junit", version.ref = "junit" }
+# Provides the empty ComponentActivity + manifest that Compose UI tests launch into. Pin to the androidx
+# compose version CMP 1.11.0 resolves to (1.11.1) — must match the compose runtime on the classpath.
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version = "1.11.1" }
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compat" }

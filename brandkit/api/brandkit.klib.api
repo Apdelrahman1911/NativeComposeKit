@@ -1,0 +1,1169 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <NativeComposeKit:brandkit>
+final enum class com.ukkera.brandkit.components.feedback/BrandAlertActionRole : kotlin/Enum<com.ukkera.brandkit.components.feedback/BrandAlertActionRole> { // com.ukkera.brandkit.components.feedback/BrandAlertActionRole|null[0]
+    enum entry Cancel // com.ukkera.brandkit.components.feedback/BrandAlertActionRole.Cancel|null[0]
+    enum entry Default // com.ukkera.brandkit.components.feedback/BrandAlertActionRole.Default|null[0]
+    enum entry Destructive // com.ukkera.brandkit.components.feedback/BrandAlertActionRole.Destructive|null[0]
+
+    final val entries // com.ukkera.brandkit.components.feedback/BrandAlertActionRole.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.feedback/BrandAlertActionRole> // com.ukkera.brandkit.components.feedback/BrandAlertActionRole.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.feedback/BrandAlertActionRole // com.ukkera.brandkit.components.feedback/BrandAlertActionRole.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.feedback/BrandAlertActionRole> // com.ukkera.brandkit.components.feedback/BrandAlertActionRole.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.feedback/BrandFeedbackDuration : kotlin/Enum<com.ukkera.brandkit.components.feedback/BrandFeedbackDuration> { // com.ukkera.brandkit.components.feedback/BrandFeedbackDuration|null[0]
+    enum entry Indefinite // com.ukkera.brandkit.components.feedback/BrandFeedbackDuration.Indefinite|null[0]
+    enum entry Long // com.ukkera.brandkit.components.feedback/BrandFeedbackDuration.Long|null[0]
+    enum entry Short // com.ukkera.brandkit.components.feedback/BrandFeedbackDuration.Short|null[0]
+
+    final val entries // com.ukkera.brandkit.components.feedback/BrandFeedbackDuration.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.feedback/BrandFeedbackDuration> // com.ukkera.brandkit.components.feedback/BrandFeedbackDuration.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.feedback/BrandFeedbackDuration // com.ukkera.brandkit.components.feedback/BrandFeedbackDuration.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.feedback/BrandFeedbackDuration> // com.ukkera.brandkit.components.feedback/BrandFeedbackDuration.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.feedback/BrandFeedbackPosition : kotlin/Enum<com.ukkera.brandkit.components.feedback/BrandFeedbackPosition> { // com.ukkera.brandkit.components.feedback/BrandFeedbackPosition|null[0]
+    enum entry Bottom // com.ukkera.brandkit.components.feedback/BrandFeedbackPosition.Bottom|null[0]
+    enum entry Top // com.ukkera.brandkit.components.feedback/BrandFeedbackPosition.Top|null[0]
+
+    final val entries // com.ukkera.brandkit.components.feedback/BrandFeedbackPosition.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.feedback/BrandFeedbackPosition> // com.ukkera.brandkit.components.feedback/BrandFeedbackPosition.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.feedback/BrandFeedbackPosition // com.ukkera.brandkit.components.feedback/BrandFeedbackPosition.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.feedback/BrandFeedbackPosition> // com.ukkera.brandkit.components.feedback/BrandFeedbackPosition.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.feedback/BrandFeedbackStatus : kotlin/Enum<com.ukkera.brandkit.components.feedback/BrandFeedbackStatus> { // com.ukkera.brandkit.components.feedback/BrandFeedbackStatus|null[0]
+    enum entry Error // com.ukkera.brandkit.components.feedback/BrandFeedbackStatus.Error|null[0]
+    enum entry Info // com.ukkera.brandkit.components.feedback/BrandFeedbackStatus.Info|null[0]
+    enum entry Success // com.ukkera.brandkit.components.feedback/BrandFeedbackStatus.Success|null[0]
+    enum entry Warning // com.ukkera.brandkit.components.feedback/BrandFeedbackStatus.Warning|null[0]
+
+    final val entries // com.ukkera.brandkit.components.feedback/BrandFeedbackStatus.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.feedback/BrandFeedbackStatus> // com.ukkera.brandkit.components.feedback/BrandFeedbackStatus.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.feedback/BrandFeedbackStatus // com.ukkera.brandkit.components.feedback/BrandFeedbackStatus.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.feedback/BrandFeedbackStatus> // com.ukkera.brandkit.components.feedback/BrandFeedbackStatus.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.feedback/BrandPresentation : kotlin/Enum<com.ukkera.brandkit.components.feedback/BrandPresentation> { // com.ukkera.brandkit.components.feedback/BrandPresentation|null[0]
+    enum entry Branded // com.ukkera.brandkit.components.feedback/BrandPresentation.Branded|null[0]
+    enum entry Native // com.ukkera.brandkit.components.feedback/BrandPresentation.Native|null[0]
+
+    final val entries // com.ukkera.brandkit.components.feedback/BrandPresentation.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.feedback/BrandPresentation> // com.ukkera.brandkit.components.feedback/BrandPresentation.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.feedback/BrandPresentation // com.ukkera.brandkit.components.feedback/BrandPresentation.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.feedback/BrandPresentation> // com.ukkera.brandkit.components.feedback/BrandPresentation.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.feedback/BrandQueueBehavior : kotlin/Enum<com.ukkera.brandkit.components.feedback/BrandQueueBehavior> { // com.ukkera.brandkit.components.feedback/BrandQueueBehavior|null[0]
+    enum entry DropIfShowing // com.ukkera.brandkit.components.feedback/BrandQueueBehavior.DropIfShowing|null[0]
+    enum entry Enqueue // com.ukkera.brandkit.components.feedback/BrandQueueBehavior.Enqueue|null[0]
+    enum entry ReplaceCurrent // com.ukkera.brandkit.components.feedback/BrandQueueBehavior.ReplaceCurrent|null[0]
+
+    final val entries // com.ukkera.brandkit.components.feedback/BrandQueueBehavior.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.feedback/BrandQueueBehavior> // com.ukkera.brandkit.components.feedback/BrandQueueBehavior.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.feedback/BrandQueueBehavior // com.ukkera.brandkit.components.feedback/BrandQueueBehavior.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.feedback/BrandQueueBehavior> // com.ukkera.brandkit.components.feedback/BrandQueueBehavior.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandButtonShape : kotlin/Enum<com.ukkera.brandkit.components.model/BrandButtonShape> { // com.ukkera.brandkit.components.model/BrandButtonShape|null[0]
+    enum entry Pill // com.ukkera.brandkit.components.model/BrandButtonShape.Pill|null[0]
+    enum entry Rounded // com.ukkera.brandkit.components.model/BrandButtonShape.Rounded|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandButtonShape.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandButtonShape> // com.ukkera.brandkit.components.model/BrandButtonShape.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandButtonShape // com.ukkera.brandkit.components.model/BrandButtonShape.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandButtonShape> // com.ukkera.brandkit.components.model/BrandButtonShape.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandButtonSize : kotlin/Enum<com.ukkera.brandkit.components.model/BrandButtonSize> { // com.ukkera.brandkit.components.model/BrandButtonSize|null[0]
+    enum entry Large // com.ukkera.brandkit.components.model/BrandButtonSize.Large|null[0]
+    enum entry Medium // com.ukkera.brandkit.components.model/BrandButtonSize.Medium|null[0]
+    enum entry Small // com.ukkera.brandkit.components.model/BrandButtonSize.Small|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandButtonSize.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandButtonSize> // com.ukkera.brandkit.components.model/BrandButtonSize.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandButtonSize // com.ukkera.brandkit.components.model/BrandButtonSize.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandButtonSize> // com.ukkera.brandkit.components.model/BrandButtonSize.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandButtonVariant : kotlin/Enum<com.ukkera.brandkit.components.model/BrandButtonVariant> { // com.ukkera.brandkit.components.model/BrandButtonVariant|null[0]
+    enum entry Destructive // com.ukkera.brandkit.components.model/BrandButtonVariant.Destructive|null[0]
+    enum entry Outline // com.ukkera.brandkit.components.model/BrandButtonVariant.Outline|null[0]
+    enum entry Primary // com.ukkera.brandkit.components.model/BrandButtonVariant.Primary|null[0]
+    enum entry Secondary // com.ukkera.brandkit.components.model/BrandButtonVariant.Secondary|null[0]
+    enum entry Tertiary // com.ukkera.brandkit.components.model/BrandButtonVariant.Tertiary|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandButtonVariant.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandButtonVariant> // com.ukkera.brandkit.components.model/BrandButtonVariant.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandButtonVariant // com.ukkera.brandkit.components.model/BrandButtonVariant.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandButtonVariant> // com.ukkera.brandkit.components.model/BrandButtonVariant.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandCapitalization : kotlin/Enum<com.ukkera.brandkit.components.model/BrandCapitalization> { // com.ukkera.brandkit.components.model/BrandCapitalization|null[0]
+    enum entry Characters // com.ukkera.brandkit.components.model/BrandCapitalization.Characters|null[0]
+    enum entry None // com.ukkera.brandkit.components.model/BrandCapitalization.None|null[0]
+    enum entry Sentences // com.ukkera.brandkit.components.model/BrandCapitalization.Sentences|null[0]
+    enum entry Words // com.ukkera.brandkit.components.model/BrandCapitalization.Words|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandCapitalization.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandCapitalization> // com.ukkera.brandkit.components.model/BrandCapitalization.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandCapitalization // com.ukkera.brandkit.components.model/BrandCapitalization.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandCapitalization> // com.ukkera.brandkit.components.model/BrandCapitalization.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior : kotlin/Enum<com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior> { // com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior|null[0]
+    enum entry Enforce // com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior.Enforce|null[0]
+    enum entry WarnOnly // com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior.WarnOnly|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior> // com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior // com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior> // com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandClearButtonMode : kotlin/Enum<com.ukkera.brandkit.components.model/BrandClearButtonMode> { // com.ukkera.brandkit.components.model/BrandClearButtonMode|null[0]
+    enum entry Always // com.ukkera.brandkit.components.model/BrandClearButtonMode.Always|null[0]
+    enum entry Never // com.ukkera.brandkit.components.model/BrandClearButtonMode.Never|null[0]
+    enum entry UnlessEditing // com.ukkera.brandkit.components.model/BrandClearButtonMode.UnlessEditing|null[0]
+    enum entry WhileEditing // com.ukkera.brandkit.components.model/BrandClearButtonMode.WhileEditing|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandClearButtonMode.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandClearButtonMode> // com.ukkera.brandkit.components.model/BrandClearButtonMode.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandClearButtonMode // com.ukkera.brandkit.components.model/BrandClearButtonMode.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandClearButtonMode> // com.ukkera.brandkit.components.model/BrandClearButtonMode.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandImeAction : kotlin/Enum<com.ukkera.brandkit.components.model/BrandImeAction> { // com.ukkera.brandkit.components.model/BrandImeAction|null[0]
+    enum entry Default // com.ukkera.brandkit.components.model/BrandImeAction.Default|null[0]
+    enum entry Done // com.ukkera.brandkit.components.model/BrandImeAction.Done|null[0]
+    enum entry Go // com.ukkera.brandkit.components.model/BrandImeAction.Go|null[0]
+    enum entry Next // com.ukkera.brandkit.components.model/BrandImeAction.Next|null[0]
+    enum entry Search // com.ukkera.brandkit.components.model/BrandImeAction.Search|null[0]
+    enum entry Send // com.ukkera.brandkit.components.model/BrandImeAction.Send|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandImeAction.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandImeAction> // com.ukkera.brandkit.components.model/BrandImeAction.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandImeAction // com.ukkera.brandkit.components.model/BrandImeAction.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandImeAction> // com.ukkera.brandkit.components.model/BrandImeAction.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandInteropTouch : kotlin/Enum<com.ukkera.brandkit.components.model/BrandInteropTouch> { // com.ukkera.brandkit.components.model/BrandInteropTouch|null[0]
+    enum entry Cooperative // com.ukkera.brandkit.components.model/BrandInteropTouch.Cooperative|null[0]
+    enum entry NonCooperative // com.ukkera.brandkit.components.model/BrandInteropTouch.NonCooperative|null[0]
+    enum entry NonInteractive // com.ukkera.brandkit.components.model/BrandInteropTouch.NonInteractive|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandInteropTouch.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandInteropTouch> // com.ukkera.brandkit.components.model/BrandInteropTouch.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandInteropTouch // com.ukkera.brandkit.components.model/BrandInteropTouch.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandInteropTouch> // com.ukkera.brandkit.components.model/BrandInteropTouch.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle : kotlin/Enum<com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle> { // com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle|null[0]
+    enum entry FullWidthBar // com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle.FullWidthBar|null[0]
+    enum entry Toolbar // com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle.Toolbar|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle> // com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle // com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle> // com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandKeyboardAppearance : kotlin/Enum<com.ukkera.brandkit.components.model/BrandKeyboardAppearance> { // com.ukkera.brandkit.components.model/BrandKeyboardAppearance|null[0]
+    enum entry Dark // com.ukkera.brandkit.components.model/BrandKeyboardAppearance.Dark|null[0]
+    enum entry Default // com.ukkera.brandkit.components.model/BrandKeyboardAppearance.Default|null[0]
+    enum entry Light // com.ukkera.brandkit.components.model/BrandKeyboardAppearance.Light|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandKeyboardAppearance.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandKeyboardAppearance> // com.ukkera.brandkit.components.model/BrandKeyboardAppearance.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandKeyboardAppearance // com.ukkera.brandkit.components.model/BrandKeyboardAppearance.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandKeyboardAppearance> // com.ukkera.brandkit.components.model/BrandKeyboardAppearance.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandKeyboardType : kotlin/Enum<com.ukkera.brandkit.components.model/BrandKeyboardType> { // com.ukkera.brandkit.components.model/BrandKeyboardType|null[0]
+    enum entry Decimal // com.ukkera.brandkit.components.model/BrandKeyboardType.Decimal|null[0]
+    enum entry Email // com.ukkera.brandkit.components.model/BrandKeyboardType.Email|null[0]
+    enum entry Number // com.ukkera.brandkit.components.model/BrandKeyboardType.Number|null[0]
+    enum entry Phone // com.ukkera.brandkit.components.model/BrandKeyboardType.Phone|null[0]
+    enum entry Text // com.ukkera.brandkit.components.model/BrandKeyboardType.Text|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandKeyboardType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandKeyboardType> // com.ukkera.brandkit.components.model/BrandKeyboardType.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandKeyboardType // com.ukkera.brandkit.components.model/BrandKeyboardType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandKeyboardType> // com.ukkera.brandkit.components.model/BrandKeyboardType.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandMenuItemRole : kotlin/Enum<com.ukkera.brandkit.components.model/BrandMenuItemRole> { // com.ukkera.brandkit.components.model/BrandMenuItemRole|null[0]
+    enum entry Destructive // com.ukkera.brandkit.components.model/BrandMenuItemRole.Destructive|null[0]
+    enum entry Normal // com.ukkera.brandkit.components.model/BrandMenuItemRole.Normal|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandMenuItemRole.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandMenuItemRole> // com.ukkera.brandkit.components.model/BrandMenuItemRole.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandMenuItemRole // com.ukkera.brandkit.components.model/BrandMenuItemRole.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandMenuItemRole> // com.ukkera.brandkit.components.model/BrandMenuItemRole.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandTextContentType : kotlin/Enum<com.ukkera.brandkit.components.model/BrandTextContentType> { // com.ukkera.brandkit.components.model/BrandTextContentType|null[0]
+    enum entry EmailAddress // com.ukkera.brandkit.components.model/BrandTextContentType.EmailAddress|null[0]
+    enum entry FullStreetAddress // com.ukkera.brandkit.components.model/BrandTextContentType.FullStreetAddress|null[0]
+    enum entry Name // com.ukkera.brandkit.components.model/BrandTextContentType.Name|null[0]
+    enum entry NewPassword // com.ukkera.brandkit.components.model/BrandTextContentType.NewPassword|null[0]
+    enum entry OneTimeCode // com.ukkera.brandkit.components.model/BrandTextContentType.OneTimeCode|null[0]
+    enum entry Password // com.ukkera.brandkit.components.model/BrandTextContentType.Password|null[0]
+    enum entry PostalCode // com.ukkera.brandkit.components.model/BrandTextContentType.PostalCode|null[0]
+    enum entry TelephoneNumber // com.ukkera.brandkit.components.model/BrandTextContentType.TelephoneNumber|null[0]
+    enum entry Username // com.ukkera.brandkit.components.model/BrandTextContentType.Username|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandTextContentType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandTextContentType> // com.ukkera.brandkit.components.model/BrandTextContentType.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandTextContentType // com.ukkera.brandkit.components.model/BrandTextContentType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandTextContentType> // com.ukkera.brandkit.components.model/BrandTextContentType.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components.model/BrandTextStyle : kotlin/Enum<com.ukkera.brandkit.components.model/BrandTextStyle> { // com.ukkera.brandkit.components.model/BrandTextStyle|null[0]
+    enum entry Body // com.ukkera.brandkit.components.model/BrandTextStyle.Body|null[0]
+    enum entry Display // com.ukkera.brandkit.components.model/BrandTextStyle.Display|null[0]
+    enum entry Label // com.ukkera.brandkit.components.model/BrandTextStyle.Label|null[0]
+    enum entry Title // com.ukkera.brandkit.components.model/BrandTextStyle.Title|null[0]
+
+    final val entries // com.ukkera.brandkit.components.model/BrandTextStyle.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components.model/BrandTextStyle> // com.ukkera.brandkit.components.model/BrandTextStyle.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components.model/BrandTextStyle // com.ukkera.brandkit.components.model/BrandTextStyle.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components.model/BrandTextStyle> // com.ukkera.brandkit.components.model/BrandTextStyle.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components/BrandAvatarShape : kotlin/Enum<com.ukkera.brandkit.components/BrandAvatarShape> { // com.ukkera.brandkit.components/BrandAvatarShape|null[0]
+    enum entry Circle // com.ukkera.brandkit.components/BrandAvatarShape.Circle|null[0]
+    enum entry Rounded // com.ukkera.brandkit.components/BrandAvatarShape.Rounded|null[0]
+
+    final val entries // com.ukkera.brandkit.components/BrandAvatarShape.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components/BrandAvatarShape> // com.ukkera.brandkit.components/BrandAvatarShape.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components/BrandAvatarShape // com.ukkera.brandkit.components/BrandAvatarShape.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components/BrandAvatarShape> // com.ukkera.brandkit.components/BrandAvatarShape.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components/BrandAvatarSize : kotlin/Enum<com.ukkera.brandkit.components/BrandAvatarSize> { // com.ukkera.brandkit.components/BrandAvatarSize|null[0]
+    enum entry Large // com.ukkera.brandkit.components/BrandAvatarSize.Large|null[0]
+    enum entry Medium // com.ukkera.brandkit.components/BrandAvatarSize.Medium|null[0]
+    enum entry Small // com.ukkera.brandkit.components/BrandAvatarSize.Small|null[0]
+
+    final val entries // com.ukkera.brandkit.components/BrandAvatarSize.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components/BrandAvatarSize> // com.ukkera.brandkit.components/BrandAvatarSize.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components/BrandAvatarSize // com.ukkera.brandkit.components/BrandAvatarSize.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components/BrandAvatarSize> // com.ukkera.brandkit.components/BrandAvatarSize.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components/BrandCardVariant : kotlin/Enum<com.ukkera.brandkit.components/BrandCardVariant> { // com.ukkera.brandkit.components/BrandCardVariant|null[0]
+    enum entry Elevated // com.ukkera.brandkit.components/BrandCardVariant.Elevated|null[0]
+    enum entry Filled // com.ukkera.brandkit.components/BrandCardVariant.Filled|null[0]
+    enum entry Outlined // com.ukkera.brandkit.components/BrandCardVariant.Outlined|null[0]
+
+    final val entries // com.ukkera.brandkit.components/BrandCardVariant.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components/BrandCardVariant> // com.ukkera.brandkit.components/BrandCardVariant.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components/BrandCardVariant // com.ukkera.brandkit.components/BrandCardVariant.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components/BrandCardVariant> // com.ukkera.brandkit.components/BrandCardVariant.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components/BrandChipStyle : kotlin/Enum<com.ukkera.brandkit.components/BrandChipStyle> { // com.ukkera.brandkit.components/BrandChipStyle|null[0]
+    enum entry Assist // com.ukkera.brandkit.components/BrandChipStyle.Assist|null[0]
+    enum entry Filter // com.ukkera.brandkit.components/BrandChipStyle.Filter|null[0]
+    enum entry Input // com.ukkera.brandkit.components/BrandChipStyle.Input|null[0]
+    enum entry Suggestion // com.ukkera.brandkit.components/BrandChipStyle.Suggestion|null[0]
+
+    final val entries // com.ukkera.brandkit.components/BrandChipStyle.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components/BrandChipStyle> // com.ukkera.brandkit.components/BrandChipStyle.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components/BrandChipStyle // com.ukkera.brandkit.components/BrandChipStyle.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components/BrandChipStyle> // com.ukkera.brandkit.components/BrandChipStyle.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components/BrandDividerOrientation : kotlin/Enum<com.ukkera.brandkit.components/BrandDividerOrientation> { // com.ukkera.brandkit.components/BrandDividerOrientation|null[0]
+    enum entry Horizontal // com.ukkera.brandkit.components/BrandDividerOrientation.Horizontal|null[0]
+    enum entry Vertical // com.ukkera.brandkit.components/BrandDividerOrientation.Vertical|null[0]
+
+    final val entries // com.ukkera.brandkit.components/BrandDividerOrientation.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components/BrandDividerOrientation> // com.ukkera.brandkit.components/BrandDividerOrientation.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components/BrandDividerOrientation // com.ukkera.brandkit.components/BrandDividerOrientation.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components/BrandDividerOrientation> // com.ukkera.brandkit.components/BrandDividerOrientation.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components/BrandListSectionStyle : kotlin/Enum<com.ukkera.brandkit.components/BrandListSectionStyle> { // com.ukkera.brandkit.components/BrandListSectionStyle|null[0]
+    enum entry Grouped // com.ukkera.brandkit.components/BrandListSectionStyle.Grouped|null[0]
+    enum entry Plain // com.ukkera.brandkit.components/BrandListSectionStyle.Plain|null[0]
+
+    final val entries // com.ukkera.brandkit.components/BrandListSectionStyle.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components/BrandListSectionStyle> // com.ukkera.brandkit.components/BrandListSectionStyle.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components/BrandListSectionStyle // com.ukkera.brandkit.components/BrandListSectionStyle.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components/BrandListSectionStyle> // com.ukkera.brandkit.components/BrandListSectionStyle.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components/BrandProgressKind : kotlin/Enum<com.ukkera.brandkit.components/BrandProgressKind> { // com.ukkera.brandkit.components/BrandProgressKind|null[0]
+    enum entry Circular // com.ukkera.brandkit.components/BrandProgressKind.Circular|null[0]
+    enum entry Linear // com.ukkera.brandkit.components/BrandProgressKind.Linear|null[0]
+
+    final val entries // com.ukkera.brandkit.components/BrandProgressKind.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components/BrandProgressKind> // com.ukkera.brandkit.components/BrandProgressKind.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components/BrandProgressKind // com.ukkera.brandkit.components/BrandProgressKind.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components/BrandProgressKind> // com.ukkera.brandkit.components/BrandProgressKind.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components/BrandSelectionStyle : kotlin/Enum<com.ukkera.brandkit.components/BrandSelectionStyle> { // com.ukkera.brandkit.components/BrandSelectionStyle|null[0]
+    enum entry Checkmark // com.ukkera.brandkit.components/BrandSelectionStyle.Checkmark|null[0]
+    enum entry Radio // com.ukkera.brandkit.components/BrandSelectionStyle.Radio|null[0]
+
+    final val entries // com.ukkera.brandkit.components/BrandSelectionStyle.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components/BrandSelectionStyle> // com.ukkera.brandkit.components/BrandSelectionStyle.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components/BrandSelectionStyle // com.ukkera.brandkit.components/BrandSelectionStyle.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components/BrandSelectionStyle> // com.ukkera.brandkit.components/BrandSelectionStyle.values|values#static(){}[0]
+}
+
+final enum class com.ukkera.brandkit.components/BrandSheetDetent : kotlin/Enum<com.ukkera.brandkit.components/BrandSheetDetent> { // com.ukkera.brandkit.components/BrandSheetDetent|null[0]
+    enum entry Large // com.ukkera.brandkit.components/BrandSheetDetent.Large|null[0]
+    enum entry Medium // com.ukkera.brandkit.components/BrandSheetDetent.Medium|null[0]
+
+    final val entries // com.ukkera.brandkit.components/BrandSheetDetent.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.ukkera.brandkit.components/BrandSheetDetent> // com.ukkera.brandkit.components/BrandSheetDetent.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.ukkera.brandkit.components/BrandSheetDetent // com.ukkera.brandkit.components/BrandSheetDetent.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.ukkera.brandkit.components/BrandSheetDetent> // com.ukkera.brandkit.components/BrandSheetDetent.values|values#static(){}[0]
+}
+
+abstract fun interface com.ukkera.brandkit.navigation/BrandNavCancellable { // com.ukkera.brandkit.navigation/BrandNavCancellable|null[0]
+    abstract fun cancel() // com.ukkera.brandkit.navigation/BrandNavCancellable.cancel|cancel(){}[0]
+}
+
+abstract interface com.ukkera.brandkit.navigation/BrandRoute { // com.ukkera.brandkit.navigation/BrandRoute|null[0]
+    abstract val id // com.ukkera.brandkit.navigation/BrandRoute.id|{}id[0]
+        abstract fun <get-id>(): kotlin/String // com.ukkera.brandkit.navigation/BrandRoute.id.<get-id>|<get-id>(){}[0]
+}
+
+abstract interface com.ukkera.brandkit.navigation/BrandTab { // com.ukkera.brandkit.navigation/BrandTab|null[0]
+    abstract val id // com.ukkera.brandkit.navigation/BrandTab.id|{}id[0]
+        abstract fun <get-id>(): kotlin/String // com.ukkera.brandkit.navigation/BrandTab.id.<get-id>|<get-id>(){}[0]
+}
+
+sealed interface <#A: out kotlin/Any?> com.ukkera.brandkit.components/BrandLoadState { // com.ukkera.brandkit.components/BrandLoadState|null[0]
+    final class <#A1: out kotlin/Any?> Content : com.ukkera.brandkit.components/BrandLoadState<#A1> { // com.ukkera.brandkit.components/BrandLoadState.Content|null[0]
+        constructor <init>(#A1) // com.ukkera.brandkit.components/BrandLoadState.Content.<init>|<init>(1:0){}[0]
+
+        final val value // com.ukkera.brandkit.components/BrandLoadState.Content.value|{}value[0]
+            final fun <get-value>(): #A1 // com.ukkera.brandkit.components/BrandLoadState.Content.value.<get-value>|<get-value>(){}[0]
+
+        final fun component1(): #A1 // com.ukkera.brandkit.components/BrandLoadState.Content.component1|component1(){}[0]
+        final fun copy(#A1 = ...): com.ukkera.brandkit.components/BrandLoadState.Content<#A1> // com.ukkera.brandkit.components/BrandLoadState.Content.copy|copy(1:0){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components/BrandLoadState.Content.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components/BrandLoadState.Content.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.ukkera.brandkit.components/BrandLoadState.Content.toString|toString(){}[0]
+    }
+
+    final class Error : com.ukkera.brandkit.components/BrandLoadState<kotlin/Nothing> { // com.ukkera.brandkit.components/BrandLoadState.Error|null[0]
+        constructor <init>(kotlin/String? = ...) // com.ukkera.brandkit.components/BrandLoadState.Error.<init>|<init>(kotlin.String?){}[0]
+
+        final val message // com.ukkera.brandkit.components/BrandLoadState.Error.message|{}message[0]
+            final fun <get-message>(): kotlin/String? // com.ukkera.brandkit.components/BrandLoadState.Error.message.<get-message>|<get-message>(){}[0]
+
+        final fun component1(): kotlin/String? // com.ukkera.brandkit.components/BrandLoadState.Error.component1|component1(){}[0]
+        final fun copy(kotlin/String? = ...): com.ukkera.brandkit.components/BrandLoadState.Error // com.ukkera.brandkit.components/BrandLoadState.Error.copy|copy(kotlin.String?){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components/BrandLoadState.Error.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components/BrandLoadState.Error.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.ukkera.brandkit.components/BrandLoadState.Error.toString|toString(){}[0]
+    }
+
+    final object Empty : com.ukkera.brandkit.components/BrandLoadState<kotlin/Nothing> { // com.ukkera.brandkit.components/BrandLoadState.Empty|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components/BrandLoadState.Empty.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components/BrandLoadState.Empty.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.ukkera.brandkit.components/BrandLoadState.Empty.toString|toString(){}[0]
+    }
+
+    final object Loading : com.ukkera.brandkit.components/BrandLoadState<kotlin/Nothing> { // com.ukkera.brandkit.components/BrandLoadState.Loading|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components/BrandLoadState.Loading.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components/BrandLoadState.Loading.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.ukkera.brandkit.components/BrandLoadState.Loading.toString|toString(){}[0]
+    }
+}
+
+final class com.ukkera.brandkit.components.feedback/BrandAlertAction { // com.ukkera.brandkit.components.feedback/BrandAlertAction|null[0]
+    constructor <init>(kotlin/String, kotlin/Function0<kotlin/Unit> = ..., com.ukkera.brandkit.components.feedback/BrandAlertActionRole = ...) // com.ukkera.brandkit.components.feedback/BrandAlertAction.<init>|<init>(kotlin.String;kotlin.Function0<kotlin.Unit>;com.ukkera.brandkit.components.feedback.BrandAlertActionRole){}[0]
+
+    final val label // com.ukkera.brandkit.components.feedback/BrandAlertAction.label|{}label[0]
+        final fun <get-label>(): kotlin/String // com.ukkera.brandkit.components.feedback/BrandAlertAction.label.<get-label>|<get-label>(){}[0]
+    final val onClick // com.ukkera.brandkit.components.feedback/BrandAlertAction.onClick|{}onClick[0]
+        final fun <get-onClick>(): kotlin/Function0<kotlin/Unit> // com.ukkera.brandkit.components.feedback/BrandAlertAction.onClick.<get-onClick>|<get-onClick>(){}[0]
+    final val role // com.ukkera.brandkit.components.feedback/BrandAlertAction.role|{}role[0]
+        final fun <get-role>(): com.ukkera.brandkit.components.feedback/BrandAlertActionRole // com.ukkera.brandkit.components.feedback/BrandAlertAction.role.<get-role>|<get-role>(){}[0]
+
+    final fun component1(): kotlin/String // com.ukkera.brandkit.components.feedback/BrandAlertAction.component1|component1(){}[0]
+    final fun component2(): kotlin/Function0<kotlin/Unit> // com.ukkera.brandkit.components.feedback/BrandAlertAction.component2|component2(){}[0]
+    final fun component3(): com.ukkera.brandkit.components.feedback/BrandAlertActionRole // com.ukkera.brandkit.components.feedback/BrandAlertAction.component3|component3(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/Function0<kotlin/Unit> = ..., com.ukkera.brandkit.components.feedback/BrandAlertActionRole = ...): com.ukkera.brandkit.components.feedback/BrandAlertAction // com.ukkera.brandkit.components.feedback/BrandAlertAction.copy|copy(kotlin.String;kotlin.Function0<kotlin.Unit>;com.ukkera.brandkit.components.feedback.BrandAlertActionRole){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.feedback/BrandAlertAction.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.feedback/BrandAlertAction.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.feedback/BrandAlertAction.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.feedback/BrandAlertIosOptions { // com.ukkera.brandkit.components.feedback/BrandAlertIosOptions|null[0]
+    constructor <init>(com.ukkera.brandkit.components.feedback/BrandPresentation = ...) // com.ukkera.brandkit.components.feedback/BrandAlertIosOptions.<init>|<init>(com.ukkera.brandkit.components.feedback.BrandPresentation){}[0]
+
+    final val presentation // com.ukkera.brandkit.components.feedback/BrandAlertIosOptions.presentation|{}presentation[0]
+        final fun <get-presentation>(): com.ukkera.brandkit.components.feedback/BrandPresentation // com.ukkera.brandkit.components.feedback/BrandAlertIosOptions.presentation.<get-presentation>|<get-presentation>(){}[0]
+
+    final fun component1(): com.ukkera.brandkit.components.feedback/BrandPresentation // com.ukkera.brandkit.components.feedback/BrandAlertIosOptions.component1|component1(){}[0]
+    final fun copy(com.ukkera.brandkit.components.feedback/BrandPresentation = ...): com.ukkera.brandkit.components.feedback/BrandAlertIosOptions // com.ukkera.brandkit.components.feedback/BrandAlertIosOptions.copy|copy(com.ukkera.brandkit.components.feedback.BrandPresentation){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.feedback/BrandAlertIosOptions.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.feedback/BrandAlertIosOptions.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.feedback/BrandAlertIosOptions.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions { // com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions|null[0]
+    constructor <init>(com.ukkera.brandkit.components.feedback/BrandPresentation = ...) // com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions.<init>|<init>(com.ukkera.brandkit.components.feedback.BrandPresentation){}[0]
+
+    final val presentation // com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions.presentation|{}presentation[0]
+        final fun <get-presentation>(): com.ukkera.brandkit.components.feedback/BrandPresentation // com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions.presentation.<get-presentation>|<get-presentation>(){}[0]
+
+    final fun component1(): com.ukkera.brandkit.components.feedback/BrandPresentation // com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions.component1|component1(){}[0]
+    final fun copy(com.ukkera.brandkit.components.feedback/BrandPresentation = ...): com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions // com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions.copy|copy(com.ukkera.brandkit.components.feedback.BrandPresentation){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.feedback/BrandFeedbackController { // com.ukkera.brandkit.components.feedback/BrandFeedbackController|null[0]
+    final fun alert(kotlin/String? = ..., kotlin/String? = ..., kotlin.collections/List<com.ukkera.brandkit.components.feedback/BrandAlertAction>, kotlin/Function0<kotlin/Unit>? = ..., com.ukkera.brandkit.components.feedback/BrandAlertIosOptions = ...): kotlin/Long // com.ukkera.brandkit.components.feedback/BrandFeedbackController.alert|alert(kotlin.String?;kotlin.String?;kotlin.collections.List<com.ukkera.brandkit.components.feedback.BrandAlertAction>;kotlin.Function0<kotlin.Unit>?;com.ukkera.brandkit.components.feedback.BrandAlertIosOptions){}[0]
+    final fun banner(kotlin/String, kotlin/String? = ..., com.ukkera.brandkit.components.feedback/BrandFeedbackStatus = ..., com.ukkera.brandkit.components.feedback/BrandFeedbackPosition = ..., kotlin/String? = ..., kotlin/Function0<kotlin/Unit>? = ..., kotlin/Boolean = ..., com.ukkera.brandkit.components.feedback/BrandFeedbackDuration = ..., com.ukkera.brandkit.components.feedback/BrandQueueBehavior = ..., kotlin/Function0<kotlin/Unit>? = ..., kotlin/Boolean = ...): kotlin/Long // com.ukkera.brandkit.components.feedback/BrandFeedbackController.banner|banner(kotlin.String;kotlin.String?;com.ukkera.brandkit.components.feedback.BrandFeedbackStatus;com.ukkera.brandkit.components.feedback.BrandFeedbackPosition;kotlin.String?;kotlin.Function0<kotlin.Unit>?;kotlin.Boolean;com.ukkera.brandkit.components.feedback.BrandFeedbackDuration;com.ukkera.brandkit.components.feedback.BrandQueueBehavior;kotlin.Function0<kotlin.Unit>?;kotlin.Boolean){}[0]
+    final fun clearAll() // com.ukkera.brandkit.components.feedback/BrandFeedbackController.clearAll|clearAll(){}[0]
+    final fun confirmationSheet(kotlin/String? = ..., kotlin/String? = ..., kotlin.collections/List<com.ukkera.brandkit.components.feedback/BrandSheetAction>, kotlin/Function0<kotlin/Unit>? = ..., com.ukkera.brandkit.components.feedback/BrandConfirmationSheetIosOptions = ...): kotlin/Long // com.ukkera.brandkit.components.feedback/BrandFeedbackController.confirmationSheet|confirmationSheet(kotlin.String?;kotlin.String?;kotlin.collections.List<com.ukkera.brandkit.components.feedback.BrandSheetAction>;kotlin.Function0<kotlin.Unit>?;com.ukkera.brandkit.components.feedback.BrandConfirmationSheetIosOptions){}[0]
+    final fun dismiss(kotlin/Long) // com.ukkera.brandkit.components.feedback/BrandFeedbackController.dismiss|dismiss(kotlin.Long){}[0]
+    final fun dismissCurrent() // com.ukkera.brandkit.components.feedback/BrandFeedbackController.dismissCurrent|dismissCurrent(){}[0]
+    final fun dismissCurrentModal() // com.ukkera.brandkit.components.feedback/BrandFeedbackController.dismissCurrentModal|dismissCurrentModal(){}[0]
+    final fun snackbar(kotlin/String, com.ukkera.brandkit.components.feedback/BrandFeedbackStatus = ..., kotlin/String? = ..., kotlin/Function0<kotlin/Unit>? = ..., com.ukkera.brandkit.components.feedback/BrandFeedbackDuration = ..., com.ukkera.brandkit.components.feedback/BrandQueueBehavior = ..., kotlin/Function0<kotlin/Unit>? = ..., kotlin/Boolean = ...): kotlin/Long // com.ukkera.brandkit.components.feedback/BrandFeedbackController.snackbar|snackbar(kotlin.String;com.ukkera.brandkit.components.feedback.BrandFeedbackStatus;kotlin.String?;kotlin.Function0<kotlin.Unit>?;com.ukkera.brandkit.components.feedback.BrandFeedbackDuration;com.ukkera.brandkit.components.feedback.BrandQueueBehavior;kotlin.Function0<kotlin.Unit>?;kotlin.Boolean){}[0]
+    final fun toast(kotlin/String, com.ukkera.brandkit.components.feedback/BrandFeedbackStatus = ..., com.ukkera.brandkit.components.feedback/BrandFeedbackDuration = ..., com.ukkera.brandkit.components.feedback/BrandFeedbackPosition = ..., com.ukkera.brandkit.components.feedback/BrandQueueBehavior = ..., kotlin/Function0<kotlin/Unit>? = ..., com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions = ...): kotlin/Long // com.ukkera.brandkit.components.feedback/BrandFeedbackController.toast|toast(kotlin.String;com.ukkera.brandkit.components.feedback.BrandFeedbackStatus;com.ukkera.brandkit.components.feedback.BrandFeedbackDuration;com.ukkera.brandkit.components.feedback.BrandFeedbackPosition;com.ukkera.brandkit.components.feedback.BrandQueueBehavior;kotlin.Function0<kotlin.Unit>?;com.ukkera.brandkit.components.feedback.BrandToastAndroidOptions){}[0]
+}
+
+final class com.ukkera.brandkit.components.feedback/BrandSheetAction { // com.ukkera.brandkit.components.feedback/BrandSheetAction|null[0]
+    constructor <init>(kotlin/String, kotlin/Function0<kotlin/Unit> = ..., com.ukkera.brandkit.components.feedback/BrandAlertActionRole = ..., com.ukkera.brandkit.components.model/BrandIcon? = ...) // com.ukkera.brandkit.components.feedback/BrandSheetAction.<init>|<init>(kotlin.String;kotlin.Function0<kotlin.Unit>;com.ukkera.brandkit.components.feedback.BrandAlertActionRole;com.ukkera.brandkit.components.model.BrandIcon?){}[0]
+
+    final val icon // com.ukkera.brandkit.components.feedback/BrandSheetAction.icon|{}icon[0]
+        final fun <get-icon>(): com.ukkera.brandkit.components.model/BrandIcon? // com.ukkera.brandkit.components.feedback/BrandSheetAction.icon.<get-icon>|<get-icon>(){}[0]
+    final val label // com.ukkera.brandkit.components.feedback/BrandSheetAction.label|{}label[0]
+        final fun <get-label>(): kotlin/String // com.ukkera.brandkit.components.feedback/BrandSheetAction.label.<get-label>|<get-label>(){}[0]
+    final val onClick // com.ukkera.brandkit.components.feedback/BrandSheetAction.onClick|{}onClick[0]
+        final fun <get-onClick>(): kotlin/Function0<kotlin/Unit> // com.ukkera.brandkit.components.feedback/BrandSheetAction.onClick.<get-onClick>|<get-onClick>(){}[0]
+    final val role // com.ukkera.brandkit.components.feedback/BrandSheetAction.role|{}role[0]
+        final fun <get-role>(): com.ukkera.brandkit.components.feedback/BrandAlertActionRole // com.ukkera.brandkit.components.feedback/BrandSheetAction.role.<get-role>|<get-role>(){}[0]
+
+    final fun component1(): kotlin/String // com.ukkera.brandkit.components.feedback/BrandSheetAction.component1|component1(){}[0]
+    final fun component2(): kotlin/Function0<kotlin/Unit> // com.ukkera.brandkit.components.feedback/BrandSheetAction.component2|component2(){}[0]
+    final fun component3(): com.ukkera.brandkit.components.feedback/BrandAlertActionRole // com.ukkera.brandkit.components.feedback/BrandSheetAction.component3|component3(){}[0]
+    final fun component4(): com.ukkera.brandkit.components.model/BrandIcon? // com.ukkera.brandkit.components.feedback/BrandSheetAction.component4|component4(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/Function0<kotlin/Unit> = ..., com.ukkera.brandkit.components.feedback/BrandAlertActionRole = ..., com.ukkera.brandkit.components.model/BrandIcon? = ...): com.ukkera.brandkit.components.feedback/BrandSheetAction // com.ukkera.brandkit.components.feedback/BrandSheetAction.copy|copy(kotlin.String;kotlin.Function0<kotlin.Unit>;com.ukkera.brandkit.components.feedback.BrandAlertActionRole;com.ukkera.brandkit.components.model.BrandIcon?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.feedback/BrandSheetAction.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.feedback/BrandSheetAction.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.feedback/BrandSheetAction.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions { // com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions|null[0]
+    constructor <init>(kotlin/Boolean = ...) // com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions.<init>|<init>(kotlin.Boolean){}[0]
+
+    final val useSystemToast // com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions.useSystemToast|{}useSystemToast[0]
+        final fun <get-useSystemToast>(): kotlin/Boolean // com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions.useSystemToast.<get-useSystemToast>|<get-useSystemToast>(){}[0]
+
+    final fun component1(): kotlin/Boolean // com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions.component1|component1(){}[0]
+    final fun copy(kotlin/Boolean = ...): com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions // com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions.copy|copy(kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.feedback/BrandToastAndroidOptions.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.model/BrandButtonColors { // com.ukkera.brandkit.components.model/BrandButtonColors|null[0]
+    constructor <init>(androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color = ...) // com.ukkera.brandkit.components.model/BrandButtonColors.<init>|<init>(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
+
+    final val border // com.ukkera.brandkit.components.model/BrandButtonColors.border|{}border[0]
+        final fun <get-border>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandButtonColors.border.<get-border>|<get-border>(){}[0]
+    final val container // com.ukkera.brandkit.components.model/BrandButtonColors.container|{}container[0]
+        final fun <get-container>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandButtonColors.container.<get-container>|<get-container>(){}[0]
+    final val content // com.ukkera.brandkit.components.model/BrandButtonColors.content|{}content[0]
+        final fun <get-content>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandButtonColors.content.<get-content>|<get-content>(){}[0]
+
+    final fun component1(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandButtonColors.component1|component1(){}[0]
+    final fun component2(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandButtonColors.component2|component2(){}[0]
+    final fun component3(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandButtonColors.component3|component3(){}[0]
+    final fun copy(androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ...): com.ukkera.brandkit.components.model/BrandButtonColors // com.ukkera.brandkit.components.model/BrandButtonColors.copy|copy(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandButtonColors.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.model/BrandButtonColors.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.model/BrandButtonColors.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.model/BrandCharacterLimit { // com.ukkera.brandkit.components.model/BrandCharacterLimit|null[0]
+    constructor <init>(kotlin/Int, com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior = ...) // com.ukkera.brandkit.components.model/BrandCharacterLimit.<init>|<init>(kotlin.Int;com.ukkera.brandkit.components.model.BrandCharacterLimitBehavior){}[0]
+
+    final val behavior // com.ukkera.brandkit.components.model/BrandCharacterLimit.behavior|{}behavior[0]
+        final fun <get-behavior>(): com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior // com.ukkera.brandkit.components.model/BrandCharacterLimit.behavior.<get-behavior>|<get-behavior>(){}[0]
+    final val max // com.ukkera.brandkit.components.model/BrandCharacterLimit.max|{}max[0]
+        final fun <get-max>(): kotlin/Int // com.ukkera.brandkit.components.model/BrandCharacterLimit.max.<get-max>|<get-max>(){}[0]
+
+    final fun component1(): kotlin/Int // com.ukkera.brandkit.components.model/BrandCharacterLimit.component1|component1(){}[0]
+    final fun component2(): com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior // com.ukkera.brandkit.components.model/BrandCharacterLimit.component2|component2(){}[0]
+    final fun copy(kotlin/Int = ..., com.ukkera.brandkit.components.model/BrandCharacterLimitBehavior = ...): com.ukkera.brandkit.components.model/BrandCharacterLimit // com.ukkera.brandkit.components.model/BrandCharacterLimit.copy|copy(kotlin.Int;com.ukkera.brandkit.components.model.BrandCharacterLimitBehavior){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandCharacterLimit.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.model/BrandCharacterLimit.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.model/BrandCharacterLimit.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.model/BrandFieldColors { // com.ukkera.brandkit.components.model/BrandFieldColors|null[0]
+    constructor <init>(androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color) // com.ukkera.brandkit.components.model/BrandFieldColors.<init>|<init>(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
+
+    final val border // com.ukkera.brandkit.components.model/BrandFieldColors.border|{}border[0]
+        final fun <get-border>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.border.<get-border>|<get-border>(){}[0]
+    final val container // com.ukkera.brandkit.components.model/BrandFieldColors.container|{}container[0]
+        final fun <get-container>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.container.<get-container>|<get-container>(){}[0]
+    final val cursor // com.ukkera.brandkit.components.model/BrandFieldColors.cursor|{}cursor[0]
+        final fun <get-cursor>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.cursor.<get-cursor>|<get-cursor>(){}[0]
+    final val error // com.ukkera.brandkit.components.model/BrandFieldColors.error|{}error[0]
+        final fun <get-error>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.error.<get-error>|<get-error>(){}[0]
+    final val errorBorder // com.ukkera.brandkit.components.model/BrandFieldColors.errorBorder|{}errorBorder[0]
+        final fun <get-errorBorder>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.errorBorder.<get-errorBorder>|<get-errorBorder>(){}[0]
+    final val focusedBorder // com.ukkera.brandkit.components.model/BrandFieldColors.focusedBorder|{}focusedBorder[0]
+        final fun <get-focusedBorder>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.focusedBorder.<get-focusedBorder>|<get-focusedBorder>(){}[0]
+    final val helper // com.ukkera.brandkit.components.model/BrandFieldColors.helper|{}helper[0]
+        final fun <get-helper>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.helper.<get-helper>|<get-helper>(){}[0]
+    final val label // com.ukkera.brandkit.components.model/BrandFieldColors.label|{}label[0]
+        final fun <get-label>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.label.<get-label>|<get-label>(){}[0]
+    final val placeholder // com.ukkera.brandkit.components.model/BrandFieldColors.placeholder|{}placeholder[0]
+        final fun <get-placeholder>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.placeholder.<get-placeholder>|<get-placeholder>(){}[0]
+    final val text // com.ukkera.brandkit.components.model/BrandFieldColors.text|{}text[0]
+        final fun <get-text>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.text.<get-text>|<get-text>(){}[0]
+
+    final fun component1(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.component1|component1(){}[0]
+    final fun component10(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.component10|component10(){}[0]
+    final fun component2(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.component2|component2(){}[0]
+    final fun component3(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.component3|component3(){}[0]
+    final fun component4(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.component4|component4(){}[0]
+    final fun component5(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.component5|component5(){}[0]
+    final fun component6(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.component6|component6(){}[0]
+    final fun component7(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.component7|component7(){}[0]
+    final fun component8(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.component8|component8(){}[0]
+    final fun component9(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.components.model/BrandFieldColors.component9|component9(){}[0]
+    final fun copy(androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ...): com.ukkera.brandkit.components.model/BrandFieldColors // com.ukkera.brandkit.components.model/BrandFieldColors.copy|copy(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandFieldColors.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.model/BrandFieldColors.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.model/BrandFieldColors.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.model/BrandFieldFocus { // com.ukkera.brandkit.components.model/BrandFieldFocus|null[0]
+    constructor <init>(kotlin/Function1<kotlin/Boolean, kotlin/Unit>? = ..., kotlin/Function0<kotlin/Unit>? = ...) // com.ukkera.brandkit.components.model/BrandFieldFocus.<init>|<init>(kotlin.Function1<kotlin.Boolean,kotlin.Unit>?;kotlin.Function0<kotlin.Unit>?){}[0]
+
+    final val onFocusChanged // com.ukkera.brandkit.components.model/BrandFieldFocus.onFocusChanged|{}onFocusChanged[0]
+        final fun <get-onFocusChanged>(): kotlin/Function1<kotlin/Boolean, kotlin/Unit>? // com.ukkera.brandkit.components.model/BrandFieldFocus.onFocusChanged.<get-onFocusChanged>|<get-onFocusChanged>(){}[0]
+    final val onSubmit // com.ukkera.brandkit.components.model/BrandFieldFocus.onSubmit|{}onSubmit[0]
+        final fun <get-onSubmit>(): kotlin/Function0<kotlin/Unit>? // com.ukkera.brandkit.components.model/BrandFieldFocus.onSubmit.<get-onSubmit>|<get-onSubmit>(){}[0]
+
+    final fun component1(): kotlin/Function1<kotlin/Boolean, kotlin/Unit>? // com.ukkera.brandkit.components.model/BrandFieldFocus.component1|component1(){}[0]
+    final fun component2(): kotlin/Function0<kotlin/Unit>? // com.ukkera.brandkit.components.model/BrandFieldFocus.component2|component2(){}[0]
+    final fun copy(kotlin/Function1<kotlin/Boolean, kotlin/Unit>? = ..., kotlin/Function0<kotlin/Unit>? = ...): com.ukkera.brandkit.components.model/BrandFieldFocus // com.ukkera.brandkit.components.model/BrandFieldFocus.copy|copy(kotlin.Function1<kotlin.Boolean,kotlin.Unit>?;kotlin.Function0<kotlin.Unit>?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandFieldFocus.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.model/BrandFieldFocus.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.model/BrandFieldFocus.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.model/BrandFieldInput { // com.ukkera.brandkit.components.model/BrandFieldInput|null[0]
+    constructor <init>(com.ukkera.brandkit.components.model/BrandKeyboardType = ..., com.ukkera.brandkit.components.model/BrandImeAction = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Int = ..., kotlin/Int = ..., com.ukkera.brandkit.components.model/BrandCapitalization = ..., kotlin/Boolean = ..., com.ukkera.brandkit.components.model/BrandCharacterLimit? = ...) // com.ukkera.brandkit.components.model/BrandFieldInput.<init>|<init>(com.ukkera.brandkit.components.model.BrandKeyboardType;com.ukkera.brandkit.components.model.BrandImeAction;kotlin.Boolean;kotlin.Boolean;kotlin.Int;kotlin.Int;com.ukkera.brandkit.components.model.BrandCapitalization;kotlin.Boolean;com.ukkera.brandkit.components.model.BrandCharacterLimit?){}[0]
+
+    final val autoCorrect // com.ukkera.brandkit.components.model/BrandFieldInput.autoCorrect|{}autoCorrect[0]
+        final fun <get-autoCorrect>(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandFieldInput.autoCorrect.<get-autoCorrect>|<get-autoCorrect>(){}[0]
+    final val capitalization // com.ukkera.brandkit.components.model/BrandFieldInput.capitalization|{}capitalization[0]
+        final fun <get-capitalization>(): com.ukkera.brandkit.components.model/BrandCapitalization // com.ukkera.brandkit.components.model/BrandFieldInput.capitalization.<get-capitalization>|<get-capitalization>(){}[0]
+    final val characterLimit // com.ukkera.brandkit.components.model/BrandFieldInput.characterLimit|{}characterLimit[0]
+        final fun <get-characterLimit>(): com.ukkera.brandkit.components.model/BrandCharacterLimit? // com.ukkera.brandkit.components.model/BrandFieldInput.characterLimit.<get-characterLimit>|<get-characterLimit>(){}[0]
+    final val imeAction // com.ukkera.brandkit.components.model/BrandFieldInput.imeAction|{}imeAction[0]
+        final fun <get-imeAction>(): com.ukkera.brandkit.components.model/BrandImeAction // com.ukkera.brandkit.components.model/BrandFieldInput.imeAction.<get-imeAction>|<get-imeAction>(){}[0]
+    final val keyboardType // com.ukkera.brandkit.components.model/BrandFieldInput.keyboardType|{}keyboardType[0]
+        final fun <get-keyboardType>(): com.ukkera.brandkit.components.model/BrandKeyboardType // com.ukkera.brandkit.components.model/BrandFieldInput.keyboardType.<get-keyboardType>|<get-keyboardType>(){}[0]
+    final val maxLines // com.ukkera.brandkit.components.model/BrandFieldInput.maxLines|{}maxLines[0]
+        final fun <get-maxLines>(): kotlin/Int // com.ukkera.brandkit.components.model/BrandFieldInput.maxLines.<get-maxLines>|<get-maxLines>(){}[0]
+    final val minLines // com.ukkera.brandkit.components.model/BrandFieldInput.minLines|{}minLines[0]
+        final fun <get-minLines>(): kotlin/Int // com.ukkera.brandkit.components.model/BrandFieldInput.minLines.<get-minLines>|<get-minLines>(){}[0]
+    final val secure // com.ukkera.brandkit.components.model/BrandFieldInput.secure|{}secure[0]
+        final fun <get-secure>(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandFieldInput.secure.<get-secure>|<get-secure>(){}[0]
+    final val singleLine // com.ukkera.brandkit.components.model/BrandFieldInput.singleLine|{}singleLine[0]
+        final fun <get-singleLine>(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandFieldInput.singleLine.<get-singleLine>|<get-singleLine>(){}[0]
+
+    final fun component1(): com.ukkera.brandkit.components.model/BrandKeyboardType // com.ukkera.brandkit.components.model/BrandFieldInput.component1|component1(){}[0]
+    final fun component2(): com.ukkera.brandkit.components.model/BrandImeAction // com.ukkera.brandkit.components.model/BrandFieldInput.component2|component2(){}[0]
+    final fun component3(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandFieldInput.component3|component3(){}[0]
+    final fun component4(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandFieldInput.component4|component4(){}[0]
+    final fun component5(): kotlin/Int // com.ukkera.brandkit.components.model/BrandFieldInput.component5|component5(){}[0]
+    final fun component6(): kotlin/Int // com.ukkera.brandkit.components.model/BrandFieldInput.component6|component6(){}[0]
+    final fun component7(): com.ukkera.brandkit.components.model/BrandCapitalization // com.ukkera.brandkit.components.model/BrandFieldInput.component7|component7(){}[0]
+    final fun component8(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandFieldInput.component8|component8(){}[0]
+    final fun component9(): com.ukkera.brandkit.components.model/BrandCharacterLimit? // com.ukkera.brandkit.components.model/BrandFieldInput.component9|component9(){}[0]
+    final fun copy(com.ukkera.brandkit.components.model/BrandKeyboardType = ..., com.ukkera.brandkit.components.model/BrandImeAction = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Int = ..., kotlin/Int = ..., com.ukkera.brandkit.components.model/BrandCapitalization = ..., kotlin/Boolean = ..., com.ukkera.brandkit.components.model/BrandCharacterLimit? = ...): com.ukkera.brandkit.components.model/BrandFieldInput // com.ukkera.brandkit.components.model/BrandFieldInput.copy|copy(com.ukkera.brandkit.components.model.BrandKeyboardType;com.ukkera.brandkit.components.model.BrandImeAction;kotlin.Boolean;kotlin.Boolean;kotlin.Int;kotlin.Int;com.ukkera.brandkit.components.model.BrandCapitalization;kotlin.Boolean;com.ukkera.brandkit.components.model.BrandCharacterLimit?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandFieldInput.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.model/BrandFieldInput.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.model/BrandFieldInput.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.model/BrandIcon { // com.ukkera.brandkit.components.model/BrandIcon|null[0]
+    constructor <init>(androidx.compose.ui.graphics.vector/ImageVector? = ..., kotlin/String? = ..., kotlin/String? = ...) // com.ukkera.brandkit.components.model/BrandIcon.<init>|<init>(androidx.compose.ui.graphics.vector.ImageVector?;kotlin.String?;kotlin.String?){}[0]
+
+    final val androidImageVector // com.ukkera.brandkit.components.model/BrandIcon.androidImageVector|{}androidImageVector[0]
+        final fun <get-androidImageVector>(): androidx.compose.ui.graphics.vector/ImageVector? // com.ukkera.brandkit.components.model/BrandIcon.androidImageVector.<get-androidImageVector>|<get-androidImageVector>(){}[0]
+    final val contentDescription // com.ukkera.brandkit.components.model/BrandIcon.contentDescription|{}contentDescription[0]
+        final fun <get-contentDescription>(): kotlin/String? // com.ukkera.brandkit.components.model/BrandIcon.contentDescription.<get-contentDescription>|<get-contentDescription>(){}[0]
+    final val sfSymbolName // com.ukkera.brandkit.components.model/BrandIcon.sfSymbolName|{}sfSymbolName[0]
+        final fun <get-sfSymbolName>(): kotlin/String? // com.ukkera.brandkit.components.model/BrandIcon.sfSymbolName.<get-sfSymbolName>|<get-sfSymbolName>(){}[0]
+}
+
+final class com.ukkera.brandkit.components.model/BrandKeyboardAccessory { // com.ukkera.brandkit.components.model/BrandKeyboardAccessory|null[0]
+    constructor <init>(kotlin/Boolean = ..., kotlin/String = ..., com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle = ...) // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.<init>|<init>(kotlin.Boolean;kotlin.String;com.ukkera.brandkit.components.model.BrandKeyboardAccessoryStyle){}[0]
+
+    final val doneButton // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.doneButton|{}doneButton[0]
+        final fun <get-doneButton>(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.doneButton.<get-doneButton>|<get-doneButton>(){}[0]
+    final val doneText // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.doneText|{}doneText[0]
+        final fun <get-doneText>(): kotlin/String // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.doneText.<get-doneText>|<get-doneText>(){}[0]
+    final val style // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.style|{}style[0]
+        final fun <get-style>(): com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.style.<get-style>|<get-style>(){}[0]
+
+    final fun component1(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.component1|component1(){}[0]
+    final fun component2(): kotlin/String // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.component2|component2(){}[0]
+    final fun component3(): com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.component3|component3(){}[0]
+    final fun copy(kotlin/Boolean = ..., kotlin/String = ..., com.ukkera.brandkit.components.model/BrandKeyboardAccessoryStyle = ...): com.ukkera.brandkit.components.model/BrandKeyboardAccessory // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.copy|copy(kotlin.Boolean;kotlin.String;com.ukkera.brandkit.components.model.BrandKeyboardAccessoryStyle){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.model/BrandKeyboardAccessory.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.model/BrandMenu { // com.ukkera.brandkit.components.model/BrandMenu|null[0]
+    constructor <init>(kotlin.collections/List<com.ukkera.brandkit.components.model/BrandMenuItem>, kotlin/String? = ...) // com.ukkera.brandkit.components.model/BrandMenu.<init>|<init>(kotlin.collections.List<com.ukkera.brandkit.components.model.BrandMenuItem>;kotlin.String?){}[0]
+
+    final val items // com.ukkera.brandkit.components.model/BrandMenu.items|{}items[0]
+        final fun <get-items>(): kotlin.collections/List<com.ukkera.brandkit.components.model/BrandMenuItem> // com.ukkera.brandkit.components.model/BrandMenu.items.<get-items>|<get-items>(){}[0]
+    final val title // com.ukkera.brandkit.components.model/BrandMenu.title|{}title[0]
+        final fun <get-title>(): kotlin/String? // com.ukkera.brandkit.components.model/BrandMenu.title.<get-title>|<get-title>(){}[0]
+
+    final fun component1(): kotlin.collections/List<com.ukkera.brandkit.components.model/BrandMenuItem> // com.ukkera.brandkit.components.model/BrandMenu.component1|component1(){}[0]
+    final fun component2(): kotlin/String? // com.ukkera.brandkit.components.model/BrandMenu.component2|component2(){}[0]
+    final fun copy(kotlin.collections/List<com.ukkera.brandkit.components.model/BrandMenuItem> = ..., kotlin/String? = ...): com.ukkera.brandkit.components.model/BrandMenu // com.ukkera.brandkit.components.model/BrandMenu.copy|copy(kotlin.collections.List<com.ukkera.brandkit.components.model.BrandMenuItem>;kotlin.String?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandMenu.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.model/BrandMenu.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.model/BrandMenu.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.model/BrandMenuItem { // com.ukkera.brandkit.components.model/BrandMenuItem|null[0]
+    constructor <init>(kotlin/String, kotlin/Function0<kotlin/Unit>, com.ukkera.brandkit.components.model/BrandIcon? = ..., com.ukkera.brandkit.components.model/BrandMenuItemRole = ..., kotlin/Boolean = ..., kotlin/Boolean = ...) // com.ukkera.brandkit.components.model/BrandMenuItem.<init>|<init>(kotlin.String;kotlin.Function0<kotlin.Unit>;com.ukkera.brandkit.components.model.BrandIcon?;com.ukkera.brandkit.components.model.BrandMenuItemRole;kotlin.Boolean;kotlin.Boolean){}[0]
+
+    final val enabled // com.ukkera.brandkit.components.model/BrandMenuItem.enabled|{}enabled[0]
+        final fun <get-enabled>(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandMenuItem.enabled.<get-enabled>|<get-enabled>(){}[0]
+    final val icon // com.ukkera.brandkit.components.model/BrandMenuItem.icon|{}icon[0]
+        final fun <get-icon>(): com.ukkera.brandkit.components.model/BrandIcon? // com.ukkera.brandkit.components.model/BrandMenuItem.icon.<get-icon>|<get-icon>(){}[0]
+    final val onSelect // com.ukkera.brandkit.components.model/BrandMenuItem.onSelect|{}onSelect[0]
+        final fun <get-onSelect>(): kotlin/Function0<kotlin/Unit> // com.ukkera.brandkit.components.model/BrandMenuItem.onSelect.<get-onSelect>|<get-onSelect>(){}[0]
+    final val role // com.ukkera.brandkit.components.model/BrandMenuItem.role|{}role[0]
+        final fun <get-role>(): com.ukkera.brandkit.components.model/BrandMenuItemRole // com.ukkera.brandkit.components.model/BrandMenuItem.role.<get-role>|<get-role>(){}[0]
+    final val selected // com.ukkera.brandkit.components.model/BrandMenuItem.selected|{}selected[0]
+        final fun <get-selected>(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandMenuItem.selected.<get-selected>|<get-selected>(){}[0]
+    final val title // com.ukkera.brandkit.components.model/BrandMenuItem.title|{}title[0]
+        final fun <get-title>(): kotlin/String // com.ukkera.brandkit.components.model/BrandMenuItem.title.<get-title>|<get-title>(){}[0]
+
+    final fun component1(): kotlin/String // com.ukkera.brandkit.components.model/BrandMenuItem.component1|component1(){}[0]
+    final fun component2(): kotlin/Function0<kotlin/Unit> // com.ukkera.brandkit.components.model/BrandMenuItem.component2|component2(){}[0]
+    final fun component3(): com.ukkera.brandkit.components.model/BrandIcon? // com.ukkera.brandkit.components.model/BrandMenuItem.component3|component3(){}[0]
+    final fun component4(): com.ukkera.brandkit.components.model/BrandMenuItemRole // com.ukkera.brandkit.components.model/BrandMenuItem.component4|component4(){}[0]
+    final fun component5(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandMenuItem.component5|component5(){}[0]
+    final fun component6(): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandMenuItem.component6|component6(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/Function0<kotlin/Unit> = ..., com.ukkera.brandkit.components.model/BrandIcon? = ..., com.ukkera.brandkit.components.model/BrandMenuItemRole = ..., kotlin/Boolean = ..., kotlin/Boolean = ...): com.ukkera.brandkit.components.model/BrandMenuItem // com.ukkera.brandkit.components.model/BrandMenuItem.copy|copy(kotlin.String;kotlin.Function0<kotlin.Unit>;com.ukkera.brandkit.components.model.BrandIcon?;com.ukkera.brandkit.components.model.BrandMenuItemRole;kotlin.Boolean;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandMenuItem.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.model/BrandMenuItem.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.model/BrandMenuItem.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components.model/BrandTextFieldIosOptions { // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions|null[0]
+    constructor <init>(com.ukkera.brandkit.components.model/BrandClearButtonMode = ..., com.ukkera.brandkit.components.model/BrandKeyboardAppearance = ..., com.ukkera.brandkit.components.model/BrandKeyboardAccessory = ...) // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.<init>|<init>(com.ukkera.brandkit.components.model.BrandClearButtonMode;com.ukkera.brandkit.components.model.BrandKeyboardAppearance;com.ukkera.brandkit.components.model.BrandKeyboardAccessory){}[0]
+
+    final val clearButton // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.clearButton|{}clearButton[0]
+        final fun <get-clearButton>(): com.ukkera.brandkit.components.model/BrandClearButtonMode // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.clearButton.<get-clearButton>|<get-clearButton>(){}[0]
+    final val keyboardAccessory // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.keyboardAccessory|{}keyboardAccessory[0]
+        final fun <get-keyboardAccessory>(): com.ukkera.brandkit.components.model/BrandKeyboardAccessory // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.keyboardAccessory.<get-keyboardAccessory>|<get-keyboardAccessory>(){}[0]
+    final val keyboardAppearance // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.keyboardAppearance|{}keyboardAppearance[0]
+        final fun <get-keyboardAppearance>(): com.ukkera.brandkit.components.model/BrandKeyboardAppearance // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.keyboardAppearance.<get-keyboardAppearance>|<get-keyboardAppearance>(){}[0]
+
+    final fun component1(): com.ukkera.brandkit.components.model/BrandClearButtonMode // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.component1|component1(){}[0]
+    final fun component2(): com.ukkera.brandkit.components.model/BrandKeyboardAppearance // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.component2|component2(){}[0]
+    final fun component3(): com.ukkera.brandkit.components.model/BrandKeyboardAccessory // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.component3|component3(){}[0]
+    final fun copy(com.ukkera.brandkit.components.model/BrandClearButtonMode = ..., com.ukkera.brandkit.components.model/BrandKeyboardAppearance = ..., com.ukkera.brandkit.components.model/BrandKeyboardAccessory = ...): com.ukkera.brandkit.components.model/BrandTextFieldIosOptions // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.copy|copy(com.ukkera.brandkit.components.model.BrandClearButtonMode;com.ukkera.brandkit.components.model.BrandKeyboardAppearance;com.ukkera.brandkit.components.model.BrandKeyboardAccessory){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components.model/BrandTextFieldIosOptions.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components/BrandColorWellIosOptions { // com.ukkera.brandkit.components/BrandColorWellIosOptions|null[0]
+    constructor <init>(kotlin/Boolean = ...) // com.ukkera.brandkit.components/BrandColorWellIosOptions.<init>|<init>(kotlin.Boolean){}[0]
+
+    final val supportsAlpha // com.ukkera.brandkit.components/BrandColorWellIosOptions.supportsAlpha|{}supportsAlpha[0]
+        final fun <get-supportsAlpha>(): kotlin/Boolean // com.ukkera.brandkit.components/BrandColorWellIosOptions.supportsAlpha.<get-supportsAlpha>|<get-supportsAlpha>(){}[0]
+
+    final fun component1(): kotlin/Boolean // com.ukkera.brandkit.components/BrandColorWellIosOptions.component1|component1(){}[0]
+    final fun copy(kotlin/Boolean = ...): com.ukkera.brandkit.components/BrandColorWellIosOptions // com.ukkera.brandkit.components/BrandColorWellIosOptions.copy|copy(kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components/BrandColorWellIosOptions.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components/BrandColorWellIosOptions.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components/BrandColorWellIosOptions.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components/BrandSearchBarIosOptions { // com.ukkera.brandkit.components/BrandSearchBarIosOptions|null[0]
+    constructor <init>(kotlin/Boolean = ...) // com.ukkera.brandkit.components/BrandSearchBarIosOptions.<init>|<init>(kotlin.Boolean){}[0]
+
+    final val showCancelButton // com.ukkera.brandkit.components/BrandSearchBarIosOptions.showCancelButton|{}showCancelButton[0]
+        final fun <get-showCancelButton>(): kotlin/Boolean // com.ukkera.brandkit.components/BrandSearchBarIosOptions.showCancelButton.<get-showCancelButton>|<get-showCancelButton>(){}[0]
+
+    final fun component1(): kotlin/Boolean // com.ukkera.brandkit.components/BrandSearchBarIosOptions.component1|component1(){}[0]
+    final fun copy(kotlin/Boolean = ...): com.ukkera.brandkit.components/BrandSearchBarIosOptions // com.ukkera.brandkit.components/BrandSearchBarIosOptions.copy|copy(kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components/BrandSearchBarIosOptions.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components/BrandSearchBarIosOptions.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components/BrandSearchBarIosOptions.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components/BrandShare { // com.ukkera.brandkit.components/BrandShare|null[0]
+    final fun share(com.ukkera.brandkit.components/BrandShareContent) // com.ukkera.brandkit.components/BrandShare.share|share(com.ukkera.brandkit.components.BrandShareContent){}[0]
+    final fun share(kotlin/String? = ..., kotlin/String? = ...) // com.ukkera.brandkit.components/BrandShare.share|share(kotlin.String?;kotlin.String?){}[0]
+}
+
+final class com.ukkera.brandkit.components/BrandShareContent { // com.ukkera.brandkit.components/BrandShareContent|null[0]
+    constructor <init>(kotlin/String? = ..., kotlin/String? = ...) // com.ukkera.brandkit.components/BrandShareContent.<init>|<init>(kotlin.String?;kotlin.String?){}[0]
+
+    final val text // com.ukkera.brandkit.components/BrandShareContent.text|{}text[0]
+        final fun <get-text>(): kotlin/String? // com.ukkera.brandkit.components/BrandShareContent.text.<get-text>|<get-text>(){}[0]
+    final val url // com.ukkera.brandkit.components/BrandShareContent.url|{}url[0]
+        final fun <get-url>(): kotlin/String? // com.ukkera.brandkit.components/BrandShareContent.url.<get-url>|<get-url>(){}[0]
+
+    final fun component1(): kotlin/String? // com.ukkera.brandkit.components/BrandShareContent.component1|component1(){}[0]
+    final fun component2(): kotlin/String? // com.ukkera.brandkit.components/BrandShareContent.component2|component2(){}[0]
+    final fun copy(kotlin/String? = ..., kotlin/String? = ...): com.ukkera.brandkit.components/BrandShareContent // com.ukkera.brandkit.components/BrandShareContent.copy|copy(kotlin.String?;kotlin.String?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components/BrandShareContent.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components/BrandShareContent.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components/BrandShareContent.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.components/BrandSwipeAction { // com.ukkera.brandkit.components/BrandSwipeAction|null[0]
+    constructor <init>(kotlin/String, kotlin/Function0<kotlin/Unit>, androidx.compose.ui.graphics.vector/ImageVector? = ..., kotlin/Boolean = ...) // com.ukkera.brandkit.components/BrandSwipeAction.<init>|<init>(kotlin.String;kotlin.Function0<kotlin.Unit>;androidx.compose.ui.graphics.vector.ImageVector?;kotlin.Boolean){}[0]
+
+    final val destructive // com.ukkera.brandkit.components/BrandSwipeAction.destructive|{}destructive[0]
+        final fun <get-destructive>(): kotlin/Boolean // com.ukkera.brandkit.components/BrandSwipeAction.destructive.<get-destructive>|<get-destructive>(){}[0]
+    final val icon // com.ukkera.brandkit.components/BrandSwipeAction.icon|{}icon[0]
+        final fun <get-icon>(): androidx.compose.ui.graphics.vector/ImageVector? // com.ukkera.brandkit.components/BrandSwipeAction.icon.<get-icon>|<get-icon>(){}[0]
+    final val label // com.ukkera.brandkit.components/BrandSwipeAction.label|{}label[0]
+        final fun <get-label>(): kotlin/String // com.ukkera.brandkit.components/BrandSwipeAction.label.<get-label>|<get-label>(){}[0]
+    final val onAction // com.ukkera.brandkit.components/BrandSwipeAction.onAction|{}onAction[0]
+        final fun <get-onAction>(): kotlin/Function0<kotlin/Unit> // com.ukkera.brandkit.components/BrandSwipeAction.onAction.<get-onAction>|<get-onAction>(){}[0]
+
+    final fun component1(): kotlin/String // com.ukkera.brandkit.components/BrandSwipeAction.component1|component1(){}[0]
+    final fun component2(): kotlin/Function0<kotlin/Unit> // com.ukkera.brandkit.components/BrandSwipeAction.component2|component2(){}[0]
+    final fun component3(): androidx.compose.ui.graphics.vector/ImageVector? // com.ukkera.brandkit.components/BrandSwipeAction.component3|component3(){}[0]
+    final fun component4(): kotlin/Boolean // com.ukkera.brandkit.components/BrandSwipeAction.component4|component4(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/Function0<kotlin/Unit> = ..., androidx.compose.ui.graphics.vector/ImageVector? = ..., kotlin/Boolean = ...): com.ukkera.brandkit.components/BrandSwipeAction // com.ukkera.brandkit.components/BrandSwipeAction.copy|copy(kotlin.String;kotlin.Function0<kotlin.Unit>;androidx.compose.ui.graphics.vector.ImageVector?;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.components/BrandSwipeAction.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.components/BrandSwipeAction.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.components/BrandSwipeAction.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.navigation/BrandNavBarItem { // com.ukkera.brandkit.navigation/BrandNavBarItem|null[0]
+    constructor <init>(com.ukkera.brandkit.navigation/BrandTab, kotlin/String, androidx.compose.ui.graphics.vector/ImageVector) // com.ukkera.brandkit.navigation/BrandNavBarItem.<init>|<init>(com.ukkera.brandkit.navigation.BrandTab;kotlin.String;androidx.compose.ui.graphics.vector.ImageVector){}[0]
+
+    final val icon // com.ukkera.brandkit.navigation/BrandNavBarItem.icon|{}icon[0]
+        final fun <get-icon>(): androidx.compose.ui.graphics.vector/ImageVector // com.ukkera.brandkit.navigation/BrandNavBarItem.icon.<get-icon>|<get-icon>(){}[0]
+    final val label // com.ukkera.brandkit.navigation/BrandNavBarItem.label|{}label[0]
+        final fun <get-label>(): kotlin/String // com.ukkera.brandkit.navigation/BrandNavBarItem.label.<get-label>|<get-label>(){}[0]
+    final val tab // com.ukkera.brandkit.navigation/BrandNavBarItem.tab|{}tab[0]
+        final fun <get-tab>(): com.ukkera.brandkit.navigation/BrandTab // com.ukkera.brandkit.navigation/BrandNavBarItem.tab.<get-tab>|<get-tab>(){}[0]
+
+    final fun component1(): com.ukkera.brandkit.navigation/BrandTab // com.ukkera.brandkit.navigation/BrandNavBarItem.component1|component1(){}[0]
+    final fun component2(): kotlin/String // com.ukkera.brandkit.navigation/BrandNavBarItem.component2|component2(){}[0]
+    final fun component3(): androidx.compose.ui.graphics.vector/ImageVector // com.ukkera.brandkit.navigation/BrandNavBarItem.component3|component3(){}[0]
+    final fun copy(com.ukkera.brandkit.navigation/BrandTab = ..., kotlin/String = ..., androidx.compose.ui.graphics.vector/ImageVector = ...): com.ukkera.brandkit.navigation/BrandNavBarItem // com.ukkera.brandkit.navigation/BrandNavBarItem.copy|copy(com.ukkera.brandkit.navigation.BrandTab;kotlin.String;androidx.compose.ui.graphics.vector.ImageVector){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.navigation/BrandNavBarItem.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.navigation/BrandNavBarItem.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.navigation/BrandNavBarItem.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.navigation/BrandNavBridge { // com.ukkera.brandkit.navigation/BrandNavBridge|null[0]
+    constructor <init>(com.ukkera.brandkit.navigation/BrandNavigator, com.ukkera.brandkit.navigation/BrandNavGraph, kotlin/Function1<kotlin/String, com.ukkera.brandkit.navigation/BrandRoute?>, kotlin/Function1<com.ukkera.brandkit.navigation/BrandRoute, kotlin/String>) // com.ukkera.brandkit.navigation/BrandNavBridge.<init>|<init>(com.ukkera.brandkit.navigation.BrandNavigator;com.ukkera.brandkit.navigation.BrandNavGraph;kotlin.Function1<kotlin.String,com.ukkera.brandkit.navigation.BrandRoute?>;kotlin.Function1<com.ukkera.brandkit.navigation.BrandRoute,kotlin.String>){}[0]
+
+    final fun dismissSheet() // com.ukkera.brandkit.navigation/BrandNavBridge.dismissSheet|dismissSheet(){}[0]
+    final fun observe(kotlin/Function1<com.ukkera.brandkit.navigation/BrandNavSnapshot, kotlin/Unit>): com.ukkera.brandkit.navigation/BrandNavCancellable // com.ukkera.brandkit.navigation/BrandNavBridge.observe|observe(kotlin.Function1<com.ukkera.brandkit.navigation.BrandNavSnapshot,kotlin.Unit>){}[0]
+    final fun pop() // com.ukkera.brandkit.navigation/BrandNavBridge.pop|pop(){}[0]
+    final fun presentSheet(kotlin/String) // com.ukkera.brandkit.navigation/BrandNavBridge.presentSheet|presentSheet(kotlin.String){}[0]
+    final fun reconcileStack(kotlin/String, kotlin.collections/List<kotlin/String>) // com.ukkera.brandkit.navigation/BrandNavBridge.reconcileStack|reconcileStack(kotlin.String;kotlin.collections.List<kotlin.String>){}[0]
+    final fun rootRouteId(kotlin/String): kotlin/String // com.ukkera.brandkit.navigation/BrandNavBridge.rootRouteId|rootRouteId(kotlin.String){}[0]
+    final fun selectTab(kotlin/String) // com.ukkera.brandkit.navigation/BrandNavBridge.selectTab|selectTab(kotlin.String){}[0]
+    final fun selectedTabId(): kotlin/String // com.ukkera.brandkit.navigation/BrandNavBridge.selectedTabId|selectedTabId(){}[0]
+    final fun sheetId(): kotlin/String? // com.ukkera.brandkit.navigation/BrandNavBridge.sheetId|sheetId(){}[0]
+    final fun stackIds(kotlin/String): kotlin.collections/List<kotlin/String> // com.ukkera.brandkit.navigation/BrandNavBridge.stackIds|stackIds(kotlin.String){}[0]
+    final fun tabIds(): kotlin.collections/List<kotlin/String> // com.ukkera.brandkit.navigation/BrandNavBridge.tabIds|tabIds(){}[0]
+    final fun title(kotlin/String): kotlin/String // com.ukkera.brandkit.navigation/BrandNavBridge.title|title(kotlin.String){}[0]
+    final fun viewController(kotlin/String): platform.UIKit/UIViewController // com.ukkera.brandkit.navigation/BrandNavBridge.viewController|viewController(kotlin.String){}[0]
+}
+
+final class com.ukkera.brandkit.navigation/BrandNavGraph // com.ukkera.brandkit.navigation/BrandNavGraph|null[0]
+
+final class com.ukkera.brandkit.navigation/BrandNavGraphBuilder { // com.ukkera.brandkit.navigation/BrandNavGraphBuilder|null[0]
+    final val screens // com.ukkera.brandkit.navigation/BrandNavGraphBuilder.screens|{}screens[0]
+        final fun <get-screens>(): kotlin.collections/MutableMap<kotlin.reflect/KClass<out com.ukkera.brandkit.navigation/BrandRoute>, kotlin/Function3<com.ukkera.brandkit.navigation/BrandRoute, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>> // com.ukkera.brandkit.navigation/BrandNavGraphBuilder.screens.<get-screens>|<get-screens>(){}[0]
+
+    final inline fun <#A1: reified com.ukkera.brandkit.navigation/BrandRoute> screen(noinline kotlin/Function3<#A1, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>) // com.ukkera.brandkit.navigation/BrandNavGraphBuilder.screen|screen(kotlin.Function3<0:0,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>){0§<com.ukkera.brandkit.navigation.BrandRoute>}[0]
+}
+
+final class com.ukkera.brandkit.navigation/BrandNavSnapshot { // com.ukkera.brandkit.navigation/BrandNavSnapshot|null[0]
+    constructor <init>(kotlin/String, kotlin.collections/List<kotlin/String>, kotlin.collections/Map<kotlin/String, kotlin.collections/List<kotlin/String>>, kotlin/String?) // com.ukkera.brandkit.navigation/BrandNavSnapshot.<init>|<init>(kotlin.String;kotlin.collections.List<kotlin.String>;kotlin.collections.Map<kotlin.String,kotlin.collections.List<kotlin.String>>;kotlin.String?){}[0]
+
+    final val selectedTabId // com.ukkera.brandkit.navigation/BrandNavSnapshot.selectedTabId|{}selectedTabId[0]
+        final fun <get-selectedTabId>(): kotlin/String // com.ukkera.brandkit.navigation/BrandNavSnapshot.selectedTabId.<get-selectedTabId>|<get-selectedTabId>(){}[0]
+    final val sheetId // com.ukkera.brandkit.navigation/BrandNavSnapshot.sheetId|{}sheetId[0]
+        final fun <get-sheetId>(): kotlin/String? // com.ukkera.brandkit.navigation/BrandNavSnapshot.sheetId.<get-sheetId>|<get-sheetId>(){}[0]
+    final val stackIdsByTab // com.ukkera.brandkit.navigation/BrandNavSnapshot.stackIdsByTab|{}stackIdsByTab[0]
+        final fun <get-stackIdsByTab>(): kotlin.collections/Map<kotlin/String, kotlin.collections/List<kotlin/String>> // com.ukkera.brandkit.navigation/BrandNavSnapshot.stackIdsByTab.<get-stackIdsByTab>|<get-stackIdsByTab>(){}[0]
+    final val tabIds // com.ukkera.brandkit.navigation/BrandNavSnapshot.tabIds|{}tabIds[0]
+        final fun <get-tabIds>(): kotlin.collections/List<kotlin/String> // com.ukkera.brandkit.navigation/BrandNavSnapshot.tabIds.<get-tabIds>|<get-tabIds>(){}[0]
+
+    final fun component1(): kotlin/String // com.ukkera.brandkit.navigation/BrandNavSnapshot.component1|component1(){}[0]
+    final fun component2(): kotlin.collections/List<kotlin/String> // com.ukkera.brandkit.navigation/BrandNavSnapshot.component2|component2(){}[0]
+    final fun component3(): kotlin.collections/Map<kotlin/String, kotlin.collections/List<kotlin/String>> // com.ukkera.brandkit.navigation/BrandNavSnapshot.component3|component3(){}[0]
+    final fun component4(): kotlin/String? // com.ukkera.brandkit.navigation/BrandNavSnapshot.component4|component4(){}[0]
+    final fun copy(kotlin/String = ..., kotlin.collections/List<kotlin/String> = ..., kotlin.collections/Map<kotlin/String, kotlin.collections/List<kotlin/String>> = ..., kotlin/String? = ...): com.ukkera.brandkit.navigation/BrandNavSnapshot // com.ukkera.brandkit.navigation/BrandNavSnapshot.copy|copy(kotlin.String;kotlin.collections.List<kotlin.String>;kotlin.collections.Map<kotlin.String,kotlin.collections.List<kotlin.String>>;kotlin.String?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.navigation/BrandNavSnapshot.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.navigation/BrandNavSnapshot.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.navigation/BrandNavSnapshot.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.navigation/BrandNavigationState { // com.ukkera.brandkit.navigation/BrandNavigationState|null[0]
+    final val tabs // com.ukkera.brandkit.navigation/BrandNavigationState.tabs|{}tabs[0]
+        final fun <get-tabs>(): kotlin.collections/List<com.ukkera.brandkit.navigation/BrandTab> // com.ukkera.brandkit.navigation/BrandNavigationState.tabs.<get-tabs>|<get-tabs>(){}[0]
+
+    final var selectedTab // com.ukkera.brandkit.navigation/BrandNavigationState.selectedTab|{}selectedTab[0]
+        final fun <get-selectedTab>(): com.ukkera.brandkit.navigation/BrandTab // com.ukkera.brandkit.navigation/BrandNavigationState.selectedTab.<get-selectedTab>|<get-selectedTab>(){}[0]
+    final var sheet // com.ukkera.brandkit.navigation/BrandNavigationState.sheet|{}sheet[0]
+        final fun <get-sheet>(): com.ukkera.brandkit.navigation/BrandRoute? // com.ukkera.brandkit.navigation/BrandNavigationState.sheet.<get-sheet>|<get-sheet>(){}[0]
+
+    final fun currentStack(): kotlin.collections/List<com.ukkera.brandkit.navigation/BrandRoute> // com.ukkera.brandkit.navigation/BrandNavigationState.currentStack|currentStack(){}[0]
+    final fun top(): com.ukkera.brandkit.navigation/BrandRoute // com.ukkera.brandkit.navigation/BrandNavigationState.top|top(){}[0]
+}
+
+final class com.ukkera.brandkit.navigation/BrandNavigator { // com.ukkera.brandkit.navigation/BrandNavigator|null[0]
+    final val state // com.ukkera.brandkit.navigation/BrandNavigator.state|{}state[0]
+        final fun <get-state>(): com.ukkera.brandkit.navigation/BrandNavigationState // com.ukkera.brandkit.navigation/BrandNavigator.state.<get-state>|<get-state>(){}[0]
+
+    final fun dismissSheet() // com.ukkera.brandkit.navigation/BrandNavigator.dismissSheet|dismissSheet(){}[0]
+    final fun observe(kotlin/Function1<com.ukkera.brandkit.navigation/BrandNavSnapshot, kotlin/Unit>): com.ukkera.brandkit.navigation/BrandNavCancellable // com.ukkera.brandkit.navigation/BrandNavigator.observe|observe(kotlin.Function1<com.ukkera.brandkit.navigation.BrandNavSnapshot,kotlin.Unit>){}[0]
+    final fun pop(): kotlin/Boolean // com.ukkera.brandkit.navigation/BrandNavigator.pop|pop(){}[0]
+    final fun popToRoot() // com.ukkera.brandkit.navigation/BrandNavigator.popToRoot|popToRoot(){}[0]
+    final fun presentSheet(com.ukkera.brandkit.navigation/BrandRoute) // com.ukkera.brandkit.navigation/BrandNavigator.presentSheet|presentSheet(com.ukkera.brandkit.navigation.BrandRoute){}[0]
+    final fun push(com.ukkera.brandkit.navigation/BrandRoute) // com.ukkera.brandkit.navigation/BrandNavigator.push|push(com.ukkera.brandkit.navigation.BrandRoute){}[0]
+    final fun replaceStack(com.ukkera.brandkit.navigation/BrandTab, kotlin.collections/List<com.ukkera.brandkit.navigation/BrandRoute>) // com.ukkera.brandkit.navigation/BrandNavigator.replaceStack|replaceStack(com.ukkera.brandkit.navigation.BrandTab;kotlin.collections.List<com.ukkera.brandkit.navigation.BrandRoute>){}[0]
+    final fun replaceStack(kotlin.collections/List<com.ukkera.brandkit.navigation/BrandRoute>) // com.ukkera.brandkit.navigation/BrandNavigator.replaceStack|replaceStack(kotlin.collections.List<com.ukkera.brandkit.navigation.BrandRoute>){}[0]
+    final fun selectTab(com.ukkera.brandkit.navigation/BrandTab) // com.ukkera.brandkit.navigation/BrandNavigator.selectTab|selectTab(com.ukkera.brandkit.navigation.BrandTab){}[0]
+    final fun snapshot(): com.ukkera.brandkit.navigation/BrandNavSnapshot // com.ukkera.brandkit.navigation/BrandNavigator.snapshot|snapshot(){}[0]
+}
+
+final class com.ukkera.brandkit.theme/BrandCapabilities { // com.ukkera.brandkit.theme/BrandCapabilities|null[0]
+    constructor <init>(kotlin/Boolean = ...) // com.ukkera.brandkit.theme/BrandCapabilities.<init>|<init>(kotlin.Boolean){}[0]
+
+    final val isReduceMotionEnabled // com.ukkera.brandkit.theme/BrandCapabilities.isReduceMotionEnabled|{}isReduceMotionEnabled[0]
+        final fun <get-isReduceMotionEnabled>(): kotlin/Boolean // com.ukkera.brandkit.theme/BrandCapabilities.isReduceMotionEnabled.<get-isReduceMotionEnabled>|<get-isReduceMotionEnabled>(){}[0]
+
+    final fun component1(): kotlin/Boolean // com.ukkera.brandkit.theme/BrandCapabilities.component1|component1(){}[0]
+    final fun copy(kotlin/Boolean = ...): com.ukkera.brandkit.theme/BrandCapabilities // com.ukkera.brandkit.theme/BrandCapabilities.copy|copy(kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.theme/BrandCapabilities.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.theme/BrandCapabilities.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.theme/BrandCapabilities.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.theme/BrandStatusColors { // com.ukkera.brandkit.theme/BrandStatusColors|null[0]
+    constructor <init>(androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color) // com.ukkera.brandkit.theme/BrandStatusColors.<init>|<init>(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
+
+    final val info // com.ukkera.brandkit.theme/BrandStatusColors.info|{}info[0]
+        final fun <get-info>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.info.<get-info>|<get-info>(){}[0]
+    final val infoContainer // com.ukkera.brandkit.theme/BrandStatusColors.infoContainer|{}infoContainer[0]
+        final fun <get-infoContainer>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.infoContainer.<get-infoContainer>|<get-infoContainer>(){}[0]
+    final val onInfo // com.ukkera.brandkit.theme/BrandStatusColors.onInfo|{}onInfo[0]
+        final fun <get-onInfo>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.onInfo.<get-onInfo>|<get-onInfo>(){}[0]
+    final val onInfoContainer // com.ukkera.brandkit.theme/BrandStatusColors.onInfoContainer|{}onInfoContainer[0]
+        final fun <get-onInfoContainer>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.onInfoContainer.<get-onInfoContainer>|<get-onInfoContainer>(){}[0]
+    final val onSuccess // com.ukkera.brandkit.theme/BrandStatusColors.onSuccess|{}onSuccess[0]
+        final fun <get-onSuccess>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.onSuccess.<get-onSuccess>|<get-onSuccess>(){}[0]
+    final val onSuccessContainer // com.ukkera.brandkit.theme/BrandStatusColors.onSuccessContainer|{}onSuccessContainer[0]
+        final fun <get-onSuccessContainer>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.onSuccessContainer.<get-onSuccessContainer>|<get-onSuccessContainer>(){}[0]
+    final val onWarning // com.ukkera.brandkit.theme/BrandStatusColors.onWarning|{}onWarning[0]
+        final fun <get-onWarning>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.onWarning.<get-onWarning>|<get-onWarning>(){}[0]
+    final val onWarningContainer // com.ukkera.brandkit.theme/BrandStatusColors.onWarningContainer|{}onWarningContainer[0]
+        final fun <get-onWarningContainer>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.onWarningContainer.<get-onWarningContainer>|<get-onWarningContainer>(){}[0]
+    final val success // com.ukkera.brandkit.theme/BrandStatusColors.success|{}success[0]
+        final fun <get-success>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.success.<get-success>|<get-success>(){}[0]
+    final val successContainer // com.ukkera.brandkit.theme/BrandStatusColors.successContainer|{}successContainer[0]
+        final fun <get-successContainer>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.successContainer.<get-successContainer>|<get-successContainer>(){}[0]
+    final val warning // com.ukkera.brandkit.theme/BrandStatusColors.warning|{}warning[0]
+        final fun <get-warning>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.warning.<get-warning>|<get-warning>(){}[0]
+    final val warningContainer // com.ukkera.brandkit.theme/BrandStatusColors.warningContainer|{}warningContainer[0]
+        final fun <get-warningContainer>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.warningContainer.<get-warningContainer>|<get-warningContainer>(){}[0]
+
+    final fun component1(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component1|component1(){}[0]
+    final fun component10(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component10|component10(){}[0]
+    final fun component11(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component11|component11(){}[0]
+    final fun component12(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component12|component12(){}[0]
+    final fun component2(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component2|component2(){}[0]
+    final fun component3(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component3|component3(){}[0]
+    final fun component4(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component4|component4(){}[0]
+    final fun component5(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component5|component5(){}[0]
+    final fun component6(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component6|component6(){}[0]
+    final fun component7(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component7|component7(){}[0]
+    final fun component8(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component8|component8(){}[0]
+    final fun component9(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/BrandStatusColors.component9|component9(){}[0]
+    final fun copy(androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ...): com.ukkera.brandkit.theme/BrandStatusColors // com.ukkera.brandkit.theme/BrandStatusColors.copy|copy(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.theme/BrandStatusColors.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.theme/BrandStatusColors.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.theme/BrandStatusColors.toString|toString(){}[0]
+}
+
+final class com.ukkera.brandkit.theme/BrandTokens { // com.ukkera.brandkit.theme/BrandTokens|null[0]
+    constructor <init>(androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ...) // com.ukkera.brandkit.theme/BrandTokens.<init>|<init>(androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp){}[0]
+
+    final val buttonHeightLarge // com.ukkera.brandkit.theme/BrandTokens.buttonHeightLarge|{}buttonHeightLarge[0]
+        final fun <get-buttonHeightLarge>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.buttonHeightLarge.<get-buttonHeightLarge>|<get-buttonHeightLarge>(){}[0]
+    final val buttonHeightMedium // com.ukkera.brandkit.theme/BrandTokens.buttonHeightMedium|{}buttonHeightMedium[0]
+        final fun <get-buttonHeightMedium>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.buttonHeightMedium.<get-buttonHeightMedium>|<get-buttonHeightMedium>(){}[0]
+    final val buttonHeightSmall // com.ukkera.brandkit.theme/BrandTokens.buttonHeightSmall|{}buttonHeightSmall[0]
+        final fun <get-buttonHeightSmall>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.buttonHeightSmall.<get-buttonHeightSmall>|<get-buttonHeightSmall>(){}[0]
+    final val buttonPadHLarge // com.ukkera.brandkit.theme/BrandTokens.buttonPadHLarge|{}buttonPadHLarge[0]
+        final fun <get-buttonPadHLarge>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.buttonPadHLarge.<get-buttonPadHLarge>|<get-buttonPadHLarge>(){}[0]
+    final val buttonPadHMedium // com.ukkera.brandkit.theme/BrandTokens.buttonPadHMedium|{}buttonPadHMedium[0]
+        final fun <get-buttonPadHMedium>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.buttonPadHMedium.<get-buttonPadHMedium>|<get-buttonPadHMedium>(){}[0]
+    final val buttonPadHSmall // com.ukkera.brandkit.theme/BrandTokens.buttonPadHSmall|{}buttonPadHSmall[0]
+        final fun <get-buttonPadHSmall>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.buttonPadHSmall.<get-buttonPadHSmall>|<get-buttonPadHSmall>(){}[0]
+    final val buttonPadVLarge // com.ukkera.brandkit.theme/BrandTokens.buttonPadVLarge|{}buttonPadVLarge[0]
+        final fun <get-buttonPadVLarge>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.buttonPadVLarge.<get-buttonPadVLarge>|<get-buttonPadVLarge>(){}[0]
+    final val buttonPadVMedium // com.ukkera.brandkit.theme/BrandTokens.buttonPadVMedium|{}buttonPadVMedium[0]
+        final fun <get-buttonPadVMedium>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.buttonPadVMedium.<get-buttonPadVMedium>|<get-buttonPadVMedium>(){}[0]
+    final val buttonPadVSmall // com.ukkera.brandkit.theme/BrandTokens.buttonPadVSmall|{}buttonPadVSmall[0]
+        final fun <get-buttonPadVSmall>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.buttonPadVSmall.<get-buttonPadVSmall>|<get-buttonPadVSmall>(){}[0]
+    final val cornerMedium // com.ukkera.brandkit.theme/BrandTokens.cornerMedium|{}cornerMedium[0]
+        final fun <get-cornerMedium>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.cornerMedium.<get-cornerMedium>|<get-cornerMedium>(){}[0]
+    final val cornerSmall // com.ukkera.brandkit.theme/BrandTokens.cornerSmall|{}cornerSmall[0]
+        final fun <get-cornerSmall>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.cornerSmall.<get-cornerSmall>|<get-cornerSmall>(){}[0]
+    final val fieldMinHeight // com.ukkera.brandkit.theme/BrandTokens.fieldMinHeight|{}fieldMinHeight[0]
+        final fun <get-fieldMinHeight>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.fieldMinHeight.<get-fieldMinHeight>|<get-fieldMinHeight>(){}[0]
+    final val spacingLg // com.ukkera.brandkit.theme/BrandTokens.spacingLg|{}spacingLg[0]
+        final fun <get-spacingLg>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.spacingLg.<get-spacingLg>|<get-spacingLg>(){}[0]
+    final val spacingMd // com.ukkera.brandkit.theme/BrandTokens.spacingMd|{}spacingMd[0]
+        final fun <get-spacingMd>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.spacingMd.<get-spacingMd>|<get-spacingMd>(){}[0]
+    final val spacingSm // com.ukkera.brandkit.theme/BrandTokens.spacingSm|{}spacingSm[0]
+        final fun <get-spacingSm>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.spacingSm.<get-spacingSm>|<get-spacingSm>(){}[0]
+    final val spacingXs // com.ukkera.brandkit.theme/BrandTokens.spacingXs|{}spacingXs[0]
+        final fun <get-spacingXs>(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.spacingXs.<get-spacingXs>|<get-spacingXs>(){}[0]
+
+    final fun component1(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component1|component1(){}[0]
+    final fun component10(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component10|component10(){}[0]
+    final fun component11(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component11|component11(){}[0]
+    final fun component12(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component12|component12(){}[0]
+    final fun component13(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component13|component13(){}[0]
+    final fun component14(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component14|component14(){}[0]
+    final fun component15(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component15|component15(){}[0]
+    final fun component16(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component16|component16(){}[0]
+    final fun component2(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component2|component2(){}[0]
+    final fun component3(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component3|component3(){}[0]
+    final fun component4(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component4|component4(){}[0]
+    final fun component5(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component5|component5(){}[0]
+    final fun component6(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component6|component6(){}[0]
+    final fun component7(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component7|component7(){}[0]
+    final fun component8(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component8|component8(){}[0]
+    final fun component9(): androidx.compose.ui.unit/Dp // com.ukkera.brandkit.theme/BrandTokens.component9|component9(){}[0]
+    final fun copy(androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ...): com.ukkera.brandkit.theme/BrandTokens // com.ukkera.brandkit.theme/BrandTokens.copy|copy(androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.ukkera.brandkit.theme/BrandTokens.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.ukkera.brandkit.theme/BrandTokens.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.ukkera.brandkit.theme/BrandTokens.toString|toString(){}[0]
+}
+
+final object com.ukkera.brandkit.theme/BrandAppearance { // com.ukkera.brandkit.theme/BrandAppearance|null[0]
+    final var darkOverride // com.ukkera.brandkit.theme/BrandAppearance.darkOverride|{}darkOverride[0]
+        final fun <get-darkOverride>(): kotlin/Boolean? // com.ukkera.brandkit.theme/BrandAppearance.darkOverride.<get-darkOverride>|<get-darkOverride>(){}[0]
+    final var rtl // com.ukkera.brandkit.theme/BrandAppearance.rtl|{}rtl[0]
+        final fun <get-rtl>(): kotlin/Boolean // com.ukkera.brandkit.theme/BrandAppearance.rtl.<get-rtl>|<get-rtl>(){}[0]
+        final fun <set-rtl>(kotlin/Boolean) // com.ukkera.brandkit.theme/BrandAppearance.rtl.<set-rtl>|<set-rtl>(kotlin.Boolean){}[0]
+
+    final fun setDark(kotlin/Boolean) // com.ukkera.brandkit.theme/BrandAppearance.setDark|setDark(kotlin.Boolean){}[0]
+}
+
+final object com.ukkera.brandkit.theme/BrandTheme { // com.ukkera.brandkit.theme/BrandTheme|null[0]
+    final val statusColors // com.ukkera.brandkit.theme/BrandTheme.statusColors|{}statusColors[0]
+        final fun <get-statusColors>(androidx.compose.runtime/Composer?, kotlin/Int): com.ukkera.brandkit.theme/BrandStatusColors // com.ukkera.brandkit.theme/BrandTheme.statusColors.<get-statusColors>|<get-statusColors>(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+    final val tokens // com.ukkera.brandkit.theme/BrandTheme.tokens|{}tokens[0]
+        final fun <get-tokens>(androidx.compose.runtime/Composer?, kotlin/Int): com.ukkera.brandkit.theme/BrandTokens // com.ukkera.brandkit.theme/BrandTheme.tokens.<get-tokens>|<get-tokens>(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+}
+
+final val com.ukkera.brandkit.components.feedback/LocalBrandFeedbackController // com.ukkera.brandkit.components.feedback/LocalBrandFeedbackController|{}LocalBrandFeedbackController[0]
+    final fun <get-LocalBrandFeedbackController>(): androidx.compose.runtime/ProvidableCompositionLocal<com.ukkera.brandkit.components.feedback/BrandFeedbackController> // com.ukkera.brandkit.components.feedback/LocalBrandFeedbackController.<get-LocalBrandFeedbackController>|<get-LocalBrandFeedbackController>(){}[0]
+final val com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandAlertAction$stableprop // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandAlertAction$stableprop|#static{}com_ukkera_brandkit_components_feedback_BrandAlertAction$stableprop[0]
+final val com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandAlertIosOptions$stableprop // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandAlertIosOptions$stableprop|#static{}com_ukkera_brandkit_components_feedback_BrandAlertIosOptions$stableprop[0]
+final val com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandConfirmationSheetIosOptions$stableprop // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandConfirmationSheetIosOptions$stableprop|#static{}com_ukkera_brandkit_components_feedback_BrandConfirmationSheetIosOptions$stableprop[0]
+final val com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandFeedbackController$stableprop // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandFeedbackController$stableprop|#static{}com_ukkera_brandkit_components_feedback_BrandFeedbackController$stableprop[0]
+final val com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandSheetAction$stableprop // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandSheetAction$stableprop|#static{}com_ukkera_brandkit_components_feedback_BrandSheetAction$stableprop[0]
+final val com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandToastAndroidOptions$stableprop // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandToastAndroidOptions$stableprop|#static{}com_ukkera_brandkit_components_feedback_BrandToastAndroidOptions$stableprop[0]
+final val com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandButtonColors$stableprop // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandButtonColors$stableprop|#static{}com_ukkera_brandkit_components_model_BrandButtonColors$stableprop[0]
+final val com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandCharacterLimit$stableprop // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandCharacterLimit$stableprop|#static{}com_ukkera_brandkit_components_model_BrandCharacterLimit$stableprop[0]
+final val com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldColors$stableprop // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldColors$stableprop|#static{}com_ukkera_brandkit_components_model_BrandFieldColors$stableprop[0]
+final val com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldFocus$stableprop // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldFocus$stableprop|#static{}com_ukkera_brandkit_components_model_BrandFieldFocus$stableprop[0]
+final val com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldInput$stableprop // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldInput$stableprop|#static{}com_ukkera_brandkit_components_model_BrandFieldInput$stableprop[0]
+final val com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandIcon$stableprop // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandIcon$stableprop|#static{}com_ukkera_brandkit_components_model_BrandIcon$stableprop[0]
+final val com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandKeyboardAccessory$stableprop // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandKeyboardAccessory$stableprop|#static{}com_ukkera_brandkit_components_model_BrandKeyboardAccessory$stableprop[0]
+final val com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandMenu$stableprop // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandMenu$stableprop|#static{}com_ukkera_brandkit_components_model_BrandMenu$stableprop[0]
+final val com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandMenuItem$stableprop // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandMenuItem$stableprop|#static{}com_ukkera_brandkit_components_model_BrandMenuItem$stableprop[0]
+final val com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandTextFieldIosOptions$stableprop // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandTextFieldIosOptions$stableprop|#static{}com_ukkera_brandkit_components_model_BrandTextFieldIosOptions$stableprop[0]
+final val com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandColorWellIosOptions$stableprop // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandColorWellIosOptions$stableprop|#static{}com_ukkera_brandkit_components_BrandColorWellIosOptions$stableprop[0]
+final val com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Content$stableprop // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Content$stableprop|#static{}com_ukkera_brandkit_components_BrandLoadState_Content$stableprop[0]
+final val com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Empty$stableprop // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Empty$stableprop|#static{}com_ukkera_brandkit_components_BrandLoadState_Empty$stableprop[0]
+final val com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Error$stableprop // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Error$stableprop|#static{}com_ukkera_brandkit_components_BrandLoadState_Error$stableprop[0]
+final val com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Loading$stableprop // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Loading$stableprop|#static{}com_ukkera_brandkit_components_BrandLoadState_Loading$stableprop[0]
+final val com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandSearchBarIosOptions$stableprop // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandSearchBarIosOptions$stableprop|#static{}com_ukkera_brandkit_components_BrandSearchBarIosOptions$stableprop[0]
+final val com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandShare$stableprop // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandShare$stableprop|#static{}com_ukkera_brandkit_components_BrandShare$stableprop[0]
+final val com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandShareContent$stableprop // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandShareContent$stableprop|#static{}com_ukkera_brandkit_components_BrandShareContent$stableprop[0]
+final val com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandSwipeAction$stableprop // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandSwipeAction$stableprop|#static{}com_ukkera_brandkit_components_BrandSwipeAction$stableprop[0]
+final val com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavBarItem$stableprop // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavBarItem$stableprop|#static{}com_ukkera_brandkit_navigation_BrandNavBarItem$stableprop[0]
+final val com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavBridge$stableprop // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavBridge$stableprop|#static{}com_ukkera_brandkit_navigation_BrandNavBridge$stableprop[0]
+final val com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavGraph$stableprop // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavGraph$stableprop|#static{}com_ukkera_brandkit_navigation_BrandNavGraph$stableprop[0]
+final val com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavGraphBuilder$stableprop // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavGraphBuilder$stableprop|#static{}com_ukkera_brandkit_navigation_BrandNavGraphBuilder$stableprop[0]
+final val com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavSnapshot$stableprop // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavSnapshot$stableprop|#static{}com_ukkera_brandkit_navigation_BrandNavSnapshot$stableprop[0]
+final val com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavigationState$stableprop // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavigationState$stableprop|#static{}com_ukkera_brandkit_navigation_BrandNavigationState$stableprop[0]
+final val com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavigator$stableprop // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavigator$stableprop|#static{}com_ukkera_brandkit_navigation_BrandNavigator$stableprop[0]
+final val com.ukkera.brandkit.theme/LocalBrandCapabilities // com.ukkera.brandkit.theme/LocalBrandCapabilities|{}LocalBrandCapabilities[0]
+    final fun <get-LocalBrandCapabilities>(): androidx.compose.runtime/ProvidableCompositionLocal<com.ukkera.brandkit.theme/BrandCapabilities> // com.ukkera.brandkit.theme/LocalBrandCapabilities.<get-LocalBrandCapabilities>|<get-LocalBrandCapabilities>(){}[0]
+final val com.ukkera.brandkit.theme/LocalBrandStatusColors // com.ukkera.brandkit.theme/LocalBrandStatusColors|{}LocalBrandStatusColors[0]
+    final fun <get-LocalBrandStatusColors>(): androidx.compose.runtime/ProvidableCompositionLocal<com.ukkera.brandkit.theme/BrandStatusColors> // com.ukkera.brandkit.theme/LocalBrandStatusColors.<get-LocalBrandStatusColors>|<get-LocalBrandStatusColors>(){}[0]
+final val com.ukkera.brandkit.theme/LocalBrandSurface // com.ukkera.brandkit.theme/LocalBrandSurface|{}LocalBrandSurface[0]
+    final fun <get-LocalBrandSurface>(): androidx.compose.runtime/ProvidableCompositionLocal<androidx.compose.ui.graphics/Color> // com.ukkera.brandkit.theme/LocalBrandSurface.<get-LocalBrandSurface>|<get-LocalBrandSurface>(){}[0]
+final val com.ukkera.brandkit.theme/LocalBrandTokens // com.ukkera.brandkit.theme/LocalBrandTokens|{}LocalBrandTokens[0]
+    final fun <get-LocalBrandTokens>(): androidx.compose.runtime/ProvidableCompositionLocal<com.ukkera.brandkit.theme/BrandTokens> // com.ukkera.brandkit.theme/LocalBrandTokens.<get-LocalBrandTokens>|<get-LocalBrandTokens>(){}[0]
+final val com.ukkera.brandkit.theme/brandDarkBackground // com.ukkera.brandkit.theme/brandDarkBackground|{}brandDarkBackground[0]
+    final fun <get-brandDarkBackground>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/brandDarkBackground.<get-brandDarkBackground>|<get-brandDarkBackground>(){}[0]
+final val com.ukkera.brandkit.theme/brandLightBackground // com.ukkera.brandkit.theme/brandLightBackground|{}brandLightBackground[0]
+    final fun <get-brandLightBackground>(): androidx.compose.ui.graphics/Color // com.ukkera.brandkit.theme/brandLightBackground.<get-brandLightBackground>|<get-brandLightBackground>(){}[0]
+final val com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandAppearance$stableprop // com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandAppearance$stableprop|#static{}com_ukkera_brandkit_theme_BrandAppearance$stableprop[0]
+final val com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandCapabilities$stableprop // com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandCapabilities$stableprop|#static{}com_ukkera_brandkit_theme_BrandCapabilities$stableprop[0]
+final val com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandStatusColors$stableprop // com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandStatusColors$stableprop|#static{}com_ukkera_brandkit_theme_BrandStatusColors$stableprop[0]
+final val com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandTheme$stableprop // com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandTheme$stableprop|#static{}com_ukkera_brandkit_theme_BrandTheme$stableprop[0]
+final val com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandTokens$stableprop // com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandTokens$stableprop|#static{}com_ukkera_brandkit_theme_BrandTokens$stableprop[0]
+
+final fun (androidx.compose.ui/Modifier).com.ukkera.brandkit.components/brandDismissKeyboardOnTap(androidx.compose.runtime/Composer?, kotlin/Int): androidx.compose.ui/Modifier // com.ukkera.brandkit.components/brandDismissKeyboardOnTap|brandDismissKeyboardOnTap@androidx.compose.ui.Modifier(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun (androidx.compose.ui/Modifier).com.ukkera.brandkit.components/brandHeading(): androidx.compose.ui/Modifier // com.ukkera.brandkit.components/brandHeading|brandHeading@androidx.compose.ui.Modifier(){}[0]
+final fun <#A: kotlin/Any?> com.ukkera.brandkit.components/BrandContentState(com.ukkera.brandkit.components/BrandLoadState<#A>, androidx.compose.ui/Modifier?, kotlin/Function0<kotlin/Unit>?, kotlin/String?, kotlin/String?, androidx.compose.ui.graphics.vector/ImageVector?, kotlin/String?, kotlin/String?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function3<com.ukkera.brandkit.components/BrandLoadState.Error, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function3<#A, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandContentState|BrandContentState(com.ukkera.brandkit.components.BrandLoadState<0:0>;androidx.compose.ui.Modifier?;kotlin.Function0<kotlin.Unit>?;kotlin.String?;kotlin.String?;androidx.compose.ui.graphics.vector.ImageVector?;kotlin.String?;kotlin.String?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function3<com.ukkera.brandkit.components.BrandLoadState.Error,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function3<0:0,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){0§<kotlin.Any?>}[0]
+final fun <#A: kotlin/Any?> com.ukkera.brandkit.components/BrandRadioGroup(kotlin.collections/List<#A>, #A?, kotlin/Function1<#A, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Function1<#A, kotlin/String>?, kotlin/Boolean, com.ukkera.brandkit.components/BrandSelectionStyle?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandRadioGroup|BrandRadioGroup(kotlin.collections.List<0:0>;0:0?;kotlin.Function1<0:0,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Function1<0:0,kotlin.String>?;kotlin.Boolean;com.ukkera.brandkit.components.BrandSelectionStyle?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){0§<kotlin.Any?>}[0]
+final fun com.ukkera.brandkit.components.feedback/BrandFeedbackHost(com.ukkera.brandkit.components.feedback/BrandFeedbackController?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components.feedback/BrandFeedbackHost|BrandFeedbackHost(com.ukkera.brandkit.components.feedback.BrandFeedbackController?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components.feedback/BrandInlineStatus(kotlin/String, com.ukkera.brandkit.components.feedback/BrandFeedbackStatus?, androidx.compose.ui/Modifier?, kotlin/String?, androidx.compose.ui.graphics.vector/ImageVector?, kotlin/Boolean, kotlin/Boolean, kotlin/String?, kotlin/Function0<kotlin/Unit>?, kotlin/Function0<kotlin/Unit>?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components.feedback/BrandInlineStatus|BrandInlineStatus(kotlin.String;com.ukkera.brandkit.components.feedback.BrandFeedbackStatus?;androidx.compose.ui.Modifier?;kotlin.String?;androidx.compose.ui.graphics.vector.ImageVector?;kotlin.Boolean;kotlin.Boolean;kotlin.String?;kotlin.Function0<kotlin.Unit>?;kotlin.Function0<kotlin.Unit>?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandAlertAction$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandAlertAction$stableprop_getter|com_ukkera_brandkit_components_feedback_BrandAlertAction$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandAlertIosOptions$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandAlertIosOptions$stableprop_getter|com_ukkera_brandkit_components_feedback_BrandAlertIosOptions$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandConfirmationSheetIosOptions$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandConfirmationSheetIosOptions$stableprop_getter|com_ukkera_brandkit_components_feedback_BrandConfirmationSheetIosOptions$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandFeedbackController$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandFeedbackController$stableprop_getter|com_ukkera_brandkit_components_feedback_BrandFeedbackController$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandSheetAction$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandSheetAction$stableprop_getter|com_ukkera_brandkit_components_feedback_BrandSheetAction$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandToastAndroidOptions$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.feedback/com_ukkera_brandkit_components_feedback_BrandToastAndroidOptions$stableprop_getter|com_ukkera_brandkit_components_feedback_BrandToastAndroidOptions$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.feedback/rememberBrandFeedbackController(androidx.compose.runtime/Composer?, kotlin/Int): com.ukkera.brandkit.components.feedback/BrandFeedbackController // com.ukkera.brandkit.components.feedback/rememberBrandFeedbackController|rememberBrandFeedbackController(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandButtonColors$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandButtonColors$stableprop_getter|com_ukkera_brandkit_components_model_BrandButtonColors$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandCharacterLimit$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandCharacterLimit$stableprop_getter|com_ukkera_brandkit_components_model_BrandCharacterLimit$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldColors$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldColors$stableprop_getter|com_ukkera_brandkit_components_model_BrandFieldColors$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldFocus$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldFocus$stableprop_getter|com_ukkera_brandkit_components_model_BrandFieldFocus$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldInput$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandFieldInput$stableprop_getter|com_ukkera_brandkit_components_model_BrandFieldInput$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandIcon$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandIcon$stableprop_getter|com_ukkera_brandkit_components_model_BrandIcon$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandKeyboardAccessory$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandKeyboardAccessory$stableprop_getter|com_ukkera_brandkit_components_model_BrandKeyboardAccessory$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandMenu$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandMenu$stableprop_getter|com_ukkera_brandkit_components_model_BrandMenu$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandMenuItem$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandMenuItem$stableprop_getter|com_ukkera_brandkit_components_model_BrandMenuItem$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandTextFieldIosOptions$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components.model/com_ukkera_brandkit_components_model_BrandTextFieldIosOptions$stableprop_getter|com_ukkera_brandkit_components_model_BrandTextFieldIosOptions$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components/BrandAvatar(androidx.compose.ui/Modifier?, androidx.compose.ui.graphics.painter/Painter?, kotlin/String?, androidx.compose.ui.graphics.vector/ImageVector?, com.ukkera.brandkit.components/BrandAvatarSize?, com.ukkera.brandkit.components/BrandAvatarShape?, androidx.compose.ui.graphics/Color?, androidx.compose.ui.graphics/Color?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandAvatar|BrandAvatar(androidx.compose.ui.Modifier?;androidx.compose.ui.graphics.painter.Painter?;kotlin.String?;androidx.compose.ui.graphics.vector.ImageVector?;com.ukkera.brandkit.components.BrandAvatarSize?;com.ukkera.brandkit.components.BrandAvatarShape?;androidx.compose.ui.graphics.Color?;androidx.compose.ui.graphics.Color?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandBadge(androidx.compose.ui/Modifier?, kotlin/Int?, kotlin/Int, androidx.compose.ui.graphics/Color?, androidx.compose.ui.graphics/Color?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandBadge|BrandBadge(androidx.compose.ui.Modifier?;kotlin.Int?;kotlin.Int;androidx.compose.ui.graphics.Color?;androidx.compose.ui.graphics.Color?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandBadgedBox(kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Function3<androidx.compose.foundation.layout/BoxScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandBadgedBox|BrandBadgedBox(kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Function3<androidx.compose.foundation.layout.BoxScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandButton(kotlin/String, kotlin/Function0<kotlin/Unit>, androidx.compose.ui/Modifier?, com.ukkera.brandkit.components.model/BrandButtonVariant?, com.ukkera.brandkit.components.model/BrandButtonSize?, com.ukkera.brandkit.components.model/BrandButtonShape?, kotlin/Boolean, kotlin/Boolean, kotlin/Boolean, com.ukkera.brandkit.components.model/BrandIcon?, com.ukkera.brandkit.components.model/BrandIcon?, com.ukkera.brandkit.components.model/BrandMenu?, androidx.compose.foundation.layout/PaddingValues?, androidx.compose.ui.unit/Dp?, com.ukkera.brandkit.components.model/BrandButtonColors?, androidx.compose.ui.text/TextStyle?, com.ukkera.brandkit.components.model/BrandInteropTouch?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandButton|BrandButton(kotlin.String;kotlin.Function0<kotlin.Unit>;androidx.compose.ui.Modifier?;com.ukkera.brandkit.components.model.BrandButtonVariant?;com.ukkera.brandkit.components.model.BrandButtonSize?;com.ukkera.brandkit.components.model.BrandButtonShape?;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;com.ukkera.brandkit.components.model.BrandIcon?;com.ukkera.brandkit.components.model.BrandIcon?;com.ukkera.brandkit.components.model.BrandMenu?;androidx.compose.foundation.layout.PaddingValues?;androidx.compose.ui.unit.Dp?;com.ukkera.brandkit.components.model.BrandButtonColors?;androidx.compose.ui.text.TextStyle?;com.ukkera.brandkit.components.model.BrandInteropTouch?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandCard(androidx.compose.ui/Modifier?, com.ukkera.brandkit.components/BrandCardVariant?, kotlin/Function0<kotlin/Unit>?, kotlin/String?, kotlin/Boolean, androidx.compose.ui.unit/Dp?, androidx.compose.foundation.layout/PaddingValues?, androidx.compose.ui.graphics/Color?, androidx.compose.ui.graphics/Color?, kotlin/String?, kotlin/String?, kotlin/Function3<androidx.compose.foundation.layout/ColumnScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandCard|BrandCard(androidx.compose.ui.Modifier?;com.ukkera.brandkit.components.BrandCardVariant?;kotlin.Function0<kotlin.Unit>?;kotlin.String?;kotlin.Boolean;androidx.compose.ui.unit.Dp?;androidx.compose.foundation.layout.PaddingValues?;androidx.compose.ui.graphics.Color?;androidx.compose.ui.graphics.Color?;kotlin.String?;kotlin.String?;kotlin.Function3<androidx.compose.foundation.layout.ColumnScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandCheckbox(kotlin/Boolean, kotlin/Function1<kotlin/Boolean, kotlin/Unit>?, androidx.compose.ui/Modifier?, kotlin/String?, kotlin/Boolean, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandCheckbox|BrandCheckbox(kotlin.Boolean;kotlin.Function1<kotlin.Boolean,kotlin.Unit>?;androidx.compose.ui.Modifier?;kotlin.String?;kotlin.Boolean;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandChip(kotlin/String, androidx.compose.ui/Modifier?, com.ukkera.brandkit.components/BrandChipStyle?, kotlin/Boolean, kotlin/Function0<kotlin/Unit>?, kotlin/Boolean, androidx.compose.ui.graphics.vector/ImageVector?, androidx.compose.ui.graphics.vector/ImageVector?, kotlin/Function0<kotlin/Unit>?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandChip|BrandChip(kotlin.String;androidx.compose.ui.Modifier?;com.ukkera.brandkit.components.BrandChipStyle?;kotlin.Boolean;kotlin.Function0<kotlin.Unit>?;kotlin.Boolean;androidx.compose.ui.graphics.vector.ImageVector?;androidx.compose.ui.graphics.vector.ImageVector?;kotlin.Function0<kotlin.Unit>?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandColorWell(androidx.compose.ui.graphics/Color, kotlin/Function1<androidx.compose.ui.graphics/Color, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Boolean, kotlin/String?, kotlin/String?, com.ukkera.brandkit.components/BrandColorWellIosOptions?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandColorWell|BrandColorWell(androidx.compose.ui.graphics.Color;kotlin.Function1<androidx.compose.ui.graphics.Color,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Boolean;kotlin.String?;kotlin.String?;com.ukkera.brandkit.components.BrandColorWellIosOptions?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandDatePicker(kotlin/Long?, kotlin/Function1<kotlin/Long, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Long?, kotlin/Long?, kotlin/Boolean, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandDatePicker|BrandDatePicker(kotlin.Long?;kotlin.Function1<kotlin.Long,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Long?;kotlin.Long?;kotlin.Boolean;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandDialog(kotlin/Function0<kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/String?, kotlin/Boolean, kotlin/Boolean, kotlin/String?, kotlin/Function3<androidx.compose.foundation.layout/RowScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function3<androidx.compose.foundation.layout/ColumnScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandDialog|BrandDialog(kotlin.Function0<kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.String?;kotlin.Boolean;kotlin.Boolean;kotlin.String?;kotlin.Function3<androidx.compose.foundation.layout.RowScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function3<androidx.compose.foundation.layout.ColumnScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandDivider(androidx.compose.ui/Modifier?, com.ukkera.brandkit.components/BrandDividerOrientation?, androidx.compose.ui.unit/Dp, androidx.compose.ui.graphics/Color?, androidx.compose.ui.unit/Dp, androidx.compose.ui.unit/Dp, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandDivider|BrandDivider(androidx.compose.ui.Modifier?;com.ukkera.brandkit.components.BrandDividerOrientation?;androidx.compose.ui.unit.Dp;androidx.compose.ui.graphics.Color?;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandEmptyState(kotlin/String, androidx.compose.ui/Modifier?, kotlin/String?, androidx.compose.ui.graphics.vector/ImageVector?, kotlin/String?, kotlin/Function0<kotlin/Unit>?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandEmptyState|BrandEmptyState(kotlin.String;androidx.compose.ui.Modifier?;kotlin.String?;androidx.compose.ui.graphics.vector.ImageVector?;kotlin.String?;kotlin.Function0<kotlin.Unit>?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandIconButton(com.ukkera.brandkit.components.model/BrandIcon, kotlin/Function0<kotlin/Unit>, kotlin/String, androidx.compose.ui/Modifier?, com.ukkera.brandkit.components.model/BrandButtonVariant?, com.ukkera.brandkit.components.model/BrandButtonSize?, kotlin/Boolean, kotlin/Boolean, com.ukkera.brandkit.components.model/BrandMenu?, androidx.compose.ui.unit/Dp?, com.ukkera.brandkit.components.model/BrandButtonColors?, com.ukkera.brandkit.components.model/BrandInteropTouch?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandIconButton|BrandIconButton(com.ukkera.brandkit.components.model.BrandIcon;kotlin.Function0<kotlin.Unit>;kotlin.String;androidx.compose.ui.Modifier?;com.ukkera.brandkit.components.model.BrandButtonVariant?;com.ukkera.brandkit.components.model.BrandButtonSize?;kotlin.Boolean;kotlin.Boolean;com.ukkera.brandkit.components.model.BrandMenu?;androidx.compose.ui.unit.Dp?;com.ukkera.brandkit.components.model.BrandButtonColors?;com.ukkera.brandkit.components.model.BrandInteropTouch?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandListItem(kotlin/String, androidx.compose.ui/Modifier?, kotlin/String?, kotlin/String?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/String?, kotlin/Function0<kotlin/Unit>?, kotlin/String?, kotlin/Function0<kotlin/Unit>?, kotlin/String?, kotlin/Boolean, kotlin/Boolean, kotlin/Boolean, com.ukkera.brandkit.components/BrandSwipeAction?, androidx.compose.ui.unit/Dp, androidx.compose.foundation.layout/PaddingValues?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandListItem|BrandListItem(kotlin.String;androidx.compose.ui.Modifier?;kotlin.String?;kotlin.String?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.String?;kotlin.Function0<kotlin.Unit>?;kotlin.String?;kotlin.Function0<kotlin.Unit>?;kotlin.String?;kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;com.ukkera.brandkit.components.BrandSwipeAction?;androidx.compose.ui.unit.Dp;androidx.compose.foundation.layout.PaddingValues?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandListSection(kotlin.collections/List<kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>>, androidx.compose.ui/Modifier?, kotlin/String?, kotlin/String?, com.ukkera.brandkit.components/BrandListSectionStyle?, kotlin/Boolean, androidx.compose.ui.unit/Dp, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandListSection|BrandListSection(kotlin.collections.List<kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>>;androidx.compose.ui.Modifier?;kotlin.String?;kotlin.String?;com.ukkera.brandkit.components.BrandListSectionStyle?;kotlin.Boolean;androidx.compose.ui.unit.Dp;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandOtpField(kotlin/String, kotlin/Function1<kotlin/String, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Int, kotlin/Boolean, kotlin/Boolean, kotlin/Function1<kotlin/String, kotlin/Unit>?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandOtpField|BrandOtpField(kotlin.String;kotlin.Function1<kotlin.String,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Int;kotlin.Boolean;kotlin.Boolean;kotlin.Function1<kotlin.String,kotlin.Unit>?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandPageControl(kotlin/Int, kotlin/Int, androidx.compose.ui/Modifier?, kotlin/Function1<kotlin/Int, kotlin/Unit>?, androidx.compose.ui.graphics/Color?, androidx.compose.ui.graphics/Color?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandPageControl|BrandPageControl(kotlin.Int;kotlin.Int;androidx.compose.ui.Modifier?;kotlin.Function1<kotlin.Int,kotlin.Unit>?;androidx.compose.ui.graphics.Color?;androidx.compose.ui.graphics.Color?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandPopover(kotlin/Boolean, kotlin/Function0<kotlin/Unit>, androidx.compose.ui/Modifier?, androidx.compose.ui/Alignment?, kotlin/String?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandPopover|BrandPopover(kotlin.Boolean;kotlin.Function0<kotlin.Unit>;androidx.compose.ui.Modifier?;androidx.compose.ui.Alignment?;kotlin.String?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandProgressIndicator(androidx.compose.ui/Modifier?, com.ukkera.brandkit.components/BrandProgressKind?, kotlin/Float?, androidx.compose.ui.graphics/Color?, androidx.compose.ui.graphics/Color?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandProgressIndicator|BrandProgressIndicator(androidx.compose.ui.Modifier?;com.ukkera.brandkit.components.BrandProgressKind?;kotlin.Float?;androidx.compose.ui.graphics.Color?;androidx.compose.ui.graphics.Color?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandPullRefresh(kotlin/Boolean, kotlin/Function0<kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Function3<androidx.compose.foundation.layout/BoxScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandPullRefresh|BrandPullRefresh(kotlin.Boolean;kotlin.Function0<kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Function3<androidx.compose.foundation.layout.BoxScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandRating(kotlin/Float, androidx.compose.ui/Modifier?, kotlin/Function1<kotlin/Float, kotlin/Unit>?, kotlin/Boolean, kotlin/Int, androidx.compose.ui.unit/Dp, kotlin/Boolean, androidx.compose.ui.graphics/Color?, androidx.compose.ui.graphics/Color?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandRating|BrandRating(kotlin.Float;androidx.compose.ui.Modifier?;kotlin.Function1<kotlin.Float,kotlin.Unit>?;kotlin.Boolean;kotlin.Int;androidx.compose.ui.unit.Dp;kotlin.Boolean;androidx.compose.ui.graphics.Color?;androidx.compose.ui.graphics.Color?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandScaffold(androidx.compose.ui/Modifier?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, androidx.compose.ui.graphics/Color?, androidx.compose.ui.graphics/Color?, androidx.compose.foundation.layout/WindowInsets?, kotlin/Function3<androidx.compose.foundation.layout/PaddingValues, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandScaffold|BrandScaffold(androidx.compose.ui.Modifier?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;androidx.compose.ui.graphics.Color?;androidx.compose.ui.graphics.Color?;androidx.compose.foundation.layout.WindowInsets?;kotlin.Function3<androidx.compose.foundation.layout.PaddingValues,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandSearchBar(kotlin/String, kotlin/Function1<kotlin/String, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/String?, kotlin/Function0<kotlin/Unit>?, kotlin/Function0<kotlin/Unit>?, kotlin/Boolean, kotlin/String?, kotlin/String?, com.ukkera.brandkit.components/BrandSearchBarIosOptions?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandSearchBar|BrandSearchBar(kotlin.String;kotlin.Function1<kotlin.String,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.String?;kotlin.Function0<kotlin.Unit>?;kotlin.Function0<kotlin.Unit>?;kotlin.Boolean;kotlin.String?;kotlin.String?;com.ukkera.brandkit.components.BrandSearchBarIosOptions?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandSegmentedControl(kotlin.collections/List<kotlin/String>, kotlin/Int, kotlin/Function1<kotlin/Int, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Boolean, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandSegmentedControl|BrandSegmentedControl(kotlin.collections.List<kotlin.String>;kotlin.Int;kotlin.Function1<kotlin.Int,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Boolean;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandSheet(kotlin/Boolean, kotlin/Function0<kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin.collections/List<com.ukkera.brandkit.components/BrandSheetDetent>?, kotlin/Boolean, kotlin/String?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandSheet|BrandSheet(kotlin.Boolean;kotlin.Function0<kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.collections.List<com.ukkera.brandkit.components.BrandSheetDetent>?;kotlin.Boolean;kotlin.String?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandSkeleton(androidx.compose.ui/Modifier?, androidx.compose.ui.graphics/Shape?, kotlin/Boolean, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandSkeleton|BrandSkeleton(androidx.compose.ui.Modifier?;androidx.compose.ui.graphics.Shape?;kotlin.Boolean;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandSlider(kotlin/Float, kotlin/Function1<kotlin/Float, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin.ranges/ClosedFloatingPointRange<kotlin/Float>?, kotlin/Boolean, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandSlider|BrandSlider(kotlin.Float;kotlin.Function1<kotlin.Float,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.ranges.ClosedFloatingPointRange<kotlin.Float>?;kotlin.Boolean;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandSplitButton(kotlin/String, kotlin/Function0<kotlin/Unit>, com.ukkera.brandkit.components.model/BrandMenu, androidx.compose.ui/Modifier?, com.ukkera.brandkit.components.model/BrandButtonVariant?, com.ukkera.brandkit.components.model/BrandButtonSize?, kotlin/Boolean, kotlin/Boolean, com.ukkera.brandkit.components.model/BrandIcon?, androidx.compose.ui.unit/Dp?, com.ukkera.brandkit.components.model/BrandButtonColors?, androidx.compose.ui.text/TextStyle?, com.ukkera.brandkit.components.model/BrandInteropTouch?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandSplitButton|BrandSplitButton(kotlin.String;kotlin.Function0<kotlin.Unit>;com.ukkera.brandkit.components.model.BrandMenu;androidx.compose.ui.Modifier?;com.ukkera.brandkit.components.model.BrandButtonVariant?;com.ukkera.brandkit.components.model.BrandButtonSize?;kotlin.Boolean;kotlin.Boolean;com.ukkera.brandkit.components.model.BrandIcon?;androidx.compose.ui.unit.Dp?;com.ukkera.brandkit.components.model.BrandButtonColors?;androidx.compose.ui.text.TextStyle?;com.ukkera.brandkit.components.model.BrandInteropTouch?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandStepper(kotlin/Int, kotlin/Function1<kotlin/Int, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Int, kotlin/Int, kotlin/Int, kotlin/Boolean, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandStepper|BrandStepper(kotlin.Int;kotlin.Function1<kotlin.Int,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Boolean;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandTabBar(kotlin.collections/List<kotlin/String>, kotlin/Int, kotlin/Function1<kotlin/Int, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandTabBar|BrandTabBar(kotlin.collections.List<kotlin.String>;kotlin.Int;kotlin.Function1<kotlin.Int,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandText(kotlin/String, androidx.compose.ui/Modifier?, com.ukkera.brandkit.components.model/BrandTextStyle?, androidx.compose.ui.graphics/Color, androidx.compose.ui.text.font/FontWeight?, androidx.compose.ui.text.style/TextAlign?, kotlin/Int, androidx.compose.ui.text.style/TextOverflow, androidx.compose.ui.text/TextStyle?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandText|BrandText(kotlin.String;androidx.compose.ui.Modifier?;com.ukkera.brandkit.components.model.BrandTextStyle?;androidx.compose.ui.graphics.Color;androidx.compose.ui.text.font.FontWeight?;androidx.compose.ui.text.style.TextAlign?;kotlin.Int;androidx.compose.ui.text.style.TextOverflow;androidx.compose.ui.text.TextStyle?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandText(kotlin/String, androidx.compose.ui/Modifier?, com.ukkera.brandkit.components.model/BrandTextStyle?, androidx.compose.ui.graphics/Color, androidx.compose.ui.text.font/FontWeight?, androidx.compose.ui.text.style/TextAlign?, kotlin/Int, androidx.compose.ui.text.style/TextOverflow?, androidx.compose.ui.text/TextStyle?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandText|BrandText(kotlin.String;androidx.compose.ui.Modifier?;com.ukkera.brandkit.components.model.BrandTextStyle?;androidx.compose.ui.graphics.Color;androidx.compose.ui.text.font.FontWeight?;androidx.compose.ui.text.style.TextAlign?;kotlin.Int;androidx.compose.ui.text.style.TextOverflow?;androidx.compose.ui.text.TextStyle?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandTextField(kotlin/String, kotlin/Function1<kotlin/String, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Boolean, kotlin/Boolean, kotlin/String?, kotlin/String?, kotlin/String?, kotlin/String?, kotlin/Boolean, com.ukkera.brandkit.components.model/BrandIcon?, com.ukkera.brandkit.components.model/BrandIcon?, kotlin/Function0<kotlin/Unit>?, com.ukkera.brandkit.components.model/BrandFieldInput?, com.ukkera.brandkit.components.model/BrandFieldFocus?, com.ukkera.brandkit.components.model/BrandTextContentType?, com.ukkera.brandkit.components.model/BrandFieldColors?, androidx.compose.ui.unit/Dp?, androidx.compose.ui.text/TextStyle?, com.ukkera.brandkit.components.model/BrandInteropTouch?, kotlin/String?, kotlin/String?, com.ukkera.brandkit.components.model/BrandTextFieldIosOptions?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandTextField|BrandTextField(kotlin.String;kotlin.Function1<kotlin.String,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Boolean;kotlin.Boolean;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.Boolean;com.ukkera.brandkit.components.model.BrandIcon?;com.ukkera.brandkit.components.model.BrandIcon?;kotlin.Function0<kotlin.Unit>?;com.ukkera.brandkit.components.model.BrandFieldInput?;com.ukkera.brandkit.components.model.BrandFieldFocus?;com.ukkera.brandkit.components.model.BrandTextContentType?;com.ukkera.brandkit.components.model.BrandFieldColors?;androidx.compose.ui.unit.Dp?;androidx.compose.ui.text.TextStyle?;com.ukkera.brandkit.components.model.BrandInteropTouch?;kotlin.String?;kotlin.String?;com.ukkera.brandkit.components.model.BrandTextFieldIosOptions?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandToggle(kotlin/Boolean, kotlin/Function1<kotlin/Boolean, kotlin/Unit>?, androidx.compose.ui/Modifier?, kotlin/Boolean, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandToggle|BrandToggle(kotlin.Boolean;kotlin.Function1<kotlin.Boolean,kotlin.Unit>?;androidx.compose.ui.Modifier?;kotlin.Boolean;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandTooltip(kotlin/String, androidx.compose.ui/Modifier?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandTooltip|BrandTooltip(kotlin.String;androidx.compose.ui.Modifier?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/BrandTopBar(kotlin/String, androidx.compose.ui/Modifier?, kotlin/String?, androidx.compose.ui.graphics.vector/ImageVector?, kotlin/Function0<kotlin/Unit>?, kotlin/String?, kotlin/Boolean, kotlin/String?, kotlin/Function3<androidx.compose.foundation.layout/RowScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.components/BrandTopBar|BrandTopBar(kotlin.String;androidx.compose.ui.Modifier?;kotlin.String?;androidx.compose.ui.graphics.vector.ImageVector?;kotlin.Function0<kotlin.Unit>?;kotlin.String?;kotlin.Boolean;kotlin.String?;kotlin.Function3<androidx.compose.foundation.layout.RowScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandColorWellIosOptions$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandColorWellIosOptions$stableprop_getter|com_ukkera_brandkit_components_BrandColorWellIosOptions$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Content$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Content$stableprop_getter|com_ukkera_brandkit_components_BrandLoadState_Content$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Empty$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Empty$stableprop_getter|com_ukkera_brandkit_components_BrandLoadState_Empty$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Error$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Error$stableprop_getter|com_ukkera_brandkit_components_BrandLoadState_Error$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Loading$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandLoadState_Loading$stableprop_getter|com_ukkera_brandkit_components_BrandLoadState_Loading$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandSearchBarIosOptions$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandSearchBarIosOptions$stableprop_getter|com_ukkera_brandkit_components_BrandSearchBarIosOptions$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandShare$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandShare$stableprop_getter|com_ukkera_brandkit_components_BrandShare$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandShareContent$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandShareContent$stableprop_getter|com_ukkera_brandkit_components_BrandShareContent$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandSwipeAction$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.components/com_ukkera_brandkit_components_BrandSwipeAction$stableprop_getter|com_ukkera_brandkit_components_BrandSwipeAction$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.components/rememberBrandShare(androidx.compose.runtime/Composer?, kotlin/Int): com.ukkera.brandkit.components/BrandShare // com.ukkera.brandkit.components/rememberBrandShare|rememberBrandShare(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.navigation/BrandNavHost(com.ukkera.brandkit.navigation/BrandNavigator, com.ukkera.brandkit.navigation/BrandNavGraph, kotlin.collections/List<com.ukkera.brandkit.navigation/BrandNavBarItem>, androidx.compose.ui/Modifier?, kotlin/Function1<com.ukkera.brandkit.navigation/BrandRoute, kotlin/String>?, kotlin/Function3<androidx.compose.foundation.layout/RowScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.navigation/BrandNavHost|BrandNavHost(com.ukkera.brandkit.navigation.BrandNavigator;com.ukkera.brandkit.navigation.BrandNavGraph;kotlin.collections.List<com.ukkera.brandkit.navigation.BrandNavBarItem>;androidx.compose.ui.Modifier?;kotlin.Function1<com.ukkera.brandkit.navigation.BrandRoute,kotlin.String>?;kotlin.Function3<androidx.compose.foundation.layout.RowScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.navigation/brandNavGraph(kotlin/Function1<com.ukkera.brandkit.navigation/BrandNavGraphBuilder, kotlin/Unit>): com.ukkera.brandkit.navigation/BrandNavGraph // com.ukkera.brandkit.navigation/brandNavGraph|brandNavGraph(kotlin.Function1<com.ukkera.brandkit.navigation.BrandNavGraphBuilder,kotlin.Unit>){}[0]
+final fun com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavBarItem$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavBarItem$stableprop_getter|com_ukkera_brandkit_navigation_BrandNavBarItem$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavBridge$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavBridge$stableprop_getter|com_ukkera_brandkit_navigation_BrandNavBridge$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavGraph$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavGraph$stableprop_getter|com_ukkera_brandkit_navigation_BrandNavGraph$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavGraphBuilder$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavGraphBuilder$stableprop_getter|com_ukkera_brandkit_navigation_BrandNavGraphBuilder$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavSnapshot$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavSnapshot$stableprop_getter|com_ukkera_brandkit_navigation_BrandNavSnapshot$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavigationState$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavigationState$stableprop_getter|com_ukkera_brandkit_navigation_BrandNavigationState$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavigator$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.navigation/com_ukkera_brandkit_navigation_BrandNavigator$stableprop_getter|com_ukkera_brandkit_navigation_BrandNavigator$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.navigation/createBrandNavigator(kotlin.collections/List<com.ukkera.brandkit.navigation/BrandTab>, com.ukkera.brandkit.navigation/BrandTab = ..., kotlin/Function1<com.ukkera.brandkit.navigation/BrandTab, com.ukkera.brandkit.navigation/BrandRoute>): com.ukkera.brandkit.navigation/BrandNavigator // com.ukkera.brandkit.navigation/createBrandNavigator|createBrandNavigator(kotlin.collections.List<com.ukkera.brandkit.navigation.BrandTab>;com.ukkera.brandkit.navigation.BrandTab;kotlin.Function1<com.ukkera.brandkit.navigation.BrandTab,com.ukkera.brandkit.navigation.BrandRoute>){}[0]
+final fun com.ukkera.brandkit.navigation/rememberBrandNavigator(kotlin.collections/List<com.ukkera.brandkit.navigation/BrandTab>, com.ukkera.brandkit.navigation/BrandTab?, kotlin/Function1<com.ukkera.brandkit.navigation/BrandTab, com.ukkera.brandkit.navigation/BrandRoute>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): com.ukkera.brandkit.navigation/BrandNavigator // com.ukkera.brandkit.navigation/rememberBrandNavigator|rememberBrandNavigator(kotlin.collections.List<com.ukkera.brandkit.navigation.BrandTab>;com.ukkera.brandkit.navigation.BrandTab?;kotlin.Function1<com.ukkera.brandkit.navigation.BrandTab,com.ukkera.brandkit.navigation.BrandRoute>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.theme/AppTheme(kotlin/Boolean, androidx.compose.material3/ColorScheme?, androidx.compose.material3/ColorScheme?, androidx.compose.material3/Typography?, androidx.compose.material3/Shapes?, com.ukkera.brandkit.theme/BrandTokens?, com.ukkera.brandkit.theme/BrandStatusColors?, com.ukkera.brandkit.theme/BrandStatusColors?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.theme/AppTheme|AppTheme(kotlin.Boolean;androidx.compose.material3.ColorScheme?;androidx.compose.material3.ColorScheme?;androidx.compose.material3.Typography?;androidx.compose.material3.Shapes?;com.ukkera.brandkit.theme.BrandTokens?;com.ukkera.brandkit.theme.BrandStatusColors?;com.ukkera.brandkit.theme.BrandStatusColors?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.theme/BrandAppearanceScope(kotlin/Boolean, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.ukkera.brandkit.theme/BrandAppearanceScope|BrandAppearanceScope(kotlin.Boolean;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.ukkera.brandkit.theme/brandBackgroundUIColor(kotlin/Boolean): platform.UIKit/UIColor // com.ukkera.brandkit.theme/brandBackgroundUIColor|brandBackgroundUIColor(kotlin.Boolean){}[0]
+final fun com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandAppearance$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandAppearance$stableprop_getter|com_ukkera_brandkit_theme_BrandAppearance$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandCapabilities$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandCapabilities$stableprop_getter|com_ukkera_brandkit_theme_BrandCapabilities$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandStatusColors$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandStatusColors$stableprop_getter|com_ukkera_brandkit_theme_BrandStatusColors$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandTheme$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandTheme$stableprop_getter|com_ukkera_brandkit_theme_BrandTheme$stableprop_getter(){}[0]
+final fun com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandTokens$stableprop_getter(): kotlin/Int // com.ukkera.brandkit.theme/com_ukkera_brandkit_theme_BrandTokens$stableprop_getter|com_ukkera_brandkit_theme_BrandTokens$stableprop_getter(){}[0]
