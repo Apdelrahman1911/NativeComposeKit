@@ -1,0 +1,366 @@
+# Feedback & progress
+
+Progress indicators and the feedback system: transient messages (toast, snackbar, banner), blocking modals (alert, confirmation sheet), and in-flow inline status, posted through a single controller mounted near the app root.
+
+### BrandProgressIndicator
+
+A determinate or indeterminate progress indicator. Pass `progress` in `0..1` for determinate; `null` for indeterminate.
+
+**Android:** Material 3 `CircularProgressIndicator` or `LinearProgressIndicator`.
+**iOS:** native `UIActivityIndicatorView` (indeterminate circular) or `UIProgressView` (determinate linear) via `UIKitView`. The other two combinations (determinate circular, indeterminate linear) fall back to the Compose-drawn Material indicator.
+
+**Use it when**
+- You need a spinner or a load/download bar that matches the platform.
+
+**Avoid it when**
+- The content shape is known ahead of time — use `BrandSkeleton` for placeholder loading.
+
+**Parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `modifier` | `Modifier` | `Modifier` | Sizes the indicator. A linear bar is usually `Modifier.fillMaxWidth()`. |
+| `kind` | `BrandProgressKind` | `BrandProgressKind.Circular` | `Circular` for an in-place spinner/ring; `Linear` for a horizontal bar. |
+| `progress` | `Float?` | `null` | `0..1` for determinate; `null` for indeterminate. Clamped to `0..1`. |
+| `color` | `Color?` | `null` | Indicator color. Falls back to `colorScheme.primary`. |
+| `trackColor` | `Color?` | `null` | Track color. Falls back to `colorScheme.surfaceVariant`. |
+| `contentDescription` | `String?` | `null` | Accessibility label. |
+| `testTag` | `String?` | `null` | Test tag (maps to the accessibility id on iOS). |
+
+**Example**
+
+```kotlin
+// Indeterminate spinner
+BrandProgressIndicator()
+
+// Determinate download bar
+BrandProgressIndicator(
+    modifier = Modifier.fillMaxWidth(),
+    kind = BrandProgressKind.Linear,
+    progress = downloaded,
+)
+```
+
+**Notes**
+- iOS is fully native only for indeterminate circular (`UIActivityIndicatorView`) and determinate linear (`UIProgressView`). Determinate circular and indeterminate linear have no native iOS control, so they render the Compose-drawn Material indicator — an intentional, documented mapping.
+- The iOS `UIProgressView` is set with `setProgress(animated = false)`.
+- Unlike the other iOS interop controls, this one does not set `overrideUserInterfaceStyle`; its colors come from the theme-resolved style and adapt to light/dark on their own.
+
+## The feedback system
+
+`BrandFeedbackController` holds the queue state and exposes plain (non-`@Composable`) post methods callable from any click lambda. Each returns a `Long` id you can pass to `dismiss(id)`. Mount it once near the app root with `BrandFeedbackHost { content }`; descendants post through `LocalBrandFeedbackController.current`.
+
+The controller runs two parallel lanes: a transient lane (toast / snackbar / banner — one at a time, FIFO) and a modal lane (alert / confirmation sheet) that overlays a transient. It owns no coroutines or timers; visible timing belongs to the platform host (Android `Snackbar`/`delay`, iOS `NSTimer`), so a message is never timed twice. The controller stores only a `BrandFeedbackStatus`, never resolved colors.
+
+### BrandFeedbackHost
+
+Mounts the feedback system once, near the app root inside `AppTheme`. Provides the controller to all descendants and renders the platform-appropriate surfaces over `content`.
+
+**Android:** draws Compose overlays in a `Box` over the content (Material `SnackbarHost` / `AlertDialog` / `ModalBottomSheet` plus a themed banner/HUD).
+**iOS:** presents real `UIAlertController`s and adds key-window overlays imperatively. It draws no Compose overlay itself; the host emits `content()` plus side effects, resolving per-status styles in composition before handing values to the UIKit layer.
+
+**Use it when**
+- Once, near the app root, so any descendant can post feedback.
+
+**Avoid it when**
+- You only need an in-flow status message — use `BrandInlineStatus` directly.
+
+**Parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `controller` | `BrandFeedbackController` | `rememberBrandFeedbackController()` | The controller to provide and render. |
+| `content` | `@Composable () -> Unit` | — | The app content the overlays sit above. |
+
+**Example**
+
+```kotlin
+val feedback = rememberBrandFeedbackController()
+BrandFeedbackHost(feedback) {
+    AppContent()
+}
+
+// Anywhere below:
+val feedback = LocalBrandFeedbackController.current
+feedback.toast("Saved")
+```
+
+**Notes**
+- `LocalBrandFeedbackController.current` throws if read outside a `BrandFeedbackHost`.
+- `rememberBrandFeedbackController()` remembers a controller across recompositions; pass the same instance to the host if you need to post from outside the composition.
+- Composition locals (including `LocalBrandFeedbackController`) are not resolvable inside the native iOS overlays; pass a captured reference into action lambdas rather than reading the local there.
+
+### toast
+
+A small transient HUD message ("Copied", "Saved"). Lightweight, no action. Posted through the controller.
+
+**Android:** themed Compose HUD by default; the real `android.widget.Toast` when `android.useSystemToast` is set.
+**iOS:** themed key-window HUD (iOS has no system toast).
+
+**Use it when**
+- Confirming a quick, low-stakes action with no follow-up.
+
+**Avoid it when**
+- The message needs an action (use `snackbar`) or must stay until dismissed (use `banner`).
+
+**Parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `message` | `String` | — | The text to show. |
+| `status` | `BrandFeedbackStatus` | `BrandFeedbackStatus.Info` | Drives color and default icon. |
+| `duration` | `BrandFeedbackDuration` | `BrandFeedbackDuration.Short` | Auto-dismiss timing. |
+| `position` | `BrandFeedbackPosition` | `BrandFeedbackPosition.Bottom` | Top or bottom of the screen. |
+| `queue` | `BrandQueueBehavior` | `BrandQueueBehavior.Enqueue` | Behavior when a transient is already showing. |
+| `onDismiss` | `(() -> Unit)?` | `null` | Called when it auto-dismisses or is dismissed. |
+| `android` | `BrandToastAndroidOptions` | `BrandToastAndroidOptions()` | Android-only knobs (see below). |
+
+**Example**
+
+```kotlin
+feedback.toast("Saved")
+feedback.toast("Copied to clipboard", status = BrandFeedbackStatus.Success)
+```
+
+**Notes**
+- The toast HUD is not swipe-dismissable on either platform.
+- The system `Toast` (`android.useSystemToast = true`) renders even outside the app but is unstyleable on Android 12+ and ignores the brand theme and dark mode.
+
+### snackbar
+
+A bottom message with an optional action (e.g. "Item deleted — Undo"). Posted through the controller.
+
+**Android:** Material `Snackbar` with branded container/content/action colors. Material owns its own timing and result routing.
+**iOS:** themed bottom overlay with the action button.
+
+**Use it when**
+- An action can follow the message — most commonly Undo.
+
+**Avoid it when**
+- The message is purely informational (use `toast`) or must be pinned and prominent (use `banner`).
+
+**Parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `message` | `String` | — | The text to show. |
+| `status` | `BrandFeedbackStatus` | `BrandFeedbackStatus.Info` | Drives color and default icon. |
+| `actionLabel` | `String?` | `null` | Label for the action button (e.g. "Undo"). |
+| `onAction` | `(() -> Unit)?` | `null` | Called when the action button is tapped. |
+| `duration` | `BrandFeedbackDuration` | `if (actionLabel == null) BrandFeedbackDuration.Short else BrandFeedbackDuration.Indefinite` | Auto-dismiss timing. Defaults to indefinite when there is an action. |
+| `queue` | `BrandQueueBehavior` | `BrandQueueBehavior.Enqueue` | Behavior when a transient is already showing. |
+| `onDismiss` | `(() -> Unit)?` | `null` | Called on plain dismiss (not the action). |
+| `swipeToDismiss` | `Boolean` | `true` | Lets the user swipe it downward to dismiss (a plain dismiss, no action). |
+
+**Example**
+
+```kotlin
+feedback.snackbar(
+    message = "Item deleted",
+    actionLabel = "Undo",
+    onAction = { restore() },
+)
+```
+
+**Notes**
+- Snackbar is always at the bottom (platform convention); there is no position parameter.
+- Swipe-to-dismiss runs `onDismiss`, not `onAction`. On Android the Material snackbar resolves through `SnackbarData.dismiss()`; on iOS a `UIPanGestureRecognizer` drives the key-window overlay.
+
+### banner
+
+A prominent non-blocking message pinned top or bottom, with an optional title, action, and close button. Posted through the controller.
+
+**Android:** themed Compose banner.
+**iOS:** key-window banner with the same icon/action/close affordances.
+
+**Use it when**
+- A status needs to persist and stay visible (often `Indefinite`), with an optional action.
+
+**Avoid it when**
+- The message is brief and transient (use `toast` or `snackbar`).
+
+**Parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `message` | `String` | — | The body text. |
+| `title` | `String?` | `null` | Optional title above the message. |
+| `status` | `BrandFeedbackStatus` | `BrandFeedbackStatus.Info` | Drives color and default icon. |
+| `position` | `BrandFeedbackPosition` | `BrandFeedbackPosition.Top` | Top or bottom of the screen. |
+| `actionLabel` | `String?` | `null` | Label for the action button. |
+| `onAction` | `(() -> Unit)?` | `null` | Called when the action button is tapped. |
+| `dismissible` | `Boolean` | `true` | Shows a trailing close button. |
+| `duration` | `BrandFeedbackDuration` | `BrandFeedbackDuration.Indefinite` | Auto-dismiss timing; indefinite stays until dismissed. |
+| `queue` | `BrandQueueBehavior` | `BrandQueueBehavior.Enqueue` | Behavior when a transient is already showing. |
+| `onDismiss` | `(() -> Unit)?` | `null` | Called on dismiss (close button, swipe, code, or timeout). |
+| `swipeToDismiss` | `Boolean` | `true` | Lets the user swipe it toward its pinned edge to dismiss. |
+
+**Example**
+
+```kotlin
+feedback.banner(
+    title = "Offline",
+    message = "Changes will sync when you reconnect.",
+    status = BrandFeedbackStatus.Warning,
+    actionLabel = "Retry",
+    onAction = { retry() },
+)
+```
+
+**Notes**
+- An `Indefinite` banner holds the single transient slot until dismissed, so later transients queue behind it.
+- `swipeToDismiss` is independent of `dismissible`. A banner that only code can dismiss sets both `dismissible = false` and `swipeToDismiss = false`.
+
+### alert
+
+A blocking alert requiring a choice. Posted through the controller (modal lane).
+
+**Android:** Material `AlertDialog`, themed.
+**iOS:** native `UIAlertController` (`.alert` style) by default, presented from the top-most view controller; a brand-themed custom overlay when `ios.presentation = Branded`.
+
+**Use it when**
+- The user must make a decision before continuing (confirm, discard, retry).
+
+**Avoid it when**
+- The choice is a list of actions — use `confirmationSheet`. For custom centered content, use `BrandDialog`.
+
+**Parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `title` | `String?` | `null` | Alert title. |
+| `message` | `String?` | `null` | Alert body. |
+| `actions` | `List<BrandAlertAction>` | — | The buttons. A `Cancel`-role action maps to the dialog's dismiss button on Android. |
+| `onCancel` | `(() -> Unit)?` | `null` | Called when dismissed without choosing an action (scrim/back/cancel gesture). |
+| `ios` | `BrandAlertIosOptions` | `BrandAlertIosOptions()` | iOS presentation strategy (see below). |
+
+**Example**
+
+```kotlin
+feedback.alert(
+    title = "Delete item?",
+    actions = listOf(
+        BrandAlertAction("Delete", { delete() }, role = BrandAlertActionRole.Destructive),
+        BrandAlertAction("Cancel", role = BrandAlertActionRole.Cancel),
+    ),
+)
+```
+
+**Notes**
+- A `BrandAlertAction.onClick` runs after the alert dismisses.
+- At most one `Cancel`-role action per alert. `Destructive` renders red (iOS `UIAlertActionStyleDestructive` / Material error).
+- iOS chrome intentionally differs from Android — each follows its own platform convention.
+
+### confirmationSheet
+
+A blocking action sheet for choosing among actions. Posted through the controller (modal lane).
+
+**Android:** Material `ModalBottomSheet`, themed, with the actions as rows.
+**iOS:** native action-sheet `UIAlertController` (`.actionSheet`) by default; a brand-themed custom overlay when `ios.presentation = Branded`.
+
+**Use it when**
+- Offering a short list of actions tied to a single subject (Share, Delete, Rename…).
+
+**Avoid it when**
+- There is a single yes/no decision — use `alert`. For a presentational content sheet, use `BrandSheet`.
+
+**Parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `title` | `String?` | `null` | Sheet title. |
+| `message` | `String?` | `null` | Sheet body. |
+| `actions` | `List<BrandSheetAction>` | — | The action rows. Each may carry a `BrandIcon`. |
+| `onCancel` | `(() -> Unit)?` | `null` | Called when dismissed without choosing an action. |
+| `ios` | `BrandConfirmationSheetIosOptions` | `BrandConfirmationSheetIosOptions()` | iOS presentation strategy (see below). |
+
+**Example**
+
+```kotlin
+feedback.confirmationSheet(
+    title = "Photo",
+    actions = listOf(
+        BrandSheetAction("Share", { share() }),
+        BrandSheetAction("Delete", { delete() }, role = BrandAlertActionRole.Destructive),
+        BrandSheetAction("Cancel", role = BrandAlertActionRole.Cancel),
+    ),
+)
+```
+
+**Notes**
+- `BrandSheetAction.icon` uses `BrandIcon.androidImageVector` on Android and `BrandIcon.sfSymbolName` on iOS.
+- On iPad the native action sheet is anchored to the centre of the presenter's view via KVC (`popoverPresentationController` is not a static member in this Kotlin/Native UIKit version); on iPhone the popover controller is `nil`, so the anchoring is a no-op and behavior is unchanged.
+
+### BrandInlineStatus
+
+An inline status message that lives in the layout flow (field validation, an empty-state note, a "Saved locally" hint). It is not a floating overlay and is not posted through `BrandFeedbackController`; place it in your layout and drive its visibility from your own state.
+
+**Android:** Compose-drawn in-flow.
+**iOS:** Compose-drawn in-flow (no UIKit interop), so it sizes to its content within a Compose column and still reads as native (system font, themed colors).
+
+**Use it when**
+- A status belongs in the content (a validation message under a field, a sync hint).
+
+**Avoid it when**
+- The message should float over the UI — use `toast`/`snackbar`/`banner` through the controller.
+
+**Parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `text` | `String` | — | The body text. |
+| `status` | `BrandFeedbackStatus` | `BrandFeedbackStatus.Info` | Drives color and default icon. |
+| `modifier` | `Modifier` | `Modifier` | Applied to the container; the component fills max width. |
+| `title` | `String?` | `null` | Optional title above the text. |
+| `icon` | `ImageVector?` | `null` | A Compose vector overriding the default status glyph. |
+| `showIcon` | `Boolean` | `true` | Hides the leading icon entirely when `false`. |
+| `filled` | `Boolean` | `true` | `true` = soft tonal container fill; `false` = outlined on the page surface. |
+| `actionLabel` | `String?` | `null` | Optional inline text action. |
+| `onAction` | `(() -> Unit)?` | `null` | Called when the inline action is tapped (shown only when `actionLabel` is set). |
+| `onDismiss` | `(() -> Unit)?` | `null` | Adds a trailing close button that calls this. |
+| `contentDescription` | `String?` | `null` | Accessibility label for the container. |
+| `testTag` | `String?` | `null` | Test tag. |
+
+**Example**
+
+```kotlin
+BrandInlineStatus(
+    text = "Saved locally — will sync when online.",
+    status = BrandFeedbackStatus.Info,
+)
+```
+
+**Notes**
+- The status is announced to screen readers when it appears or changes: `Error` interrupts (Assertive), other statuses are queued (Polite).
+- `icon` takes a plain Compose `ImageVector` (there is no SF-Symbol slot); it is Compose-drawn on both platforms.
+- The outlined variant (`filled = false`) matches the surface it is embedded in (page or card) via `LocalBrandSurface`.
+
+## Shared enums and models
+
+These back the feedback API surface above.
+
+| Type | Values / fields | Notes |
+|---|---|---|
+| `BrandProgressKind` | `Circular`, `Linear` | Progress shape. |
+| `BrandFeedbackStatus` | `Info`, `Success`, `Warning`, `Error` | Drives color and default icon. `Error` reuses `colorScheme.error`; the others come from `BrandStatusColors`. |
+| `BrandFeedbackPosition` | `Top`, `Bottom` | Where a toast/banner appears. Snackbar is always bottom. |
+| `BrandFeedbackDuration` | `Short` (≈2 s), `Long` (≈3.5 s), `Indefinite` | Indefinite has no timer; it stays until dismissed by the user or code. |
+| `BrandQueueBehavior` | `Enqueue`, `ReplaceCurrent`, `DropIfShowing` | What happens when a transient is posted while one is showing. |
+| `BrandAlertActionRole` | `Default`, `Cancel`, `Destructive` | At most one `Cancel` per alert. `Destructive` renders red. |
+| `BrandPresentation` | `Native`, `Branded` | iOS presentation strategy for alert/sheet. |
+| `BrandAlertAction` | `label: String`, `onClick: () -> Unit = {}`, `role: BrandAlertActionRole = Default` | One alert button. `onClick` runs after the alert dismisses. |
+| `BrandSheetAction` | `label: String`, `onClick: () -> Unit = {}`, `role: BrandAlertActionRole = Default`, `icon: BrandIcon? = null` | One sheet row. |
+| `BrandToastAndroidOptions` | `useSystemToast: Boolean = false` | Android-only toast knob. |
+| `BrandAlertIosOptions` | `presentation: BrandPresentation = Native` | iOS-only alert knob. |
+| `BrandConfirmationSheetIosOptions` | `presentation: BrandPresentation = Native` | iOS-only confirmation-sheet knob. |
+
+### Controller dismiss methods
+
+Besides the post methods, `BrandFeedbackController` exposes:
+
+| Method | Effect |
+|---|---|
+| `dismiss(id: Long)` | Dismiss a specific message by its returned id (either lane). |
+| `dismissCurrent()` | Dismiss whatever transient is showing now (e.g. an indefinite banner) and advance the queue. |
+| `dismissCurrentModal()` | Dismiss the current modal as a cancel (runs its `onCancel`) and advance the modal queue. |
+| `clearAll()` | Hard reset — clears both lanes immediately without invoking callbacks. |
