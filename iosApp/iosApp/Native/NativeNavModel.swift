@@ -47,7 +47,7 @@ final class NativeNavModel: ObservableObject {
         for t in tabIds {
             next[t] = Array((((bridge.stackIds(tabId: t)) as? [String]) ?? []).dropFirst())
         }
-        if next != pathByTab { pathByTab = next }
+        if next != pathByTab { print("NCK-Nav-iOS: refresh pathByTab \(pathByTab) -> \(next)"); pathByTab = next }
         // Hold the guard until SwiftUI has applied this path on the next runloop. SwiftUI emits transitional
         // `set` callbacks on the path binding during the push/pop animation; releasing the guard synchronously
         // here lets those stale callbacks be mistaken for user navigation and reconcile the stack backward —
@@ -62,6 +62,17 @@ final class NativeNavModel: ObservableObject {
         // binding holding the stale (still-pushed) value: the refresh then sees the SoT already equal to that
         // stale path and skips updating it, so the stack (popped, then re-pushed) and the binding stay desynced —
         // the blank/stuck screen with broken back.
+        let current = pathByTab[tab] ?? []
+        // A user can only POP the stack (back-swipe/button) — every push is Kotlin-driven. So a legitimate `set`
+        // is `current` itself (no-op) or a strict prefix of it (popped from the top). Any other shape is a
+        // spurious callback SwiftUI emits during keyboard/layout transitions; honoring it would reconcile the
+        // stack to a wrong state (the unexpected pop while typing). Drop it.
+        let isValidPop = tail.count <= current.count && Array(current.prefix(tail.count)) == tail
+        if !isValidPop {
+            print("NCK-Nav-iOS: ignore spurious set tab=\(tab) tail=\(tail) current=\(current) applyingFromKotlin=\(applyingFromKotlin)")
+            return
+        }
+        print("NCK-Nav-iOS: userPath tab=\(tab) tail=\(tail) current=\(current) applyingFromKotlin=\(applyingFromKotlin)")
         if pathByTab[tab] != tail { pathByTab[tab] = tail }
         guard !applyingFromKotlin else { return }
         bridge.reconcileStack(tabId: tab, routeIds: [bridge.rootRouteId(tabId: tab)] + tail)

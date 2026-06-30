@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +19,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.NativeCard
 import io.github.apdelrahman1911.nativecomposekit.components.NativeCardVariant
 import io.github.apdelrahman1911.nativecomposekit.components.NativeText
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
+import io.github.apdelrahman1911.nativecomposekit.components.nativeImePadding
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 
 /**
@@ -41,7 +41,7 @@ fun ShowcaseScreen(intro: String, content: @Composable ColumnScope.() -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(inner)
-                .imePadding()
+                .nativeImePadding()
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(28.dp),

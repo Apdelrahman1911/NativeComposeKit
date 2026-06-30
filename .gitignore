@@ -20,3 +20,5 @@ iosApp/iosApp.xcodeproj/
 
 # Local scratch (screenshots, manual verification output)
 screenshots/
+docs/*.jpeg
+docs/*.jpg

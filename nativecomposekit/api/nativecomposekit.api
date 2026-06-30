@@ -167,6 +167,10 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeI
 	public static final fun NativeIconButton-j5vxNqM (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;ZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
 
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeImePadding_androidKt {
+	public static final fun nativeImePadding (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/Modifier;
+}
+
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeListItemKt {
 	public static final fun NativeListItem-MC_ep60 (Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Ljava/lang/String;ZZZLio/github/apdelrahman1911/nativecomposekit/components/NativeSwipeAction;FLandroidx/compose/foundation/layout/PaddingValues;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
