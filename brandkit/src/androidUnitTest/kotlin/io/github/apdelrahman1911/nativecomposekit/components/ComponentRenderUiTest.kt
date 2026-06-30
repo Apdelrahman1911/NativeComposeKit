@@ -23,12 +23,12 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.dp
-import io.github.apdelrahman1911.nativecomposekit.components.feedback.BrandFeedbackStatus
-import io.github.apdelrahman1911.nativecomposekit.components.feedback.BrandInlineStatus
-import io.github.apdelrahman1911.nativecomposekit.components.model.BrandTextContentType
-import io.github.apdelrahman1911.nativecomposekit.theme.BrandAppearanceScope
-import io.github.apdelrahman1911.nativecomposekit.theme.BrandCapabilities
-import io.github.apdelrahman1911.nativecomposekit.theme.LocalBrandCapabilities
+import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackStatus
+import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeInlineStatus
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextContentType
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearanceScope
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeCapabilities
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeCapabilities
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -48,8 +48,8 @@ class ComponentRenderUiTest {
     @Test
     fun inlineStatus_dismiss_is_present_labeled_and_interactive() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope {
-                BrandInlineStatus("Couldn't reach the server.", status = BrandFeedbackStatus.Error, onDismiss = {})
+            NativeAppearanceScope {
+                NativeInlineStatus("Couldn't reach the server.", status = NativeFeedbackStatus.Error, onDismiss = {})
             }
         }
         // The dismiss affordance must be present, labeled, and the (only) clickable node. Its ≥48dp touch target
@@ -64,16 +64,16 @@ class ComponentRenderUiTest {
         // The card publishes surfaceVariant; this is the context that exposed the surface-adaptation bugs.
         // If any of these threw or failed to lay out, the assertions below would fail.
         setContent {
-            BrandAppearanceScope {
-                BrandCard(variant = BrandCardVariant.Filled) {
+            NativeAppearanceScope {
+                NativeCard(variant = NativeCardVariant.Filled) {
                     Column {
-                        BrandSkeleton(Modifier.fillMaxWidth().height(16.dp))
-                        BrandChip("Fantasy", style = BrandChipStyle.Suggestion)
-                        BrandRating(4.5f)
-                        BrandListItem(
+                        NativeSkeleton(Modifier.fillMaxWidth().height(16.dp))
+                        NativeChip("Fantasy", style = NativeChipStyle.Suggestion)
+                        NativeRating(4.5f)
+                        NativeListItem(
                             "Chapter 1",
                             onClick = {},
-                            swipeAction = BrandSwipeAction(label = "Mark read", onAction = {}),
+                            swipeAction = NativeSwipeAction(label = "Mark read", onAction = {}),
                         )
                     }
                 }
@@ -86,7 +86,7 @@ class ComponentRenderUiTest {
     @Test
     fun rating_exposes_value_semantics() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandRating(4.5f) }
+            NativeAppearanceScope { NativeRating(4.5f) }
         }
         onNodeWithContentDescription("Rating: 4.5 out of 5").assertIsDisplayed()
     }
@@ -94,7 +94,7 @@ class ComponentRenderUiTest {
     @Test
     fun slider_exposes_name_without_losing_its_value_semantics() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandSlider(value = 0.5f, onValueChange = {}, contentDescription = "Volume") }
+            NativeAppearanceScope { NativeSlider(value = 0.5f, onValueChange = {}, contentDescription = "Volume") }
         }
         // The added name must NOT clobber Material's built-in range semantics (the mergeDescendants concern).
         onNodeWithContentDescription("Volume").assertIsDisplayed()
@@ -104,7 +104,7 @@ class ComponentRenderUiTest {
     @Test
     fun stepper_exposes_its_name() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandStepper(value = 3, onValueChange = {}, contentDescription = "Quantity") }
+            NativeAppearanceScope { NativeStepper(value = 3, onValueChange = {}, contentDescription = "Quantity") }
         }
         onNodeWithContentDescription("Quantity").assertIsDisplayed()
     }
@@ -112,8 +112,8 @@ class ComponentRenderUiTest {
     @Test
     fun segmentedControl_exposes_its_name() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope {
-                BrandSegmentedControl(
+            NativeAppearanceScope {
+                NativeSegmentedControl(
                     options = listOf("Day", "Week"),
                     selectedIndex = 0,
                     onSelectedIndexChange = {},
@@ -127,7 +127,7 @@ class ComponentRenderUiTest {
     @Test
     fun textField_applies_explicit_contentDescription() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandTextField(value = "", onValueChange = {}, contentDescription = "Search") }
+            NativeAppearanceScope { NativeTextField(value = "", onValueChange = {}, contentDescription = "Search") }
         }
         onNodeWithContentDescription("Search").assertIsDisplayed()
     }
@@ -135,11 +135,11 @@ class ComponentRenderUiTest {
     @Test
     fun listItem_swipe_action_is_reachable_as_a_custom_action() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope {
-                BrandListItem(
+            NativeAppearanceScope {
+                NativeListItem(
                     "Chapter 1",
                     onClick = {},
-                    swipeAction = BrandSwipeAction(label = "Mark read", onAction = {}),
+                    swipeAction = NativeSwipeAction(label = "Mark read", onAction = {}),
                 )
             }
         }
@@ -150,8 +150,8 @@ class ComponentRenderUiTest {
     @Test
     fun inlineStatus_error_is_an_assertive_live_region() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope {
-                BrandInlineStatus("Couldn't reach the server.", status = BrandFeedbackStatus.Error)
+            NativeAppearanceScope {
+                NativeInlineStatus("Couldn't reach the server.", status = NativeFeedbackStatus.Error)
             }
         }
         onNode(SemanticsMatcher.expectValue(SemanticsProperties.LiveRegion, LiveRegionMode.Assertive)).assertIsDisplayed()
@@ -160,8 +160,8 @@ class ComponentRenderUiTest {
     @Test
     fun card_with_onClick_is_an_accessible_button() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope {
-                BrandCard(onClick = {}, onClickLabel = "Open") { BrandText("Cover") }
+            NativeAppearanceScope {
+                NativeCard(onClick = {}, onClickLabel = "Open") { NativeText("Cover") }
             }
         }
         // The clickable card declares Role.Button (was a bare clickable with no role).
@@ -171,8 +171,8 @@ class ComponentRenderUiTest {
     @Test
     fun listItem_with_onClick_is_an_accessible_button() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope {
-                BrandListItem("Settings", onClick = {}, onClickLabel = "Open settings")
+            NativeAppearanceScope {
+                NativeListItem("Settings", onClick = {}, onClickLabel = "Open settings")
             }
         }
         onNode(SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Button)).assertIsDisplayed()
@@ -182,9 +182,9 @@ class ComponentRenderUiTest {
     fun skeleton_composes_when_reduce_motion_is_on() = runComposeUiTest {
         // Under reduce-motion the shimmer defaults off (static block); it must still lay out.
         setContent {
-            BrandAppearanceScope {
-                CompositionLocalProvider(LocalBrandCapabilities provides BrandCapabilities(isReduceMotionEnabled = true)) {
-                    BrandSkeleton(Modifier.testTag("sk").fillMaxWidth().height(16.dp))
+            NativeAppearanceScope {
+                CompositionLocalProvider(LocalNativeCapabilities provides NativeCapabilities(isReduceMotionEnabled = true)) {
+                    NativeSkeleton(Modifier.testTag("sk").fillMaxWidth().height(16.dp))
                 }
             }
         }
@@ -197,7 +197,7 @@ class ComponentRenderUiTest {
     fun toggle_readonly_null_callback_still_renders() = runComposeUiTest {
         // Batch 2 made onCheckedChange nullable (read-only display toggle). It must still render + be named.
         setContent {
-            BrandAppearanceScope { BrandToggle(checked = true, onCheckedChange = null, contentDescription = "Wifi") }
+            NativeAppearanceScope { NativeToggle(checked = true, onCheckedChange = null, contentDescription = "Wifi") }
         }
         onNodeWithContentDescription("Wifi").assertIsDisplayed()
     }
@@ -206,8 +206,8 @@ class ComponentRenderUiTest {
     fun toggle_interactive_click_fires_callback() = runComposeUiTest {
         var changed = false
         setContent {
-            BrandAppearanceScope {
-                BrandToggle(checked = false, onCheckedChange = { changed = true }, contentDescription = "Wifi")
+            NativeAppearanceScope {
+                NativeToggle(checked = false, onCheckedChange = { changed = true }, contentDescription = "Wifi")
             }
         }
         onNodeWithContentDescription("Wifi").performClick()
@@ -218,8 +218,8 @@ class ComponentRenderUiTest {
     fun textField_contentType_exposes_autofill_semantics() = runComposeUiTest {
         // Batch 2 unified content type into a cross-platform param wired to Android Compose autofill.
         setContent {
-            BrandAppearanceScope {
-                BrandTextField(value = "", onValueChange = {}, label = "Email", contentType = BrandTextContentType.EmailAddress)
+            NativeAppearanceScope {
+                NativeTextField(value = "", onValueChange = {}, label = "Email", contentType = NativeTextContentType.EmailAddress)
             }
         }
         onNode(SemanticsMatcher.keyIsDefined(SemanticsProperties.ContentType)).assertIsDisplayed()
@@ -229,8 +229,8 @@ class ComponentRenderUiTest {
     fun segmentedControl_renders_all_options() = runComposeUiTest {
         // Smoke for the onSelect → onSelectedIndexChange rename: all options render with the brand style.
         setContent {
-            BrandAppearanceScope {
-                BrandSegmentedControl(
+            NativeAppearanceScope {
+                NativeSegmentedControl(
                     options = listOf("Day", "Week", "Month"),
                     selectedIndex = 0,
                     onSelectedIndexChange = {},
@@ -249,8 +249,8 @@ class ComponentRenderUiTest {
         // Robolectric hit-testing is reliable (the row is a single selectable target).
         var picked = ""
         setContent {
-            BrandAppearanceScope {
-                BrandRadioGroup(
+            NativeAppearanceScope {
+                NativeRadioGroup(
                     options = listOf("Latest", "A–Z"),
                     selected = "Latest",
                     onSelectedChange = { picked = it },
@@ -267,7 +267,7 @@ class ComponentRenderUiTest {
     fun pageControl_announces_clamped_position() = runComposeUiTest {
         // currentPage is clamped to 0..pageCount-1 in commonMain; the Android dots announce "Page N of M".
         setContent {
-            BrandAppearanceScope { BrandPageControl(pageCount = 5, currentPage = 99, onCurrentPageChange = {}) }
+            NativeAppearanceScope { NativePageControl(pageCount = 5, currentPage = 99, onCurrentPageChange = {}) }
         }
         onNodeWithContentDescription("Page 5 of 5").assertIsDisplayed()
     }
@@ -275,7 +275,7 @@ class ComponentRenderUiTest {
     @Test
     fun checkbox_with_label_is_a_merged_checkbox() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandCheckbox(checked = true, onCheckedChange = {}, label = "Download in HD") }
+            NativeAppearanceScope { NativeCheckbox(checked = true, onCheckedChange = {}, label = "Download in HD") }
         }
         onNode(SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Checkbox)).assertIsDisplayed()
         onNodeWithText("Download in HD").assertIsDisplayed()
@@ -284,7 +284,7 @@ class ComponentRenderUiTest {
     @Test
     fun searchBar_shows_its_placeholder() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandSearchBar(value = "", onValueChange = {}, placeholder = "Search manga…") }
+            NativeAppearanceScope { NativeSearchBar(value = "", onValueChange = {}, placeholder = "Search manga…") }
         }
         onNodeWithText("Search manga…").assertIsDisplayed()
     }
@@ -292,7 +292,7 @@ class ComponentRenderUiTest {
     @Test
     fun colorWell_exposes_a_default_selected_color_name() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandColorWell(color = Color(0xFF1E88E5), onColorChange = {}) }
+            NativeAppearanceScope { NativeColorWell(color = Color(0xFF1E88E5), onColorChange = {}) }
         }
         onNodeWithContentDescription("Selected color").assertIsDisplayed()
     }
@@ -300,7 +300,7 @@ class ComponentRenderUiTest {
     @Test
     fun emptyState_renders_title_and_action() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandEmptyState(title = "Empty", actionLabel = "Browse", onAction = {}) }
+            NativeAppearanceScope { NativeEmptyState(title = "Empty", actionLabel = "Browse", onAction = {}) }
         }
         onNodeWithText("Empty").assertIsDisplayed()
         onNodeWithText("Browse").assertIsDisplayed()
@@ -309,7 +309,7 @@ class ComponentRenderUiTest {
     @Test
     fun avatar_announces_its_content_description() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandAvatar(initials = "JD", contentDescription = "Jane Doe") }
+            NativeAppearanceScope { NativeAvatar(initials = "JD", contentDescription = "Jane Doe") }
         }
         onNodeWithContentDescription("Jane Doe").assertIsDisplayed()
     }
@@ -320,8 +320,8 @@ class ComponentRenderUiTest {
     fun topBar_renders_title_and_navigation() = runComposeUiTest {
         var backed = false
         setContent {
-            BrandAppearanceScope {
-                BrandTopBar(
+            NativeAppearanceScope {
+                NativeTopBar(
                     title = "Library",
                     navigationIcon = Icons.AutoMirrored.Filled.ArrowBack,
                     onNavigationClick = { backed = true },
@@ -337,7 +337,7 @@ class ComponentRenderUiTest {
     @Test
     fun contentState_loading_shows_spinner() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandContentState<String>(BrandLoadState.Loading) { BrandText(it) } }
+            NativeAppearanceScope { NativeContentState<String>(NativeLoadState.Loading) { NativeText(it) } }
         }
         onNodeWithContentDescription("Loading").assertIsDisplayed()
     }
@@ -345,8 +345,8 @@ class ComponentRenderUiTest {
     @Test
     fun contentState_empty_shows_empty_title() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope {
-                BrandContentState<String>(BrandLoadState.Empty, emptyTitle = "No items") { BrandText(it) }
+            NativeAppearanceScope {
+                NativeContentState<String>(NativeLoadState.Empty, emptyTitle = "No items") { NativeText(it) }
             }
         }
         onNodeWithText("No items").assertIsDisplayed()
@@ -356,8 +356,8 @@ class ComponentRenderUiTest {
     fun contentState_error_shows_retry_only_when_onRetry_present() = runComposeUiTest {
         var retried = false
         setContent {
-            BrandAppearanceScope {
-                BrandContentState<String>(BrandLoadState.Error("Network down"), onRetry = { retried = true }) { BrandText(it) }
+            NativeAppearanceScope {
+                NativeContentState<String>(NativeLoadState.Error("Network down"), onRetry = { retried = true }) { NativeText(it) }
             }
         }
         onNodeWithText("Network down").assertIsDisplayed()
@@ -368,8 +368,8 @@ class ComponentRenderUiTest {
     @Test
     fun contentState_error_hides_retry_when_no_onRetry() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope {
-                BrandContentState<String>(BrandLoadState.Error("Network down")) { BrandText(it) }
+            NativeAppearanceScope {
+                NativeContentState<String>(NativeLoadState.Error("Network down")) { NativeText(it) }
             }
         }
         onNodeWithText("Retry").assertDoesNotExist()
@@ -378,8 +378,8 @@ class ComponentRenderUiTest {
     @Test
     fun contentState_content_renders_the_payload() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope {
-                BrandContentState(BrandLoadState.Content("Chapter 1")) { BrandText(it) }
+            NativeAppearanceScope {
+                NativeContentState(NativeLoadState.Content("Chapter 1")) { NativeText(it) }
             }
         }
         onNodeWithText("Chapter 1").assertIsDisplayed()
@@ -392,8 +392,8 @@ class ComponentRenderUiTest {
         // enabled = false forces read-only: even with onRatingChange given, it must take the display path
         // (a `contentDescription`, not the interactive `stateDescription` / per-star buttons).
         setContent {
-            BrandAppearanceScope {
-                BrandRating(rating = 3f, onRatingChange = {}, enabled = false)
+            NativeAppearanceScope {
+                NativeRating(rating = 3f, onRatingChange = {}, enabled = false)
             }
         }
         onNodeWithContentDescription("Rating: 3 out of 5").assertIsDisplayed()
@@ -404,8 +404,8 @@ class ComponentRenderUiTest {
         // Contrast: enabled + onRatingChange = interactive. max = 1 → exactly one clickable star node.
         var picked = 0f
         setContent {
-            BrandAppearanceScope {
-                BrandRating(rating = 0f, onRatingChange = { picked = it }, max = 1)
+            NativeAppearanceScope {
+                NativeRating(rating = 0f, onRatingChange = { picked = it }, max = 1)
             }
         }
         onNode(hasClickAction()).performClick()
@@ -417,9 +417,9 @@ class ComponentRenderUiTest {
     @Test
     fun dialog_renders_title_content_and_actions() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope {
-                BrandDialog(onDismissRequest = {}, title = "Rename", actions = { BrandButton("Save", onClick = {}) }) {
-                    BrandText("Body")
+            NativeAppearanceScope {
+                NativeDialog(onDismissRequest = {}, title = "Rename", actions = { NativeButton("Save", onClick = {}) }) {
+                    NativeText("Body")
                 }
             }
         }
@@ -428,13 +428,13 @@ class ComponentRenderUiTest {
         onNodeWithText("Save").assertIsDisplayed()
     }
 
-    @Suppress("DEPRECATION") // BrandTabBar is deprecated (→ BrandSegmentedControl); kept under test until removal.
+    @Suppress("DEPRECATION") // NativeTabBar is deprecated (→ NativeSegmentedControl); kept under test until removal.
     @Test
     fun tabBar_renders_tabs_and_selection_fires() = runComposeUiTest {
         var picked = -1
         setContent {
-            BrandAppearanceScope {
-                BrandTabBar(tabs = listOf("Overview", "Chapters"), selectedIndex = 0, onSelectedIndexChange = { picked = it })
+            NativeAppearanceScope {
+                NativeTabBar(tabs = listOf("Overview", "Chapters"), selectedIndex = 0, onSelectedIndexChange = { picked = it })
             }
         }
         onNodeWithText("Overview").assertIsDisplayed()
@@ -442,19 +442,19 @@ class ComponentRenderUiTest {
         assertEquals(1, picked)
     }
 
-    @Suppress("DEPRECATION") // BrandTooltip is deprecated; kept under test until removal.
+    @Suppress("DEPRECATION") // NativeTooltip is deprecated; kept under test until removal.
     @Test
     fun tooltip_renders_its_anchor() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandTooltip(text = "Add to library") { BrandText("Anchor") } }
+            NativeAppearanceScope { NativeTooltip(text = "Add to library") { NativeText("Anchor") } }
         }
         onNodeWithText("Anchor").assertIsDisplayed()
     }
 
     @Test
-    fun brandHeading_marks_the_node_as_a_heading() = runComposeUiTest {
+    fun nativeHeading_marks_the_node_as_a_heading() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope { BrandText("Section", modifier = Modifier.brandHeading()) }
+            NativeAppearanceScope { NativeText("Section", modifier = Modifier.nativeHeading()) }
         }
         onNode(SemanticsMatcher.keyIsDefined(SemanticsProperties.Heading)).assertIsDisplayed()
     }

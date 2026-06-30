@@ -13,14 +13,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.apdelrahman1911.nativecomposekit.components.BrandListItem
-import io.github.apdelrahman1911.nativecomposekit.components.BrandListSection
-import io.github.apdelrahman1911.nativecomposekit.components.BrandText
-import io.github.apdelrahman1911.nativecomposekit.components.BrandToggle
-import io.github.apdelrahman1911.nativecomposekit.components.model.BrandTextStyle
+import io.github.apdelrahman1911.nativecomposekit.components.NativeListItem
+import io.github.apdelrahman1911.nativecomposekit.components.NativeListSection
+import io.github.apdelrahman1911.nativecomposekit.components.NativeText
+import io.github.apdelrahman1911.nativecomposekit.components.NativeToggle
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
 
 /**
- * Shared content screens (Tier 2) — plain Compose using `Brand*` components, navigator-agnostic (they take
+ * Shared content screens (Tier 2) — plain Compose using `Native*` components, navigator-agnostic (they take
  * callbacks; the graph wires those to `navigator.push(...)`). The Library / manga-detail / reader screens
  * live in `MangaScreens.kt`; this file holds the remaining simple tab screens.
  */
@@ -32,31 +32,31 @@ fun SettingsScreen(onOpenComponentMatrix: () -> Unit = {}, onOpenInteropRepro: (
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        BrandText("Settings — Compose content in a native tab.", style = BrandTextStyle.Label)
-        BrandListSection(
+        NativeText("Settings — Compose content in a native tab.", style = NativeTextStyle.Label)
+        NativeListSection(
             header = "Reader",
             rows = listOf(
                 {
-                    BrandListItem(
+                    NativeListItem(
                         "New-chapter alerts",
-                        trailing = { BrandToggle(checked = notify, onCheckedChange = { notify = it }) },
+                        trailing = { NativeToggle(checked = notify, onCheckedChange = { notify = it }) },
                     )
                 },
-                { BrandListItem("Reading direction", trailingText = "L → R", onClick = {}) },
+                { NativeListItem("Reading direction", trailingText = "L → R", onClick = {}) },
             ),
         )
-        BrandListSection(
+        NativeListSection(
             header = "Developer",
             rows = listOf(
                 {
-                    BrandListItem(
+                    NativeListItem(
                         "Component surface matrix",
                         supporting = "Regression harness: components on the page vs inside a Filled card",
                         onClick = onOpenComponentMatrix,
                     )
                 },
                 {
-                    BrandListItem(
+                    NativeListItem(
                         "iOS interop repro",
                         supporting = "Raw UIKitView scroll clip/drift, UIMenu drift, Dialog first-frame (iOS-only)",
                         onClick = onOpenInteropRepro,

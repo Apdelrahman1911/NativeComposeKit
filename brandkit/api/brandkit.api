@@ -1,266 +1,319 @@
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandAvatarKt {
-	public static final fun BrandAvatar-2nCz7is (Landroidx/compose/ui/Modifier;Landroidx/compose/ui/graphics/painter/Painter;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;Lio/github/apdelrahman1911/nativecomposekit/components/BrandAvatarSize;Lio/github/apdelrahman1911/nativecomposekit/components/BrandAvatarShape;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeColorWell_androidKt {
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeColorWell_androidKt;
+	public fun <init> ()V
+	public final fun getLambda$-466861596$brandkit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1672545611$brandkit_release ()Lkotlin/jvm/functions/Function3;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandAvatarShape : java/lang/Enum {
-	public static final field Circle Lio/github/apdelrahman1911/nativecomposekit/components/BrandAvatarShape;
-	public static final field Rounded Lio/github/apdelrahman1911/nativecomposekit/components/BrandAvatarShape;
+public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeDialogKt {
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeDialogKt;
+	public fun <init> ()V
+	public final fun getLambda$1103775555$brandkit_release ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeScaffoldKt {
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeScaffoldKt;
+	public fun <init> ()V
+	public final fun getLambda$-1751752731$brandkit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-354774283$brandkit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1064568021$brandkit_release ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSearchBar_androidKt {
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSearchBar_androidKt;
+	public fun <init> ()V
+	public final fun getLambda$-345083620$brandkit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1507857686$brandkit_release ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSheet_androidKt {
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSheet_androidKt;
+	public fun <init> ()V
+	public final fun getLambda$-431233516$brandkit_release ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSplitButton_androidKt {
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSplitButton_androidKt;
+	public fun <init> ()V
+	public final fun getLambda$-983008380$brandkit_release ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeStepper_androidKt {
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeStepper_androidKt;
+	public fun <init> ()V
+	public final fun getLambda$197706142$brandkit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$249180405$brandkit_release ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeTopBarKt {
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeTopBarKt;
+	public fun <init> ()V
+	public final fun getLambda$-1949479215$brandkit_release ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeAvatarKt {
+	public static final fun NativeAvatar-2nCz7is (Landroidx/compose/ui/Modifier;Landroidx/compose/ui/graphics/painter/Painter;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;Lio/github/apdelrahman1911/nativecomposekit/components/NativeAvatarSize;Lio/github/apdelrahman1911/nativecomposekit/components/NativeAvatarShape;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeAvatarShape : java/lang/Enum {
+	public static final field Circle Lio/github/apdelrahman1911/nativecomposekit/components/NativeAvatarShape;
+	public static final field Rounded Lio/github/apdelrahman1911/nativecomposekit/components/NativeAvatarShape;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandAvatarShape;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/BrandAvatarShape;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeAvatarShape;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/NativeAvatarShape;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandAvatarSize : java/lang/Enum {
-	public static final field Large Lio/github/apdelrahman1911/nativecomposekit/components/BrandAvatarSize;
-	public static final field Medium Lio/github/apdelrahman1911/nativecomposekit/components/BrandAvatarSize;
-	public static final field Small Lio/github/apdelrahman1911/nativecomposekit/components/BrandAvatarSize;
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeAvatarSize : java/lang/Enum {
+	public static final field Large Lio/github/apdelrahman1911/nativecomposekit/components/NativeAvatarSize;
+	public static final field Medium Lio/github/apdelrahman1911/nativecomposekit/components/NativeAvatarSize;
+	public static final field Small Lio/github/apdelrahman1911/nativecomposekit/components/NativeAvatarSize;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandAvatarSize;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/BrandAvatarSize;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeAvatarSize;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/NativeAvatarSize;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandBadgeKt {
-	public static final fun BrandBadge-VVa3G6Q (Landroidx/compose/ui/Modifier;Ljava/lang/Integer;ILandroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
-	public static final fun BrandBadgedBox (Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeBadgeKt {
+	public static final fun NativeBadge-VVa3G6Q (Landroidx/compose/ui/Modifier;Ljava/lang/Integer;ILandroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+	public static final fun NativeBadgedBox (Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandButtonKt {
-	public static final fun BrandButton-Ew51_bE (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonSize;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonShape;ZZZLio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenu;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonColors;Landroidx/compose/ui/text/TextStyle;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandInteropTouch;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeButtonKt {
+	public static final fun NativeButton-Ew51_bE (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonShape;ZZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;Landroidx/compose/ui/text/TextStyle;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandCardKt {
-	public static final fun BrandCard-TzUsow0 (Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/BrandCardVariant;Lkotlin/jvm/functions/Function0;Ljava/lang/String;ZLandroidx/compose/ui/unit/Dp;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;III)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeCardKt {
+	public static final fun NativeCard-TzUsow0 (Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/NativeCardVariant;Lkotlin/jvm/functions/Function0;Ljava/lang/String;ZLandroidx/compose/ui/unit/Dp;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;III)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandCardVariant : java/lang/Enum {
-	public static final field Elevated Lio/github/apdelrahman1911/nativecomposekit/components/BrandCardVariant;
-	public static final field Filled Lio/github/apdelrahman1911/nativecomposekit/components/BrandCardVariant;
-	public static final field Outlined Lio/github/apdelrahman1911/nativecomposekit/components/BrandCardVariant;
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeCardVariant : java/lang/Enum {
+	public static final field Elevated Lio/github/apdelrahman1911/nativecomposekit/components/NativeCardVariant;
+	public static final field Filled Lio/github/apdelrahman1911/nativecomposekit/components/NativeCardVariant;
+	public static final field Outlined Lio/github/apdelrahman1911/nativecomposekit/components/NativeCardVariant;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandCardVariant;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/BrandCardVariant;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeCardVariant;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/NativeCardVariant;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandCheckboxKt {
-	public static final fun BrandCheckbox (ZLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeCheckboxKt {
+	public static final fun NativeCheckbox (ZLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandChipKt {
-	public static final fun BrandChip (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/BrandChipStyle;ZLkotlin/jvm/functions/Function0;ZLandroidx/compose/ui/graphics/vector/ImageVector;Landroidx/compose/ui/graphics/vector/ImageVector;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeChipKt {
+	public static final fun NativeChip (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/NativeChipStyle;ZLkotlin/jvm/functions/Function0;ZLandroidx/compose/ui/graphics/vector/ImageVector;Landroidx/compose/ui/graphics/vector/ImageVector;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandChipStyle : java/lang/Enum {
-	public static final field Assist Lio/github/apdelrahman1911/nativecomposekit/components/BrandChipStyle;
-	public static final field Filter Lio/github/apdelrahman1911/nativecomposekit/components/BrandChipStyle;
-	public static final field Input Lio/github/apdelrahman1911/nativecomposekit/components/BrandChipStyle;
-	public static final field Suggestion Lio/github/apdelrahman1911/nativecomposekit/components/BrandChipStyle;
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeChipStyle : java/lang/Enum {
+	public static final field Assist Lio/github/apdelrahman1911/nativecomposekit/components/NativeChipStyle;
+	public static final field Filter Lio/github/apdelrahman1911/nativecomposekit/components/NativeChipStyle;
+	public static final field Input Lio/github/apdelrahman1911/nativecomposekit/components/NativeChipStyle;
+	public static final field Suggestion Lio/github/apdelrahman1911/nativecomposekit/components/NativeChipStyle;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandChipStyle;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/BrandChipStyle;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeChipStyle;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/NativeChipStyle;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandColorWellIosOptions {
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeColorWellIosOptions {
 	public static final field $stable I
 	public fun <init> ()V
 	public fun <init> (Z)V
 	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
-	public final fun copy (Z)Lio/github/apdelrahman1911/nativecomposekit/components/BrandColorWellIosOptions;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/BrandColorWellIosOptions;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandColorWellIosOptions;
+	public final fun copy (Z)Lio/github/apdelrahman1911/nativecomposekit/components/NativeColorWellIosOptions;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/NativeColorWellIosOptions;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeColorWellIosOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getSupportsAlpha ()Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandColorWellKt {
-	public static final fun BrandColorWell-Pd0R-II (JLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZLjava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/BrandColorWellIosOptions;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeColorWellKt {
+	public static final fun NativeColorWell-Pd0R-II (JLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZLjava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/NativeColorWellIosOptions;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandContentStateKt {
-	public static final fun BrandContentState (Lio/github/apdelrahman1911/nativecomposekit/components/BrandLoadState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;III)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeContentStateKt {
+	public static final fun NativeContentState (Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;III)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandDatePickerKt {
-	public static final fun BrandDatePicker (Ljava/lang/Long;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/Long;Ljava/lang/Long;ZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeDatePickerKt {
+	public static final fun NativeDatePicker (Ljava/lang/Long;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/Long;Ljava/lang/Long;ZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandDialogKt {
-	public static final fun BrandDialog (Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Ljava/lang/String;ZZLjava/lang/String;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeDialogKt {
+	public static final fun NativeDialog (Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Ljava/lang/String;ZZLjava/lang/String;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandDividerKt {
-	public static final fun BrandDivider-PJDKInI (Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/BrandDividerOrientation;FLandroidx/compose/ui/graphics/Color;FFLjava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeDividerKt {
+	public static final fun NativeDivider-PJDKInI (Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/NativeDividerOrientation;FLandroidx/compose/ui/graphics/Color;FFLjava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandDividerOrientation : java/lang/Enum {
-	public static final field Horizontal Lio/github/apdelrahman1911/nativecomposekit/components/BrandDividerOrientation;
-	public static final field Vertical Lio/github/apdelrahman1911/nativecomposekit/components/BrandDividerOrientation;
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeDividerOrientation : java/lang/Enum {
+	public static final field Horizontal Lio/github/apdelrahman1911/nativecomposekit/components/NativeDividerOrientation;
+	public static final field Vertical Lio/github/apdelrahman1911/nativecomposekit/components/NativeDividerOrientation;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandDividerOrientation;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/BrandDividerOrientation;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeDividerOrientation;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/NativeDividerOrientation;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandEmptyStateKt {
-	public static final fun BrandEmptyState (Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeEmptyStateKt {
+	public static final fun NativeEmptyState (Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandFocusModifiersKt {
-	public static final fun brandDismissKeyboardOnTap (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/Modifier;
-	public static final fun brandHeading (Landroidx/compose/ui/Modifier;)Landroidx/compose/ui/Modifier;
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeFocusModifiersKt {
+	public static final fun nativeDismissKeyboardOnTap (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/Modifier;
+	public static final fun nativeHeading (Landroidx/compose/ui/Modifier;)Landroidx/compose/ui/Modifier;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandIconButtonKt {
-	public static final fun BrandIconButton-j5vxNqM (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonSize;ZZLio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenu;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonColors;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandInteropTouch;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeIconButtonKt {
+	public static final fun NativeIconButton-j5vxNqM (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;ZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandListItemKt {
-	public static final fun BrandListItem-MC_ep60 (Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Ljava/lang/String;ZZZLio/github/apdelrahman1911/nativecomposekit/components/BrandSwipeAction;FLandroidx/compose/foundation/layout/PaddingValues;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeListItemKt {
+	public static final fun NativeListItem-MC_ep60 (Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Ljava/lang/String;ZZZLio/github/apdelrahman1911/nativecomposekit/components/NativeSwipeAction;FLandroidx/compose/foundation/layout/PaddingValues;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandListSectionKt {
-	public static final fun BrandListSection-V-95POc (Ljava/util/List;Landroidx/compose/ui/Modifier;Ljava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/BrandListSectionStyle;ZFLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeListSectionKt {
+	public static final fun NativeListSection-V-95POc (Ljava/util/List;Landroidx/compose/ui/Modifier;Ljava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/NativeListSectionStyle;ZFLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandListSectionStyle : java/lang/Enum {
-	public static final field Grouped Lio/github/apdelrahman1911/nativecomposekit/components/BrandListSectionStyle;
-	public static final field Plain Lio/github/apdelrahman1911/nativecomposekit/components/BrandListSectionStyle;
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeListSectionStyle : java/lang/Enum {
+	public static final field Grouped Lio/github/apdelrahman1911/nativecomposekit/components/NativeListSectionStyle;
+	public static final field Plain Lio/github/apdelrahman1911/nativecomposekit/components/NativeListSectionStyle;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandListSectionStyle;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/BrandListSectionStyle;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeListSectionStyle;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/NativeListSectionStyle;
 }
 
-public abstract interface class io/github/apdelrahman1911/nativecomposekit/components/BrandLoadState {
+public abstract interface class io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState {
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Content : io/github/apdelrahman1911/nativecomposekit/components/BrandLoadState {
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Content : io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState {
 	public static final field $stable I
 	public fun <init> (Ljava/lang/Object;)V
 	public final fun component1 ()Ljava/lang/Object;
-	public final fun copy (Ljava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Content;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Content;Ljava/lang/Object;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Content;
+	public final fun copy (Ljava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Content;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Content;Ljava/lang/Object;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Content;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()Ljava/lang/Object;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Empty : io/github/apdelrahman1911/nativecomposekit/components/BrandLoadState {
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Empty : io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState {
 	public static final field $stable I
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Empty;
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Empty;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Error : io/github/apdelrahman1911/nativecomposekit/components/BrandLoadState {
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Error : io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState {
 	public static final field $stable I
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Error;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Error;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Error;
+	public final fun copy (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Error;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Error;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Error;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getMessage ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Loading : io/github/apdelrahman1911/nativecomposekit/components/BrandLoadState {
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Loading : io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState {
 	public static final field $stable I
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/BrandLoadState$Loading;
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Loading;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandOtpFieldKt {
-	public static final fun BrandOtpField (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;IZZLkotlin/jvm/functions/Function1;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeOtpFieldKt {
+	public static final fun NativeOtpField (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;IZZLkotlin/jvm/functions/Function1;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandPageControlKt {
-	public static final fun BrandPageControl-Pz9yvRs (IILandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativePageControlKt {
+	public static final fun NativePageControl-Pz9yvRs (IILandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandPopoverKt {
-	public static final fun BrandPopover (ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Landroidx/compose/ui/Alignment;Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativePopoverKt {
+	public static final fun NativePopover (ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Landroidx/compose/ui/Alignment;Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandProgressIndicatorKt {
-	public static final fun BrandProgressIndicator-VVa3G6Q (Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/BrandProgressKind;Ljava/lang/Float;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeProgressIndicatorKt {
+	public static final fun NativeProgressIndicator-VVa3G6Q (Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/NativeProgressKind;Ljava/lang/Float;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandProgressKind : java/lang/Enum {
-	public static final field Circular Lio/github/apdelrahman1911/nativecomposekit/components/BrandProgressKind;
-	public static final field Linear Lio/github/apdelrahman1911/nativecomposekit/components/BrandProgressKind;
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeProgressKind : java/lang/Enum {
+	public static final field Circular Lio/github/apdelrahman1911/nativecomposekit/components/NativeProgressKind;
+	public static final field Linear Lio/github/apdelrahman1911/nativecomposekit/components/NativeProgressKind;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandProgressKind;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/BrandProgressKind;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeProgressKind;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/NativeProgressKind;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandPullRefreshKt {
-	public static final fun BrandPullRefresh (ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativePullRefreshKt {
+	public static final fun NativePullRefresh (ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandRadioGroupKt {
-	public static final fun BrandRadioGroup (Ljava/util/List;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;ZLio/github/apdelrahman1911/nativecomposekit/components/BrandSelectionStyle;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeRadioGroupKt {
+	public static final fun NativeRadioGroup (Ljava/util/List;Ljava/lang/Object;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;ZLio/github/apdelrahman1911/nativecomposekit/components/NativeSelectionStyle;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandRatingKt {
-	public static final fun BrandRating-_8q_tzQ (FLandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;ZIFZLandroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeRatingKt {
+	public static final fun NativeRating-_8q_tzQ (FLandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;ZIFZLandroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandScaffoldKt {
-	public static final fun BrandScaffold-Pz9yvRs (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeScaffoldKt {
+	public static final fun NativeScaffold-Pz9yvRs (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSearchBarIosOptions {
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarIosOptions {
 	public static final field $stable I
 	public fun <init> ()V
 	public fun <init> (Z)V
 	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
-	public final fun copy (Z)Lio/github/apdelrahman1911/nativecomposekit/components/BrandSearchBarIosOptions;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/BrandSearchBarIosOptions;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandSearchBarIosOptions;
+	public final fun copy (Z)Lio/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarIosOptions;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarIosOptions;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarIosOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getShowCancelButton ()Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSearchBarKt {
-	public static final fun BrandSearchBar (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;ZLjava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/BrandSearchBarIosOptions;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarKt {
+	public static final fun NativeSearchBar (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;ZLjava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarIosOptions;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSegmentedControlKt {
-	public static final fun BrandSegmentedControl (Ljava/util/List;ILkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSegmentedControlKt {
+	public static final fun NativeSegmentedControl (Ljava/util/List;ILkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSelectionStyle : java/lang/Enum {
-	public static final field Checkmark Lio/github/apdelrahman1911/nativecomposekit/components/BrandSelectionStyle;
-	public static final field Radio Lio/github/apdelrahman1911/nativecomposekit/components/BrandSelectionStyle;
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSelectionStyle : java/lang/Enum {
+	public static final field Checkmark Lio/github/apdelrahman1911/nativecomposekit/components/NativeSelectionStyle;
+	public static final field Radio Lio/github/apdelrahman1911/nativecomposekit/components/NativeSelectionStyle;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandSelectionStyle;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/BrandSelectionStyle;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeSelectionStyle;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/NativeSelectionStyle;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandShare {
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeShare {
 	public static final field $stable I
-	public final fun share (Lio/github/apdelrahman1911/nativecomposekit/components/BrandShareContent;)V
+	public final fun share (Lio/github/apdelrahman1911/nativecomposekit/components/NativeShareContent;)V
 	public final fun share (Ljava/lang/String;Ljava/lang/String;)V
-	public static synthetic fun share$default (Lio/github/apdelrahman1911/nativecomposekit/components/BrandShare;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)V
+	public static synthetic fun share$default (Lio/github/apdelrahman1911/nativecomposekit/components/NativeShare;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandShareContent {
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeShareContent {
 	public static final field $stable I
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandShareContent;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/BrandShareContent;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandShareContent;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeShareContent;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/NativeShareContent;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeShareContent;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getText ()Ljava/lang/String;
 	public final fun getUrl ()Ljava/lang/String;
@@ -268,39 +321,39 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSh
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandShareSheetKt {
-	public static final fun rememberBrandShare (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/components/BrandShare;
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeShareSheetKt {
+	public static final fun rememberNativeShare (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/components/NativeShare;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSheetDetent : java/lang/Enum {
-	public static final field Large Lio/github/apdelrahman1911/nativecomposekit/components/BrandSheetDetent;
-	public static final field Medium Lio/github/apdelrahman1911/nativecomposekit/components/BrandSheetDetent;
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSheetDetent : java/lang/Enum {
+	public static final field Large Lio/github/apdelrahman1911/nativecomposekit/components/NativeSheetDetent;
+	public static final field Medium Lio/github/apdelrahman1911/nativecomposekit/components/NativeSheetDetent;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandSheetDetent;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/BrandSheetDetent;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeSheetDetent;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/NativeSheetDetent;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSheetKt {
-	public static final fun BrandSheet (ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Ljava/util/List;ZLjava/lang/String;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSheetKt {
+	public static final fun NativeSheet (ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Ljava/util/List;ZLjava/lang/String;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSkeletonKt {
-	public static final fun BrandSkeleton (Landroidx/compose/ui/Modifier;Landroidx/compose/ui/graphics/Shape;ZLandroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSkeletonKt {
+	public static final fun NativeSkeleton (Landroidx/compose/ui/Modifier;Landroidx/compose/ui/graphics/Shape;ZLandroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSliderKt {
-	public static final fun BrandSlider (FLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/ranges/ClosedFloatingPointRange;ZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSliderKt {
+	public static final fun NativeSlider (FLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/ranges/ClosedFloatingPointRange;ZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSplitButtonKt {
-	public static final fun BrandSplitButton-b1Ouy7s (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenu;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonSize;ZZLio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonColors;Landroidx/compose/ui/text/TextStyle;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandInteropTouch;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSplitButtonKt {
+	public static final fun NativeSplitButton-b1Ouy7s (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;ZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;Landroidx/compose/ui/text/TextStyle;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandStepperKt {
-	public static final fun BrandStepper (ILkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;IIIZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeStepperKt {
+	public static final fun NativeStepper (ILkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;IIIZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSwipeAction {
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSwipeAction {
 	public static final field $stable I
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;Z)V
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -308,8 +361,8 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSw
 	public final fun component2 ()Lkotlin/jvm/functions/Function0;
 	public final fun component3 ()Landroidx/compose/ui/graphics/vector/ImageVector;
 	public final fun component4 ()Z
-	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;Z)Lio/github/apdelrahman1911/nativecomposekit/components/BrandSwipeAction;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/BrandSwipeAction;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/BrandSwipeAction;
+	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;Z)Lio/github/apdelrahman1911/nativecomposekit/components/NativeSwipeAction;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/NativeSwipeAction;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeSwipeAction;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDestructive ()Z
 	public final fun getIcon ()Landroidx/compose/ui/graphics/vector/ImageVector;
@@ -319,254 +372,201 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/BrandSw
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandTabBarKt {
-	public static final fun BrandTabBar (Ljava/util/List;ILkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeTabBarKt {
+	public static final fun NativeTabBar (Ljava/util/List;ILkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandTextFieldKt {
-	public static final fun BrandTextField-IZZ9rbA (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldInput;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldFocus;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldColors;Landroidx/compose/ui/unit/Dp;Landroidx/compose/ui/text/TextStyle;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandInteropTouch;Ljava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextFieldIosOptions;Landroidx/compose/runtime/Composer;IIII)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeTextFieldKt {
+	public static final fun NativeTextField-IZZ9rbA (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldInput;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldFocus;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldColors;Landroidx/compose/ui/unit/Dp;Landroidx/compose/ui/text/TextStyle;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Ljava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextFieldIosOptions;Landroidx/compose/runtime/Composer;IIII)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandTextKt {
-	public static final fun BrandText-o8p_-ro (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextStyle;JLandroidx/compose/ui/text/font/FontWeight;Landroidx/compose/ui/text/style/TextAlign;IILandroidx/compose/ui/text/TextStyle;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeTextKt {
+	public static final fun NativeText-o8p_-ro (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextStyle;JLandroidx/compose/ui/text/font/FontWeight;Landroidx/compose/ui/text/style/TextAlign;IILandroidx/compose/ui/text/TextStyle;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandToggleKt {
-	public static final fun BrandToggle (ZLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeToggleKt {
+	public static final fun NativeToggle (ZLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandTooltipKt {
-	public static final fun BrandTooltip (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeTooltipKt {
+	public static final fun NativeTooltip (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/BrandTopBarKt {
-	public static final fun BrandTopBar (Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;Lkotlin/jvm/functions/Function0;Ljava/lang/String;ZLjava/lang/String;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeTopBarKt {
+	public static final fun NativeTopBar (Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;Lkotlin/jvm/functions/Function0;Ljava/lang/String;ZLjava/lang/String;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandColorWell_androidKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandColorWell_androidKt;
-	public fun <init> ()V
-	public final fun getLambda$-1585746658$brandkit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-430449083$brandkit_release ()Lkotlin/jvm/functions/Function3;
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandDialogKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandDialogKt;
-	public fun <init> ()V
-	public final fun getLambda$1949480515$brandkit_release ()Lkotlin/jvm/functions/Function3;
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandScaffoldKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandScaffoldKt;
-	public fun <init> ()V
-	public final fun getLambda$1998063747$brandkit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$488927843$brandkit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$88232307$brandkit_release ()Lkotlin/jvm/functions/Function2;
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandSearchBar_androidKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandSearchBar_androidKt;
-	public fun <init> ()V
-	public final fun getLambda$1506355750$brandkit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1986495648$brandkit_release ()Lkotlin/jvm/functions/Function2;
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandSheet_androidKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandSheet_androidKt;
-	public fun <init> ()V
-	public final fun getLambda$-571030106$brandkit_release ()Lkotlin/jvm/functions/Function2;
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandSplitButton_androidKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandSplitButton_androidKt;
-	public fun <init> ()V
-	public final fun getLambda$1731937294$brandkit_release ()Lkotlin/jvm/functions/Function3;
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandStepper_androidKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandStepper_androidKt;
-	public fun <init> ()V
-	public final fun getLambda$-1491166406$brandkit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1034024017$brandkit_release ()Lkotlin/jvm/functions/Function2;
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandTopBarKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$BrandTopBarKt;
-	public fun <init> ()V
-	public final fun getLambda$376600009$brandkit_release ()Lkotlin/jvm/functions/Function3;
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertAction {
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertAction {
 	public static final field $stable I
-	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;)V
-	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Lkotlin/jvm/functions/Function0;
-	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;
-	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertAction;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertAction;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertAction;
+	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
+	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertAction;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertAction;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertAction;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLabel ()Ljava/lang/String;
 	public final fun getOnClick ()Lkotlin/jvm/functions/Function0;
-	public final fun getRole ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;
+	public final fun getRole ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole : java/lang/Enum {
-	public static final field Cancel Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;
-	public static final field Default Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;
-	public static final field Destructive Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole : java/lang/Enum {
+	public static final field Cancel Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
+	public static final field Default Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
+	public static final field Destructive Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertIosOptions {
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertIosOptions {
 	public static final field $stable I
 	public fun <init> ()V
-	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;)V
-	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;
-	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertIosOptions;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertIosOptions;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertIosOptions;
+	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;)V
+	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
+	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertIosOptions;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertIosOptions;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertIosOptions;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getPresentation ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;
+	public final fun getPresentation ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandConfirmationSheetIosOptions {
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeConfirmationSheetIosOptions {
 	public static final field $stable I
 	public fun <init> ()V
-	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;)V
-	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;
-	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandConfirmationSheetIosOptions;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandConfirmationSheetIosOptions;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandConfirmationSheetIosOptions;
+	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;)V
+	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
+	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeConfirmationSheetIosOptions;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeConfirmationSheetIosOptions;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeConfirmationSheetIosOptions;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getPresentation ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;
+	public final fun getPresentation ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackController {
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackController {
 	public static final field $stable I
-	public final fun alert (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertIosOptions;)J
-	public static synthetic fun alert$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackController;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertIosOptions;ILjava/lang/Object;)J
-	public final fun banner (Ljava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackPosition;Ljava/lang/String;Lkotlin/jvm/functions/Function0;ZLio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior;Lkotlin/jvm/functions/Function0;Z)J
-	public static synthetic fun banner$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackController;Ljava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackPosition;Ljava/lang/String;Lkotlin/jvm/functions/Function0;ZLio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior;Lkotlin/jvm/functions/Function0;ZILjava/lang/Object;)J
+	public final fun alert (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertIosOptions;)J
+	public static synthetic fun alert$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackController;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertIosOptions;ILjava/lang/Object;)J
+	public final fun banner (Ljava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackPosition;Ljava/lang/String;Lkotlin/jvm/functions/Function0;ZLio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;Lkotlin/jvm/functions/Function0;Z)J
+	public static synthetic fun banner$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackController;Ljava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackPosition;Ljava/lang/String;Lkotlin/jvm/functions/Function0;ZLio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;Lkotlin/jvm/functions/Function0;ZILjava/lang/Object;)J
 	public final fun clearAll ()V
-	public final fun confirmationSheet (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandConfirmationSheetIosOptions;)J
-	public static synthetic fun confirmationSheet$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackController;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandConfirmationSheetIosOptions;ILjava/lang/Object;)J
+	public final fun confirmationSheet (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeConfirmationSheetIosOptions;)J
+	public static synthetic fun confirmationSheet$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackController;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeConfirmationSheetIosOptions;ILjava/lang/Object;)J
 	public final fun dismiss (J)V
 	public final fun dismissCurrent ()V
 	public final fun dismissCurrentModal ()V
-	public final fun snackbar (Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior;Lkotlin/jvm/functions/Function0;Z)J
-	public static synthetic fun snackbar$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackController;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior;Lkotlin/jvm/functions/Function0;ZILjava/lang/Object;)J
-	public final fun toast (Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackPosition;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandToastAndroidOptions;)J
-	public static synthetic fun toast$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackController;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackPosition;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandToastAndroidOptions;ILjava/lang/Object;)J
+	public final fun snackbar (Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;Lkotlin/jvm/functions/Function0;Z)J
+	public static synthetic fun snackbar$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackController;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;Lkotlin/jvm/functions/Function0;ZILjava/lang/Object;)J
+	public final fun toast (Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackPosition;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeToastAndroidOptions;)J
+	public static synthetic fun toast$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackController;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackPosition;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeToastAndroidOptions;ILjava/lang/Object;)J
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackControllerKt {
-	public static final fun getLocalBrandFeedbackController ()Landroidx/compose/runtime/ProvidableCompositionLocal;
-	public static final fun rememberBrandFeedbackController (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackController;
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackControllerKt {
+	public static final fun getLocalNativeFeedbackController ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+	public static final fun rememberNativeFeedbackController (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackController;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration : java/lang/Enum {
-	public static final field Indefinite Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration;
-	public static final field Long Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration;
-	public static final field Short Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration;
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration : java/lang/Enum {
+	public static final field Indefinite Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration;
+	public static final field Long Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration;
+	public static final field Short Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackDuration;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackDuration;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackHostKt {
-	public static final fun BrandFeedbackHost (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackController;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackHostKt {
+	public static final fun NativeFeedbackHost (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackController;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackPosition : java/lang/Enum {
-	public static final field Bottom Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackPosition;
-	public static final field Top Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackPosition;
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackPosition : java/lang/Enum {
+	public static final field Bottom Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackPosition;
+	public static final field Top Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackPosition;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackPosition;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackPosition;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackPosition;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackPosition;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus : java/lang/Enum {
-	public static final field Error Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;
-	public static final field Info Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;
-	public static final field Success Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;
-	public static final field Warning Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus : java/lang/Enum {
+	public static final field Error Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;
+	public static final field Info Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;
+	public static final field Success Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;
+	public static final field Warning Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandInlineStatusKt {
-	public static final fun BrandInlineStatus (Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandFeedbackStatus;Landroidx/compose/ui/Modifier;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;ZZLjava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeInlineStatusKt {
+	public static final fun NativeInlineStatus (Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackStatus;Landroidx/compose/ui/Modifier;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;ZZLjava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation : java/lang/Enum {
-	public static final field Branded Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;
-	public static final field Native Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation : java/lang/Enum {
+	public static final field Branded Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
+	public static final field Native Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandPresentation;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior : java/lang/Enum {
-	public static final field DropIfShowing Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior;
-	public static final field Enqueue Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior;
-	public static final field ReplaceCurrent Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior;
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior : java/lang/Enum {
+	public static final field DropIfShowing Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;
+	public static final field Enqueue Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;
+	public static final field ReplaceCurrent Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandQueueBehavior;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandSheetAction {
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeSheetAction {
 	public static final field $stable I
-	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;)V
-	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Lkotlin/jvm/functions/Function0;
-	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;
-	public final fun component4 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;
-	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandSheetAction;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandSheetAction;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandSheetAction;
+	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
+	public final fun component4 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;
+	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeSheetAction;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeSheetAction;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeSheetAction;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getIcon ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;
+	public final fun getIcon ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;
 	public final fun getLabel ()Ljava/lang/String;
 	public final fun getOnClick ()Lkotlin/jvm/functions/Function0;
-	public final fun getRole ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandAlertActionRole;
+	public final fun getRole ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/BrandToastAndroidOptions {
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeToastAndroidOptions {
 	public static final field $stable I
 	public fun <init> ()V
 	public fun <init> (Z)V
 	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
-	public final fun copy (Z)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandToastAndroidOptions;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandToastAndroidOptions;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/BrandToastAndroidOptions;
+	public final fun copy (Z)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeToastAndroidOptions;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeToastAndroidOptions;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeToastAndroidOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getUseSystemToast ()Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonColors {
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors {
 	public static final field $stable I
 	public synthetic fun <init> (JJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (JJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-0d7_KjU ()J
 	public final fun component2-0d7_KjU ()J
 	public final fun component3-0d7_KjU ()J
-	public final fun copy-ysEtTa8 (JJJ)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonColors;
-	public static synthetic fun copy-ysEtTa8$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonColors;JJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonColors;
+	public final fun copy-ysEtTa8 (JJJ)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;
+	public static synthetic fun copy-ysEtTa8$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;JJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBorder-0d7_KjU ()J
 	public final fun getContainer-0d7_KjU ()J
@@ -575,78 +575,78 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/B
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonShape : java/lang/Enum {
-	public static final field Pill Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonShape;
-	public static final field Rounded Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonShape;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonShape : java/lang/Enum {
+	public static final field Pill Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonShape;
+	public static final field Rounded Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonShape;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonShape;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonShape;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonShape;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonShape;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonSize : java/lang/Enum {
-	public static final field Large Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonSize;
-	public static final field Medium Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonSize;
-	public static final field Small Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonSize;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize : java/lang/Enum {
+	public static final field Large Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;
+	public static final field Medium Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;
+	public static final field Small Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonSize;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonSize;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonVariant : java/lang/Enum {
-	public static final field Destructive Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonVariant;
-	public static final field Outline Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonVariant;
-	public static final field Primary Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonVariant;
-	public static final field Secondary Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonVariant;
-	public static final field Tertiary Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonVariant;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant : java/lang/Enum {
+	public static final field Destructive Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;
+	public static final field Outline Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;
+	public static final field Primary Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;
+	public static final field Secondary Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;
+	public static final field Tertiary Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonVariant;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandButtonVariant;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization : java/lang/Enum {
-	public static final field Characters Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;
-	public static final field None Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;
-	public static final field Sentences Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;
-	public static final field Words Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization : java/lang/Enum {
+	public static final field Characters Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;
+	public static final field None Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;
+	public static final field Sentences Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;
+	public static final field Words Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimit {
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit {
 	public static final field $stable I
-	public fun <init> (ILio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimitBehavior;)V
-	public synthetic fun <init> (ILio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimitBehavior;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (ILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;)V
+	public synthetic fun <init> (ILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()I
-	public final fun component2 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimitBehavior;
-	public final fun copy (ILio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimitBehavior;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimit;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimit;ILio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimitBehavior;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimit;
+	public final fun component2 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;
+	public final fun copy (ILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;ILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBehavior ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimitBehavior;
+	public final fun getBehavior ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;
 	public final fun getMax ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimitBehavior : java/lang/Enum {
-	public static final field Enforce Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimitBehavior;
-	public static final field WarnOnly Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimitBehavior;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior : java/lang/Enum {
+	public static final field Enforce Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;
+	public static final field WarnOnly Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimitBehavior;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimitBehavior;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode : java/lang/Enum {
-	public static final field Always Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;
-	public static final field Never Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;
-	public static final field UnlessEditing Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;
-	public static final field WhileEditing Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode : java/lang/Enum {
+	public static final field Always Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
+	public static final field Never Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
+	public static final field UnlessEditing Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
+	public static final field WhileEditing Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldColors {
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldColors {
 	public static final field $stable I
 	public synthetic fun <init> (JJJJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-0d7_KjU ()J
@@ -659,8 +659,8 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/B
 	public final fun component7-0d7_KjU ()J
 	public final fun component8-0d7_KjU ()J
 	public final fun component9-0d7_KjU ()J
-	public final fun copy--K518z4 (JJJJJJJJJJ)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldColors;
-	public static synthetic fun copy--K518z4$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldColors;JJJJJJJJJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldColors;
+	public final fun copy--K518z4 (JJJJJJJJJJ)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldColors;
+	public static synthetic fun copy--K518z4$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldColors;JJJJJJJJJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldColors;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBorder-0d7_KjU ()J
 	public final fun getContainer-0d7_KjU ()J
@@ -676,15 +676,15 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/B
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldFocus {
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldFocus {
 	public static final field $stable I
 	public fun <init> ()V
 	public fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;)V
 	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lkotlin/jvm/functions/Function1;
 	public final fun component2 ()Lkotlin/jvm/functions/Function0;
-	public final fun copy (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldFocus;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldFocus;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldFocus;
+	public final fun copy (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldFocus;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldFocus;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldFocus;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getOnFocusChanged ()Lkotlin/jvm/functions/Function1;
 	public final fun getOnSubmit ()Lkotlin/jvm/functions/Function0;
@@ -692,28 +692,28 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/B
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldInput {
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldInput {
 	public static final field $stable I
 	public fun <init> ()V
-	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimit;)V
-	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimit;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;
-	public final fun component2 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;
+	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;)V
+	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;
+	public final fun component2 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;
 	public final fun component3 ()Z
 	public final fun component4 ()Z
 	public final fun component5 ()I
 	public final fun component6 ()I
-	public final fun component7 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;
+	public final fun component7 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;
 	public final fun component8 ()Z
-	public final fun component9 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimit;
-	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimit;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldInput;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldInput;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimit;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandFieldInput;
+	public final fun component9 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;
+	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldInput;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldInput;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldInput;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAutoCorrect ()Z
-	public final fun getCapitalization ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCapitalization;
-	public final fun getCharacterLimit ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandCharacterLimit;
-	public final fun getImeAction ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;
-	public final fun getKeyboardType ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;
+	public final fun getCapitalization ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;
+	public final fun getCharacterLimit ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;
+	public final fun getImeAction ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;
+	public final fun getKeyboardType ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;
 	public final fun getMaxLines ()I
 	public final fun getMinLines ()I
 	public final fun getSecure ()Z
@@ -722,7 +722,7 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/B
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon {
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon {
 	public static final field $stable I
 	public fun <init> ()V
 	public fun <init> (Landroidx/compose/ui/graphics/vector/ImageVector;Ljava/lang/String;Ljava/lang/String;)V
@@ -732,81 +732,81 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/B
 	public final fun getSfSymbolName ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction : java/lang/Enum {
-	public static final field Default Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;
-	public static final field Done Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;
-	public static final field Go Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;
-	public static final field Next Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;
-	public static final field Search Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;
-	public static final field Send Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction : java/lang/Enum {
+	public static final field Default Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;
+	public static final field Done Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;
+	public static final field Go Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;
+	public static final field Next Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;
+	public static final field Search Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;
+	public static final field Send Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandImeAction;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandInteropTouch : java/lang/Enum {
-	public static final field Cooperative Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandInteropTouch;
-	public static final field NonCooperative Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandInteropTouch;
-	public static final field NonInteractive Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandInteropTouch;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch : java/lang/Enum {
+	public static final field Cooperative Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;
+	public static final field NonCooperative Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;
+	public static final field NonInteractive Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandInteropTouch;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandInteropTouch;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessory {
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory {
 	public static final field $stable I
 	public fun <init> ()V
-	public fun <init> (ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessoryStyle;)V
-	public synthetic fun <init> (ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessoryStyle;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;)V
+	public synthetic fun <init> (ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
 	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessoryStyle;
-	public final fun copy (ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessoryStyle;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessory;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessory;ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessoryStyle;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessory;
+	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;
+	public final fun copy (ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDoneButton ()Z
 	public final fun getDoneText ()Ljava/lang/String;
-	public final fun getStyle ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessoryStyle;
+	public final fun getStyle ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessoryStyle : java/lang/Enum {
-	public static final field FullWidthBar Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessoryStyle;
-	public static final field Toolbar Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessoryStyle;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle : java/lang/Enum {
+	public static final field FullWidthBar Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;
+	public static final field Toolbar Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessoryStyle;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessoryStyle;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance : java/lang/Enum {
-	public static final field Dark Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance;
-	public static final field Default Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance;
-	public static final field Light Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance : java/lang/Enum {
+	public static final field Dark Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;
+	public static final field Default Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;
+	public static final field Light Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType : java/lang/Enum {
-	public static final field Decimal Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;
-	public static final field Email Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;
-	public static final field Number Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;
-	public static final field Phone Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;
-	public static final field Text Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType : java/lang/Enum {
+	public static final field Decimal Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;
+	public static final field Email Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;
+	public static final field Number Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;
+	public static final field Phone Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;
+	public static final field Text Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardType;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandMenu {
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu {
 	public static final field $stable I
 	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/util/List;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/util/List;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenu;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenu;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenu;
+	public final fun copy (Ljava/util/List;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getItems ()Ljava/util/List;
 	public final fun getTitle ()Ljava/lang/String;
@@ -814,126 +814,133 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/B
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItem {
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItem {
 	public static final field $stable I
-	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItemRole;ZZ)V
-	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItemRole;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;ZZ)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Lkotlin/jvm/functions/Function0;
-	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;
-	public final fun component4 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItemRole;
+	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;
+	public final fun component4 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;
 	public final fun component5 ()Z
 	public final fun component6 ()Z
-	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItemRole;ZZ)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItem;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItem;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItemRole;ZZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItem;
+	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;ZZ)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItem;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItem;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;ZZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItem;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEnabled ()Z
-	public final fun getIcon ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandIcon;
+	public final fun getIcon ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;
 	public final fun getOnSelect ()Lkotlin/jvm/functions/Function0;
-	public final fun getRole ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItemRole;
+	public final fun getRole ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;
 	public final fun getSelected ()Z
 	public final fun getTitle ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItemRole : java/lang/Enum {
-	public static final field Destructive Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItemRole;
-	public static final field Normal Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItemRole;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole : java/lang/Enum {
+	public static final field Destructive Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;
+	public static final field Normal Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItemRole;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandMenuItemRole;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType : java/lang/Enum {
-	public static final field EmailAddress Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;
-	public static final field FullStreetAddress Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;
-	public static final field Name Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;
-	public static final field NewPassword Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;
-	public static final field OneTimeCode Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;
-	public static final field Password Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;
-	public static final field PostalCode Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;
-	public static final field TelephoneNumber Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;
-	public static final field Username Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType : java/lang/Enum {
+	public static final field EmailAddress Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;
+	public static final field FullStreetAddress Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;
+	public static final field Name Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;
+	public static final field NewPassword Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;
+	public static final field OneTimeCode Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;
+	public static final field Password Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;
+	public static final field PostalCode Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;
+	public static final field TelephoneNumber Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;
+	public static final field Username Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextContentType;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandTextFieldIosOptions {
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeTextFieldIosOptions {
 	public static final field $stable I
 	public fun <init> ()V
-	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessory;)V
-	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessory;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;
-	public final fun component2 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance;
-	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessory;
-	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessory;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextFieldIosOptions;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextFieldIosOptions;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessory;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextFieldIosOptions;
+	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;)V
+	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
+	public final fun component2 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;
+	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;
+	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextFieldIosOptions;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextFieldIosOptions;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextFieldIosOptions;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getClearButton ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandClearButtonMode;
-	public final fun getKeyboardAccessory ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAccessory;
-	public final fun getKeyboardAppearance ()Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandKeyboardAppearance;
+	public final fun getClearButton ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
+	public final fun getKeyboardAccessory ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;
+	public final fun getKeyboardAppearance ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/model/BrandTextStyle : java/lang/Enum {
-	public static final field Body Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextStyle;
-	public static final field Display Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextStyle;
-	public static final field Label Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextStyle;
-	public static final field Title Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextStyle;
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeTextStyle : java/lang/Enum {
+	public static final field Body Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextStyle;
+	public static final field Display Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextStyle;
+	public static final field Label Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextStyle;
+	public static final field Title Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextStyle;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextStyle;
-	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/BrandTextStyle;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextStyle;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextStyle;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/navigation/BrandNavBarItem {
+public final class io/github/apdelrahman1911/nativecomposekit/navigation/ComposableSingletons$NativeNavHostKt {
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/navigation/ComposableSingletons$NativeNavHostKt;
+	public fun <init> ()V
+	public final fun getLambda$-1008416180$brandkit_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-277273280$brandkit_release ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavBarItem {
 	public static final field $stable I
-	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandTab;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;)V
-	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandTab;
+	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeTab;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;)V
+	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeTab;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Landroidx/compose/ui/graphics/vector/ImageVector;
-	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandTab;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;)Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavBarItem;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavBarItem;Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandTab;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavBarItem;
+	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeTab;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;)Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavBarItem;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavBarItem;Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeTab;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavBarItem;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIcon ()Landroidx/compose/ui/graphics/vector/ImageVector;
 	public final fun getLabel ()Ljava/lang/String;
-	public final fun getTab ()Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandTab;
+	public final fun getTab ()Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeTab;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class io/github/apdelrahman1911/nativecomposekit/navigation/BrandNavCancellable {
+public abstract interface class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavCancellable {
 	public abstract fun cancel ()V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/navigation/BrandNavGraph {
+public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavGraph {
 	public static final field $stable I
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/navigation/BrandNavGraphBuilder {
+public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavGraphBuilder {
 	public static final field $stable I
 	public final fun getScreens ()Ljava/util/Map;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/navigation/BrandNavGraphKt {
-	public static final fun brandNavGraph (Lkotlin/jvm/functions/Function1;)Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavGraph;
+public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavGraphKt {
+	public static final fun nativeNavGraph (Lkotlin/jvm/functions/Function1;)Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavGraph;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/navigation/BrandNavHostKt {
-	public static final fun BrandNavHost (Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavigator;Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavGraph;Ljava/util/List;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavHostKt {
+	public static final fun NativeNavHost (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavigator;Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavGraph;Ljava/util/List;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/navigation/BrandNavSnapshot {
+public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavSnapshot {
 	public static final field $stable I
 	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/Map;Ljava/lang/String;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/util/List;
 	public final fun component3 ()Ljava/util/Map;
 	public final fun component4 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/util/Map;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavSnapshot;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavSnapshot;Ljava/lang/String;Ljava/util/List;Ljava/util/Map;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavSnapshot;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/util/Map;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavSnapshot;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavSnapshot;Ljava/lang/String;Ljava/util/List;Ljava/util/Map;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavSnapshot;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getSelectedTabId ()Ljava/lang/String;
 	public final fun getSheetId ()Ljava/lang/String;
@@ -943,89 +950,86 @@ public final class io/github/apdelrahman1911/nativecomposekit/navigation/BrandNa
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/navigation/BrandNavigationState {
+public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavigationState {
 	public static final field $stable I
 	public final fun currentStack ()Ljava/util/List;
-	public final fun getSelectedTab ()Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandTab;
-	public final fun getSheet ()Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandRoute;
+	public final fun getSelectedTab ()Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeTab;
+	public final fun getSheet ()Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeRoute;
 	public final fun getTabs ()Ljava/util/List;
-	public final fun top ()Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandRoute;
+	public final fun top ()Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeRoute;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/navigation/BrandNavigator {
+public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavigator {
 	public static final field $stable I
 	public final fun dismissSheet ()V
-	public final fun getState ()Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavigationState;
-	public final fun observe (Lkotlin/jvm/functions/Function1;)Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavCancellable;
+	public final fun getState ()Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavigationState;
+	public final fun observe (Lkotlin/jvm/functions/Function1;)Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavCancellable;
 	public final fun pop ()Z
 	public final fun popToRoot ()V
-	public final fun presentSheet (Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandRoute;)V
-	public final fun push (Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandRoute;)V
-	public final fun replaceStack (Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandTab;Ljava/util/List;)V
+	public final fun presentSheet (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeRoute;)V
+	public final fun push (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeRoute;)V
+	public final fun replaceStack (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeTab;Ljava/util/List;)V
 	public final fun replaceStack (Ljava/util/List;)V
-	public final fun selectTab (Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandTab;)V
-	public final fun snapshot ()Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavSnapshot;
+	public final fun selectTab (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeTab;)V
+	public final fun snapshot ()Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavSnapshot;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/navigation/BrandNavigatorFactoryKt {
-	public static final fun createBrandNavigator (Ljava/util/List;Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandTab;Lkotlin/jvm/functions/Function1;)Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavigator;
-	public static synthetic fun createBrandNavigator$default (Ljava/util/List;Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandTab;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavigator;
-	public static final fun rememberBrandNavigator (Ljava/util/List;Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandTab;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lio/github/apdelrahman1911/nativecomposekit/navigation/BrandNavigator;
+public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavigatorFactoryKt {
+	public static final fun createNativeNavigator (Ljava/util/List;Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeTab;Lkotlin/jvm/functions/Function1;)Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavigator;
+	public static synthetic fun createNativeNavigator$default (Ljava/util/List;Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeTab;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavigator;
+	public static final fun rememberNativeNavigator (Ljava/util/List;Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeTab;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavigator;
 }
 
-public abstract interface class io/github/apdelrahman1911/nativecomposekit/navigation/BrandRoute {
+public abstract interface class io/github/apdelrahman1911/nativecomposekit/navigation/NativeRoute {
 	public abstract fun getId ()Ljava/lang/String;
 }
 
-public abstract interface class io/github/apdelrahman1911/nativecomposekit/navigation/BrandTab {
+public abstract interface class io/github/apdelrahman1911/nativecomposekit/navigation/NativeTab {
 	public abstract fun getId ()Ljava/lang/String;
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/navigation/ComposableSingletons$BrandNavHostKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/navigation/ComposableSingletons$BrandNavHostKt;
-	public fun <init> ()V
-	public final fun getLambda$-1039902940$brandkit_release ()Lkotlin/jvm/functions/Function3;
-	public final fun getLambda$1522819632$brandkit_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/AppThemeKt {
-	public static final fun AppTheme (ZLandroidx/compose/material3/ColorScheme;Landroidx/compose/material3/ColorScheme;Landroidx/compose/material3/Typography;Landroidx/compose/material3/Shapes;Lio/github/apdelrahman1911/nativecomposekit/theme/BrandTokens;Lio/github/apdelrahman1911/nativecomposekit/theme/BrandStatusColors;Lio/github/apdelrahman1911/nativecomposekit/theme/BrandStatusColors;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
-	public static final fun getBrandDarkBackground ()J
-	public static final fun getBrandLightBackground ()J
+	public static final fun AppTheme (ZLandroidx/compose/material3/ColorScheme;Landroidx/compose/material3/ColorScheme;Landroidx/compose/material3/Typography;Landroidx/compose/material3/Shapes;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun getNativeDarkBackground ()J
+	public static final fun getNativeLightBackground ()J
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandAppearance {
+public final class io/github/apdelrahman1911/nativecomposekit/theme/LocalNativeSurfaceKt {
+	public static final fun getLocalNativeSurface ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeAppearance {
 	public static final field $stable I
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/theme/BrandAppearance;
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/theme/NativeAppearance;
 	public final fun getDarkOverride ()Ljava/lang/Boolean;
 	public final fun getRtl ()Z
 	public final fun setDark (Z)V
 	public final fun setRtl (Z)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandAppearanceKt {
-	public static final fun BrandAppearanceScope (ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeAppearanceKt {
+	public static final fun NativeAppearanceScope (ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandCapabilities {
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeCapabilities {
 	public static final field $stable I
 	public fun <init> ()V
 	public fun <init> (Z)V
 	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Z
-	public final fun copy (Z)Lio/github/apdelrahman1911/nativecomposekit/theme/BrandCapabilities;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/theme/BrandCapabilities;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/BrandCapabilities;
+	public final fun copy (Z)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeCapabilities;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/theme/NativeCapabilities;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeCapabilities;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public final fun isReduceMotionEnabled ()Z
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandCapabilitiesKt {
-	public static final fun getLocalBrandCapabilities ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeCapabilitiesKt {
+	public static final fun getLocalNativeCapabilities ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandStatusColors {
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors {
 	public static final field $stable I
 	public synthetic fun <init> (JJJJJJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-0d7_KjU ()J
@@ -1040,8 +1044,8 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandStatusC
 	public final fun component7-0d7_KjU ()J
 	public final fun component8-0d7_KjU ()J
 	public final fun component9-0d7_KjU ()J
-	public final fun copy-2qZNXz8 (JJJJJJJJJJJJ)Lio/github/apdelrahman1911/nativecomposekit/theme/BrandStatusColors;
-	public static synthetic fun copy-2qZNXz8$default (Lio/github/apdelrahman1911/nativecomposekit/theme/BrandStatusColors;JJJJJJJJJJJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/BrandStatusColors;
+	public final fun copy-2qZNXz8 (JJJJJJJJJJJJ)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;
+	public static synthetic fun copy-2qZNXz8$default (Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;JJJJJJJJJJJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getInfo-0d7_KjU ()J
 	public final fun getInfoContainer-0d7_KjU ()J
@@ -1059,18 +1063,18 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandStatusC
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandStatusColorsKt {
-	public static final fun getLocalBrandStatusColors ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColorsKt {
+	public static final fun getLocalNativeStatusColors ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandTheme {
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeTheme {
 	public static final field $stable I
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/theme/BrandTheme;
-	public final fun getStatusColors (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/theme/BrandStatusColors;
-	public final fun getTokens (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/theme/BrandTokens;
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTheme;
+	public final fun getStatusColors (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;
+	public final fun getTokens (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandTokens {
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeTokens {
 	public static final field $stable I
 	public synthetic fun <init> (FFFFFFFFFFFFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (FFFFFFFFFFFFFFFFLkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -1090,8 +1094,8 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandTokens 
 	public final fun component7-D9Ej5fM ()F
 	public final fun component8-D9Ej5fM ()F
 	public final fun component9-D9Ej5fM ()F
-	public final fun copy-TfHjUgA (FFFFFFFFFFFFFFFF)Lio/github/apdelrahman1911/nativecomposekit/theme/BrandTokens;
-	public static synthetic fun copy-TfHjUgA$default (Lio/github/apdelrahman1911/nativecomposekit/theme/BrandTokens;FFFFFFFFFFFFFFFFILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/BrandTokens;
+	public final fun copy-TfHjUgA (FFFFFFFFFFFFFFFF)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;
+	public static synthetic fun copy-TfHjUgA$default (Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;FFFFFFFFFFFFFFFFILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getButtonHeightLarge-D9Ej5fM ()F
 	public final fun getButtonHeightMedium-D9Ej5fM ()F
@@ -1113,11 +1117,7 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandTokens 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/theme/BrandTokensKt {
-	public static final fun getLocalBrandTokens ()Landroidx/compose/runtime/ProvidableCompositionLocal;
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/theme/LocalBrandSurfaceKt {
-	public static final fun getLocalBrandSurface ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeTokensKt {
+	public static final fun getLocalNativeTokens ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 

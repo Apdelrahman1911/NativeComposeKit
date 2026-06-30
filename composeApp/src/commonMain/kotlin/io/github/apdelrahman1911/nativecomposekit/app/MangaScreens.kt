@@ -48,33 +48,33 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
-import io.github.apdelrahman1911.nativecomposekit.components.BrandBadge
-import io.github.apdelrahman1911.nativecomposekit.components.BrandBadgedBox
-import io.github.apdelrahman1911.nativecomposekit.components.BrandButton
-import io.github.apdelrahman1911.nativecomposekit.components.BrandCard
-import io.github.apdelrahman1911.nativecomposekit.components.BrandCardVariant
-import io.github.apdelrahman1911.nativecomposekit.components.BrandChip
-import io.github.apdelrahman1911.nativecomposekit.components.BrandChipStyle
-import io.github.apdelrahman1911.nativecomposekit.components.BrandDivider
-import io.github.apdelrahman1911.nativecomposekit.components.BrandEmptyState
-import io.github.apdelrahman1911.nativecomposekit.components.BrandListItem
-import io.github.apdelrahman1911.nativecomposekit.components.BrandListSection
-import io.github.apdelrahman1911.nativecomposekit.components.BrandListSectionStyle
-import io.github.apdelrahman1911.nativecomposekit.components.BrandProgressIndicator
-import io.github.apdelrahman1911.nativecomposekit.components.BrandProgressKind
-import io.github.apdelrahman1911.nativecomposekit.components.BrandRating
-import io.github.apdelrahman1911.nativecomposekit.components.BrandSegmentedControl
-import io.github.apdelrahman1911.nativecomposekit.components.BrandSwipeAction
-import io.github.apdelrahman1911.nativecomposekit.components.BrandText
-import io.github.apdelrahman1911.nativecomposekit.components.feedback.BrandFeedbackStatus
-import io.github.apdelrahman1911.nativecomposekit.components.feedback.LocalBrandFeedbackController
-import io.github.apdelrahman1911.nativecomposekit.components.model.BrandButtonVariant
-import io.github.apdelrahman1911.nativecomposekit.components.model.BrandIcon
-import io.github.apdelrahman1911.nativecomposekit.components.model.BrandTextStyle
+import io.github.apdelrahman1911.nativecomposekit.components.NativeBadge
+import io.github.apdelrahman1911.nativecomposekit.components.NativeBadgedBox
+import io.github.apdelrahman1911.nativecomposekit.components.NativeButton
+import io.github.apdelrahman1911.nativecomposekit.components.NativeCard
+import io.github.apdelrahman1911.nativecomposekit.components.NativeCardVariant
+import io.github.apdelrahman1911.nativecomposekit.components.NativeChip
+import io.github.apdelrahman1911.nativecomposekit.components.NativeChipStyle
+import io.github.apdelrahman1911.nativecomposekit.components.NativeDivider
+import io.github.apdelrahman1911.nativecomposekit.components.NativeEmptyState
+import io.github.apdelrahman1911.nativecomposekit.components.NativeListItem
+import io.github.apdelrahman1911.nativecomposekit.components.NativeListSection
+import io.github.apdelrahman1911.nativecomposekit.components.NativeListSectionStyle
+import io.github.apdelrahman1911.nativecomposekit.components.NativeProgressIndicator
+import io.github.apdelrahman1911.nativecomposekit.components.NativeProgressKind
+import io.github.apdelrahman1911.nativecomposekit.components.NativeRating
+import io.github.apdelrahman1911.nativecomposekit.components.NativeSegmentedControl
+import io.github.apdelrahman1911.nativecomposekit.components.NativeSwipeAction
+import io.github.apdelrahman1911.nativecomposekit.components.NativeText
+import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackStatus
+import io.github.apdelrahman1911.nativecomposekit.components.feedback.LocalNativeFeedbackController
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonVariant
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
 
 /**
  * The real manga flow (Tier 2 content): a cover **grid**, a **detail** screen, and a chapter **reader** — all
- * built only from `Brand*` components + Compose layout, navigator-agnostic (they take callbacks the graph
+ * built only from `Native*` components + Compose layout, navigator-agnostic (they take callbacks the graph
  * wires to `navigator.push(...)`). Data comes from [MangaLibrary]. Covers load over the network via **Coil**
  * (app-level loader, with memory caching) and a deterministic gradient fallback (loading / offline / error all
  * look intentional, and a fixed `aspectRatio` reserves the slot so nothing reflows when the image arrives).
@@ -86,7 +86,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.BrandTextStyl
  * A manga cover. The caller sizes + shapes the footprint via [modifier] (use a fixed `aspectRatio` so the
  * layout never jumps when the image loads). Loaded with **Coil** (app-level — memory cache + request de-dup, so
  * covers don't re-fetch on scroll); falls back to a branded gradient on loading / offline / error — never a
- * broken-image glyph. No text is drawn over the gradient on purpose (a `UILabel`-backed [BrandText] can't render
+ * broken-image glyph. No text is drawn over the gradient on purpose (a `UILabel`-backed [NativeText] can't render
  * transparently over a non-published surface on iOS, and the title already appears beside/below the cover).
  */
 @Composable
@@ -139,7 +139,7 @@ fun LibraryScreen(onOpenManga: (String) -> Unit) {
     }
 
     Column(Modifier.fillMaxSize()) {
-        BrandSegmentedControl(
+        NativeSegmentedControl(
             options = filters,
             selectedIndex = selected,
             onSelectedIndexChange = { selected = it },
@@ -148,7 +148,7 @@ fun LibraryScreen(onOpenManga: (String) -> Unit) {
         )
         if (list.isEmpty()) {
             Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
-                BrandEmptyState(
+                NativeEmptyState(
                     title = "Nothing here yet",
                     message = "No titles match this filter.",
                     icon = Icons.Outlined.Image,
@@ -172,28 +172,28 @@ fun LibraryScreen(onOpenManga: (String) -> Unit) {
 
 @Composable
 private fun MangaGridCell(manga: Manga, onClick: () -> Unit) {
-    BrandCard(
-        variant = BrandCardVariant.Elevated,
+    NativeCard(
+        variant = NativeCardVariant.Elevated,
         onClick = onClick,
         contentPadding = PaddingValues(8.dp),
     ) {
-        BrandBadgedBox(
-            badge = { if (manga.unread > 0) BrandBadge(count = manga.unread, contentDescription = "${manga.unread} unread") },
+        NativeBadgedBox(
+            badge = { if (manga.unread > 0) NativeBadge(count = manga.unread, contentDescription = "${manga.unread} unread") },
             modifier = Modifier.fillMaxWidth(),
         ) {
             MangaCover(manga, Modifier.fillMaxWidth().aspectRatio(2f / 3f))
         }
         Spacer(Modifier.height(8.dp))
-        BrandText(
+        NativeText(
             manga.title,
-            style = BrandTextStyle.Label,
+            style = NativeTextStyle.Label,
             fontWeight = FontWeight.SemiBold,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
-        BrandText(
+        NativeText(
             manga.author,
-            style = BrandTextStyle.Label,
+            style = NativeTextStyle.Label,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -209,7 +209,7 @@ fun MangaDetailScreen(mangaId: String, onOpenChapter: (String) -> Unit) {
     val manga = MangaLibrary.byId(mangaId)
     if (manga == null) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            BrandEmptyState(
+            NativeEmptyState(
                 title = "Title unavailable",
                 message = "This manga could not be found.",
                 icon = Icons.Outlined.Image,
@@ -218,7 +218,7 @@ fun MangaDetailScreen(mangaId: String, onOpenChapter: (String) -> Unit) {
         return
     }
 
-    val feedback = LocalBrandFeedbackController.current
+    val feedback = LocalNativeFeedbackController.current
     // Live read-state on top of the sample data, so "Mark read" actually toggles within this screen session.
     val readState = remember(manga.id) {
         mutableStateMapOf<String, Boolean>().also { m -> manga.chapters.forEach { m[it.id] = it.read } }
@@ -233,56 +233,56 @@ fun MangaDetailScreen(mangaId: String, onOpenChapter: (String) -> Unit) {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             MangaCover(manga, Modifier.width(120.dp).aspectRatio(2f / 3f))
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                BrandText(manga.title, style = BrandTextStyle.Title)
-                BrandText("by ${manga.author}", style = BrandTextStyle.Label, color = onSurfaceVariant)
-                BrandRating(manga.rating)
-                BrandText(
+                NativeText(manga.title, style = NativeTextStyle.Title)
+                NativeText("by ${manga.author}", style = NativeTextStyle.Label, color = onSurfaceVariant)
+                NativeRating(manga.rating)
+                NativeText(
                     "${manga.status.label} · ${manga.chapters.size} chapters",
-                    style = BrandTextStyle.Label,
+                    style = NativeTextStyle.Label,
                     color = onSurfaceVariant,
                 )
             }
         }
 
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            manga.genres.forEach { genre -> BrandChip(genre, style = BrandChipStyle.Suggestion) }
+            manga.genres.forEach { genre -> NativeChip(genre, style = NativeChipStyle.Suggestion) }
         }
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            BrandButton(
+            NativeButton(
                 text = "Read",
                 onClick = { onOpenChapter(firstUnread.id) },
-                leadingIcon = BrandIcon(Icons.Filled.PlayArrow, sfSymbolName = "play.fill"),
+                leadingIcon = NativeIcon(Icons.Filled.PlayArrow, sfSymbolName = "play.fill"),
                 modifier = Modifier.weight(1f),
             )
-            BrandButton(
+            NativeButton(
                 text = "Add to Library",
-                onClick = { feedback.snackbar("Added to library", BrandFeedbackStatus.Success) },
-                variant = BrandButtonVariant.Outline,
-                leadingIcon = BrandIcon(Icons.Filled.Add, sfSymbolName = "plus"),
+                onClick = { feedback.snackbar("Added to library", NativeFeedbackStatus.Success) },
+                variant = NativeButtonVariant.Outline,
+                leadingIcon = NativeIcon(Icons.Filled.Add, sfSymbolName = "plus"),
                 modifier = Modifier.weight(1f),
             )
         }
 
-        BrandText(manga.synopsis, style = BrandTextStyle.Body)
+        NativeText(manga.synopsis, style = NativeTextStyle.Body)
 
-        BrandListSection(
+        NativeListSection(
             header = "CHAPTERS",
-            style = BrandListSectionStyle.Plain,
+            style = NativeListSectionStyle.Plain,
             rows = manga.chapters.map { ch ->
                 {
                     val read = readState[ch.id] == true
-                    BrandListItem(
+                    NativeListItem(
                         headline = ch.title,
                         supporting = ch.date,
                         onClick = { onOpenChapter(ch.id) },
-                        trailing = if (!read) ({ BrandBadge(contentDescription = "Unread") }) else null,
+                        trailing = if (!read) ({ NativeBadge(contentDescription = "Unread") }) else null,
                         swipeAction = if (!read) {
-                            BrandSwipeAction(
+                            NativeSwipeAction(
                                 label = "Mark read",
                                 onAction = {
                                     readState[ch.id] = true
-                                    feedback.toast("Marked ${ch.title} as read", BrandFeedbackStatus.Success)
+                                    feedback.toast("Marked ${ch.title} as read", NativeFeedbackStatus.Success)
                                 },
                             )
                         } else {
@@ -302,7 +302,7 @@ fun ReaderScreen(mangaId: String, chapterId: String) {
     val pair = MangaLibrary.chapter(mangaId, chapterId)
     if (pair == null) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            BrandEmptyState(
+            NativeEmptyState(
                 title = "Chapter unavailable",
                 message = "This chapter could not be loaded.",
                 icon = Icons.Outlined.Image,
@@ -321,18 +321,18 @@ fun ReaderScreen(mangaId: String, chapterId: String) {
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            BrandText(
+            NativeText(
                 "Page $current of $pageCount",
-                style = BrandTextStyle.Label,
+                style = NativeTextStyle.Label,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            BrandProgressIndicator(
-                kind = BrandProgressKind.Linear,
+            NativeProgressIndicator(
+                kind = NativeProgressKind.Linear,
                 progress = current.toFloat() / pageCount,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
-        BrandDivider()
+        NativeDivider()
         LazyColumn(
             state = listState,
             modifier = Modifier.weight(1f).fillMaxWidth(),

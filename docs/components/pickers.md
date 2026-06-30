@@ -2,7 +2,7 @@
 
 Controls for selecting a value: a date, a color, or the current page in a pager. Each renders the most native control per platform.
 
-### BrandDatePicker
+### NativeDatePicker
 
 A control for selecting a calendar date.
 
@@ -33,7 +33,7 @@ A control for selecting a calendar date.
 ```kotlin
 var picked by remember { mutableStateOf<Long?>(null) }
 
-BrandDatePicker(
+NativeDatePicker(
     selectedMillis = picked,
     onSelectedMillisChange = { picked = it },
 )
@@ -43,9 +43,9 @@ BrandDatePicker(
 - `selectedMillis`, `minMillis`, and `maxMillis` are UTC epoch milliseconds at the start of the day. This is what Material's `DatePickerState` emits, and the iOS renderer mirrors it. To show a picked date in the user's zone, convert with the device timezone at the display layer; do not assume the millis are local midnight.
 - `minMillis`, `maxMillis`, and `enabled` are honored on both platforms. On Android the bounds are enforced through `SelectableDates`; when disabled the calendar is dimmed (`alpha(0.38f)`) and non-selectable, since Material's `DatePicker` has no `enabled` parameter.
 - On Android the picker is effectively uncontrolled after first composition. Material's `DatePickerState` owns the selection; the component reports changes out but does not write back into the state.
-- On iOS the compact `UIDatePicker` is pinned inside a theme-colored backing and sets its light/dark appearance from the luminance of the surface it sits on (`LocalBrandSurface`), not the page.
+- On iOS the compact `UIDatePicker` is pinned inside a theme-colored backing and sets its light/dark appearance from the luminance of the surface it sits on (`LocalNativeSurface`), not the page.
 
-### BrandColorWell
+### NativeColorWell
 
 A swatch for selecting a color.
 
@@ -68,9 +68,9 @@ A swatch for selecting a color.
 | `enabled` | `Boolean` | `true` | When `false`, the swatch is non-interactive. |
 | `contentDescription` | `String?` | `null` | Accessibility label. Defaults to "Selected color" on Android. |
 | `testTag` | `String?` | `null` | Test identifier (`testTag` on Android, accessibility id on iOS). |
-| `ios` | `BrandColorWellIosOptions` | `BrandColorWellIosOptions()` | iOS-only options (see below). A documented no-op on Android. |
+| `ios` | `NativeColorWellIosOptions` | `NativeColorWellIosOptions()` | iOS-only options (see below). A documented no-op on Android. |
 
-`BrandColorWellIosOptions`:
+`NativeColorWellIosOptions`:
 
 | Field | Type | Default | Description |
 |---|---|---|---|
@@ -81,7 +81,7 @@ A swatch for selecting a color.
 ```kotlin
 var highlight by remember { mutableStateOf(Color(0xFF1E88E5)) }
 
-BrandColorWell(
+NativeColorWell(
     color = highlight,
     onColorChange = { highlight = it },
 )
@@ -91,7 +91,7 @@ BrandColorWell(
 - `ios.supportsAlpha` applies only on iOS. The Android preset swatches are opaque, so the option is a no-op there.
 - The Android presets are picker data (a fixed 16-color palette), not theme styling, and do not adapt to the app theme.
 
-### BrandPageControl
+### NativePageControl
 
 A page indicator (the row of dots) for carousels, banners, and onboarding flows.
 
@@ -122,7 +122,7 @@ A page indicator (the row of dots) for carousels, banners, and onboarding flows.
 ```kotlin
 val pagerState = rememberPagerState(pageCount = { covers.size })
 
-BrandPageControl(
+NativePageControl(
     pageCount = covers.size,
     currentPage = pagerState.currentPage,
     modifier = Modifier.weight(1f),

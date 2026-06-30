@@ -10,57 +10,57 @@ iOS-specific interop behavior is in [`interop-notes.md`](../interop-notes.md).
 
 ## Categories
 
-- [Text & input](text-and-input.md) — `BrandText`, `BrandTextField`, `BrandSearchBar`, `BrandOtpField`
-- [Buttons](buttons.md) — `BrandButton`, `BrandIconButton`, `BrandSplitButton`, `BrandMenu`
-- [Selection & sliders](selection-and-sliders.md) — `BrandToggle`, `BrandCheckbox`, `BrandRadioGroup`, `BrandSegmentedControl`, `BrandSlider`, `BrandStepper`, `BrandRating`
-- [Pickers](pickers.md) — `BrandDatePicker`, `BrandColorWell`, `BrandPageControl`
-- [Overlays](overlays.md) — `BrandSheet`, `BrandPopover`, `BrandDialog`, `BrandShareSheet`
-- [Feedback & progress](feedback.md) — `BrandProgressIndicator`, alert / confirmation sheet / snackbar / toast / banner / inline status
-- [Layout](layout.md) — `BrandCard`, `BrandScaffold`, `BrandTopBar`, `BrandListSection`, `BrandListItem`, `BrandDivider`
-- [Display & state](display-and-state.md) — `BrandContentState`, `BrandSkeleton`, `BrandEmptyState`, `BrandPullRefresh`, `BrandBadge`, `BrandAvatar`, `BrandChip`
-- [Accessibility & focus](accessibility.md) — `brandDismissKeyboardOnTap`, `brandHeading`
-- [Deprecated](deprecated.md) — `BrandTabBar`, `BrandTooltip`
+- [Text & input](text-and-input.md) — `NativeText`, `NativeTextField`, `NativeSearchBar`, `NativeOtpField`
+- [Buttons](buttons.md) — `NativeButton`, `NativeIconButton`, `NativeSplitButton`, `NativeMenu`
+- [Selection & sliders](selection-and-sliders.md) — `NativeToggle`, `NativeCheckbox`, `NativeRadioGroup`, `NativeSegmentedControl`, `NativeSlider`, `NativeStepper`, `NativeRating`
+- [Pickers](pickers.md) — `NativeDatePicker`, `NativeColorWell`, `NativePageControl`
+- [Overlays](overlays.md) — `NativeSheet`, `NativePopover`, `NativeDialog`, `NativeShareSheet`
+- [Feedback & progress](feedback.md) — `NativeProgressIndicator`, alert / confirmation sheet / snackbar / toast / banner / inline status
+- [Layout](layout.md) — `NativeCard`, `NativeScaffold`, `NativeTopBar`, `NativeListSection`, `NativeListItem`, `NativeDivider`
+- [Display & state](display-and-state.md) — `NativeContentState`, `NativeSkeleton`, `NativeEmptyState`, `NativePullRefresh`, `NativeBadge`, `NativeAvatar`, `NativeChip`
+- [Accessibility & focus](accessibility.md) — `nativeDismissKeyboardOnTap`, `nativeHeading`
+- [Deprecated](deprecated.md) — `NativeTabBar`, `NativeTooltip`
 
 ## Index
 
 | Component | Page |
 |---|---|
-| `BrandAvatar` | [Display & state](display-and-state.md) |
-| `BrandBadge` | [Display & state](display-and-state.md) |
-| `BrandButton` | [Buttons](buttons.md) |
-| `BrandCard` | [Layout](layout.md) |
-| `BrandCheckbox` | [Selection & sliders](selection-and-sliders.md) |
-| `BrandChip` | [Display & state](display-and-state.md) |
-| `BrandColorWell` | [Pickers](pickers.md) |
-| `BrandContentState` | [Display & state](display-and-state.md) |
-| `BrandDatePicker` | [Pickers](pickers.md) |
-| `BrandDialog` | [Overlays](overlays.md) |
-| `BrandDivider` | [Layout](layout.md) |
-| `BrandEmptyState` | [Display & state](display-and-state.md) |
-| `BrandIconButton` | [Buttons](buttons.md) |
-| `BrandListItem` | [Layout](layout.md) |
-| `BrandListSection` | [Layout](layout.md) |
-| `BrandMenu` | [Buttons](buttons.md) |
-| `BrandOtpField` | [Text & input](text-and-input.md) |
-| `BrandPageControl` | [Pickers](pickers.md) |
-| `BrandPopover` | [Overlays](overlays.md) |
-| `BrandProgressIndicator` | [Feedback & progress](feedback.md) |
-| `BrandPullRefresh` | [Display & state](display-and-state.md) |
-| `BrandRadioGroup` | [Selection & sliders](selection-and-sliders.md) |
-| `BrandRating` | [Selection & sliders](selection-and-sliders.md) |
-| `BrandScaffold` | [Layout](layout.md) |
-| `BrandSearchBar` | [Text & input](text-and-input.md) |
-| `BrandSegmentedControl` | [Selection & sliders](selection-and-sliders.md) |
-| `BrandShareSheet` | [Overlays](overlays.md) |
-| `BrandSheet` | [Overlays](overlays.md) |
-| `BrandSkeleton` | [Display & state](display-and-state.md) |
-| `BrandSlider` | [Selection & sliders](selection-and-sliders.md) |
-| `BrandStepper` | [Selection & sliders](selection-and-sliders.md) |
-| `BrandText` | [Text & input](text-and-input.md) |
-| `BrandTextField` | [Text & input](text-and-input.md) |
-| `BrandToggle` | [Selection & sliders](selection-and-sliders.md) |
-| `BrandTopBar` | [Layout](layout.md) |
-| `brandDismissKeyboardOnTap` | [Accessibility & focus](accessibility.md) |
-| `brandHeading` | [Accessibility & focus](accessibility.md) |
-| `BrandTabBar` *(deprecated)* | [Deprecated](deprecated.md) |
-| `BrandTooltip` *(deprecated)* | [Deprecated](deprecated.md) |
+| `NativeAvatar` | [Display & state](display-and-state.md) |
+| `NativeBadge` | [Display & state](display-and-state.md) |
+| `NativeButton` | [Buttons](buttons.md) |
+| `NativeCard` | [Layout](layout.md) |
+| `NativeCheckbox` | [Selection & sliders](selection-and-sliders.md) |
+| `NativeChip` | [Display & state](display-and-state.md) |
+| `NativeColorWell` | [Pickers](pickers.md) |
+| `NativeContentState` | [Display & state](display-and-state.md) |
+| `NativeDatePicker` | [Pickers](pickers.md) |
+| `NativeDialog` | [Overlays](overlays.md) |
+| `NativeDivider` | [Layout](layout.md) |
+| `NativeEmptyState` | [Display & state](display-and-state.md) |
+| `NativeIconButton` | [Buttons](buttons.md) |
+| `NativeListItem` | [Layout](layout.md) |
+| `NativeListSection` | [Layout](layout.md) |
+| `NativeMenu` | [Buttons](buttons.md) |
+| `NativeOtpField` | [Text & input](text-and-input.md) |
+| `NativePageControl` | [Pickers](pickers.md) |
+| `NativePopover` | [Overlays](overlays.md) |
+| `NativeProgressIndicator` | [Feedback & progress](feedback.md) |
+| `NativePullRefresh` | [Display & state](display-and-state.md) |
+| `NativeRadioGroup` | [Selection & sliders](selection-and-sliders.md) |
+| `NativeRating` | [Selection & sliders](selection-and-sliders.md) |
+| `NativeScaffold` | [Layout](layout.md) |
+| `NativeSearchBar` | [Text & input](text-and-input.md) |
+| `NativeSegmentedControl` | [Selection & sliders](selection-and-sliders.md) |
+| `NativeShareSheet` | [Overlays](overlays.md) |
+| `NativeSheet` | [Overlays](overlays.md) |
+| `NativeSkeleton` | [Display & state](display-and-state.md) |
+| `NativeSlider` | [Selection & sliders](selection-and-sliders.md) |
+| `NativeStepper` | [Selection & sliders](selection-and-sliders.md) |
+| `NativeText` | [Text & input](text-and-input.md) |
+| `NativeTextField` | [Text & input](text-and-input.md) |
+| `NativeToggle` | [Selection & sliders](selection-and-sliders.md) |
+| `NativeTopBar` | [Layout](layout.md) |
+| `nativeDismissKeyboardOnTap` | [Accessibility & focus](accessibility.md) |
+| `nativeHeading` | [Accessibility & focus](accessibility.md) |
+| `NativeTabBar` *(deprecated)* | [Deprecated](deprecated.md) |
+| `NativeTooltip` *(deprecated)* | [Deprecated](deprecated.md) |

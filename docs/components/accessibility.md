@@ -2,7 +2,7 @@
 
 Modifier extensions for focus, soft-keyboard dismissal, and screen-reader navigation. These are the focus/IME/accessibility helpers the kit uses internally, exposed for app screens. Both are Compose-drawn and behave the same on Android and iOS.
 
-### brandDismissKeyboardOnTap
+### nativeDismissKeyboardOnTap
 
 A `Modifier` extension that clears focus when the element is tapped, which hides the soft keyboard.
 
@@ -25,15 +25,15 @@ It is `@Composable` because it reads the focus manager from composition (`LocalF
 **Example**
 
 ```kotlin
-Column(Modifier.fillMaxSize().brandDismissKeyboardOnTap()) {
-    BrandTextField(value = name, onValueChange = { name = it })
-    BrandTextField(value = email, onValueChange = { email = it })
+Column(Modifier.fillMaxSize().nativeDismissKeyboardOnTap()) {
+    NativeTextField(value = name, onValueChange = { name = it })
+    NativeTextField(value = email, onValueChange = { email = it })
 }
 ```
 
 **Notes** — apply to the form's root or background so a tap anywhere outside a field clears focus. The detector handles taps on the modified element, so place it on a container rather than on an interactive control.
 
-### brandHeading
+### nativeHeading
 
 A `Modifier` extension that marks a node as a heading for screen-reader heading/rotor navigation.
 
@@ -53,5 +53,5 @@ None. The modifier takes no arguments. It is not `@Composable`.
 **Example**
 
 ```kotlin
-BrandText("Settings", modifier = Modifier.brandHeading())
+NativeText("Settings", modifier = Modifier.nativeHeading())
 ```

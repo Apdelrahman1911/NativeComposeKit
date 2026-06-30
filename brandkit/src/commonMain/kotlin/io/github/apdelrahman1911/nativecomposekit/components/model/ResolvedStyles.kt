@@ -7,10 +7,10 @@ import androidx.compose.ui.unit.Dp
 
 /** Content padding as four edge values — becomes PaddingValues on Android / insets on iOS. */
 @Immutable
-internal data class BrandInsets(val start: Dp, val top: Dp, val end: Dp, val bottom: Dp)
+internal data class NativeInsets(val start: Dp, val top: Dp, val end: Dp, val bottom: Dp)
 
 @Immutable
-public data class BrandButtonColors(
+public data class NativeButtonColors(
     val container: Color,
     val content: Color,
     val border: Color = Color.Unspecified, // Unspecified == no border
@@ -22,18 +22,18 @@ public data class BrandButtonColors(
  */
 @Immutable
 internal data class ResolvedButtonStyle(
-    val variant: BrandButtonVariant,
-    val colors: BrandButtonColors,
+    val variant: NativeButtonVariant,
+    val colors: NativeButtonColors,
     val height: Dp,
-    val insets: BrandInsets,
+    val insets: NativeInsets,
     val cornerRadius: Dp,
-    /** Gap between a leading/trailing icon and the label (from BrandTokens.spacingSm). */
+    /** Gap between a leading/trailing icon and the label (from NativeTokens.spacingSm). */
     val iconSpacing: Dp,
     val textStyle: TextStyle,
 )
 
 @Immutable
-public data class BrandFieldColors(
+public data class NativeFieldColors(
     val text: Color,
     val placeholder: Color,
     val container: Color,
@@ -49,7 +49,7 @@ public data class BrandFieldColors(
 /** Fully resolved text-field styling handed to the platform renderer. */
 @Immutable
 internal data class ResolvedFieldStyle(
-    val colors: BrandFieldColors,
+    val colors: NativeFieldColors,
     val cornerRadius: Dp,
     val minHeight: Dp,
     val textStyle: TextStyle,
@@ -97,8 +97,8 @@ internal data class ResolvedStepperStyle(
 
 /**
  * Fully resolved styling for a feedback surface (toast / snackbar / banner / inline status, and the
- * branded iOS alert/sheet overlay). Resolved from a [BrandFeedbackStatus] against
- * [io.github.apdelrahman1911.nativecomposekit.theme.BrandStatusColors] + the theme — the renderer reads ONLY these values.
+ * branded iOS alert/sheet overlay). Resolved from a [NativeFeedbackStatus] against
+ * [io.github.apdelrahman1911.nativecomposekit.theme.NativeStatusColors] + the theme — the renderer reads ONLY these values.
  *
  * - [background]/[content] are the filled-surface pair (e.g. successContainer / onSuccessContainer).
  * - [iconTint]/[border] use the bolder status color so a leading glyph and outline read clearly,
@@ -111,7 +111,7 @@ internal data class ResolvedFeedbackStyle(
     val border: Color,
     val iconTint: Color,
     val cornerRadius: Dp,
-    val insets: BrandInsets,
+    val insets: NativeInsets,
     val textStyle: TextStyle,
     val titleTextStyle: TextStyle,
 )

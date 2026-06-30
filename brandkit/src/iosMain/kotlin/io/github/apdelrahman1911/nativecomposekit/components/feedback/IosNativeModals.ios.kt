@@ -56,11 +56,11 @@ internal fun presentModal(
     primary: UIColor,
     error: UIColor,
     cancelColor: UIColor,
-    controller: BrandFeedbackController,
+    controller: NativeFeedbackController,
 ): () -> Unit {
     val branded = when (record) {
-        is AlertRecord -> record.iosPresentation == BrandPresentation.Branded
-        is SheetRecord -> record.iosPresentation == BrandPresentation.Branded
+        is AlertRecord -> record.iosPresentation == NativePresentation.Branded
+        is SheetRecord -> record.iosPresentation == NativePresentation.Branded
     }
     return if (branded) {
         presentBrandedModal(record, cardStyle, primary, error, cancelColor, controller)
@@ -81,15 +81,15 @@ internal fun topmostViewController(): UIViewController? {
     return vc
 }
 
-private fun ModalRecord.actionItems(): List<Triple<String, BrandAlertActionRole, () -> Unit>> = when (this) {
+private fun ModalRecord.actionItems(): List<Triple<String, NativeAlertActionRole, () -> Unit>> = when (this) {
     is AlertRecord -> actions.map { Triple(it.label, it.role, it.onClick) }
     is SheetRecord -> actions.map { Triple(it.label, it.role, it.onClick) }
 }
 
-private fun BrandAlertActionRole.toUIAlertActionStyle(): UIAlertActionStyle = when (this) {
-    BrandAlertActionRole.Default -> UIAlertActionStyleDefault
-    BrandAlertActionRole.Cancel -> UIAlertActionStyleCancel
-    BrandAlertActionRole.Destructive -> UIAlertActionStyleDestructive
+private fun NativeAlertActionRole.toUIAlertActionStyle(): UIAlertActionStyle = when (this) {
+    NativeAlertActionRole.Default -> UIAlertActionStyleDefault
+    NativeAlertActionRole.Cancel -> UIAlertActionStyleCancel
+    NativeAlertActionRole.Destructive -> UIAlertActionStyleDestructive
 }
 
 // region native
@@ -110,7 +110,7 @@ private class ModalDismissDelegate(
 }
 
 @OptIn(ExperimentalForeignApi::class)
-private fun presentNativeModal(record: ModalRecord, controller: BrandFeedbackController): () -> Unit {
+private fun presentNativeModal(record: ModalRecord, controller: NativeFeedbackController): () -> Unit {
     val retained = mutableListOf<Any>()
     val isSheet = record is SheetRecord
     val controllerStyle = if (isSheet) UIAlertControllerStyleActionSheet else UIAlertControllerStyleAlert
@@ -127,7 +127,7 @@ private fun presentNativeModal(record: ModalRecord, controller: BrandFeedbackCon
         )
     }
     // Guarantee the modal is always resolvable.
-    val hasCancel = items.any { it.second == BrandAlertActionRole.Cancel }
+    val hasCancel = items.any { it.second == NativeAlertActionRole.Cancel }
     if (isSheet && !hasCancel) {
         alert.addAction(
             UIAlertAction.actionWithTitle("Cancel", UIAlertActionStyleCancel, handler = { _ ->
@@ -214,7 +214,7 @@ private fun presentBrandedModal(
     primary: UIColor,
     error: UIColor,
     cancelColor: UIColor,
-    controller: BrandFeedbackController,
+    controller: NativeFeedbackController,
 ): () -> Unit {
     val window = feedbackKeyWindow() ?: return {}
     val retained = mutableListOf<Any>()
@@ -267,17 +267,17 @@ private fun presentBrandedModal(
     record.message?.let { views += brandedLabel(it, style.textStyle.toUIFont(), style.content.toUIColor()) }
 
     val items = record.actionItems().toMutableList()
-    if (isSheet && items.none { it.second == BrandAlertActionRole.Cancel }) {
-        items += Triple("Cancel", BrandAlertActionRole.Cancel, record.onCancel ?: {})
+    if (isSheet && items.none { it.second == NativeAlertActionRole.Cancel }) {
+        items += Triple("Cancel", NativeAlertActionRole.Cancel, record.onCancel ?: {})
     }
     if (!isSheet && items.isEmpty()) {
-        items += Triple<String, BrandAlertActionRole, () -> Unit>("OK", BrandAlertActionRole.Default, {})
+        items += Triple<String, NativeAlertActionRole, () -> Unit>("OK", NativeAlertActionRole.Default, {})
     }
     items.forEach { (label, role, action) ->
         val color = when (role) {
-            BrandAlertActionRole.Destructive -> error
-            BrandAlertActionRole.Cancel -> cancelColor
-            BrandAlertActionRole.Default -> primary
+            NativeAlertActionRole.Destructive -> error
+            NativeAlertActionRole.Cancel -> cancelColor
+            NativeAlertActionRole.Default -> primary
         }
         val button = UIButton()
         button.setTitle(label, forState = UIControlStateNormal)

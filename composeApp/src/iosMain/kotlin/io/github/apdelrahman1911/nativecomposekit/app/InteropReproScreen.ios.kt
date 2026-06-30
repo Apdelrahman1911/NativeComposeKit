@@ -45,7 +45,7 @@ private enum class Repro { Scroll, Menu, Dialog }
 
 /**
  * iOS-only manual reproductions for the three confirmed `UIKitView` interop limitations (see
- * `docs/interop-notes.md`). Deliberately uses RAW `UIKitView` (not the Brand* wrappers) so each behavior is
+ * `docs/interop-notes.md`). Deliberately uses RAW `UIKitView` (not the Native* wrappers) so each behavior is
  * isolated from the kit's own workarounds and matches the upstream issue snippets.
  */
 @Composable

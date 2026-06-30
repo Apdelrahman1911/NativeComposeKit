@@ -29,7 +29,7 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
             // Re-export the :brandkit library's public ObjC symbols into ComposeApp-Swift.h so the SwiftUI
-            // shell can still see BrandNavBridge / BrandNavCancellable / BrandShellChromeKt (now living in
+            // shell can still see NativeNavBridge / NativeNavCancellable / NativeShellChromeKt (now living in
             // :brandkit). Requires `api(project(":brandkit"))` below (export needs the api configuration).
             export(project(":brandkit"))
         }
@@ -46,9 +46,9 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
-            // Material icons (used by the catalog for BrandIcon leading/trailing demos). Pinned to
+            // Material icons (used by the catalog for NativeIcon leading/trailing demos). Pinned to
             // 1.7.3 upstream — the deprecation note is cosmetic; a real app can swap in its own
-            // vector assets. Icons are caller-supplied, not baked into the Brand* components.
+            // vector assets. Icons are caller-supplied, not baked into the Native* components.
             implementation(compose.materialIconsExtended)
             // Image loading — APP-LEVEL ONLY (used by the manga screens). The kit's `components/` deliberately
             // has no third-party deps; image loading is an app concern handled by Coil 3 (+ its Ktor-3 network

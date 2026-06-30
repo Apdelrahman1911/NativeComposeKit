@@ -2,7 +2,7 @@
 
 Components for displaying text and collecting typed input. Each renders the most native primitive available on the platform.
 
-### BrandText
+### NativeText
 
 A text label. Defaults come from the theme type scale via `style`; every other parameter is an optional override.
 
@@ -13,7 +13,7 @@ A text label. Defaults come from the theme type scale via `style`; every other p
 - You need a label, paragraph, or heading anywhere in content.
 
 **Avoid it when**
-- The text is the editable content of a field — use `BrandTextField`.
+- The text is the editable content of a field — use `NativeTextField`.
 
 **Parameters**
 
@@ -21,7 +21,7 @@ A text label. Defaults come from the theme type scale via `style`; every other p
 |---|---|---|---|
 | `text` | `String` | — | The string to display. |
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
-| `style` | `BrandTextStyle` | `BrandTextStyle.Body` | Type-scale role: `Display`, `Title`, `Body`, `Label`. |
+| `style` | `NativeTextStyle` | `NativeTextStyle.Body` | Type-scale role: `Display`, `Title`, `Body`, `Label`. |
 | `color` | `Color` | `Color.Unspecified` | Text color. Unspecified falls back to `onSurface`. |
 | `fontWeight` | `FontWeight?` | `null` | Overrides the weight from the style. |
 | `align` | `TextAlign?` | `null` | Text alignment. |
@@ -33,18 +33,18 @@ A text label. Defaults come from the theme type scale via `style`; every other p
 **Example**
 
 ```kotlin
-BrandText("Account", style = BrandTextStyle.Title)
+NativeText("Account", style = NativeTextStyle.Title)
 ```
 
 **Notes**
 
-- iOS picks one of two render paths from `LocalBrandSurface`. On a known solid surface (a page background or `BrandCard`) it renders a `UILabel` filled opaquely with that surface color, so the interop region does not reveal the system backdrop. On a material/glass surface (`LocalBrandSurface` is `Color.Unspecified`) it renders Compose `Text` instead, because a `UIKitView` interop region would show a black or white rectangle over the material. This is an intentional exception to the `UILabel` rule.
+- iOS picks one of two render paths from `LocalNativeSurface`. On a known solid surface (a page background or `NativeCard`) it renders a `UILabel` filled opaquely with that surface color, so the interop region does not reveal the system backdrop. On a material/glass surface (`LocalNativeSurface` is `Color.Unspecified`) it renders Compose `Text` instead, because a `UIKitView` interop region would show a black or white rectangle over the material. This is an intentional exception to the `UILabel` rule.
 - `overflow = TextOverflow.Ellipsis` maps to tail truncation on the iOS `UILabel`; other values wrap by word.
 - The iOS `UILabel` sets `adjustsFontForContentSizeCategory = true`, so it honors and live-updates with the user's Dynamic Type size.
 
-### BrandTextField
+### NativeTextField
 
-A single-line or multiline text input with optional label, placeholder, helper, and error decoration. The reference implementation for the rich-but-clean Brand component API.
+A single-line or multiline text input with optional label, placeholder, helper, and error decoration. The reference implementation for the rich-but-clean Native component API.
 
 **Android:** Material 3 `OutlinedTextField`.
 **iOS:** a `UITextField` (single-line) or `UITextView` (multiline) via `UIKitView`, with the label, helper, and error drawn in Compose around the native input.
@@ -53,8 +53,8 @@ A single-line or multiline text input with optional label, placeholder, helper, 
 - You collect freeform text: names, emails, passwords, multiline notes.
 
 **Avoid it when**
-- You collect a one-time code or PIN — use `BrandOtpField` for the segmented look, or `BrandTextField(contentType = BrandTextContentType.OneTimeCode)` for native SMS autofill.
-- You provide an inline search field — use `BrandSearchBar`.
+- You collect a one-time code or PIN — use `NativeOtpField` for the segmented look, or `NativeTextField(contentType = NativeTextContentType.OneTimeCode)` for native SMS autofill.
+- You provide an inline search field — use `NativeSearchBar`.
 
 **Parameters**
 
@@ -70,34 +70,34 @@ A single-line or multiline text input with optional label, placeholder, helper, 
 | `helperText` | `String?` | `null` | Helper text below the field. |
 | `errorText` | `String?` | `null` | Error text shown when in the error state. |
 | `isError` | `Boolean` | `errorText != null` | Whether the field is in the error state. |
-| `leadingIcon` | `BrandIcon?` | `null` | Leading icon. |
-| `trailingIcon` | `BrandIcon?` | `null` | Trailing icon. |
+| `leadingIcon` | `NativeIcon?` | `null` | Leading icon. |
+| `trailingIcon` | `NativeIcon?` | `null` | Trailing icon. |
 | `onTrailingIconClick` | `(() -> Unit)?` | `null` | Click handler for the trailing icon. |
-| `input` | `BrandFieldInput` | `BrandFieldInput()` | Grouped input options: keyboard type, IME action, secure, line count, capitalization, autocorrect, character limit. |
-| `focus` | `BrandFieldFocus` | `BrandFieldFocus()` | Focus and submit callbacks: `onFocusChanged`, `onSubmit`. |
-| `contentType` | `BrandTextContentType?` | `null` | Cross-platform autofill hint, wired on both platforms. |
-| `colors` | `BrandFieldColors?` | `null` | Color overrides. `null` uses theme colors. |
+| `input` | `NativeFieldInput` | `NativeFieldInput()` | Grouped input options: keyboard type, IME action, secure, line count, capitalization, autocorrect, character limit. |
+| `focus` | `NativeFieldFocus` | `NativeFieldFocus()` | Focus and submit callbacks: `onFocusChanged`, `onSubmit`. |
+| `contentType` | `NativeTextContentType?` | `null` | Cross-platform autofill hint, wired on both platforms. |
+| `colors` | `NativeFieldColors?` | `null` | Color overrides. `null` uses theme colors. |
 | `cornerRadius` | `Dp?` | `null` | Corner radius. `null` uses the theme small corner. |
 | `textStyle` | `TextStyle?` | `null` | Text style merged over the resolved body style. |
-| `touch` | `BrandInteropTouch` | `BrandInteropTouch.Cooperative` | iOS interop touch strategy inside scrolls. |
+| `touch` | `NativeInteropTouch` | `NativeInteropTouch.Cooperative` | iOS interop touch strategy inside scrolls. |
 | `contentDescription` | `String?` | `null` | Accessibility description. |
 | `testTag` | `String?` | `null` | Test tag (`accessibilityIdentifier` on iOS). |
-| `ios` | `BrandTextFieldIosOptions` | `BrandTextFieldIosOptions()` | iOS-only options: `clearButton`, `keyboardAppearance`, `keyboardAccessory`. No-op on Android. |
+| `ios` | `NativeTextFieldIosOptions` | `NativeTextFieldIosOptions()` | iOS-only options: `clearButton`, `keyboardAppearance`, `keyboardAccessory`. No-op on Android. |
 
-`BrandFieldInput` fields and their defaults: `keyboardType = BrandKeyboardType.Text`, `imeAction = BrandImeAction.Default`, `secure = false`, `singleLine = true`, `minLines = 1`, `maxLines = if (singleLine) 1 else Int.MAX_VALUE`, `capitalization = BrandCapitalization.Sentences`, `autoCorrect = true`, `characterLimit = null`.
+`NativeFieldInput` fields and their defaults: `keyboardType = NativeKeyboardType.Text`, `imeAction = NativeImeAction.Default`, `secure = false`, `singleLine = true`, `minLines = 1`, `maxLines = if (singleLine) 1 else Int.MAX_VALUE`, `capitalization = NativeCapitalization.Sentences`, `autoCorrect = true`, `characterLimit = null`.
 
-`BrandTextFieldIosOptions` fields and their defaults: `clearButton = BrandClearButtonMode.Never`, `keyboardAppearance = BrandKeyboardAppearance.Default`, `keyboardAccessory = BrandKeyboardAccessory()`.
+`NativeTextFieldIosOptions` fields and their defaults: `clearButton = NativeClearButtonMode.Never`, `keyboardAppearance = NativeKeyboardAppearance.Default`, `keyboardAccessory = NativeKeyboardAccessory()`.
 
 **Example**
 
 ```kotlin
 var email by remember { mutableStateOf("") }
-BrandTextField(
+NativeTextField(
     value = email,
     onValueChange = { email = it },
     label = "Email",
-    input = BrandFieldInput(keyboardType = BrandKeyboardType.Email, autoCorrect = false),
-    contentType = BrandTextContentType.EmailAddress,
+    input = NativeFieldInput(keyboardType = NativeKeyboardType.Email, autoCorrect = false),
+    contentType = NativeTextContentType.EmailAddress,
 )
 ```
 
@@ -111,7 +111,7 @@ BrandTextField(
 - Keyboard avoidance: a focused field scrolls to stay above the keyboard. The host scroll container must apply `Modifier.imePadding()`; the component supplies the bring-into-view. Android uses native Compose IME handling and needs no extra work.
 - Single-line fields keep a fixed height, so very large accessibility text sizes may clip.
 
-### BrandSearchBar
+### NativeSearchBar
 
 An inline search field for browse and search screens. Distinct from a nav-bar `.searchable`, which stays native-shell chrome; this is a leaf control placed in content.
 
@@ -123,7 +123,7 @@ An inline search field for browse and search screens. Distinct from a nav-bar `.
 
 **Avoid it when**
 - You want search in the navigation bar — that stays native-shell chrome, outside this kit.
-- You collect general text — use `BrandTextField`.
+- You collect general text — use `NativeTextField`.
 
 **Parameters**
 
@@ -138,15 +138,15 @@ An inline search field for browse and search screens. Distinct from a nav-bar `.
 | `enabled` | `Boolean` | `true` | Whether the field accepts input. |
 | `contentDescription` | `String?` | `null` | Accessibility description. |
 | `testTag` | `String?` | `null` | Test tag (`accessibilityIdentifier` on iOS). |
-| `ios` | `BrandSearchBarIosOptions` | `BrandSearchBarIosOptions()` | iOS-only options. No-op on Android. |
+| `ios` | `NativeSearchBarIosOptions` | `NativeSearchBarIosOptions()` | iOS-only options. No-op on Android. |
 
-`BrandSearchBarIosOptions` fields and their defaults: `showCancelButton = false` (shows the native `UISearchBar` Cancel button; Android uses the trailing clear affordance instead).
+`NativeSearchBarIosOptions` fields and their defaults: `showCancelButton = false` (shows the native `UISearchBar` Cancel button; Android uses the trailing clear affordance instead).
 
 **Example**
 
 ```kotlin
 var query by remember { mutableStateOf("") }
-BrandSearchBar(
+NativeSearchBar(
     value = query,
     onValueChange = { query = it },
     onSearch = { run(query) },
@@ -155,12 +155,12 @@ BrandSearchBar(
 
 **Notes**
 
-- The resolved `container` color is Android-only. iOS uses the native search-field appearance, adapted to light/dark via `overrideUserInterfaceStyle` from the surface the bar sits on (`LocalBrandSurface`).
+- The resolved `container` color is Android-only. iOS uses the native search-field appearance, adapted to light/dark via `overrideUserInterfaceStyle` from the surface the bar sits on (`LocalNativeSurface`).
 - `ios.showCancelButton` is iOS-only and a no-op on Android, which uses the trailing clear affordance instead.
 - The iOS text is value-synced: the native field is written only when the external value differs, avoiding an edit loop.
 - As a `UIKitView`-backed control inside a Compose scroll, the iOS bar uses overlay placement and may drift slightly during scrolling; it settles when scrolling stops.
 
-### BrandOtpField
+### NativeOtpField
 
 A one-time-code / PIN entry field: a row of `length` digit cells backed by a single hidden text field. Input is filtered to digits and capped at `length`; `onFilled` fires once the code is complete. Supports manual entry and paste.
 
@@ -171,7 +171,7 @@ A one-time-code / PIN entry field: a row of `length` digit cells backed by a sin
 - You collect a fixed-length numeric code or PIN and want the segmented digit-cell look.
 
 **Avoid it when**
-- You need native iOS SMS one-time-code autofill — use `BrandTextField(contentType = BrandTextContentType.OneTimeCode)`, which is a native `UITextField`.
+- You need native iOS SMS one-time-code autofill — use `NativeTextField(contentType = NativeTextContentType.OneTimeCode)`, which is a native `UITextField`.
 
 **Parameters**
 
@@ -191,7 +191,7 @@ A one-time-code / PIN entry field: a row of `length` digit cells backed by a sin
 
 ```kotlin
 var code by remember { mutableStateOf("") }
-BrandOtpField(
+NativeOtpField(
     value = code,
     onValueChange = { code = it },
     length = 6,
@@ -201,5 +201,5 @@ BrandOtpField(
 
 **Notes**
 
-- This is a branded visual component, Compose-rendered on both platforms. Because the cells are Compose-drawn rather than a native `UITextField`, iOS SMS one-time-code autofill is not available here by design. Use the `BrandTextField(contentType = BrandTextContentType.OneTimeCode)` path when you need native autofill.
+- This is a branded visual component, Compose-rendered on both platforms. Because the cells are Compose-drawn rather than a native `UITextField`, iOS SMS one-time-code autofill is not available here by design. Use the `NativeTextField(contentType = NativeTextContentType.OneTimeCode)` path when you need native autofill.
 - The cursor is not shown; the cells render the value and the active cell is highlighted.

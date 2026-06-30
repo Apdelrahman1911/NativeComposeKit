@@ -46,8 +46,8 @@ one-frame window where the interop region shows the host backdrop (black in dark
 native view is inserted. Compose-drawn content in the same dialog doesn't do this — it's specific to
 the interop "hole" becoming visible a frame before the native view paints.
 
-**The kit's choice:** `BrandDialog` removes the flash with two levers. Its body is composed with
-`LocalBrandSurface = Unspecified`, so `BrandText` takes its Compose-`Text` path and creates no
+**The kit's choice:** `NativeDialog` removes the flash with two levers. Its body is composed with
+`LocalNativeSurface = Unspecified`, so `NativeText` takes its Compose-`Text` path and creates no
 interop region for text at all. Its action controls are given overlay placement, so they composite
 above the opaque card with no cut-out hole — the card's own pixels show from the first frame. Dialogs
 don't scroll, so overlay's drift trade-off doesn't apply here.
@@ -58,7 +58,7 @@ Upstream: [CMP-10400](https://youtrack.jetbrains.com/issue/CMP-10400). Related: 
 
 - Don't put many menu-bearing buttons in a long scroll if the post-open drift would be noticeable;
   prefer a non-menu action or present the menu from a fixed bar.
-- For sheet-style content use `BrandSheet` (a real `UISheetPresentationController`) rather than
+- For sheet-style content use `NativeSheet` (a real `UISheetPresentationController`) rather than
   stacking interop controls in an ad-hoc scrolling container.
 - Give content-sized interop controls an explicit width — see the usage notes in the
   [README](../README.md#usage-notes) and the component reference.

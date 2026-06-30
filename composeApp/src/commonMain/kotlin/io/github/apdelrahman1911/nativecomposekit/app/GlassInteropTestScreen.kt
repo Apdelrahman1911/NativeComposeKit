@@ -17,20 +17,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import io.github.apdelrahman1911.nativecomposekit.components.BrandButton
-import io.github.apdelrahman1911.nativecomposekit.components.BrandCard
-import io.github.apdelrahman1911.nativecomposekit.components.BrandCardVariant
-import io.github.apdelrahman1911.nativecomposekit.components.BrandColorWell
-import io.github.apdelrahman1911.nativecomposekit.components.BrandDatePicker
-import io.github.apdelrahman1911.nativecomposekit.components.BrandPageControl
-import io.github.apdelrahman1911.nativecomposekit.components.BrandProgressIndicator
-import io.github.apdelrahman1911.nativecomposekit.components.BrandProgressKind
-import io.github.apdelrahman1911.nativecomposekit.components.BrandSegmentedControl
-import io.github.apdelrahman1911.nativecomposekit.components.BrandSlider
-import io.github.apdelrahman1911.nativecomposekit.components.BrandStepper
-import io.github.apdelrahman1911.nativecomposekit.components.BrandText
-import io.github.apdelrahman1911.nativecomposekit.components.BrandToggle
-import io.github.apdelrahman1911.nativecomposekit.components.model.BrandTextStyle
+import io.github.apdelrahman1911.nativecomposekit.components.NativeButton
+import io.github.apdelrahman1911.nativecomposekit.components.NativeCard
+import io.github.apdelrahman1911.nativecomposekit.components.NativeCardVariant
+import io.github.apdelrahman1911.nativecomposekit.components.NativeColorWell
+import io.github.apdelrahman1911.nativecomposekit.components.NativeDatePicker
+import io.github.apdelrahman1911.nativecomposekit.components.NativePageControl
+import io.github.apdelrahman1911.nativecomposekit.components.NativeProgressIndicator
+import io.github.apdelrahman1911.nativecomposekit.components.NativeProgressKind
+import io.github.apdelrahman1911.nativecomposekit.components.NativeSegmentedControl
+import io.github.apdelrahman1911.nativecomposekit.components.NativeSlider
+import io.github.apdelrahman1911.nativecomposekit.components.NativeStepper
+import io.github.apdelrahman1911.nativecomposekit.components.NativeText
+import io.github.apdelrahman1911.nativecomposekit.components.NativeToggle
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
 
 /** Independent state for one copy of the interop test controls (so the bare and solid copies don't mirror). */
 private class GlassTestState {
@@ -45,8 +45,8 @@ private class GlassTestState {
 
 /**
  * **DEBUG stress test** (no production defaults change here). Renders UIKit-backed controls **directly on the
- * surface with no published `LocalBrandSurface`** (the bare path — on iOS this is a Liquid Glass sheet) and
- * again **inside a `BrandCard`** (which publishes its `surfaceVariant`). Compare the two: if the bare controls
+ * surface with no published `LocalNativeSurface`** (the bare path — on iOS this is a Liquid Glass sheet) and
+ * again **inside a `NativeCard`** (which publishes its `surfaceVariant`). Compare the two: if the bare controls
  * are clean, bare-on-glass is allowed; if they show black/white rectangles, the rule is definitive — UIKit
  * controls must live in a solid surface. See `docs/interop-backdrop-audit.md`.
  */
@@ -58,33 +58,33 @@ fun GlassInteropTestScreen() {
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        BrandText("Bare native controls on Liquid Glass — interop test", style = BrandTextStyle.Title)
+        NativeText("Bare native controls on Liquid Glass — interop test", style = NativeTextStyle.Title)
 
-        BrandText("Bare glass path: no solid surface published", style = BrandTextStyle.Label)
+        NativeText("Bare glass path: no solid surface published", style = NativeTextStyle.Label)
         InteropTestControls(bare)
 
-        BrandText("Solid surface path: LocalBrandSurface published", style = BrandTextStyle.Label)
-        BrandCard(variant = BrandCardVariant.Filled) { InteropTestControls(solid) }
+        NativeText("Solid surface path: LocalNativeSurface published", style = NativeTextStyle.Label)
+        NativeCard(variant = NativeCardVariant.Filled) { InteropTestControls(solid) }
     }
 }
 
 @Composable
 private fun InteropTestControls(s: GlassTestState) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        LabeledRow("Toggle") { BrandToggle(checked = s.toggle, onCheckedChange = { s.toggle = it }) }
-        BrandText("Slider", style = BrandTextStyle.Label)
-        BrandSlider(value = s.slider, onValueChange = { s.slider = it }, modifier = Modifier.fillMaxWidth())
-        LabeledRow("Stepper") { BrandStepper(value = s.stepper, onValueChange = { s.stepper = it }, min = 0, max = 10) }
-        BrandText("Segmented", style = BrandTextStyle.Label)
+        LabeledRow("Toggle") { NativeToggle(checked = s.toggle, onCheckedChange = { s.toggle = it }) }
+        NativeText("Slider", style = NativeTextStyle.Label)
+        NativeSlider(value = s.slider, onValueChange = { s.slider = it }, modifier = Modifier.fillMaxWidth())
+        LabeledRow("Stepper") { NativeStepper(value = s.stepper, onValueChange = { s.stepper = it }, min = 0, max = 10) }
+        NativeText("Segmented", style = NativeTextStyle.Label)
         // fillMaxWidth: the iOS UISegmentedControl is a content-sized UIKitView and collapses to ~0 width without
         // an external width constraint (unlike the fixed-size Toggle/Stepper). Matches the Library-filter usage.
-        BrandSegmentedControl(
+        NativeSegmentedControl(
             options = listOf("One", "Two", "Three"),
             selectedIndex = s.seg,
             onSelectedIndexChange = { s.seg = it },
             modifier = Modifier.fillMaxWidth(),
         )
-        BrandText("Page dots (tap a dot, or Next)", style = BrandTextStyle.Label)
+        NativeText("Page dots (tap a dot, or Next)", style = NativeTextStyle.Label)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -92,19 +92,19 @@ private fun InteropTestControls(s: GlassTestState) {
         ) {
             // weight(1f): the iOS UIPageControl is content-sized and collapses to ~0 width without a width
             // constraint; give it the row's free space so its dots render (the Next button keeps its size).
-            BrandPageControl(
+            NativePageControl(
                 pageCount = 5,
                 currentPage = s.page,
                 onCurrentPageChange = { s.page = it },
                 modifier = Modifier.weight(1f),
             )
-            BrandButton(text = "Next", onClick = { s.page = (s.page + 1) % 5 })
+            NativeButton(text = "Next", onClick = { s.page = (s.page + 1) % 5 })
         }
-        LabeledRow("Spinner") { BrandProgressIndicator(kind = BrandProgressKind.Circular) }
-        BrandText("Linear bar", style = BrandTextStyle.Label)
-        BrandProgressIndicator(kind = BrandProgressKind.Linear, progress = s.slider, modifier = Modifier.fillMaxWidth())
-        LabeledRow("Color well") { BrandColorWell(color = s.color, onColorChange = { s.color = it }) }
-        LabeledRow("Date") { BrandDatePicker(selectedMillis = s.date, onSelectedMillisChange = { s.date = it }) }
+        LabeledRow("Spinner") { NativeProgressIndicator(kind = NativeProgressKind.Circular) }
+        NativeText("Linear bar", style = NativeTextStyle.Label)
+        NativeProgressIndicator(kind = NativeProgressKind.Linear, progress = s.slider, modifier = Modifier.fillMaxWidth())
+        LabeledRow("Color well") { NativeColorWell(color = s.color, onColorChange = { s.color = it }) }
+        LabeledRow("Date") { NativeDatePicker(selectedMillis = s.date, onSelectedMillisChange = { s.date = it }) }
     }
 }
 
@@ -115,7 +115,7 @@ private fun LabeledRow(label: String, control: @Composable () -> Unit) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        BrandText(label, style = BrandTextStyle.Label)
+        NativeText(label, style = NativeTextStyle.Label)
         control()
     }
 }

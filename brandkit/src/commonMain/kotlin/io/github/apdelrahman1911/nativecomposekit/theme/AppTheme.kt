@@ -13,18 +13,18 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-// Brand seed palette — defined ONCE here (the AppTheme). Components never hardcode these;
-// they read MaterialTheme.colorScheme + BrandTheme.tokens.
-private val BrandTeal = Color(0xFF0D7C66)
-private val BrandTealLight = Color(0xFF14A88C)
-private val BrandTealDark = Color(0xFF095C4C)
+// Native seed palette — defined ONCE here (the AppTheme). Components never hardcode these;
+// they read MaterialTheme.colorScheme + NativeTheme.tokens.
+private val NativeTeal = Color(0xFF0D7C66)
+private val NativeTealLight = Color(0xFF14A88C)
+private val NativeTealDark = Color(0xFF095C4C)
 
 private val LightColors = lightColorScheme(
-    primary = BrandTeal,
+    primary = NativeTeal,
     onPrimary = Color.White,
     primaryContainer = Color(0xFFB8F2E4),
     onPrimaryContainer = Color(0xFF00201A),
-    secondary = BrandTealLight,
+    secondary = NativeTealLight,
     onSecondary = Color.White,
     secondaryContainer = Color(0xFFCDEFE6),
     onSecondaryContainer = Color(0xFF052119),
@@ -33,9 +33,9 @@ private val LightColors = lightColorScheme(
 )
 
 private val DarkColors = darkColorScheme(
-    primary = BrandTealLight,
+    primary = NativeTealLight,
     onPrimary = Color(0xFF00382C),
-    primaryContainer = BrandTealDark,
+    primaryContainer = NativeTealDark,
     onPrimaryContainer = Color(0xFFB8F2E4),
     secondary = Color(0xFF8FD8C8),
     onSecondary = Color(0xFF052119),
@@ -49,10 +49,10 @@ private val DarkColors = darkColorScheme(
  * The brand window/background color per mode — the single source of truth a **native host** (the iOS
  * SwiftUI shell) reads to theme its chrome (window, nav bar, tab bar, safe areas) so it matches the Compose
  * content instead of defaulting to system black/white. Exposed from `AppTheme` so there is no duplicated
- * hex in Swift. See `brandShellBackgroundColor()` / `applyBrandShellChrome()` (iOS).
+ * hex in Swift. See `nativeShellBackgroundColor()` / `applyNativeShellChrome()` (iOS).
  */
-public val brandLightBackground: Color = LightColors.background
-public val brandDarkBackground: Color = DarkColors.background
+public val nativeLightBackground: Color = LightColors.background
+public val nativeDarkBackground: Color = DarkColors.background
 
 private val AppTypography = Typography()
 
@@ -64,13 +64,13 @@ private val AppShapes = Shapes(
 
 /**
  * The single styling source for the kit. There is no token JSON — every default (colors, type,
- * shapes, plus the brand-specific [BrandTokens]) lives here, and the Brand* components read from it
- * via [MaterialTheme] + [BrandTheme.tokens].
+ * shapes, plus the brand-specific [NativeTokens]) lives here, and the Native* components read from it
+ * via [MaterialTheme] + [NativeTheme.tokens].
  *
  * **Reskinnable:** every styling input is an optional parameter defaulting to the brand defaults, so a host
  * (or a future consumer of an extracted `:brandkit` module) can reskin the whole kit by passing its own
  * [lightColors]/[darkColors]/[typography]/[shapes]/[tokens]/status colors without forking the kit. The simple
- * call — `AppTheme { … }` — is unchanged. (Note: the top-level [brandLightBackground]/[brandDarkBackground]
+ * call — `AppTheme { … }` — is unchanged. (Note: the top-level [nativeLightBackground]/[nativeDarkBackground]
  * the native iOS shell reads still reflect the *default* palette; a host injecting custom colors that also
  * drives a native shell should source the shell color from its injected scheme.)
  */
@@ -81,14 +81,14 @@ public fun AppTheme(
     darkColors: ColorScheme = DarkColors,
     typography: Typography = AppTypography,
     shapes: Shapes = AppShapes,
-    tokens: BrandTokens = BrandTokens(),
-    lightStatusColors: BrandStatusColors = LightStatusColors,
-    darkStatusColors: BrandStatusColors = DarkStatusColors,
+    tokens: NativeTokens = NativeTokens(),
+    lightStatusColors: NativeStatusColors = LightStatusColors,
+    darkStatusColors: NativeStatusColors = DarkStatusColors,
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
-        LocalBrandTokens provides tokens,
-        LocalBrandStatusColors provides if (darkTheme) darkStatusColors else lightStatusColors,
+        LocalNativeTokens provides tokens,
+        LocalNativeStatusColors provides if (darkTheme) darkStatusColors else lightStatusColors,
     ) {
         MaterialTheme(
             colorScheme = if (darkTheme) darkColors else lightColors,

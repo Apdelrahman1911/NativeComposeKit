@@ -2,10 +2,10 @@ import kotlinx.validation.ExperimentalBCVApi
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-// The Brand UI design-system kit as a standalone KMP library. It does NOT emit its own iOS framework —
+// The Native UI design-system kit as a standalone KMP library. It does NOT emit its own iOS framework —
 // `:composeApp` owns the single `ComposeApp` framework and links this module statically into it (and
 // `export(project(":brandkit"))` re-exports the kit's public ObjC symbols into the framework header so the
-// SwiftUI shell can see BrandNavBridge / BrandShellChromeKt / etc.). Dependency-pure: Compose-official
+// SwiftUI shell can see NativeNavBridge / NativeShellChromeKt / etc.). Dependency-pure: Compose-official
 // artifacts only, no Coil/Ktor (those stay app-side in :composeApp).
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -20,7 +20,7 @@ plugins {
 apiValidation {
     @OptIn(ExperimentalBCVApi::class)
     klib {
-        // Also validate the KLIB ABI (the iOS-facing surface — e.g. BrandNavBridge — that the JVM dump misses).
+        // Also validate the KLIB ABI (the iOS-facing surface — e.g. NativeNavBridge — that the JVM dump misses).
         enabled = true
     }
 }
@@ -47,7 +47,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // `api`, not `implementation`: these Compose types appear in the kit's PUBLIC component signatures
-            // (Modifier, @Composable params, Color, PaddingValues, ImageVector via BrandIcon), so consumers
+            // (Modifier, @Composable params, Color, PaddingValues, ImageVector via NativeIcon), so consumers
             // (:composeApp) must see them transitively.
             api(compose.runtime)
             api(compose.foundation)
@@ -57,7 +57,7 @@ kotlin {
             // NO Coil, NO Ktor — image loading + networking are app concerns (kept in :composeApp).
         }
         androidMain.dependencies {
-            // Used by navigation/BrandBackHandler.android.kt (system/predictive back).
+            // Used by navigation/NativeBackHandler.android.kt (system/predictive back).
             implementation(libs.androidx.activity.compose)
         }
         commonTest.dependencies {

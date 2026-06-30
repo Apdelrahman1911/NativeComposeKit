@@ -55,7 +55,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
-import io.github.apdelrahman1911.nativecomposekit.theme.BrandTheme
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -68,7 +68,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal actual fun PlatformFeedbackHost(
-    controller: BrandFeedbackController,
+    controller: NativeFeedbackController,
     content: @Composable () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -94,7 +94,7 @@ internal actual fun PlatformFeedbackHost(
         // Material snackbar — host always present; a record drives it via the LaunchedEffect below.
         // Style + swipe come from the shown record (bound by the driver), so they stay stable for the
         // outgoing snackbar's exit animation instead of flickering to the next transient's style.
-        val snackStyle = resolveFeedbackStyle(shownSnack?.status ?: BrandFeedbackStatus.Info, filled = true)
+        val snackStyle = resolveFeedbackStyle(shownSnack?.status ?: NativeFeedbackStatus.Info, filled = true)
         val snackSwipe = shownSnack?.swipeToDismiss ?: false
         val snackKey = shownSnack?.id
         SnackbarHost(
@@ -137,7 +137,7 @@ internal actual fun PlatformFeedbackHost(
         val result = snackbarHostState.showSnackbar(
             message = s.message,
             actionLabel = s.actionLabel,
-            withDismissAction = s.actionLabel == null && s.duration == BrandFeedbackDuration.Indefinite,
+            withDismissAction = s.actionLabel == null && s.duration == NativeFeedbackDuration.Indefinite,
             duration = s.duration.toSnackbarDuration(),
         )
         when (result) {
@@ -147,11 +147,11 @@ internal actual fun PlatformFeedbackHost(
     }
 }
 
-/** Brand-themed HUD pill (default) or the real system [Toast] (opt-in). */
+/** Native-themed HUD pill (default) or the real system [Toast] (opt-in). */
 @Composable
 private fun ToastHud(
     record: ToastRecord,
-    controller: BrandFeedbackController,
+    controller: NativeFeedbackController,
     onSystemToast: (String) -> Unit,
 ) {
     if (record.useSystemToast) {
@@ -164,20 +164,20 @@ private fun ToastHud(
     }
 
     val style = resolveFeedbackStyle(record.status, filled = true)
-    val align = if (record.position == BrandFeedbackPosition.Top) Alignment.TopCenter else Alignment.BottomCenter
+    val align = if (record.position == NativeFeedbackPosition.Top) Alignment.TopCenter else Alignment.BottomCenter
     Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = align) {
         Row(
             modifier = Modifier
-                .let { if (record.position == BrandFeedbackPosition.Top) it.statusBarsPadding() else it.navigationBarsPadding() }
+                .let { if (record.position == NativeFeedbackPosition.Top) it.statusBarsPadding() else it.navigationBarsPadding() }
                 .widthIn(max = 480.dp)
                 .clip(RoundedCornerShape(style.cornerRadius))
                 .background(style.background)
                 .semantics(mergeDescendants = true) {
-                    liveRegion = if (record.status == BrandFeedbackStatus.Error) LiveRegionMode.Assertive else LiveRegionMode.Polite
+                    liveRegion = if (record.status == NativeFeedbackStatus.Error) LiveRegionMode.Assertive else LiveRegionMode.Polite
                 }
                 .padding(horizontal = style.insets.start, vertical = style.insets.top),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(BrandTheme.tokens.spacingSm),
+            horizontalArrangement = Arrangement.spacedBy(NativeTheme.tokens.spacingSm),
         ) {
             Icon(record.status.defaultVector(), contentDescription = null, tint = style.iconTint, modifier = Modifier.size(20.dp))
             Text(record.message, style = style.textStyle)
@@ -188,9 +188,9 @@ private fun ToastHud(
 
 /** Full-width status banner pinned top/bottom, with title/message, optional action, and close button. */
 @Composable
-private fun FeedbackBanner(record: BannerRecord, controller: BrandFeedbackController) {
+private fun FeedbackBanner(record: BannerRecord, controller: NativeFeedbackController) {
     val style = resolveFeedbackStyle(record.status, filled = true)
-    val align = if (record.position == BrandFeedbackPosition.Top) Alignment.TopCenter else Alignment.BottomCenter
+    val align = if (record.position == NativeFeedbackPosition.Top) Alignment.TopCenter else Alignment.BottomCenter
     // Swipe is independent of the close button: a banner can be swipe-only, button-only, or both. A truly
     // persistent banner sets dismissible = false AND swipeToDismiss = false (then only code can dismiss it).
     val swipeEnabled = record.swipeToDismiss
@@ -199,16 +199,16 @@ private fun FeedbackBanner(record: BannerRecord, controller: BrandFeedbackContro
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .let { if (record.position == BrandFeedbackPosition.Top) it.statusBarsPadding() else it.navigationBarsPadding() }
-                .padding(BrandTheme.tokens.spacingSm)
+                .let { if (record.position == NativeFeedbackPosition.Top) it.statusBarsPadding() else it.navigationBarsPadding() }
+                .padding(NativeTheme.tokens.spacingSm)
                 .clip(RoundedCornerShape(style.cornerRadius))
                 .background(style.background)
                 .semantics(mergeDescendants = true) {
-                    liveRegion = if (record.status == BrandFeedbackStatus.Error) LiveRegionMode.Assertive else LiveRegionMode.Polite
+                    liveRegion = if (record.status == NativeFeedbackStatus.Error) LiveRegionMode.Assertive else LiveRegionMode.Polite
                 }
                 .padding(start = style.insets.start, top = style.insets.top, end = style.insets.end, bottom = style.insets.bottom),
             verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.spacedBy(BrandTheme.tokens.spacingSm),
+            horizontalArrangement = Arrangement.spacedBy(NativeTheme.tokens.spacingSm),
         ) {
             Icon(record.status.defaultVector(), contentDescription = null, tint = style.iconTint, modifier = Modifier.size(22.dp))
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -238,7 +238,7 @@ private fun FeedbackBanner(record: BannerRecord, controller: BrandFeedbackContro
         if (swipeEnabled) {
             key(record.id) {
                 SwipeToDismissContainer(
-                    dismissUp = record.position == BrandFeedbackPosition.Top,
+                    dismissUp = record.position == NativeFeedbackPosition.Top,
                     onDismiss = { controller.dismiss(record.id) },
                     modifier = Modifier.fillMaxWidth(),
                 ) { card() }
@@ -286,20 +286,20 @@ private fun SwipeToDismissContainer(
 
 /** Material [AlertDialog]. Non-cancel actions become confirm buttons; a Cancel-role action is the dismiss button. */
 @Composable
-private fun FeedbackAlert(record: AlertRecord, controller: BrandFeedbackController) {
-    val cancel = record.actions.firstOrNull { it.role == BrandAlertActionRole.Cancel }
-    val others = record.actions.filter { it.role != BrandAlertActionRole.Cancel }
+private fun FeedbackAlert(record: AlertRecord, controller: NativeFeedbackController) {
+    val cancel = record.actions.firstOrNull { it.role == NativeAlertActionRole.Cancel }
+    val others = record.actions.filter { it.role != NativeAlertActionRole.Cancel }
     AlertDialog(
         onDismissRequest = { controller.dismissCurrentModal() },
         title = record.title?.let { { Text(it) } },
         text = record.message?.let { { Text(it) } },
         confirmButton = {
-            Row(horizontalArrangement = Arrangement.spacedBy(BrandTheme.tokens.spacingXs)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(NativeTheme.tokens.spacingXs)) {
                 others.forEach { action ->
                     TextButton(onClick = { controller.onModalResult(record.id, action.onClick) }) {
                         Text(
                             action.label,
-                            color = if (action.role == BrandAlertActionRole.Destructive) MaterialTheme.colorScheme.error
+                            color = if (action.role == NativeAlertActionRole.Destructive) MaterialTheme.colorScheme.error
                             else MaterialTheme.colorScheme.primary,
                             fontWeight = FontWeight.SemiBold,
                         )
@@ -318,7 +318,7 @@ private fun FeedbackAlert(record: AlertRecord, controller: BrandFeedbackControll
 @Composable
 private fun FeedbackSheet(
     record: SheetRecord,
-    controller: BrandFeedbackController,
+    controller: NativeFeedbackController,
     scope: CoroutineScope,
 ) {
     val sheetState = rememberModalBottomSheetState()
@@ -335,11 +335,11 @@ private fun FeedbackSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .navigationBarsPadding()
-                .padding(bottom = BrandTheme.tokens.spacingMd),
+                .padding(bottom = NativeTheme.tokens.spacingMd),
         ) {
             if (record.title != null || record.message != null) {
                 Column(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = BrandTheme.tokens.spacingLg, vertical = BrandTheme.tokens.spacingSm),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = NativeTheme.tokens.spacingLg, vertical = NativeTheme.tokens.spacingSm),
                     verticalArrangement = Arrangement.spacedBy(2.dp),
                 ) {
                     if (record.title != null) Text(record.title, style = MaterialTheme.typography.titleMedium)
@@ -348,17 +348,17 @@ private fun FeedbackSheet(
             }
             record.actions.forEach { action ->
                 val tint = when (action.role) {
-                    BrandAlertActionRole.Destructive -> MaterialTheme.colorScheme.error
-                    BrandAlertActionRole.Cancel -> MaterialTheme.colorScheme.onSurfaceVariant
-                    BrandAlertActionRole.Default -> MaterialTheme.colorScheme.onSurface
+                    NativeAlertActionRole.Destructive -> MaterialTheme.colorScheme.error
+                    NativeAlertActionRole.Cancel -> MaterialTheme.colorScheme.onSurfaceVariant
+                    NativeAlertActionRole.Default -> MaterialTheme.colorScheme.onSurface
                 }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable { choose(action.onClick) }
-                        .padding(horizontal = BrandTheme.tokens.spacingLg, vertical = BrandTheme.tokens.spacingMd),
+                        .padding(horizontal = NativeTheme.tokens.spacingLg, vertical = NativeTheme.tokens.spacingMd),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(BrandTheme.tokens.spacingMd),
+                    horizontalArrangement = Arrangement.spacedBy(NativeTheme.tokens.spacingMd),
                 ) {
                     val icon = action.icon
                     val vec = icon?.androidImageVector
@@ -370,9 +370,9 @@ private fun FeedbackSheet(
     }
 }
 
-/** Schedules an auto-dismiss for a timed transient (no-op for [BrandFeedbackDuration.Indefinite]). */
+/** Schedules an auto-dismiss for a timed transient (no-op for [NativeFeedbackDuration.Indefinite]). */
 @Composable
-private fun AutoDismiss(id: Long, duration: BrandFeedbackDuration, controller: BrandFeedbackController) {
+private fun AutoDismiss(id: Long, duration: NativeFeedbackDuration, controller: NativeFeedbackController) {
     val ms = duration.toMillisOrNull()
     LaunchedEffect(id, ms) {
         if (ms != null) {
@@ -382,8 +382,8 @@ private fun AutoDismiss(id: Long, duration: BrandFeedbackDuration, controller: B
     }
 }
 
-private fun BrandFeedbackDuration.toSnackbarDuration(): SnackbarDuration = when (this) {
-    BrandFeedbackDuration.Short -> SnackbarDuration.Short
-    BrandFeedbackDuration.Long -> SnackbarDuration.Long
-    BrandFeedbackDuration.Indefinite -> SnackbarDuration.Indefinite
+private fun NativeFeedbackDuration.toSnackbarDuration(): SnackbarDuration = when (this) {
+    NativeFeedbackDuration.Short -> SnackbarDuration.Short
+    NativeFeedbackDuration.Long -> SnackbarDuration.Long
+    NativeFeedbackDuration.Indefinite -> SnackbarDuration.Indefinite
 }

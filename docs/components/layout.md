@@ -2,7 +2,7 @@
 
 Containers, screen chrome, and list scaffolding. Every component here is Compose-drawn on both platforms; none of them wrap a native leaf control.
 
-### BrandCard
+### NativeCard
 
 A themed container surface for covers, grid cells, and grouped content.
 
@@ -13,19 +13,19 @@ A themed container surface for covers, grid cells, and grouped content.
 - You need a grouped content container or a tappable cover/grid cell.
 
 **Avoid it when**
-- You want a row inside a settings list; use BrandListItem inside BrandListSection.
+- You want a row inside a settings list; use NativeListItem inside NativeListSection.
 
 **Parameters**
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | modifier | Modifier | Modifier | Layout modifier applied to the card. |
-| variant | BrandCardVariant | BrandCardVariant.Filled | `Filled` (tonal `surfaceVariant`), `Elevated` (`surface` + 2dp shadow), or `Outlined` (`surface` + hairline outline). |
+| variant | NativeCardVariant | NativeCardVariant.Filled | `Filled` (tonal `surfaceVariant`), `Elevated` (`surface` + 2dp shadow), or `Outlined` (`surface` + hairline outline). |
 | onClick | (() -> Unit)? | null | Makes the whole card a Material-ripple button clipped to the shape. |
 | onClickLabel | String? | null | Accessibility label for the click action. |
 | enabled | Boolean | true | Gates a tappable card; dims content and drops elevation when false. No-op for a card with no `onClick`. |
-| cornerRadius | Dp? | null | Corner radius; falls back to `BrandTheme.tokens.cornerMedium`. |
-| contentPadding | PaddingValues? | null | Inner padding; falls back to `PaddingValues(BrandTheme.tokens.spacingMd)`. |
+| cornerRadius | Dp? | null | Corner radius; falls back to `NativeTheme.tokens.cornerMedium`. |
+| contentPadding | PaddingValues? | null | Inner padding; falls back to `PaddingValues(NativeTheme.tokens.spacingMd)`. |
 | containerColor | Color? | null | Overrides the variant's container color. |
 | contentColor | Color? | null | Overrides the resolved content color provided via `LocalContentColor`. |
 | contentDescription | String? | null | Accessibility description for the card. |
@@ -35,14 +35,14 @@ A themed container surface for covers, grid cells, and grouped content.
 **Example**
 
 ```kotlin
-BrandCard(variant = BrandCardVariant.Elevated, onClick = { open(cover) }) {
-    BrandText(cover.title)
+NativeCard(variant = NativeCardVariant.Elevated, onClick = { open(cover) }) {
+    NativeText(cover.title)
 }
 ```
 
-**Notes** — `enabled` only affects a card that has an `onClick`; for a non-clickable card it does nothing. Content inherits the resolved content color through `LocalContentColor`, and the card publishes its container color via `LocalBrandSurface` so descendant surface-relative fills and native-control probes adapt to it. The shadow is applied before the clip so it renders outside the rounded bounds.
+**Notes** — `enabled` only affects a card that has an `onClick`; for a non-clickable card it does nothing. Content inherits the resolved content color through `LocalContentColor`, and the card publishes its container color via `LocalNativeSurface` so descendant surface-relative fills and native-control probes adapt to it. The shadow is applied before the clip so it renders outside the rounded bounds.
 
-### BrandScaffold
+### NativeScaffold
 
 A themed screen scaffold (top bar, bottom bar, FAB, content) decoupled from navigation.
 
@@ -53,17 +53,17 @@ A themed screen scaffold (top bar, bottom bar, FAB, content) decoupled from navi
 - You build a standalone screen and want top-bar/bottom-bar/FAB slots without going through the nav host.
 
 **Avoid it when**
-- The screen already gets its chrome from `BrandNavHost`.
+- The screen already gets its chrome from `NativeNavHost`.
 
 **Parameters**
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | modifier | Modifier | Modifier | Layout modifier applied to the scaffold. |
-| topBar | @Composable () -> Unit | {} | Top bar slot; pair it with `BrandTopBar`. |
+| topBar | @Composable () -> Unit | {} | Top bar slot; pair it with `NativeTopBar`. |
 | bottomBar | @Composable () -> Unit | {} | Bottom bar slot. |
 | floatingActionButton | @Composable () -> Unit | {} | FAB slot. |
-| containerColor | Color? | null | Page surface; falls back to `background`. Published via `LocalBrandSurface`. |
+| containerColor | Color? | null | Page surface; falls back to `background`. Published via `LocalNativeSurface`. |
 | contentColor | Color? | null | Content color; falls back to `onBackground`. |
 | contentWindowInsets | WindowInsets | ScaffoldDefaults.contentWindowInsets | Window insets applied to the content. |
 | content | @Composable (PaddingValues) -> Unit | — | Screen content; receives the inner padding to apply. |
@@ -71,16 +71,16 @@ A themed screen scaffold (top bar, bottom bar, FAB, content) decoupled from navi
 **Example**
 
 ```kotlin
-BrandScaffold(topBar = { BrandTopBar("Settings") }) { inner ->
+NativeScaffold(topBar = { NativeTopBar("Settings") }) { inner ->
     Column(Modifier.padding(inner)) { /* … */ }
 }
 ```
 
-**Notes** — `containerColor` (default `background`) is published via `LocalBrandSurface` for the content, so surface-relative fills and the native-control light/dark probe adapt to the page the content sits on. Apply the `PaddingValues` passed to `content` so your content clears the bars and insets.
+**Notes** — `containerColor` (default `background`) is published via `LocalNativeSurface` for the content, so surface-relative fills and the native-control light/dark probe adapt to the page the content sits on. Apply the `PaddingValues` passed to `content` so your content clears the bars and insets.
 
-### BrandTopBar
+### NativeTopBar
 
-A themed top app bar, decoupled from navigation, for any screen or a `BrandScaffold` top-bar slot.
+A themed top app bar, decoupled from navigation, for any screen or a `NativeScaffold` top-bar slot.
 
 **Android:** Compose `TopAppBar`, or `CenterAlignedTopAppBar` when `centerTitle` is set.
 **iOS:** the same Compose bar (the native iOS nav bar belongs to the SwiftUI shell).
@@ -103,19 +103,19 @@ A themed top app bar, decoupled from navigation, for any screen or a `BrandScaff
 | navigationContentDescription | String? | null | Accessible name for the icon-only navigation control. |
 | centerTitle | Boolean | false | Centers the title (iOS convention); leave off for the Android leading-aligned look. |
 | testTag | String? | null | Test tag for UI tests. |
-| actions | @Composable RowScope.() -> Unit | {} | Trailing slot; put `BrandIconButton`s here. |
+| actions | @Composable RowScope.() -> Unit | {} | Trailing slot; put `NativeIconButton`s here. |
 
 **Example**
 
 ```kotlin
-BrandTopBar("Library", actions = {
-    BrandIconButton(addIcon, onAdd, contentDescription = "Add")
+NativeTopBar("Library", actions = {
+    NativeIconButton(addIcon, onAdd, contentDescription = "Add")
 })
 ```
 
 **Notes** — Colors come from the theme: `surface` container, `onSurface` title. The navigation icon renders only when both `navigationIcon` and `onNavigationClick` are non-null; give it a `navigationContentDescription` since an icon-only control needs an accessible name. Collapse-on-scroll is deferred: Material's `TopAppBarScrollBehavior` is still experimental and is kept out of the public signature.
 
-### BrandListSection
+### NativeListSection
 
 Groups rows under an optional header and footer; the standard settings or details section.
 
@@ -126,7 +126,7 @@ Groups rows under an optional header and footer; the standard settings or detail
 - You build a settings or details screen and want grouped rows with shared separators.
 
 **Avoid it when**
-- You need a single standalone row; use BrandListItem directly with `showDivider` if needed.
+- You need a single standalone row; use NativeListItem directly with `showDivider` if needed.
 
 **Parameters**
 
@@ -136,24 +136,24 @@ Groups rows under an optional header and footer; the standard settings or detail
 | modifier | Modifier | Modifier | Layout modifier applied to the section. |
 | header | String? | null | Optional header in muted secondary text. |
 | footer | String? | null | Optional footer in muted secondary text. |
-| style | BrandListSectionStyle | BrandListSectionStyle.Grouped | `Grouped` wraps rows in a rounded inset card; `Plain` leaves them flat edge-to-edge. |
+| style | NativeListSectionStyle | NativeListSectionStyle.Grouped | `Grouped` wraps rows in a rounded inset card; `Plain` leaves them flat edge-to-edge. |
 | showDividers | Boolean | true | Draws hairline separators between rows. |
-| dividerInset | Dp | BrandTheme.tokens.spacingMd | Start/end inset for the separators. |
+| dividerInset | Dp | NativeTheme.tokens.spacingMd | Start/end inset for the separators. |
 | contentDescription | String? | null | Accessibility description for the section. |
 | testTag | String? | null | Test tag for UI tests. |
 
 **Example**
 
 ```kotlin
-BrandListSection(header = "Reader", rows = listOf(
-    { BrandListItem("Direction", trailingText = "L → R", onClick = { /* … */ }) },
-    { BrandListItem("Theme", trailingText = "Dark", onClick = { /* … */ }) },
+NativeListSection(header = "Reader", rows = listOf(
+    { NativeListItem("Direction", trailingText = "L → R", onClick = { /* … */ }) },
+    { NativeListItem("Theme", trailingText = "Dark", onClick = { /* … */ }) },
 ))
 ```
 
-**Notes** — Separators are drawn between rows only, so there is no per-row book-keeping; leave `showDivider` off on the rows themselves. `Grouped` (a Filled `BrandCard`) assumes the section sits on the page `surface`/`background`, where the tonal card reads as raised. Pass an already-uppercased `header` for the classic iOS grouped-header casing; the kit does not force it, for i18n.
+**Notes** — Separators are drawn between rows only, so there is no per-row book-keeping; leave `showDivider` off on the rows themselves. `Grouped` (a Filled `NativeCard`) assumes the section sits on the page `surface`/`background`, where the tonal card reads as raised. Pass an already-uppercased `header` for the classic iOS grouped-header casing; the kit does not force it, for i18n.
 
-### BrandListItem
+### NativeListItem
 
 A single list row: the backbone of settings screens, chapter lists, and navigation menus.
 
@@ -164,7 +164,7 @@ A single list row: the backbone of settings screens, chapter lists, and navigati
 - You need a rich, optional-slot row for settings, lists, or navigation.
 
 **Avoid it when**
-- You need a free-form container; use BrandCard instead.
+- You need a free-form container; use NativeCard instead.
 
 **Parameters**
 
@@ -174,8 +174,8 @@ A single list row: the backbone of settings screens, chapter lists, and navigati
 | modifier | Modifier | Modifier | Layout modifier applied to the row. |
 | overline | String? | null | Small label above the headline. |
 | supporting | String? | null | Secondary text below the headline. |
-| leading | (@Composable () -> Unit)? | null | Leading slot (icon, `BrandAvatar`, cover). |
-| trailing | (@Composable () -> Unit)? | null | Trailing slot for a custom control such as a `BrandToggle`. |
+| leading | (@Composable () -> Unit)? | null | Leading slot (icon, `NativeAvatar`, cover). |
+| trailing | (@Composable () -> Unit)? | null | Trailing slot for a custom control such as a `NativeToggle`. |
 | trailingText | String? | null | Trailing value text; single-line, ellipsized, width-capped at 140dp. |
 | onClick | (() -> Unit)? | null | Makes the row tappable. |
 | onClickLabel | String? | null | Accessibility label for the click action. |
@@ -184,13 +184,13 @@ A single list row: the backbone of settings screens, chapter lists, and navigati
 | enabled | Boolean | true | Disables the row and dims its text when false. |
 | showChevron | Boolean | onClick != null | Adds a layout-direction-aware disclosure chevron. Defaults on for tappable rows. |
 | showDivider | Boolean | false | Draws a bottom hairline; for standalone rows (leave off inside a section). |
-| swipeAction | BrandSwipeAction? | null | Trailing right-to-left swipe action; the row snaps back after firing. |
+| swipeAction | NativeSwipeAction? | null | Trailing right-to-left swipe action; the row snaps back after firing. |
 | minHeight | Dp | 56.dp | Minimum row height. |
 | contentPadding | PaddingValues? | null | Inner padding; falls back to horizontal `spacingMd` and vertical `spacingSm + spacingXs`. |
 | contentDescription | String? | null | Accessibility description for the row. |
 | testTag | String? | null | Test tag for UI tests. |
 
-`BrandSwipeAction` (passed to `swipeAction`):
+`NativeSwipeAction` (passed to `swipeAction`):
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -202,16 +202,16 @@ A single list row: the backbone of settings screens, chapter lists, and navigati
 **Example**
 
 ```kotlin
-BrandListItem(
+NativeListItem(
     headline = "Notifications",
     supporting = "Push, email, in-app",
-    trailing = { BrandToggle(checked = on, onCheckedChange = { on = it }) },
+    trailing = { NativeToggle(checked = on, onCheckedChange = { on = it }) },
 )
 ```
 
-**Notes** — A tappable row with no interactive `trailing` is merged into one focus target (at least `minHeight` tall) with the auto-mirrored chevron. When `trailing` holds its own control (a toggle), the row is left unmerged so that control stays focusable, so do not also make such a row `onClick`-able; that creates two competing tap targets. `trailingText` is single-line, ellipsized, and capped at 140dp so it cannot crush the headline. Swipe and long-press are gesture-only and invisible to screen readers, so they are exposed as explicit custom accessibility actions; a long-press surfaces one only when you pass `onLongClickLabel`. A swiped row fills its background with the published `LocalBrandSurface` (page background or card container) so the reveal does not show through at rest.
+**Notes** — A tappable row with no interactive `trailing` is merged into one focus target (at least `minHeight` tall) with the auto-mirrored chevron. When `trailing` holds its own control (a toggle), the row is left unmerged so that control stays focusable, so do not also make such a row `onClick`-able; that creates two competing tap targets. `trailingText` is single-line, ellipsized, and capped at 140dp so it cannot crush the headline. Swipe and long-press are gesture-only and invisible to screen readers, so they are exposed as explicit custom accessibility actions; a long-press surfaces one only when you pass `onLongClickLabel`. A swiped row fills its background with the published `LocalNativeSurface` (page background or card container) so the reveal does not show through at rest.
 
-### BrandDivider
+### NativeDivider
 
 A hairline separator for stacked rows or side-by-side content.
 
@@ -222,14 +222,14 @@ A hairline separator for stacked rows or side-by-side content.
 - You need a standalone separator between rows or columns.
 
 **Avoid it when**
-- Rows already live in a BrandListSection; the section draws separators between them for you.
+- Rows already live in a NativeListSection; the section draws separators between them for you.
 
 **Parameters**
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | modifier | Modifier | Modifier | Layout modifier applied to the divider. |
-| orientation | BrandDividerOrientation | BrandDividerOrientation.Horizontal | `Horizontal` separates stacked rows; `Vertical` separates side-by-side content. |
+| orientation | NativeDividerOrientation | NativeDividerOrientation.Horizontal | `Horizontal` separates stacked rows; `Vertical` separates side-by-side content. |
 | thickness | Dp | 1.dp | Line thickness. |
 | color | Color? | null | Line color; falls back to `outlineVariant`. |
 | startIndent | Dp | 0.dp | Leading inset (top inset when `Vertical`). |
@@ -239,7 +239,7 @@ A hairline separator for stacked rows or side-by-side content.
 **Example**
 
 ```kotlin
-BrandDivider(startIndent = 56.dp) // inset under a leading icon
+NativeDivider(startIndent = 56.dp) // inset under a leading icon
 ```
 
 **Notes** — Defaults to a 1dp `outlineVariant` line. For a `Horizontal` divider the `startIndent`/`endIndent` insets are layout-direction aware, so an inset separator that begins after a list item's text aligns correctly in RTL. For a `Vertical` divider they map to top/bottom insets, which is a direction-neutral axis.

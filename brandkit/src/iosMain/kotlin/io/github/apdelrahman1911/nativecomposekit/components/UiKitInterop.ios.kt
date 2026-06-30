@@ -9,9 +9,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.UIKitInteropInteractionMode
 import androidx.compose.ui.viewinterop.UIKitInteropProperties
-import io.github.apdelrahman1911.nativecomposekit.components.model.BrandInteropTouch
-import io.github.apdelrahman1911.nativecomposekit.components.model.BrandKeyboardType
-import io.github.apdelrahman1911.nativecomposekit.theme.LocalBrandSurface
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeInteropTouch
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeKeyboardType
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 import platform.Foundation.setValue
 import platform.UIKit.NSLayoutConstraint
 import platform.UIKit.NSTextAlignment
@@ -45,7 +45,7 @@ import kotlinx.cinterop.value
 
 /**
  * Small bridges that turn the resolved (theme-derived) Compose values into their native UIKit
- * equivalents. The Brand* iOS renderers read ONLY these — they never hardcode colors/sizes.
+ * equivalents. The Native* iOS renderers read ONLY these — they never hardcode colors/sizes.
  */
 
 internal fun Color.toUIColor(): UIColor = UIColor(
@@ -93,28 +93,28 @@ internal fun TextAlign?.toNSTextAlignment(): NSTextAlignment = when (this) {
     else -> NSTextAlignmentNatural
 }
 
-internal fun BrandKeyboardType.toUIKeyboardType(): UIKeyboardType = when (this) {
-    BrandKeyboardType.Text -> UIKeyboardTypeDefault
-    BrandKeyboardType.Email -> UIKeyboardTypeEmailAddress
-    BrandKeyboardType.Number -> UIKeyboardTypeNumberPad
-    BrandKeyboardType.Phone -> UIKeyboardTypePhonePad
-    BrandKeyboardType.Decimal -> UIKeyboardTypeDecimalPad
+internal fun NativeKeyboardType.toUIKeyboardType(): UIKeyboardType = when (this) {
+    NativeKeyboardType.Text -> UIKeyboardTypeDefault
+    NativeKeyboardType.Email -> UIKeyboardTypeEmailAddress
+    NativeKeyboardType.Number -> UIKeyboardTypeNumberPad
+    NativeKeyboardType.Phone -> UIKeyboardTypePhonePad
+    NativeKeyboardType.Decimal -> UIKeyboardTypeDecimalPad
 }
 
 /**
- * Maps the public [BrandInteropTouch] to Compose's (experimental) `UIKitInteropProperties`, so the
+ * Maps the public [NativeInteropTouch] to Compose's (experimental) `UIKitInteropProperties`, so the
  * touch strategy for a native view embedded in a Compose scroll stays a stable public choice. Shared by
- * every Brand* iOS renderer (see architecture.md §6).
+ * every Native* iOS renderer (see architecture.md §6).
  *
- * [overlay] selects `placedAsOverlay` (default cut-out). It is `true` only inside a [BrandDialog] (via
- * [LocalBrandInteropPlacement]) so a freshly mounted dialog scene doesn't flash its black host backdrop through
- * a not-yet-filled cut-out hole — see [LocalBrandInteropPlacement]. Scrolling screens keep cut-out (the default).
+ * [overlay] selects `placedAsOverlay` (default cut-out). It is `true` only inside a [NativeDialog] (via
+ * [LocalNativeInteropPlacement]) so a freshly mounted dialog scene doesn't flash its black host backdrop through
+ * a not-yet-filled cut-out hole — see [LocalNativeInteropPlacement]. Scrolling screens keep cut-out (the default).
  */
 @OptIn(ExperimentalComposeUiApi::class)
-internal fun BrandInteropTouch.toInteropProperties(overlay: Boolean = false): UIKitInteropProperties = when (this) {
-    BrandInteropTouch.Cooperative -> UIKitInteropProperties(interactionMode = UIKitInteropInteractionMode.Cooperative(), placedAsOverlay = overlay)
-    BrandInteropTouch.NonCooperative -> UIKitInteropProperties(interactionMode = UIKitInteropInteractionMode.NonCooperative, placedAsOverlay = overlay)
-    BrandInteropTouch.NonInteractive -> UIKitInteropProperties(interactionMode = null, placedAsOverlay = overlay)
+internal fun NativeInteropTouch.toInteropProperties(overlay: Boolean = false): UIKitInteropProperties = when (this) {
+    NativeInteropTouch.Cooperative -> UIKitInteropProperties(interactionMode = UIKitInteropInteractionMode.Cooperative(), placedAsOverlay = overlay)
+    NativeInteropTouch.NonCooperative -> UIKitInteropProperties(interactionMode = UIKitInteropInteractionMode.NonCooperative, placedAsOverlay = overlay)
+    NativeInteropTouch.NonInteractive -> UIKitInteropProperties(interactionMode = null, placedAsOverlay = overlay)
 }
 
 /**
@@ -167,18 +167,18 @@ internal fun UIView.pinFilling(child: UIView) {
 /**
  * The backing color for a native control's [pinFilling] wrapper, resolved **from context** — use this instead
  * of a hardcoded `style.surface` for every native UIKit control's backing:
- * - On a **known solid surface** (a parent published [LocalBrandSurface] — the page background, a `BrandCard`,
+ * - On a **known solid surface** (a parent published [LocalNativeSurface] — the page background, a `NativeCard`,
  *   etc.) → that exact surface color, so the opaque backing matches what's visually behind the control and the
  *   `UIKitView` interop region never exposes the host's system backdrop (the black/white rectangle).
- * - On a **material / Liquid Glass surface** ([LocalBrandSurface] is `Color.Unspecified`) → **clear**, so the
+ * - On a **material / Liquid Glass surface** ([LocalNativeSurface] is `Color.Unspecified`) → **clear**, so the
  *   native material shows through the control's transparent pixels instead of being covered by a solid box.
  *
  * (The control's own opaque pixels — a switch track, slider track, dots — still render either way; only the
- * surrounding interop region changes.) `@Composable` because it reads the [LocalBrandSurface] composition local.
+ * surrounding interop region changes.) `@Composable` because it reads the [LocalNativeSurface] composition local.
  */
 @Composable
 internal fun interopBackingColor(): UIColor {
-    val surface = LocalBrandSurface.current
+    val surface = LocalNativeSurface.current
     return if (surface.isSpecified) surface.toUIColor() else UIColor.clearColor()
 }
 

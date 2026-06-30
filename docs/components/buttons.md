@@ -2,7 +2,7 @@
 
 The button family. All three components share theme resolution and render the most native control per platform. They take the same variant, size, color, and menu types, so an app can move between them without relearning the API.
 
-### BrandButton
+### NativeButton
 
 A text button with optional leading and trailing icons, an optional loading state, and an optional pull-down menu.
 
@@ -14,8 +14,8 @@ A text button with optional leading and trailing icons, an optional loading stat
 - You want a pull-down menu trigger (set `menu`); a chevron is appended automatically.
 
 **Avoid it when**
-- The control is icon-only — use `BrandIconButton`.
-- You need one main action plus a related menu — use `BrandSplitButton` (an iOS menu button suppresses the tap action, so `onClick` may not fire).
+- The control is icon-only — use `NativeIconButton`.
+- You need one main action plus a related menu — use `NativeSplitButton` (an iOS menu button suppresses the tap action, so `onClick` may not fire).
 
 **Parameters**
 
@@ -24,33 +24,33 @@ A text button with optional leading and trailing icons, an optional loading stat
 | `text` | `String` | — | Button label. |
 | `onClick` | `() -> Unit` | — | Tap handler. With a `menu`, also fires on Android tap; may not fire on iOS, where presenting the menu suppresses the tap action. |
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
-| `variant` | `BrandButtonVariant` | `BrandButtonVariant.Primary` | Visual variant: `Primary`, `Secondary`, `Tertiary`, `Outline`, `Destructive`. |
-| `size` | `BrandButtonSize` | `BrandButtonSize.Medium` | `Small`, `Medium`, or `Large`. Drives height, padding, and text style from theme tokens. |
-| `shape` | `BrandButtonShape` | `BrandButtonShape.Rounded` | `Rounded` (theme corner radius) or `Pill` (capsule, radius = height / 2). |
+| `variant` | `NativeButtonVariant` | `NativeButtonVariant.Primary` | Visual variant: `Primary`, `Secondary`, `Tertiary`, `Outline`, `Destructive`. |
+| `size` | `NativeButtonSize` | `NativeButtonSize.Medium` | `Small`, `Medium`, or `Large`. Drives height, padding, and text style from theme tokens. |
+| `shape` | `NativeButtonShape` | `NativeButtonShape.Rounded` | `Rounded` (theme corner radius) or `Pill` (capsule, radius = height / 2). |
 | `enabled` | `Boolean` | `true` | When false the button is not interactive and uses themed disabled tones. |
 | `loading` | `Boolean` | `false` | Shows a centered spinner; label and icons are hidden while loading. |
 | `fullWidth` | `Boolean` | `false` | Stretches the button to fill the available width. |
-| `leadingIcon` | `BrandIcon?` | `null` | Icon before the label. May be set together with `trailingIcon`. |
-| `trailingIcon` | `BrandIcon?` | `null` | Icon after the label. May be set together with `leadingIcon`. |
-| `menu` | `BrandMenu?` | `null` | When non-null, tapping opens a pull-down menu and a chevron is appended. |
+| `leadingIcon` | `NativeIcon?` | `null` | Icon before the label. May be set together with `trailingIcon`. |
+| `trailingIcon` | `NativeIcon?` | `null` | Icon after the label. May be set together with `leadingIcon`. |
+| `menu` | `NativeMenu?` | `null` | When non-null, tapping opens a pull-down menu and a chevron is appended. |
 | `contentPadding` | `PaddingValues?` | `null` | Overrides the size-derived content padding. |
 | `cornerRadius` | `Dp?` | `null` | Explicit corner radius. Wins over `shape`. |
-| `colorsOverride` | `BrandButtonColors?` | `null` | Overrides the variant's resolved colors. |
+| `colorsOverride` | `NativeButtonColors?` | `null` | Overrides the variant's resolved colors. |
 | `textStyleOverride` | `TextStyle?` | `null` | Merged over the size-derived base text style. |
-| `touch` | `BrandInteropTouch` | `BrandInteropTouch.Cooperative` | iOS scroll-vs-tap interop strategy. No-op on Android. |
+| `touch` | `NativeInteropTouch` | `NativeInteropTouch.Cooperative` | iOS scroll-vs-tap interop strategy. No-op on Android. |
 | `contentDescription` | `String?` | `null` | Accessibility label override. |
 | `testTag` | `String?` | `null` | Maps to `testTag` (Android) / `accessibilityIdentifier` (iOS). |
 
 **Example**
 
 ```kotlin
-BrandButton("Save", onClick = { save() })
+NativeButton("Save", onClick = { save() })
 
-BrandButton(
+NativeButton(
     text = "Export",
     onClick = { },
-    variant = BrandButtonVariant.Outline,
-    trailingIcon = BrandIcon(Icons.Default.Download, sfSymbolName = "square.and.arrow.down"),
+    variant = NativeButtonVariant.Outline,
+    trailingIcon = NativeIcon(Icons.Default.Download, sfSymbolName = "square.and.arrow.down"),
 )
 ```
 
@@ -61,7 +61,7 @@ BrandButton(
 - Text-bearing native controls honor Dynamic Type on iOS (`adjustsFontForContentSizeCategory`).
 - `touch` is a documented no-op on Android, where the Material button is not embedded via UIKit interop.
 
-### BrandIconButton
+### NativeIconButton
 
 An icon-only button — a square or circular tap target with no label. Circular by default.
 
@@ -73,31 +73,31 @@ An icon-only button — a square or circular tap target with no label. Circular 
 - You need a compact menu trigger; set `menu` and the menu opens on tap with no extra chevron.
 
 **Avoid it when**
-- The action needs a visible label — use `BrandButton`.
+- The action needs a visible label — use `NativeButton`.
 
 **Parameters**
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `icon` | `BrandIcon` | — | The glyph to display. |
+| `icon` | `NativeIcon` | — | The glyph to display. |
 | `onClick` | `() -> Unit` | — | Tap handler. |
 | `contentDescription` | `String` | — | Required. The accessible name; an icon-only control has no visible label. Maps to `accessibilityLabel` (iOS) / merged `contentDescription` (Android). |
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
-| `variant` | `BrandButtonVariant` | `BrandButtonVariant.Tertiary` | Visual variant. |
-| `size` | `BrandButtonSize` | `BrandButtonSize.Medium` | `Small`, `Medium`, or `Large`. Drives the side length. |
+| `variant` | `NativeButtonVariant` | `NativeButtonVariant.Tertiary` | Visual variant. |
+| `size` | `NativeButtonSize` | `NativeButtonSize.Medium` | `Small`, `Medium`, or `Large`. Drives the side length. |
 | `enabled` | `Boolean` | `true` | When false the button is not interactive and uses themed disabled tones. |
 | `loading` | `Boolean` | `false` | Shows a centered spinner; the icon is hidden while loading. |
-| `menu` | `BrandMenu?` | `null` | When non-null, tapping opens a pull-down menu. No chevron is added. |
+| `menu` | `NativeMenu?` | `null` | When non-null, tapping opens a pull-down menu. No chevron is added. |
 | `cornerRadius` | `Dp?` | `null` | Explicit corner radius. Default is circular (radius = side / 2). |
-| `colorsOverride` | `BrandButtonColors?` | `null` | Overrides the variant's resolved colors. |
-| `touch` | `BrandInteropTouch` | `BrandInteropTouch.Cooperative` | iOS scroll-vs-tap interop strategy. No-op on Android. |
+| `colorsOverride` | `NativeButtonColors?` | `null` | Overrides the variant's resolved colors. |
+| `touch` | `NativeInteropTouch` | `NativeInteropTouch.Cooperative` | iOS scroll-vs-tap interop strategy. No-op on Android. |
 | `testTag` | `String?` | `null` | Maps to `testTag` (Android) / `accessibilityIdentifier` (iOS). |
 
 **Example**
 
 ```kotlin
-BrandIconButton(
-    icon = BrandIcon(Icons.Default.Add, sfSymbolName = "plus"),
+NativeIconButton(
+    icon = NativeIcon(Icons.Default.Add, sfSymbolName = "plus"),
     onClick = { add() },
     contentDescription = "Add",
 )
@@ -108,7 +108,7 @@ BrandIconButton(
 - The host is clamped to a 44pt minimum on iOS (44 is its natural size).
 - `touch` is a documented no-op on Android.
 
-### BrandSplitButton
+### NativeSplitButton
 
 A primary action segment plus a chevron segment that opens a menu. Tapping the label fires `onPrimaryClick`; tapping the chevron presents the menu.
 
@@ -117,10 +117,10 @@ A primary action segment plus a chevron segment that opens a menu. Tapping the l
 
 **Use it when**
 - A button has one main action plus related secondary actions.
-- You want an action and a menu on one control (unlike a menu-bearing `BrandButton`, the primary tap always fires here).
+- You want an action and a menu on one control (unlike a menu-bearing `NativeButton`, the primary tap always fires here).
 
 **Avoid it when**
-- There is no primary action — use `BrandButton` with a `menu`.
+- There is no primary action — use `NativeButton` with a `menu`.
 
 **Parameters**
 
@@ -128,30 +128,30 @@ A primary action segment plus a chevron segment that opens a menu. Tapping the l
 |---|---|---|---|
 | `text` | `String` | — | Label on the primary segment. |
 | `onPrimaryClick` | `() -> Unit` | — | Fires when the label segment is tapped. |
-| `menu` | `BrandMenu` | — | The menu opened by the chevron segment. Required. |
+| `menu` | `NativeMenu` | — | The menu opened by the chevron segment. Required. |
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
-| `variant` | `BrandButtonVariant` | `BrandButtonVariant.Primary` | Visual variant shared by both segments. |
-| `size` | `BrandButtonSize` | `BrandButtonSize.Medium` | `Small`, `Medium`, or `Large`. |
+| `variant` | `NativeButtonVariant` | `NativeButtonVariant.Primary` | Visual variant shared by both segments. |
+| `size` | `NativeButtonSize` | `NativeButtonSize.Medium` | `Small`, `Medium`, or `Large`. |
 | `enabled` | `Boolean` | `true` | When false neither segment is interactive; uses themed disabled tones. |
 | `loading` | `Boolean` | `false` | Shows a centered spinner; label and icon are hidden while loading. |
-| `leadingIcon` | `BrandIcon?` | `null` | Icon before the label on the primary segment. |
+| `leadingIcon` | `NativeIcon?` | `null` | Icon before the label on the primary segment. |
 | `cornerRadius` | `Dp?` | `null` | Explicit outer corner radius. Defaults to the theme corner radius. |
-| `colorsOverride` | `BrandButtonColors?` | `null` | Overrides the variant's resolved colors. |
+| `colorsOverride` | `NativeButtonColors?` | `null` | Overrides the variant's resolved colors. |
 | `textStyleOverride` | `TextStyle?` | `null` | Merged over the size-derived base text style. |
-| `touch` | `BrandInteropTouch` | `BrandInteropTouch.Cooperative` | iOS scroll-vs-tap interop strategy. No-op on Android. |
+| `touch` | `NativeInteropTouch` | `NativeInteropTouch.Cooperative` | iOS scroll-vs-tap interop strategy. No-op on Android. |
 | `contentDescription` | `String?` | `null` | Accessibility label override. |
 | `testTag` | `String?` | `null` | Maps to `testTag` (Android) / `accessibilityIdentifier` (iOS). |
 
 **Example**
 
 ```kotlin
-BrandSplitButton(
+NativeSplitButton(
     text = "Save",
     onPrimaryClick = { save() },
-    menu = BrandMenu(
+    menu = NativeMenu(
         items = listOf(
-            BrandMenuItem("Save as draft", onSelect = { saveDraft() }),
-            BrandMenuItem("Save a copy", onSelect = { saveCopy() }),
+            NativeMenuItem("Save as draft", onSelect = { saveDraft() }),
+            NativeMenuItem("Save a copy", onSelect = { saveCopy() }),
         ),
     ),
 )
@@ -163,29 +163,29 @@ BrandSplitButton(
 - The host is clamped to a 44pt minimum on iOS.
 - `touch` is a documented no-op on Android.
 
-### BrandMenu
+### NativeMenu
 
-The pull-down menu attached to a button. The same `BrandMenu` drives all three button components and renders natively per platform — a `UIMenu` shown via `UIButton.showsMenuAsPrimaryAction` on iOS, an anchored Material 3 `DropdownMenu` on Android.
+The pull-down menu attached to a button. The same `NativeMenu` drives all three button components and renders natively per platform — a `UIMenu` shown via `UIButton.showsMenuAsPrimaryAction` on iOS, an anchored Material 3 `DropdownMenu` on Android.
 
-**`BrandMenu` fields**
+**`NativeMenu` fields**
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `items` | `List<BrandMenuItem>` | — | The menu rows, in order. |
+| `items` | `List<NativeMenuItem>` | — | The menu rows, in order. |
 | `title` | `String?` | `null` | Optional header at the top of the menu (iOS `UIMenu.title`; ignored by Android Material). |
 
-**`BrandMenuItem` fields**
+**`NativeMenuItem` fields**
 
 | Field | Type | Default | Description |
 |---|---|---|---|
 | `title` | `String` | — | Row label. |
 | `onSelect` | `() -> Unit` | — | Fires when the row is selected. |
-| `icon` | `BrandIcon?` | `null` | Optional leading glyph (Android uses `androidImageVector`; iOS uses `sfSymbolName`). |
-| `role` | `BrandMenuItemRole` | `BrandMenuItemRole.Normal` | `Destructive` renders the row red with the native destructive style. |
+| `icon` | `NativeIcon?` | `null` | Optional leading glyph (Android uses `androidImageVector`; iOS uses `sfSymbolName`). |
+| `role` | `NativeMenuItemRole` | `NativeMenuItemRole.Normal` | `Destructive` renders the row red with the native destructive style. |
 | `enabled` | `Boolean` | `true` | When false the row is shown dimmed and is not selectable. |
 | `selected` | `Boolean` | `false` | Marks the row as the current choice with a native checkmark. Use for single- or multi-select menus. |
 
 **Notes**
-- `BrandMenu` and `BrandMenuItem` are `@Immutable` data classes.
+- `NativeMenu` and `NativeMenuItem` are `@Immutable` data classes.
 - A destructive item maps to `UIMenuElementAttributes.destructive` (iOS) and an error-tinted `DropdownMenuItem` (Android).
 - A selected item maps to `UIMenuElementState.on` (iOS) and a trailing check (Android).

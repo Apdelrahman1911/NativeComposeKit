@@ -2,16 +2,16 @@
 
 Components for showing content lifecycle, placeholders, and small status decorations: load-state switching, skeletons, empty states, pull-to-refresh, badges, avatars, and chips.
 
-### BrandContentState
+### NativeContentState
 
-A switcher that renders the right UI for a `BrandLoadState`: a spinner while loading, an empty state, an error state with an optional retry action, or your content.
+A switcher that renders the right UI for a `NativeLoadState`: a spinner while loading, an empty state, an error state with an optional retry action, or your content.
 
-**Android:** Compose-drawn. A centered `BrandProgressIndicator`, `BrandEmptyState`, or your `content`.
+**Android:** Compose-drawn. A centered `NativeProgressIndicator`, `NativeEmptyState`, or your `content`.
 **iOS:** same. Compose-drawn on both platforms.
 
 **Use it when**
 - A screen loads data and you want the standard loading → empty → error → content flow in one place.
-- Your view-model already models state as a sealed type; `BrandLoadState` is Compose-free and can live there.
+- Your view-model already models state as a sealed type; `NativeLoadState` is Compose-free and can live there.
 
 **Avoid it when**
 - The content has no async lifecycle (render it directly).
@@ -20,7 +20,7 @@ A switcher that renders the right UI for a `BrandLoadState`: a spinner while loa
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `state` | `BrandLoadState<T>` | — | Current load state. |
+| `state` | `NativeLoadState<T>` | — | Current load state. |
 | `modifier` | `Modifier` | `Modifier` | Applied to the content box and the centered placeholder box. |
 | `onRetry` | `(() -> Unit)?` | `null` | When set, the default error state shows a retry button. |
 | `emptyTitle` | `String` | `"Nothing here yet"` | Title for the default empty state. |
@@ -30,22 +30,22 @@ A switcher that renders the right UI for a `BrandLoadState`: a spinner while loa
 | `retryLabel` | `String` | `"Retry"` | Label for the retry button. |
 | `loadingContent` | `(@Composable () -> Unit)?` | `null` | Override for the loading visual (e.g. skeleton rows). |
 | `emptyContent` | `(@Composable () -> Unit)?` | `null` | Override for the empty visual. |
-| `errorContent` | `(@Composable (BrandLoadState.Error) -> Unit)?` | `null` | Override for the error visual; receives the error state. |
+| `errorContent` | `(@Composable (NativeLoadState.Error) -> Unit)?` | `null` | Override for the error visual; receives the error state. |
 | `content` | `@Composable (T) -> Unit` | — | Renders the loaded payload. |
 
 **Example**
 
 ```kotlin
-BrandContentState(state = uiState, onRetry = ::reload) { items ->
+NativeContentState(state = uiState, onRetry = ::reload) { items ->
     LazyColumn {
-        items(items) { item -> BrandListItem(title = item.name) }
+        items(items) { item -> NativeListItem(title = item.name) }
     }
 }
 ```
 
-**Notes** — `BrandLoadState<T>` is a sealed interface with `Loading`, `Empty`, `Error(message: String?)`, and `Content<T>(value: T)`. It is Compose-free so view-models can drive it without a UI dependency. The retry button only appears when `onRetry` is provided. `content` is rendered directly and owns its own layout; the loading, empty, and error visuals are centered with `fillMaxSize`. The default error state passes `emptyIcon` through as its icon.
+**Notes** — `NativeLoadState<T>` is a sealed interface with `Loading`, `Empty`, `Error(message: String?)`, and `Content<T>(value: T)`. It is Compose-free so view-models can drive it without a UI dependency. The retry button only appears when `onRetry` is provided. `content` is rendered directly and owns its own layout; the loading, empty, and error visuals are centered with `fillMaxSize`. The default error state passes `emptyIcon` through as its icon.
 
-### BrandSkeleton
+### NativeSkeleton
 
 A loading-placeholder block with an animated shimmer sweep, for grids, list rows, and detail screens before data arrives.
 
@@ -65,21 +65,21 @@ A loading-placeholder block with an animated shimmer sweep, for grids, list rows
 |---|---|---|---|
 | `modifier` | `Modifier` | `Modifier` | Sizes the block. The caller supplies the size. |
 | `shape` | `Shape?` | `null` | Clip shape; defaults to a small rounded corner from the theme tokens. |
-| `shimmer` | `Boolean` | `!LocalBrandCapabilities.current.isReduceMotionEnabled` | Whether the sweep animates. |
+| `shimmer` | `Boolean` | `!LocalNativeCapabilities.current.isReduceMotionEnabled` | Whether the sweep animates. |
 
 **Example**
 
 ```kotlin
 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-    BrandSkeleton(Modifier.size(120.dp, 170.dp))
-    BrandSkeleton(Modifier.fillMaxWidth().height(16.dp))
-    BrandSkeleton(Modifier.fillMaxWidth(0.6f).height(16.dp))
+    NativeSkeleton(Modifier.size(120.dp, 170.dp))
+    NativeSkeleton(Modifier.fillMaxWidth().height(16.dp))
+    NativeSkeleton(Modifier.fillMaxWidth(0.6f).height(16.dp))
 }
 ```
 
-**Notes** — the caller sizes the block via `modifier` (e.g. `Modifier.size(120.dp, 170.dp)` for a cover, `Modifier.fillMaxWidth().height(16.dp)` for a text line). Colors derive from the surface the skeleton sits on (the published `LocalBrandSurface` nudged toward `onSurface`), so it stays visible on the page, inside a Filled card, and in dark mode; it falls back to `surfaceVariant` only when no surface is published. The sweep follows the layout direction and reverses in RTL. The animation runs only while composed, so swap to real content to stop it. `shimmer` defaults to off when the OS reduce-motion setting is on; pass `false` for an always-static placeholder or `true` to force the animation.
+**Notes** — the caller sizes the block via `modifier` (e.g. `Modifier.size(120.dp, 170.dp)` for a cover, `Modifier.fillMaxWidth().height(16.dp)` for a text line). Colors derive from the surface the skeleton sits on (the published `LocalNativeSurface` nudged toward `onSurface`), so it stays visible on the page, inside a Filled card, and in dark mode; it falls back to `surfaceVariant` only when no surface is published. The sweep follows the layout direction and reverses in RTL. The animation runs only while composed, so swap to real content to stop it. `shimmer` defaults to off when the OS reduce-motion setting is on; pass `false` for an always-static placeholder or `true` to force the animation.
 
-### BrandEmptyState
+### NativeEmptyState
 
 A centered empty or no-results state: empty library, no search matches, nothing downloaded.
 
@@ -90,7 +90,7 @@ A centered empty or no-results state: empty library, no search matches, nothing 
 - A list or screen has no content and you want a titled placeholder with an optional call to action.
 
 **Avoid it when**
-- You are switching on a load lifecycle; use `BrandContentState`, which renders this for you.
+- You are switching on a load lifecycle; use `NativeContentState`, which renders this for you.
 
 **Parameters**
 
@@ -108,16 +108,16 @@ A centered empty or no-results state: empty library, no search matches, nothing 
 **Example**
 
 ```kotlin
-BrandEmptyState(
+NativeEmptyState(
     title = "No results",
     message = "Try a different search.",
     icon = Icons.Default.Search,
 )
 ```
 
-**Notes** — `icon` is a plain Compose `ImageVector`; there is no SF-Symbol slot. The glyph is decorative and the `title` carries the accessible meaning. The call-to-action `BrandButton` appears only when both `actionLabel` and `onAction` are given. To center it on screen, wrap it in `Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center)`.
+**Notes** — `icon` is a plain Compose `ImageVector`; there is no SF-Symbol slot. The glyph is decorative and the `title` carries the accessible meaning. The call-to-action `NativeButton` appears only when both `actionLabel` and `onAction` are given. To center it on screen, wrap it in `Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center)`.
 
-### BrandPullRefresh
+### NativePullRefresh
 
 A pull-to-refresh container: wrap vertically-scrollable content; a downward overscroll at the top fires `onRefresh` and the themed spinner shows while `isRefreshing` is true.
 
@@ -142,14 +142,14 @@ A pull-to-refresh container: wrap vertically-scrollable content; a downward over
 **Example**
 
 ```kotlin
-BrandPullRefresh(isRefreshing = loading, onRefresh = ::reload) {
-    LazyColumn { items(rows) { row -> BrandListItem(title = row.title) } }
+NativePullRefresh(isRefreshing = loading, onRefresh = ::reload) {
+    LazyColumn { items(rows) { row -> NativeListItem(title = row.title) } }
 }
 ```
 
 **Notes** — the caller owns `isRefreshing` and flips it back to false when the load completes. On iOS this is the Compose pull-refresh, not a native `UIRefreshControl`; a native control would require hosting the scroll in a `UIScrollView` via interop, which is out of scope for a content-level control. This is an intentional, documented platform divergence.
 
-### BrandBadge
+### NativeBadge
 
 A small status or count badge: unread count, notification count, or a "NEW" dot.
 
@@ -177,14 +177,14 @@ A small status or count badge: unread count, notification count, or a "NEW" dot.
 **Example**
 
 ```kotlin
-BrandBadgedBox(badge = { BrandBadge(count = 3, contentDescription = "3 unread") }) {
+NativeBadgedBox(badge = { NativeBadge(count = 3, contentDescription = "3 unread") }) {
     Icon(Icons.Default.Notifications, contentDescription = null)
 }
 ```
 
-**Notes** — with `count` null it is a dot; with a positive count it is a numbered pill capped at `maxCount`; a non-positive count renders nothing (the "no badge when zero" UX). The default is the unread red (`error` / `onError`); pass `containerColor` and `contentColor` (e.g. `BrandTheme.statusColors.success`) for a semantic badge. A numbered badge announces its count to screen readers by default; pass a contextual `contentDescription` like `"5 unread"` when the bare number is ambiguous. Overlay it with `BrandBadgedBox(badge, modifier, content)`, which anchors the badge on the top-end corner and stays correct in RTL via Material's `BadgedBox`.
+**Notes** — with `count` null it is a dot; with a positive count it is a numbered pill capped at `maxCount`; a non-positive count renders nothing (the "no badge when zero" UX). The default is the unread red (`error` / `onError`); pass `containerColor` and `contentColor` (e.g. `NativeTheme.statusColors.success`) for a semantic badge. A numbered badge announces its count to screen readers by default; pass a contextual `contentDescription` like `"5 unread"` when the bare number is ambiguous. Overlay it with `NativeBadgedBox(badge, modifier, content)`, which anchors the badge on the top-end corner and stays correct in RTL via Material's `BadgedBox`.
 
-### BrandAvatar
+### NativeAvatar
 
 A user, author, or series avatar that renders an image, initials, or an icon.
 
@@ -206,8 +206,8 @@ A user, author, or series avatar that renders an image, initials, or an icon.
 | `image` | `Painter?` | `null` | Caller-supplied painter; takes priority. |
 | `initials` | `String?` | `null` | Shown when no image; first two code points, uppercased. |
 | `icon` | `ImageVector?` | `null` | Shown when no image or initials. |
-| `size` | `BrandAvatarSize` | `BrandAvatarSize.Medium` | `Small` 32dp · `Medium` 40dp · `Large` 56dp. |
-| `shape` | `BrandAvatarShape` | `BrandAvatarShape.Circle` | `Circle` for people; `Rounded` for content thumbnails. |
+| `size` | `NativeAvatarSize` | `NativeAvatarSize.Medium` | `Small` 32dp · `Medium` 40dp · `Large` 56dp. |
+| `shape` | `NativeAvatarShape` | `NativeAvatarShape.Circle` | `Circle` for people; `Rounded` for content thumbnails. |
 | `containerColor` | `Color?` | `null` | Background; defaults to `primaryContainer`. |
 | `contentColor` | `Color?` | `null` | Initials/icon color; defaults to `onPrimaryContainer`. |
 | `contentDescription` | `String?` | `null` | Accessible description for the whole avatar. |
@@ -216,13 +216,13 @@ A user, author, or series avatar that renders an image, initials, or an icon.
 **Example**
 
 ```kotlin
-BrandAvatar(initials = "JD")
-BrandAvatar(image = painter, shape = BrandAvatarShape.Rounded, size = BrandAvatarSize.Large)
+NativeAvatar(initials = "JD")
+NativeAvatar(image = painter, shape = NativeAvatarShape.Rounded, size = NativeAvatarSize.Large)
 ```
 
 **Notes** — renders the first available of `image`, `initials`, or `icon`, falling back to an empty tinted shape. `initials` uses the first two code points (surrogate-pair safe, so an emoji yields one whole glyph), uppercased. `icon` is a plain Compose `ImageVector`; there is no SF-Symbol slot. A `contentDescription` merges descendants so the avatar announces as one node rather than reading out the raw initials.
 
-### BrandChip
+### NativeChip
 
 A compact chip for genre tags, filters, and removable selections.
 
@@ -241,7 +241,7 @@ A compact chip for genre tags, filters, and removable selections.
 |---|---|---|---|
 | `label` | `String` | — | Chip text; single-line and ellipsized. |
 | `modifier` | `Modifier` | `Modifier` | Applied to the chip. |
-| `style` | `BrandChipStyle` | `BrandChipStyle.Assist` | `Assist` action · `Filter` toggle · `Input` removable · `Suggestion` tappable. |
+| `style` | `NativeChipStyle` | `NativeChipStyle.Assist` | `Assist` action · `Filter` toggle · `Input` removable · `Suggestion` tappable. |
 | `selected` | `Boolean` | `false` | Tinted selected state for `Filter` and `Input`. |
 | `onClick` | `() -> Unit` | `{}` | Click handler. |
 | `enabled` | `Boolean` | `true` | Whether the chip is interactive. |
@@ -254,7 +254,7 @@ A compact chip for genre tags, filters, and removable selections.
 **Example**
 
 ```kotlin
-BrandChip("Action", style = BrandChipStyle.Filter, selected = isOn, onClick = { isOn = !isOn })
+NativeChip("Action", style = NativeChipStyle.Filter, selected = isOn, onClick = { isOn = !isOn })
 ```
 
 **Notes** — `style` maps to the matching Material chip: `Assist` is a one-shot action, `Filter` is a selectable filter (`selected` toggles the tinted state), `Input` is a removable entry (set `trailingIcon` to a close glyph plus `onTrailingClick`), and `Suggestion` is a tappable suggestion with no trailing slot (a `trailingIcon` is ignored). Icons are plain Compose `ImageVector`s on both platforms; there is no SF-Symbol slot. The label is single-line and ellipsized. When set, `onTrailingClick` wraps the 18dp glyph in a ≥48dp target that announces as "Remove". The `Assist` and `Suggestion` styles draw a visible `outline` border so the edge stays visible on any surface; selection styles keep their state-driven Material border.

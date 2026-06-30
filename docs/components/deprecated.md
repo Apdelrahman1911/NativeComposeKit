@@ -2,7 +2,7 @@
 
 These components are deprecated and kept only for source compatibility; both are Material-only, Compose-on-both wrappers with no native iOS renderer, and will be removed in a later release.
 
-### BrandTabBar
+### NativeTabBar
 
 An in-content tab strip for switching views within a screen (for example Overview / Chapters / Comments), distinct from the app's bottom tab bar.
 
@@ -13,9 +13,9 @@ An in-content tab strip for switching views within a screen (for example Overvie
 - You are maintaining existing code that already calls it and cannot migrate yet.
 
 **Avoid it when**
-- Writing new code — use `BrandSegmentedControl`, which renders a native `UISegmentedControl` on iOS for in-content selection.
+- Writing new code — use `NativeSegmentedControl`, which renders a native `UISegmentedControl` on iOS for in-content selection.
 
-**Deprecated —** use `BrandSegmentedControl` (native `UISegmentedControl` on iOS) for in-content selection.
+**Deprecated —** use `NativeSegmentedControl` (native `UISegmentedControl` on iOS) for in-content selection.
 
 **Parameters**
 
@@ -31,7 +31,7 @@ An in-content tab strip for switching views within a screen (for example Overvie
 
 ```kotlin
 var tab by remember { mutableStateOf(0) }
-BrandTabBar(
+NativeTabBar(
     tabs = listOf("Overview", "Chapters"),
     selectedIndex = tab,
     onSelectedIndexChange = { tab = it },
@@ -40,7 +40,7 @@ BrandTabBar(
 
 **Notes** — `selectedIndex` is coerced into `0..(tabs.size - 1)` before layout. Labels are forced to a single line with ellipsis overflow. The container uses the theme surface color and the primary color for content.
 
-### BrandTooltip
+### NativeTooltip
 
 A transient label that floats above an anchor on long-press (touch) — for feature hints and icon-button affordance names.
 
@@ -51,9 +51,9 @@ A transient label that floats above an anchor on long-press (touch) — for feat
 - You are maintaining existing code that already calls it and cannot migrate yet.
 
 **Avoid it when**
-- Writing new code — iOS has no hover-tooltip idiom (long-press maps to a context menu), so prefer inline helper text, an accessible `contentDescription`, or `BrandPopover` for caller-controlled contextual content.
+- Writing new code — iOS has no hover-tooltip idiom (long-press maps to a context menu), so prefer inline helper text, an accessible `contentDescription`, or `NativePopover` for caller-controlled contextual content.
 
-**Deprecated —** no native iOS tooltip idiom (long-press = context menu on iOS). Prefer inline helper text / `contentDescription`, or `BrandPopover` for caller-controlled contextual content.
+**Deprecated —** no native iOS tooltip idiom (long-press = context menu on iOS). Prefer inline helper text / `contentDescription`, or `NativePopover` for caller-controlled contextual content.
 
 **Parameters**
 
@@ -66,9 +66,9 @@ A transient label that floats above an anchor on long-press (touch) — for feat
 **Example**
 
 ```kotlin
-BrandTooltip("Add to library") {
-    BrandIconButton(addIcon, ::add, contentDescription = "Add")
+NativeTooltip("Add to library") {
+    NativeIconButton(addIcon, ::add, contentDescription = "Add")
 }
 ```
 
-**Notes** — The tooltip is short and self-dismissing, unlike `BrandPopover`, which is a richer, caller-controlled surface. It uses `TooltipDefaults.rememberPlainTooltipPositionProvider()` for placement and a fresh `rememberTooltipState()` for each instance.
+**Notes** — The tooltip is short and self-dismissing, unlike `NativePopover`, which is a richer, caller-controlled surface. It uses `TooltipDefaults.rememberPlainTooltipPositionProvider()` for placement and a fresh `rememberTooltipState()` for each instance.

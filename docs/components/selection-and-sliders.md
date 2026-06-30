@@ -2,7 +2,7 @@
 
 Controls for picking a value: toggles, checkboxes, single-select groups, segmented controls, sliders, steppers, and star ratings. Each uses the most native control per platform where one exists, and falls back to a branded Compose control where it does not.
 
-### BrandToggle
+### NativeToggle
 
 An on/off switch bound to a boolean.
 
@@ -13,7 +13,7 @@ An on/off switch bound to a boolean.
 - A single on/off setting (notifications, dark mode).
 
 **Avoid it when**
-- Selecting multiple items from a list — use `BrandCheckbox`.
+- Selecting multiple items from a list — use `NativeCheckbox`.
 
 **Parameters**
 
@@ -30,12 +30,12 @@ An on/off switch bound to a boolean.
 
 ```kotlin
 var notify by remember { mutableStateOf(true) }
-BrandToggle(checked = notify, onCheckedChange = { notify = it })
+NativeToggle(checked = notify, onCheckedChange = { notify = it })
 ```
 
-**Notes** — Colors come from the active theme; track-on uses `primary`, the thumb uses `onPrimary`. The iOS control reads its light/dark appearance from the surface it sits on (`LocalBrandSurface`), not the page. It is a fixed-size native control, so no width constraint is required.
+**Notes** — Colors come from the active theme; track-on uses `primary`, the thumb uses `onPrimary`. The iOS control reads its light/dark appearance from the surface it sits on (`LocalNativeSurface`), not the page. It is a fixed-size native control, so no width constraint is required.
 
-### BrandCheckbox
+### NativeCheckbox
 
 A checkbox, optionally with a trailing label that becomes the whole-row tap target.
 
@@ -46,7 +46,7 @@ A checkbox, optionally with a trailing label that becomes the whole-row tap targ
 - Multi-select within a list (e.g. choosing chapters to download).
 
 **Avoid it when**
-- A single on/off setting — use `BrandToggle` (a native `UISwitch` on iOS).
+- A single on/off setting — use `NativeToggle` (a native `UISwitch` on iOS).
 
 **Parameters**
 
@@ -64,12 +64,12 @@ A checkbox, optionally with a trailing label that becomes the whole-row tap targ
 
 ```kotlin
 var download by remember { mutableStateOf(false) }
-BrandCheckbox(checked = download, onCheckedChange = { download = it }, label = "Download chapter")
+NativeCheckbox(checked = download, onCheckedChange = { download = it }, label = "Download chapter")
 ```
 
 **Notes** — Kept cross-platform as a documented exception: iOS has no native checkbox, so this is a branded Compose control themed by `MaterialTheme` on both platforms. With a `label`, the row is one merged `Role.Checkbox` node, at least 48dp tall, with the label as its accessible name; the inner checkbox is decorative so there is a single tap target.
 
-### BrandRadioGroup
+### NativeRadioGroup
 
 A single-select group over a list of options of any type `T`.
 
@@ -80,7 +80,7 @@ A single-select group over a list of options of any type `T`.
 - A visible single-select list where all options should stay on screen.
 
 **Avoid it when**
-- A small, fixed option set — use `BrandSegmentedControl` (a native `UISegmentedControl` on iOS).
+- A small, fixed option set — use `NativeSegmentedControl` (a native `UISegmentedControl` on iOS).
 - A long list — use a menu or dropdown.
 
 **Parameters**
@@ -93,14 +93,14 @@ A single-select group over a list of options of any type `T`.
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
 | `label` | `(T) -> String` | `{ it.toString() }` | Maps an option to its display string. |
 | `enabled` | `Boolean` | `true` | When `false`, the group is dimmed and non-interactive. |
-| `style` | `BrandSelectionStyle` | `BrandSelectionStyle.Radio` | `Radio` (leading dot, Android idiom) or `Checkmark` (trailing check on the selected row, iOS idiom). |
+| `style` | `NativeSelectionStyle` | `NativeSelectionStyle.Radio` | `Radio` (leading dot, Android idiom) or `Checkmark` (trailing check on the selected row, iOS idiom). |
 | `testTag` | `String?` | `null` | Test identifier. |
 
 **Example**
 
 ```kotlin
 var quality by remember { mutableStateOf(Quality.High) }
-BrandRadioGroup(
+NativeRadioGroup(
     options = Quality.entries,
     selected = quality,
     onSelectedChange = { quality = it },
@@ -108,9 +108,9 @@ BrandRadioGroup(
 )
 ```
 
-**Notes** — Kept cross-platform as a documented exception. Selection uses `==`, so `T` must have a stable `equals` (a data class, enum, or primitive — not identity types like lambdas). Each row is a merged `Role.RadioButton` node at least 48dp tall inside a `selectableGroup` for correct screen-reader grouping. On iOS, prefer `BrandSelectionStyle.Checkmark` (the grouped-table idiom).
+**Notes** — Kept cross-platform as a documented exception. Selection uses `==`, so `T` must have a stable `equals` (a data class, enum, or primitive — not identity types like lambdas). Each row is a merged `Role.RadioButton` node at least 48dp tall inside a `selectableGroup` for correct screen-reader grouping. On iOS, prefer `NativeSelectionStyle.Checkmark` (the grouped-table idiom).
 
-### BrandSegmentedControl
+### NativeSegmentedControl
 
 A horizontal single-select control across a few string options.
 
@@ -121,7 +121,7 @@ A horizontal single-select control across a few string options.
 - Switching between a small, fixed set of options (roughly five or fewer).
 
 **Avoid it when**
-- The options do not fit on one line, or there are many — use `BrandRadioGroup` or a menu.
+- The options do not fit on one line, or there are many — use `NativeRadioGroup` or a menu.
 
 **Parameters**
 
@@ -139,7 +139,7 @@ A horizontal single-select control across a few string options.
 
 ```kotlin
 var tab by remember { mutableStateOf(0) }
-BrandSegmentedControl(
+NativeSegmentedControl(
     options = listOf("All", "Unread", "Saved"),
     selectedIndex = tab,
     onSelectedIndexChange = { tab = it },
@@ -149,7 +149,7 @@ BrandSegmentedControl(
 
 **Notes** — The iOS control is content-sized and does not expose a reliable intrinsic width through interop, so with no width constraint it collapses to about zero width and becomes invisible. Always give it a width — `Modifier.fillMaxWidth()` is the usual choice. The iOS control reads its light/dark appearance from the surrounding surface.
 
-### BrandSlider
+### NativeSlider
 
 A continuous value within a float range.
 
@@ -160,7 +160,7 @@ A continuous value within a float range.
 - Adjusting a continuous quantity (volume, brightness, reading position).
 
 **Avoid it when**
-- The value is a small set of discrete integers — use `BrandStepper`.
+- The value is a small set of discrete integers — use `NativeStepper`.
 
 **Parameters**
 
@@ -178,12 +178,12 @@ A continuous value within a float range.
 
 ```kotlin
 var volume by remember { mutableStateOf(0.5f) }
-BrandSlider(value = volume, onValueChange = { volume = it })
+NativeSlider(value = volume, onValueChange = { volume = it })
 ```
 
 **Notes** — The active track and thumb use `primary`; the inactive track uses `surfaceVariant`. The iOS control reads its light/dark appearance from the surrounding surface.
 
-### BrandStepper
+### NativeStepper
 
 An integer adjusted up or down by a fixed step within bounds.
 
@@ -194,7 +194,7 @@ An integer adjusted up or down by a fixed step within bounds.
 - A small integer count (quantity, page count) where the exact value matters.
 
 **Avoid it when**
-- A continuous range — use `BrandSlider`.
+- A continuous range — use `NativeSlider`.
 
 **Parameters**
 
@@ -214,12 +214,12 @@ An integer adjusted up or down by a fixed step within bounds.
 
 ```kotlin
 var count by remember { mutableStateOf(1) }
-BrandStepper(value = count, onValueChange = { count = it }, min = 1, max = 10)
+NativeStepper(value = count, onValueChange = { count = it }, min = 1, max = 10)
 ```
 
 **Notes** — The tint uses `primary`. It is a fixed-size native control, so no width constraint is required. The iOS control reads its light/dark appearance from the surrounding surface.
 
-### BrandRating
+### NativeRating
 
 A star rating, read-only by default or interactive when given a change callback.
 
@@ -230,7 +230,7 @@ A star rating, read-only by default or interactive when given a change callback.
 - Showing or capturing a 0-to-max star score.
 
 **Avoid it when**
-- Capturing an arbitrary numeric value — use `BrandSlider` or `BrandStepper`.
+- Capturing an arbitrary numeric value — use `NativeSlider` or `NativeStepper`.
 
 **Parameters**
 
@@ -251,10 +251,10 @@ A star rating, read-only by default or interactive when given a change callback.
 **Example**
 
 ```kotlin
-BrandRating(4.5f)                                            // read-only display
+NativeRating(4.5f)                                            // read-only display
 
 var stars by remember { mutableStateOf(0f) }
-BrandRating(stars, onRatingChange = { stars = it })          // interactive
+NativeRating(stars, onRatingChange = { stars = it })          // interactive
 ```
 
 **Notes** — Half-star glyphs are display-only: an interactive control only sets whole stars, so it never shows a half it cannot produce. Read-only mode exposes a single `contentDescription`; interactive mode exposes a live `stateDescription` plus one labeled button per star ("Rate 4 of 5"), each with a touch target of at least 48dp. A `NaN` rating maps to 0.

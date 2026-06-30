@@ -41,7 +41,7 @@ class SurfaceColorsTest {
 
     @Test
     fun surface_fill_is_always_opaque() {
-        // Guards the BrandListItem swipe reveal: the foreground must never be Unspecified (transparent).
+        // Guards the NativeListItem swipe reveal: the foreground must never be Unspecified (transparent).
         assertTrue(resolveSurfaceFill(Color.Unspecified, Color.Blue).isSpecified)
         assertTrue(resolveSurfaceFill(Color.Red, Color.Unspecified).isSpecified)
     }

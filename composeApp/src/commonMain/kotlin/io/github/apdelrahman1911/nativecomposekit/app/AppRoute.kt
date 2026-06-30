@@ -1,12 +1,12 @@
 package io.github.apdelrahman1911.nativecomposekit.app
 
-import io.github.apdelrahman1911.nativecomposekit.navigation.BrandRoute
+import io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute
 
 /**
- * The app's navigation destinations. The library never knows these cases — it only uses [BrandRoute.id]. The id
+ * The app's navigation destinations. The library never knows these cases — it only uses [NativeRoute.id]. The id
  * encodes any arguments (e.g. the chapter) so a route round-trips through the SwiftUI `[String]` path.
  */
-sealed interface AppRoute : BrandRoute {
+sealed interface AppRoute : NativeRoute {
     /** Root of the Library tab. */
     data object LibraryRoot : AppRoute {
         override val id = "library"

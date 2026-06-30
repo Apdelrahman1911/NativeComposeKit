@@ -15,7 +15,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.toUIColor
  */
 @Composable
 internal actual fun PlatformFeedbackHost(
-    controller: BrandFeedbackController,
+    controller: NativeFeedbackController,
     content: @Composable () -> Unit,
 ) {
     content()
@@ -33,7 +33,7 @@ internal actual fun PlatformFeedbackHost(
     // Modal lane (alert / sheet) — native UIAlertController by default, branded overlay on opt-in.
     val modal = controller.activeModal
     if (modal != null) {
-        val cardStyle = resolveFeedbackStyle(BrandFeedbackStatus.Info, filled = false) // neutral surface card
+        val cardStyle = resolveFeedbackStyle(NativeFeedbackStatus.Info, filled = false) // neutral surface card
         val primary = MaterialTheme.colorScheme.primary.toUIColor()
         val error = MaterialTheme.colorScheme.error.toUIColor()
         val cancelColor = MaterialTheme.colorScheme.onSurfaceVariant.toUIColor()

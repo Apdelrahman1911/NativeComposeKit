@@ -4,7 +4,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
-import io.github.apdelrahman1911.nativecomposekit.theme.BrandAppearanceScope
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearanceScope
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -23,8 +23,8 @@ class GateUiTest {
     @Test
     fun composeUiTestStackRuns() = runComposeUiTest {
         setContent {
-            BrandAppearanceScope {
-                BrandText("hello-gate")
+            NativeAppearanceScope {
+                NativeText("hello-gate")
             }
         }
         onNodeWithText("hello-gate").assertIsDisplayed()

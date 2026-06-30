@@ -3,13 +3,13 @@ package io.github.apdelrahman1911.nativecomposekit.components
 import androidx.compose.runtime.staticCompositionLocalOf
 
 /** How an iOS `UIKitView`-backed control composites: a punched cut-out (default) vs above the canvas (overlay). */
-internal enum class BrandInteropPlacement { Cutout, Overlay }
+internal enum class NativeInteropPlacement { Cutout, Overlay }
 
 /**
  * Lets a container request that the iOS `UIKitView`-backed controls inside it use OVERLAY placement
  * (`placedAsOverlay = true`) instead of the default cut-out.
  *
- * The only consumer today is [BrandDialog]. A `Dialog` mounts a fresh iOS scene; with cut-out placement the
+ * The only consumer today is [NativeDialog]. A `Dialog` mounts a fresh iOS scene; with cut-out placement the
  * transparent hole is punched the instant a control composes, but CMP defers inserting the native view to the
  * next presented frame — so for the first frame(s) the hole reveals the dialog's host backdrop (black in dark
  * mode), the reported "black flash" behind dialog buttons. Overlay placement punches NO hole: the native view
@@ -20,4 +20,4 @@ internal enum class BrandInteropPlacement { Cutout, Overlay }
  * Default [Cutout] everywhere else — cut-out is the correct placement for controls inside a Compose scroll.
  * iOS-only effect; the Android renderers ignore it.
  */
-internal val LocalBrandInteropPlacement = staticCompositionLocalOf { BrandInteropPlacement.Cutout }
+internal val LocalNativeInteropPlacement = staticCompositionLocalOf { NativeInteropPlacement.Cutout }

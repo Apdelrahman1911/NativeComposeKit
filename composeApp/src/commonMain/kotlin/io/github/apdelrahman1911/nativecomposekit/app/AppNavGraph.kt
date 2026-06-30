@@ -2,15 +2,15 @@ package io.github.apdelrahman1911.nativecomposekit.app
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import io.github.apdelrahman1911.nativecomposekit.catalog.CatalogScreen
-import io.github.apdelrahman1911.nativecomposekit.navigation.BrandNavGraph
-import io.github.apdelrahman1911.nativecomposekit.navigation.BrandNavigator
-import io.github.apdelrahman1911.nativecomposekit.navigation.BrandRoute
-import io.github.apdelrahman1911.nativecomposekit.navigation.BrandTab
-import io.github.apdelrahman1911.nativecomposekit.navigation.brandNavGraph
-import io.github.apdelrahman1911.nativecomposekit.theme.BrandAppearance
+import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavGraph
+import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavigator
+import io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute
+import io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab
+import io.github.apdelrahman1911.nativecomposekit.navigation.nativeNavGraph
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearance
 
 /** Each tab's root route — passed to the navigator factory. */
-fun appRootRoute(tab: BrandTab): BrandRoute = when (tab) {
+fun appRootRoute(tab: NativeTab): NativeRoute = when (tab) {
     AppTab.Library -> AppRoute.LibraryRoot
     AppTab.Settings -> AppRoute.SettingsRoot
     AppTab.Catalog -> AppRoute.CatalogRoot
@@ -18,10 +18,10 @@ fun appRootRoute(tab: BrandTab): BrandRoute = when (tab) {
 }
 
 /**
- * Title shown in the chrome (the Android top app bar, and — via `BrandNavBridge.title` — the iOS nav bar).
+ * Title shown in the chrome (the Android top app bar, and — via `NativeNavBridge.title` — the iOS nav bar).
  * One source of truth for both platforms.
  */
-fun appRouteTitle(route: BrandRoute): String = when (route) {
+fun appRouteTitle(route: NativeRoute): String = when (route) {
     is AppRoute.LibraryRoot -> "Library"
     is AppRoute.MangaDetail -> MangaLibrary.byId(route.mangaId)?.title ?: "Details"
     is AppRoute.Reader -> MangaLibrary.chapter(route.mangaId, route.chapterId)
@@ -38,7 +38,7 @@ fun appRouteTitle(route: BrandRoute): String = when (route) {
  * The route→screen registry, shared by both platform adapters. Screen callbacks are wired to [navigator]
  * intents here, keeping the screens themselves navigator-agnostic.
  */
-fun appNavGraph(navigator: BrandNavigator): BrandNavGraph = brandNavGraph {
+fun appNavGraph(navigator: NativeNavigator): NativeNavGraph = nativeNavGraph {
     screen<AppRoute.LibraryRoot> {
         LibraryScreen(onOpenManga = { mangaId -> navigator.push(AppRoute.MangaDetail(mangaId)) })
     }
@@ -58,12 +58,12 @@ fun appNavGraph(navigator: BrandNavigator): BrandNavGraph = brandNavGraph {
     screen<AppRoute.ComponentMatrix> { ComponentMatrixScreen() }
     screen<AppRoute.InteropRepro> { InteropReproScreen() }
     screen<AppRoute.CatalogRoot> {
-        val dark = BrandAppearance.darkOverride ?: isSystemInDarkTheme()
+        val dark = NativeAppearance.darkOverride ?: isSystemInDarkTheme()
         CatalogScreen(
             dark = dark,
-            onToggleDark = { BrandAppearance.setDark(it) },
-            rtl = BrandAppearance.rtl,
-            onToggleRtl = { BrandAppearance.rtl = it },
+            onToggleDark = { NativeAppearance.setDark(it) },
+            rtl = NativeAppearance.rtl,
+            onToggleRtl = { NativeAppearance.rtl = it },
         )
     }
     screen<AppRoute.GlassInteropTest> { GlassInteropTestScreen() }

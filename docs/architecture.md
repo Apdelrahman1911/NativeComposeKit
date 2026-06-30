@@ -2,7 +2,7 @@
 
 Status: **living design doc**. Captures the decisions behind the cross-platform UI system. The goal is
 a shared Kotlin component system where each platform still feels **truly native**, with a control
-surface rich enough that a developer rarely needs to abandon a `Brand*` component and hand-roll a
+surface rich enough that a developer rarely needs to abandon a `Native*` component and hand-roll a
 platform-specific one.
 
 > Scope note: this doc records direction and contracts. Per-component details live in the
@@ -26,7 +26,7 @@ We do **not** pick "UIKit vs SwiftUI" globally. Responsibilities are split by ti
                  │ hosts per screen                       │ hosts per screen
  ┌───────────────▼───────────────────────────────────────▼───────────────────┐
  │ TIER 2 — Shared Compose content (commonMain)                               │
- │  screens, layout, forms, state, validation, the Brand* component APIs      │
+ │  screens, layout, forms, state, validation, the Native* component APIs      │
  └───────────────┬───────────────────────────────────────┬───────────────────┘
                  │ per-control interop                    │ real Compose Material
  ┌───────────────▼───────────────────┐   ┌────────────────▼──────────────────┐
@@ -36,7 +36,7 @@ We do **not** pick "UIKit vs SwiftUI" globally. Responsibilities are split by ti
  └────────────────────────────────────┘   └────────────────────────────────────┘
 ```
 
-- **Shared = content + logic** (Tier 2): screens, forms, state, and the `Brand*` component APIs.
+- **Shared = content + logic** (Tier 2): screens, forms, state, and the `Native*` component APIs.
 - **Native per platform = chrome (Tier 1) and leaf controls (Tier 3).**
 
 **The trade we consciously accept:** navigation/chrome is **native per platform, not shared** — only
@@ -108,15 +108,15 @@ Under-powering is a bigger risk than a large-but-organized API.
 
 Principles:
 - **Expose every meaningful production knob.** If a platform offers a useful, safe customization, the
-  Brand component exposes it — directly, via a typed option object, or via `ios`/`android` options. If
+  Native component exposes it — directly, via a typed option object, or via `ios`/`android` options. If
   it is intentionally unsupported, that is **documented**, never silently omitted.
 - **Simple by default, powerful when needed, rich for production, organized to stay usable.**
 - **Surface layout:**
   - High-frequency props → top-level parameters.
-  - Advanced cross-platform clusters → typed immutable option objects (e.g. `BrandFieldInput`,
-    `BrandFieldFocus`).
+  - Advanced cross-platform clusters → typed immutable option objects (e.g. `NativeFieldInput`,
+    `NativeFieldFocus`).
   - Platform-only knobs → `ios = …` / `android = …` typed option objects.
-  - Native touch behavior → `touch: BrandInteropTouch` (see §6).
+  - Native touch behavior → `touch: NativeInteropTouch` (see §6).
   - Every option has a **safe default**, so the short call still compiles.
 - **Grouping organizes a rich surface; it never shrinks it.** Even "simple" components (Toggle,
   Stepper) carry the full surface (label, supporting text, size, style, colors, haptics, touch,
@@ -146,17 +146,17 @@ A **raw** escape hatch like `ios.configure { uiTextField -> … }` **cannot be i
 2. **Documented divergence** — each component's renderer differences are documented on its [components reference](components/README.md) page.
 3. **Typed `ios` / `android` option objects** for knobs that don't generalize.
 4. **Safe fallbacks** — an unsupported prop is a documented **no-op**, never a crash. Callers branch
-   intentionally via `BrandCapabilities` (§5) when they care.
+   intentionally via `NativeCapabilities` (§5) when they care.
 
 ---
 
-## 5. BrandCapabilities (added early)
+## 5. NativeCapabilities (added early)
 
 A small, honest, runtime-truthful capability layer so we never pretend a feature exists:
 
 ```kotlin
-object BrandCapabilities {
-    val platformVersion: BrandPlatformVersion          // os + version
+object NativeCapabilities {
+    val platformVersion: NativePlatformVersion          // os + version
     val isLiquidGlassAvailable: Boolean                // iOS >= 26 at runtime
     val supportsNativeSearch: Boolean
     val supportsSwiftCharts: Boolean
@@ -176,7 +176,7 @@ Native controls embedded in a Compose scroll must cooperate with scroll gestures
 does not leak experimental Compose types and survives CMP version churn:
 
 ```kotlin
-enum class BrandInteropTouch { Cooperative, NonCooperative, NonInteractive }
+enum class NativeInteropTouch { Cooperative, NonCooperative, NonInteractive }
 // Cooperative    -> UIKitInteropInteractionMode.Cooperative(delayMillis = default)  // UIScrollView-like delay
 // NonCooperative -> UIKitInteropInteractionMode.NonCooperative
 // NonInteractive -> interactionMode = null  (touches pass through to Compose)
@@ -207,13 +207,13 @@ unbounded nesting in a parent scroll.
 
 ## 7. Navigation — library-agnostic core, renderers as projections _(target)_
 
-**`BrandNavigator` is the single source of truth.** Renderers are projections that render the shared
+**`NativeNavigator` is the single source of truth.** Renderers are projections that render the shared
 state and report user actions back as intents. We never keep three independent sources of truth
-(BrandNavigator + Nav3 stack + SwiftUI `NavigationPath`).
+(NativeNavigator + Nav3 stack + SwiftUI `NavigationPath`).
 
 ```
-BrandNavigationCore (library-owned, platform-agnostic)
-  BrandNavigator (SoT), BrandNavigationState, typed routes, tabs, sheet/dialog state, deep links, intents
+NativeNavigationCore (library-owned, platform-agnostic)
+  NativeNavigator (SoT), NativeNavigationState, typed routes, tabs, sheet/dialog state, deep links, intents
        │ projects to / receives intents from
        ├─ Android: Nav3 adapter   (default renderer; NavDisplay, entry decorators, scenes, saveState…)
        ├─ iOS:     SwiftUI TabView / NavigationStack adapter (path is a projection)
@@ -232,8 +232,8 @@ navigator.presentSheet(AppRoute.EditCustomer(id))
 Rules:
 - **Nav3 is the default Android adapter, not the core dependency.** No `NavController`/`NavDisplay`/
   `NavBackStack` types in the public API; Nav3's advanced features are exposed behind a dedicated
-  `BrandNav3Shell(navigator, graph) { … }` adapter.
-- Renderer actions → intents → `BrandNavigator`: Android back press → `pop()`; iOS back-swipe →
+  `NativeNav3Shell(navigator, graph) { … }` adapter.
+- Renderer actions → intents → `NativeNavigator`: Android back press → `pop()`; iOS back-swipe →
   `pop()`; tab tap → `selectTab(...)`; deep link → `replaceStack(...)`.
 - **Module boundaries: packages now, modules later.** Adopt the layering as packages inside one
   navigation module; extract `:brand-navigation-nav3`, `:brand-navigation-ios-swiftui`, etc. only when
@@ -251,13 +251,13 @@ Nav3 is still stabilizing, which reinforces keeping it a swappable adapter.
 ## 8. Migration phases & acceptance criteria
 
 Sequence for shippable value; do not build all infrastructure up front. The navigation abstraction is
-its own workstream and must not block component value; prove hosting before building `BrandNavigator`.
+its own workstream and must not block component value; prove hosting before building `NativeNavigator`.
 
 **Phase 1 — SwiftUI shell hosting spike (throwaway, kill-criterion).** Use the dumbest navigation (one
 hardcoded tab + stack) to prove hosting only. _Done when:_ one tab works; one `NavigationStack` works;
 a `ComposeUIViewController` screen is hosted; back-swipe works; toolbar/search/sheet can be shown
 natively; dark/light works; RTL doesn't break; keyboard insets acceptable; no obvious lifecycle/memory
-issue. **Do not build `BrandNavigator` in the spike.**
+issue. **Do not build `NativeNavigator` in the spike.**
 
 **Phase 2 — Component API expansion (UIKit), one at a time** to the rich-but-clean standard. Order by
 impact: **TextField → Button → Slider/Segmented/Stepper/Toggle → Text.** Each component's _done_
@@ -279,17 +279,17 @@ criteria:
 - **Text:** `interactionMode = NonInteractive`; `onClick`/`selectable`; lineHeight/minLines/letter
   spacing; no rich-text claim beyond what `UILabel` supports; docs.
 
-**Phase 3 — Navigation core + adapters** (after the spike proves hosting): `BrandNavigator`, Nav3
+**Phase 3 — Navigation core + adapters** (after the spike proves hosting): `NativeNavigator`, Nav3
 adapter, SwiftUI adapter. Finalize the module split only when a second adapter exists.
-> ✅ **BUILT** (device-verified both platforms). `navigation/BrandNavigator` is the SoT
+> ✅ **BUILT** (device-verified both platforms). `navigation/NativeNavigator` is the SoT
 > (`push`/`pop`/`popToRoot`/`selectTab`/`presentSheet`/`dismissSheet`/`replaceStack`, per-tab `SnapshotStateList`
-> stacks, `snapshot()`/`observe()` projection). Android adapter = the custom Compose `BrandNavHost` (no Nav3 dep
-> — Nav3 stays the deferred `BrandNav3Shell` adapter). iOS adapter = native SwiftUI `TabView`/`NavigationStack`
-> (`BrandShell` + `BrandNavModel`) projecting the SoT via `BrandNavBridge`, with the **full bidirectional bind**
+> stacks, `snapshot()`/`observe()` projection). Android adapter = the custom Compose `NativeNavHost` (no Nav3 dep
+> — Nav3 stays the deferred `NativeNav3Shell` adapter). iOS adapter = native SwiftUI `TabView`/`NavigationStack`
+> (`NativeShell` + `NativeNavModel`) projecting the SoT via `NativeNavBridge`, with the **full bidirectional bind**
 > (not the hybrid fallback): SoT → path via `observe`, back-swipe/tab → intents with an `applyingFromKotlin`
-> reconciliation guard. Sheets are presented **natively by the bridge** (the proven `BrandSheet`
+> reconciliation guard. Sheets are presented **natively by the bridge** (the proven `NativeSheet`
 > `UISheetPresentationController` path), not SwiftUI `.sheet`. The Phase-1 spike files are retired. Tests:
-> `commonTest/BrandNavigatorTest`. See `docs/navigation.md` + `docs/navigation-test-plan.md`.
+> `commonTest/NativeNavigatorTest`. See `docs/navigation.md` + `docs/navigation-test-plan.md`.
 
 **Phase 4 — SwiftUI-interop components as *new* components** (Swift Charts, glass-only): pilot one end
 to end through the bridge (verify memory/lifecycle) before relying on it.

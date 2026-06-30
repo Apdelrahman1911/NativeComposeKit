@@ -45,11 +45,11 @@ internal fun feedbackKeyWindow(): UIWindow? {
 }
 
 /** Default SF Symbol per status for the native overlays (banners). */
-internal fun BrandFeedbackStatus.defaultSfSymbol(): String = when (this) {
-    BrandFeedbackStatus.Info -> "info.circle.fill"
-    BrandFeedbackStatus.Success -> "checkmark.circle.fill"
-    BrandFeedbackStatus.Warning -> "exclamationmark.triangle.fill"
-    BrandFeedbackStatus.Error -> "xmark.octagon.fill"
+internal fun NativeFeedbackStatus.defaultSfSymbol(): String = when (this) {
+    NativeFeedbackStatus.Info -> "info.circle.fill"
+    NativeFeedbackStatus.Success -> "checkmark.circle.fill"
+    NativeFeedbackStatus.Warning -> "exclamationmark.triangle.fill"
+    NativeFeedbackStatus.Error -> "xmark.octagon.fill"
 }
 
 /**
@@ -133,13 +133,13 @@ private class PanDismissHandler(
 internal fun presentTransient(
     record: TransientRecord,
     style: ResolvedFeedbackStyle,
-    controller: BrandFeedbackController,
+    controller: NativeFeedbackController,
 ): IosOverlayHandle? {
     val window = feedbackKeyWindow() ?: return null
     val retained = mutableListOf<Any>()
 
     val container: UIView
-    val position: BrandFeedbackPosition
+    val position: NativeFeedbackPosition
     val fullWidth: Boolean
     when (record) {
         is ToastRecord -> {
@@ -151,7 +151,7 @@ internal fun presentTransient(
             container = buildSnackbar(style, record.message, record.actionLabel, retained) {
                 controller.onTransientAction(record.id)
             }
-            position = BrandFeedbackPosition.Bottom
+            position = NativeFeedbackPosition.Bottom
             fullWidth = true
         }
         is BannerRecord -> {
@@ -184,7 +184,7 @@ internal fun presentTransient(
     var onSwipeDismiss: (() -> Unit)? = null
     when (record) {
         is BannerRecord -> if (record.swipeToDismiss) {
-            dismissUp = record.position == BrandFeedbackPosition.Top
+            dismissUp = record.position == NativeFeedbackPosition.Top
             onSwipeDismiss = { controller.dismiss(record.id) }
         }
         is SnackbarRecord -> if (record.swipeToDismiss) {
@@ -398,7 +398,7 @@ private fun buildBanner(
 private fun pinOverlay(
     window: UIWindow,
     container: UIView,
-    position: BrandFeedbackPosition,
+    position: NativeFeedbackPosition,
     fullWidth: Boolean,
 ) {
     window.addSubview(container)
@@ -415,8 +415,8 @@ private fun pinOverlay(
         cs += container.widthAnchor.constraintLessThanOrEqualToConstant(480.0)
     }
     when (position) {
-        BrandFeedbackPosition.Top -> cs += container.topAnchor.constraintEqualToAnchor(guide.topAnchor, 12.0)
-        BrandFeedbackPosition.Bottom -> cs += container.bottomAnchor.constraintEqualToAnchor(guide.bottomAnchor, -24.0)
+        NativeFeedbackPosition.Top -> cs += container.topAnchor.constraintEqualToAnchor(guide.topAnchor, 12.0)
+        NativeFeedbackPosition.Bottom -> cs += container.bottomAnchor.constraintEqualToAnchor(guide.bottomAnchor, -24.0)
     }
     NSLayoutConstraint.activateConstraints(cs)
 }
