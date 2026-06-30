@@ -1,13 +1,13 @@
 package io.github.apdelrahman1911.nativecomposekit.app
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import io.github.apdelrahman1911.nativecomposekit.catalog.CatalogScreen
 import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavGraph
 import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavigator
 import io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute
 import io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab
 import io.github.apdelrahman1911.nativecomposekit.navigation.nativeNavGraph
-import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearance
+import io.github.apdelrahman1911.nativecomposekit.showcase.ShowcaseCategoryScreen
+import io.github.apdelrahman1911.nativecomposekit.showcase.ShowcaseHomeScreen
+import io.github.apdelrahman1911.nativecomposekit.showcase.showcaseTitle
 
 /** Each tab's root route — passed to the navigator factory. */
 fun appRootRoute(tab: NativeTab): NativeRoute = when (tab) {
@@ -27,7 +27,8 @@ fun appRouteTitle(route: NativeRoute): String = when (route) {
     is AppRoute.Reader -> MangaLibrary.chapter(route.mangaId, route.chapterId)
         ?.let { (_, chapter) -> "Chapter ${chapter.number}" } ?: "Reader"
     is AppRoute.SettingsRoot -> "Settings"
-    is AppRoute.CatalogRoot -> "Catalog"
+    is AppRoute.CatalogRoot -> "Components"
+    is AppRoute.Showcase -> showcaseTitle(route.key)
     is AppRoute.GlassInteropTest -> "Interop test"
     is AppRoute.ComponentMatrix -> "Component matrix"
     is AppRoute.InteropRepro -> "iOS interop repro"
@@ -58,13 +59,8 @@ fun appNavGraph(navigator: NativeNavigator): NativeNavGraph = nativeNavGraph {
     screen<AppRoute.ComponentMatrix> { ComponentMatrixScreen() }
     screen<AppRoute.InteropRepro> { InteropReproScreen() }
     screen<AppRoute.CatalogRoot> {
-        val dark = NativeAppearance.darkOverride ?: isSystemInDarkTheme()
-        CatalogScreen(
-            dark = dark,
-            onToggleDark = { NativeAppearance.setDark(it) },
-            rtl = NativeAppearance.rtl,
-            onToggleRtl = { NativeAppearance.rtl = it },
-        )
+        ShowcaseHomeScreen(onOpenCategory = { key -> navigator.push(AppRoute.Showcase(key)) })
     }
+    screen<AppRoute.Showcase> { route -> ShowcaseCategoryScreen(route.key) }
     screen<AppRoute.GlassInteropTest> { GlassInteropTestScreen() }
 }

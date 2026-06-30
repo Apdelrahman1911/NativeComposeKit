@@ -36,7 +36,7 @@ fun App() {
         NativeFeedbackHost {
             val navigator = rememberNativeNavigator(
                 tabs = AppTab.entries.toList(),
-                initialTab = AppTab.Library,
+                initialTab = AppTab.Catalog,
                 rootRoutes = ::appRootRoute,
             )
             val graph = remember(navigator) { appNavGraph(navigator) }
@@ -44,9 +44,9 @@ fun App() {
                 navigator = navigator,
                 graph = graph,
                 tabs = listOf(
+                    NativeNavBarItem(AppTab.Catalog, "Components", Icons.Filled.GridView),
                     NativeNavBarItem(AppTab.Library, "Library", Icons.AutoMirrored.Filled.List),
                     NativeNavBarItem(AppTab.Settings, "Settings", Icons.Filled.Settings),
-                    NativeNavBarItem(AppTab.Catalog, "Catalog", Icons.Filled.GridView),
                 ),
                 title = ::appRouteTitle,
                 actions = {

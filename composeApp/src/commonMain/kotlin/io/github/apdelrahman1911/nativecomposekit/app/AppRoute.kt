@@ -27,9 +27,14 @@ sealed interface AppRoute : NativeRoute {
         override val id = "settings"
     }
 
-    /** Root of the Catalog tab (the full component catalog). */
+    /** Root of the Components tab (the showcase overview). */
     data object CatalogRoot : AppRoute {
         override val id = "catalog"
+    }
+
+    /** A pushed showcase category screen (e.g. `showcase/buttons`). [key] selects the category. */
+    data class Showcase(val key: String) : AppRoute {
+        override val id = "showcase/$key"
     }
 
     /** Debug sheet: the bare-vs-card Liquid Glass interop stress test (see docs/interop-backdrop-audit.md). */

@@ -29,7 +29,7 @@ fun createNativeNavBridge(): NativeNavBridge {
     configureCoilImageLoader() // app-level image loader (Coil + Ktor/Darwin); the kit stays dependency-free
     val navigator = createNativeNavigator(
         tabs = AppTab.entries.toList(),
-        initialTab = AppTab.Library,
+        initialTab = AppTab.Catalog,
         rootRoutes = ::appRootRoute,
     )
     return NativeNavBridge(

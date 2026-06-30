@@ -87,7 +87,7 @@ private func tabTitle(_ id: String) -> String {
     switch id {
     case "library": return "Library"
     case "settings": return "Settings"
-    case "catalog": return "Catalog"
+    case "catalog": return "Components"
     default: return ""
     }
 }
