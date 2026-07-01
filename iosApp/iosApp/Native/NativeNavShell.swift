@@ -51,13 +51,14 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
             tabBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tabBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            // Content fills from the very top, BEHIND the nav bar (which is added above it in the z-order). The
-            // top safe-area inset (set in viewDidLayoutSubviews) makes Compose content start below the bar while
-            // the scroll still renders behind it → content scrolls under the Liquid Glass.
-            content.view.topAnchor.constraint(equalTo: view.topAnchor),
+            // Content starts BELOW the nav bar (a normal top bar — no scroll-under there) but fills to the very
+            // bottom, BEHIND the tab bar (added above it in the z-order). The bottom safe-area inset (set in
+            // viewDidLayoutSubviews) makes content end clear of the tab bar while the scroll still renders behind
+            // it → content scrolls under the tab bar's Liquid Glass.
+            content.view.topAnchor.constraint(equalTo: navBar.bottomAnchor),
             content.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             content.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            content.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor),
+            content.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
 
         render(root.chrome.currentState())
@@ -66,14 +67,16 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
         }
     }
 
-    // The nav bar overlays the content (content is pinned to the top and fills behind the bar). Inset the hosted
-    // Compose content by the bar's height so its scrollable content STARTS below the bar yet still renders BEHIND
-    // it and scrolls under the Liquid Glass. additionalSafeAreaInsets flows into Compose's WindowInsets.safeDrawing.
+    // The tab bar overlays the content (which fills to the bottom of the view). Inset the hosted Compose content
+    // by how far the tab bar rises above the home-indicator safe area, so its scrollable content ends clear of
+    // the bar yet still renders BEHIND it and scrolls under the Liquid Glass. additionalSafeAreaInsets flows into
+    // Compose's WindowInsets.safeDrawing. (The nav bar needs no inset — content is constrained below it.)
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let top = navBar.frame.height
-        if content.additionalSafeAreaInsets.top != top {
-            content.additionalSafeAreaInsets = UIEdgeInsets(top: top, left: 0, bottom: 0, right: 0)
+        let bottom = max(0, tabBar.frame.height - view.safeAreaInsets.bottom)
+        let insets = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
+        if content.additionalSafeAreaInsets != insets {
+            content.additionalSafeAreaInsets = insets
         }
     }
 

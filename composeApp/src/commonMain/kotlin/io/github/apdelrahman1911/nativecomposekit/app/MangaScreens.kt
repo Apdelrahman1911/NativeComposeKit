@@ -137,10 +137,10 @@ fun LibraryScreen(onOpenManga: (String) -> Unit) {
         2 -> MangaLibrary.all.filter { it.unread == 0 }
         else -> MangaLibrary.all
     }
-    // Fixed filter bar + grid: push the whole screen below the overlaying nav bar (0 on Android).
-    val topInset = LocalNativeContentTopInset.current
+    // The grid scrolls behind the overlaying tab bar; pad its bottom so the last row clears it (0 on Android).
+    val bottomInset = LocalNativeContentBottomInset.current
 
-    Column(Modifier.fillMaxSize().padding(top = topInset)) {
+    Column(Modifier.fillMaxSize()) {
         NativeSegmentedControl(
             options = filters,
             selectedIndex = selected,
@@ -160,7 +160,7 @@ fun LibraryScreen(onOpenManga: (String) -> Unit) {
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 120.dp),
                 modifier = Modifier.weight(1f).fillMaxWidth(),
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp + bottomInset),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
@@ -227,12 +227,12 @@ fun MangaDetailScreen(mangaId: String, onOpenChapter: (String) -> Unit) {
     }
     val firstUnread = manga.chapters.firstOrNull { readState[it.id] != true } ?: manga.chapters.first()
     val onSurfaceVariant = MaterialTheme.colorScheme.onSurfaceVariant
-    // Start below the overlaying native nav bar; the scroll still fills behind it (0 on Android).
-    val topInset = LocalNativeContentTopInset.current
+    // Fill to the bottom behind the overlaying tab bar; end content clear of it (0 on Android).
+    val bottomInset = LocalNativeContentBottomInset.current
 
     Column(
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
-            .padding(start = 16.dp, top = 16.dp + topInset, end = 16.dp, bottom = 16.dp),
+            .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp + bottomInset),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -320,10 +320,10 @@ fun ReaderScreen(mangaId: String, chapterId: String) {
     val pages = remember(chapter.id) { (1..pageCount).toList() }
     val listState = rememberLazyListState()
     val current by remember { derivedStateOf { (listState.firstVisibleItemIndex + 1).coerceIn(1, pageCount) } }
-    // Fixed page-progress header + page list: push below the overlaying nav bar (0 on Android).
-    val topInset = LocalNativeContentTopInset.current
+    // The page list scrolls behind the overlaying tab bar; pad its bottom so the last page clears it (0 on Android).
+    val bottomInset = LocalNativeContentBottomInset.current
 
-    Column(Modifier.fillMaxSize().padding(top = topInset)) {
+    Column(Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -343,7 +343,7 @@ fun ReaderScreen(mangaId: String, chapterId: String) {
         LazyColumn(
             state = listState,
             modifier = Modifier.weight(1f).fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = 8.dp),
+            contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp + bottomInset),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             itemsIndexed(pages) { _, page ->

@@ -71,10 +71,10 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextSty
  */
 @Composable
 fun ComponentMatrixScreen() {
-    val topInset = LocalNativeContentTopInset.current
+    val bottomInset = LocalNativeContentBottomInset.current
     Column(
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
-            .padding(start = 16.dp, top = 16.dp + topInset, end = 16.dp, bottom = 16.dp),
+            .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp + bottomInset),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         NativeText(

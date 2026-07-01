@@ -10,7 +10,7 @@ import io.github.apdelrahman1911.nativecomposekit.app.AppTab
 import io.github.apdelrahman1911.nativecomposekit.app.appNavGraph
 import io.github.apdelrahman1911.nativecomposekit.app.appRootRoute
 import io.github.apdelrahman1911.nativecomposekit.app.appRouteTitle
-import io.github.apdelrahman1911.nativecomposekit.app.LocalNativeContentTopInset
+import io.github.apdelrahman1911.nativecomposekit.app.LocalNativeContentBottomInset
 import io.github.apdelrahman1911.nativecomposekit.app.configureCoilImageLoader
 import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavChrome
 import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavContent
@@ -69,11 +69,11 @@ fun createNativeNavRoot(): NativeNavRoot {
     val contentViewController = ComposeUIViewController {
         NativeAppearanceScope {
             NativeFeedbackHost {
-                // The native shell's UINavigationBar overlays the content; publish its height (surfaced as the
-                // content VC's top safe-area inset) so scrollable screens start below the bar yet still render
-                // behind it and scroll under the Liquid Glass.
-                val topInset = WindowInsets.safeDrawing.asPaddingValues().calculateTopPadding()
-                CompositionLocalProvider(LocalNativeContentTopInset provides topInset) {
+                // The native shell's UITabBar overlays the content; publish its height (surfaced as the content
+                // VC's bottom safe-area inset) so scrollable screens end clear of the bar yet still render behind
+                // it and scroll under the Liquid Glass. (The nav bar needs no inset — content is placed below it.)
+                val bottomInset = WindowInsets.safeDrawing.asPaddingValues().calculateBottomPadding()
+                CompositionLocalProvider(LocalNativeContentBottomInset provides bottomInset) {
                     NativeNavContent(navigator, graph, renderSheet = false)
                 }
             }

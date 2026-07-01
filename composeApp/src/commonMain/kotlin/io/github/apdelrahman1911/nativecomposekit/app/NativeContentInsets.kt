@@ -4,13 +4,11 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.unit.dp
 
 /**
- * Top inset a hosting shell asks scrollable content to begin below, when the shell draws a **translucent overlay
- * bar on top of the content** (rather than reserving space above it). The content still fills the whole area —
- * including BEHIND the bar — so it scrolls under the bar and the bar's material (iOS 26 Liquid Glass) refracts it.
- *
- * The iOS native-chrome shell provides the real value: its `UINavigationBar` overlays the Compose content, and
- * the value is the bar's height (surfaced through `WindowInsets.safeDrawing` via the content VC's safe-area
- * inset). Android leaves it at 0 — the Material `NativeNavHost` insets content below its top bar via Scaffold
- * padding, so content sits below the bar, not behind it.
+ * Bottom inset a hosting shell asks scrollable content to reserve, when the shell overlays a **translucent bottom
+ * bar** (the iOS `UITabBar` / Liquid Glass toolbar) on top of the content. Scrollable content fills to the very
+ * bottom — behind the bar — and adds this inset to its bottom content-padding so the last item clears the bar
+ * while the scroll still renders BEHIND it (content scrolls under the glass). The iOS shell provides the bar
+ * height; Android leaves it 0 (the Material `NativeNavHost` reserves space for its `NavigationBar` via Scaffold
+ * padding).
  */
-val LocalNativeContentTopInset = compositionLocalOf { 0.dp }
+val LocalNativeContentBottomInset = compositionLocalOf { 0.dp }

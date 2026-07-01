@@ -51,8 +51,7 @@ private enum class Repro { Scroll, Menu, Dialog }
 @Composable
 actual fun InteropReproScreen() {
     var which by remember { mutableStateOf(Repro.Scroll) }
-    val topInset = LocalNativeContentTopInset.current
-    Column(Modifier.fillMaxSize().padding(top = topInset)) {
+    Column(Modifier.fillMaxSize()) {
         Row(
             Modifier.fillMaxWidth().padding(12.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
