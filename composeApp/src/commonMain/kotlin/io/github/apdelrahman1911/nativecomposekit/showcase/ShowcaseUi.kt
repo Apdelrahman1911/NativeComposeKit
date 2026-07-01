@@ -49,8 +49,8 @@ fun ShowcaseScreen(intro: String, content: @Composable ColumnScope.() -> Unit) {
                 // Inset INSIDE the scroll: it extends the scrollable content's bottom (so a focused field can
                 // scroll clear of the keyboard, and the last content clears the overlaying tab bar) instead of
                 // shrinking the viewport and clipping the rows.
-                .nativeImePadding()
-                .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp + bottomInset),
+                .nativeImePadding(minBottom = bottomInset)
+                .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(28.dp),
         ) {
             if (intro.isNotBlank()) {

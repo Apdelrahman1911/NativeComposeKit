@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
@@ -33,7 +34,7 @@ public object NativeImeLog {
  */
 @OptIn(ExperimentalForeignApi::class)
 @Composable
-public actual fun Modifier.nativeImePadding(): Modifier {
+public actual fun Modifier.nativeImePadding(minBottom: Dp): Modifier {
     var bottomPoints by remember { mutableStateOf(0.0) }
     DisposableEffect(Unit) {
         val center = NSNotificationCenter.defaultCenter
@@ -60,6 +61,8 @@ public actual fun Modifier.nativeImePadding(): Modifier {
         }
         onDispose { center.removeObserver(observer) }
     }
-    // iOS Compose Dp maps 1:1 to UIKit points, so the overlap in points is the padding in dp.
-    return this.padding(bottom = bottomPoints.dp)
+    // iOS Compose Dp maps 1:1 to UIKit points. Pad by the LARGER of the keyboard extent and [minBottom] (never
+    // their sum): the keyboard covers the bottom bar while it's up, so the keyboard extent alone is right then;
+    // [minBottom] keeps content clear of the bar while the keyboard is down.
+    return this.padding(bottom = maxOf(bottomPoints.dp, minBottom))
 }

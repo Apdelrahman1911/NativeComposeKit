@@ -250,7 +250,7 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeI
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeImePadding_androidKt {
-	public static final fun nativeImePadding (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/Modifier;
+	public static final fun nativeImePadding-rAjV9yQ (Landroidx/compose/ui/Modifier;FLandroidx/compose/runtime/Composer;II)Landroidx/compose/ui/Modifier;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeListItemKt {
