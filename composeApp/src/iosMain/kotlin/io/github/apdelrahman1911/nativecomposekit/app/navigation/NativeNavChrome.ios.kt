@@ -34,6 +34,7 @@ class NativeNavChrome(
             tabs = tabs,
             actions = actionsForTab(state.selectedTab.id),
             sheetId = state.sheet?.id,
+            backTitle = stack.getOrNull(stack.size - 2)?.let(titleForRoute),
         )
     }
 

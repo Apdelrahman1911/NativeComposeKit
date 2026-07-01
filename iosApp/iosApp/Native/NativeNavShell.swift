@@ -6,7 +6,7 @@ import ComposeApp
 /// which renders the nav stack) + a real `UITabBar` (bottom). It renders `NativeNavChrome` state one-way and
 /// forwards taps as intents (`backRequested`/`tabSelected`/`actionTapped`). It owns NO navigation stack — the
 /// Kotlin `NativeNavigator` is the sole owner; nothing here reads, mirrors, or reconciles the stack.
-final class NativeShellViewController: UIViewController, UITabBarDelegate {
+final class NativeShellViewController: UIViewController, UITabBarDelegate, UINavigationBarDelegate {
     private let root: NativeNavRoot
     private let navBar = UINavigationBar()
     private let tabBar = UITabBar()
@@ -37,6 +37,9 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate {
         view.addSubview(tabBar)
         content.didMove(toParent: self)
         tabBar.delegate = self
+        navBar.delegate = self
+        navBar.prefersLargeTitles = true
+        configureBarAppearance()
 
         let safe = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -62,15 +65,31 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate {
 
     deinit { cancellable?.cancel() }
 
+    /// Native, dark-mode-adaptive bar backgrounds + label colors. Applied to every appearance slot so the bars
+    /// look right in light and dark (the app drives dark mode; the bars follow via the trait environment).
+    private func configureBarAppearance() {
+        let nav = UINavigationBarAppearance()
+        nav.configureWithDefaultBackground()
+        nav.titleTextAttributes = [.foregroundColor: UIColor.label]
+        nav.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
+        navBar.standardAppearance = nav
+        navBar.compactAppearance = nav
+        navBar.scrollEdgeAppearance = nav
+        if #available(iOS 15.0, *) { navBar.compactScrollEdgeAppearance = nav }
+
+        let tab = UITabBarAppearance()
+        tab.configureWithDefaultBackground()
+        tabBar.standardAppearance = tab
+        if #available(iOS 15.0, *) { tabBar.scrollEdgeAppearance = tab }
+    }
+
     /// One-way: render the chrome projection onto the native bars. Never reads native state back.
     private func render(_ state: NativeChromeState) {
-        // Top bar: a single item with the current title, an optional native back chevron, and any actions.
+        // Top bar: a large title at a tab root, an inline title + native back button (labelled with the previous
+        // screen) once pushed. The back button is derived by UIKit from a second item placed below the current
+        // one; tapping it routes to `backRequested()` via the UINavigationBarDelegate. Actions map to right items.
         let item = UINavigationItem(title: state.title)
-        if state.canGoBack {
-            item.leftBarButtonItem = UIBarButtonItem(
-                image: UIImage(systemName: "chevron.backward"),
-                style: .plain, target: self, action: #selector(backTapped))
-        }
+        item.largeTitleDisplayMode = state.canGoBack ? .never : .always
         actionIdByTag.removeAll()
         item.rightBarButtonItems = state.actions.enumerated().map { (i, action) in
             let b = UIBarButtonItem(
@@ -80,7 +99,14 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate {
             actionIdByTag[i] = action.id
             return b
         }
-        navBar.items = [item]
+        if state.canGoBack {
+            // A second item below the current one gives UIKit the real native back button — on iOS 26 the Liquid
+            // Glass chevron, with the previous title (from backTitle) where the system shows a label.
+            let previous = UINavigationItem(title: state.backTitle ?? "Back")
+            navBar.setItems([previous, item], animated: false)
+        } else {
+            navBar.setItems([item], animated: false)
+        }
 
         // Bottom bar: build items once, then reflect the selected tab.
         if tabBar.items == nil {
@@ -118,7 +144,12 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate {
         }
     }
 
-    @objc private func backTapped() { root.chrome.backRequested() }
+    // The native back button (rendered by UIKit from the item below the top one) reports back to Kotlin, which
+    // owns the stack. Return false: the bar never pops its own items — the next state projection re-renders them.
+    func navigationBar(_ navigationBar: UINavigationBar, shouldPop item: UINavigationItem) -> Bool {
+        root.chrome.backRequested()
+        return false
+    }
 
     @objc private func actionTapped(_ sender: UIBarButtonItem) {
         if let id = actionIdByTag[sender.tag] { root.chrome.actionTapped(actionId: id) }

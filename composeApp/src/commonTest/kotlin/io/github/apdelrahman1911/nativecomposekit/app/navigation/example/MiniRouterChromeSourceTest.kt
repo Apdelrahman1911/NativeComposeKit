@@ -56,6 +56,7 @@ private class MiniChromeSource(
             tabs = tabs,
             actions = emptyList(),
             sheetId = s.sheet?.id,
+            backTitle = s.stack.getOrNull(s.stack.size - 2)?.title,
         )
     }
 
@@ -100,9 +101,11 @@ class MiniRouterChromeSourceTest {
         router.push(MiniDest("home/detail", "Detail"))
         assertEquals("Detail", src.currentState().title)
         assertTrue(src.currentState().canGoBack)
+        assertEquals("Home", src.currentState().backTitle) // previous destination → native back-button label
         src.backRequested()
         assertEquals("Home", src.currentState().title)
         assertFalse(src.currentState().canGoBack)
+        assertNull(src.currentState().backTitle)
         src.backRequested() // at the root: a no-op, the source never underflows
         assertEquals("Home", src.currentState().title)
     }

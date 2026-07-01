@@ -18,6 +18,8 @@ public data class NativeChromeState(
     val tabs: List<NativeChromeTab>,
     val actions: List<NativeChromeAction>,
     val sheetId: String?,
+    /** The previous destination's title — shown as the native back-button label. Null at a tab root. */
+    val backTitle: String? = null,
 )
 
 /** Handle returned by [NativeChromeStateSource.observe]; [cancel] stops delivery (and breaks any retain cycle). */
