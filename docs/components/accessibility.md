@@ -1,6 +1,6 @@
 # Accessibility & focus
 
-Modifier extensions for focus, soft-keyboard dismissal, and screen-reader navigation. These are the focus/IME/accessibility helpers the kit uses internally, exposed for app screens. All are Compose-drawn and behave the same on Android and iOS.
+Modifier extensions for focus, soft-keyboard dismissal, and screen-reader navigation. These are the focus/IME/accessibility helpers the kit uses internally, exposed for app screens. They are Compose-drawn. Keyboard-dismissal (`nativeDismissKeyboardOnTap`) and headings (`nativeHeading`) behave the same on both platforms; the focus-movement helpers (`nativeAutoFocus`, `NativeFocusHandle`, `nativeFocusOrder`, `nativeFocusGroup`) drive **Compose** focus — see the per-helper platform notes for how that interacts with iOS's tap-focused native fields.
 
 ### nativeDismissKeyboardOnTap
 
@@ -60,7 +60,7 @@ NativeText("Settings", modifier = Modifier.nativeHeading())
 
 A `@Composable` `Modifier` extension that requests focus for the element when it first enters composition (while `enabled`) — e.g. focus the first field when a form or dialog opens.
 
-**Android / iOS:** remembers a `FocusRequester` and requests focus in a one-shot `LaunchedEffect`; identical on both.
+**Android:** remembers a `FocusRequester` and requests focus in a one-shot `LaunchedEffect`, so the field takes focus and the soft keyboard opens. **iOS:** the same Compose focus request runs, but a `NativeTextField` hosts a native `UITextField`/`UITextView` that is tap-focused and lives outside Compose's focus system — so this does **not** raise the iOS keyboard for a native field (iOS users focus native fields by tapping). It still moves focus among Compose-drawn focusables on both platforms. The same platform note applies to `NativeFocusHandle.requestFocus`, `nativeFocusOrder`, and `nativeFocusGroup`.
 
 **Use it when**
 - You want to focus the first field when a form or dialog appears.
@@ -86,7 +86,7 @@ A `NativeFocusHandle` moves focus to (or releases it from) a target element impe
 
 | Member | Type | Description |
 |---|---|---|
-| `NativeFocusHandle.requestFocus` | `() -> Unit` | Move focus to the attached element (opens the keyboard for a field). |
+| `NativeFocusHandle.requestFocus` | `() -> Unit` | Move focus to the attached element (Android: opens the keyboard for a `NativeTextField`; iOS: native fields are tap-focused — see the nativeAutoFocus platform note). |
 | `NativeFocusHandle.freeFocus` | `() -> Unit` | Release focus without moving it elsewhere. |
 | `rememberNativeFocusHandle` | `@Composable () -> NativeFocusHandle` | Remember a handle. |
 | `Modifier.nativeFocusTarget` | `(handle: NativeFocusHandle) -> Modifier` | Attach a handle to the element. |

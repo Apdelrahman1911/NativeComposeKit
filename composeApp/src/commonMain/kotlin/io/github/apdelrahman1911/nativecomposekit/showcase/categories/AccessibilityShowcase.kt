@@ -103,7 +103,9 @@ fun AccessibilityShowcase() = ShowcaseScreen(
         Note(
             "nativeAutoFocus requests focus on first composition; rememberNativeFocusHandle + nativeFocusTarget " +
                 "give a handle you can requestFocus() from a callback; nativeFocusOrder wires the next/previous " +
-                "traversal chain; nativeFocusGroup groups controls into a single tab-stop. All Compose-drawn.",
+                "traversal chain; nativeFocusGroup groups controls into a single tab-stop. These drive Compose " +
+                "focus: full on Android (auto-focus opens the keyboard, Next advances). On iOS the native " +
+                "UITextField is tap-focused and outside Compose focus, so they don't move it there — tap a field.",
         )
     }
 

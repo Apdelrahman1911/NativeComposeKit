@@ -49,6 +49,13 @@ public fun Modifier.nativeHeading(): Modifier = this.semantics { heading() }
  * `@Composable` because it remembers a `FocusRequester` and runs a one-shot effect.
  *
  * `NativeTextField(value, onValueChange, modifier = Modifier.nativeAutoFocus())`
+ *
+ * **Platform note — this drives Compose focus.** On Android a `NativeTextField` is a Compose text field, so it
+ * takes focus and the soft keyboard opens. On iOS the field hosts a native `UITextField`/`UITextView` whose focus
+ * is system-driven (a tap → `becomeFirstResponder`) and lives outside Compose's focus system, so this does not
+ * raise the iOS keyboard for a native field — iOS users focus native fields by tapping. It still moves focus
+ * among Compose-drawn focusables on both platforms. The same applies to [rememberNativeFocusHandle],
+ * [Modifier.nativeFocusOrder], and [Modifier.nativeFocusGroup].
  */
 @Composable
 public fun Modifier.nativeAutoFocus(enabled: Boolean = true): Modifier {
@@ -68,7 +75,8 @@ public fun Modifier.nativeAutoFocus(enabled: Boolean = true): Modifier {
 public class NativeFocusHandle internal constructor() {
     internal val requester: FocusRequester = FocusRequester()
 
-    /** Move focus to the attached element (opens the keyboard for a text field). */
+    /** Move focus to the attached element (on Android, opens the keyboard for a `NativeTextField`; on iOS the
+     * native field is tap-focused — see [Modifier.nativeAutoFocus]). */
     public fun requestFocus() {
         requester.requestFocus()
     }
