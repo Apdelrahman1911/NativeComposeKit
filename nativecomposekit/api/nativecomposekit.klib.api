@@ -364,14 +364,17 @@ abstract fun interface io.github.apdelrahman1911.nativecomposekit.chrome/NativeC
     abstract fun cancel() // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeCancellable.cancel|cancel(){}[0]
 }
 
-abstract interface io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource { // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource|null[0]
-    abstract fun actionTapped(kotlin/String) // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.actionTapped|actionTapped(kotlin.String){}[0]
-    abstract fun backRequested() // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.backRequested|backRequested(){}[0]
-    abstract fun currentState(): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.currentState|currentState(){}[0]
-    abstract fun dismissSheet() // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.dismissSheet|dismissSheet(){}[0]
-    abstract fun observe(kotlin/Function1<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState, kotlin/Unit>): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeCancellable // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.observe|observe(kotlin.Function1<io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeState,kotlin.Unit>){}[0]
+abstract interface io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource : io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeStateSource { // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource|null[0]
     abstract fun sheetViewController(): platform.UIKit/UIViewController? // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.sheetViewController|sheetViewController(){}[0]
-    abstract fun tabSelected(kotlin/String) // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.tabSelected|tabSelected(kotlin.String){}[0]
+}
+
+abstract interface io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeStateSource { // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeStateSource|null[0]
+    abstract fun actionTapped(kotlin/String) // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeStateSource.actionTapped|actionTapped(kotlin.String){}[0]
+    abstract fun backRequested() // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeStateSource.backRequested|backRequested(){}[0]
+    abstract fun currentState(): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeStateSource.currentState|currentState(){}[0]
+    abstract fun dismissSheet() // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeStateSource.dismissSheet|dismissSheet(){}[0]
+    abstract fun observe(kotlin/Function1<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState, kotlin/Unit>): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeCancellable // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeStateSource.observe|observe(kotlin.Function1<io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeState,kotlin.Unit>){}[0]
+    abstract fun tabSelected(kotlin/String) // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeStateSource.tabSelected|tabSelected(kotlin.String){}[0]
 }
 
 sealed interface <#A: out kotlin/Any?> io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState { // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState|null[0]

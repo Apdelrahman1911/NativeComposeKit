@@ -1,3 +1,68 @@
+public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeAction {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeAction;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeAction;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeAction;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/String;
+	public final fun getSfSymbol ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeCancellable {
+	public abstract fun cancel ()V
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeState {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Z
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeState;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeState;Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeState;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActions ()Ljava/util/List;
+	public final fun getCanGoBack ()Z
+	public final fun getSelectedTabId ()Ljava/lang/String;
+	public final fun getSheetId ()Ljava/lang/String;
+	public final fun getTabs ()Ljava/util/List;
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeStateSource {
+	public abstract fun actionTapped (Ljava/lang/String;)V
+	public abstract fun backRequested ()V
+	public abstract fun currentState ()Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeState;
+	public abstract fun dismissSheet ()V
+	public abstract fun observe (Lkotlin/jvm/functions/Function1;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeCancellable;
+	public abstract fun tabSelected (Ljava/lang/String;)V
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeTab {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeTab;
+	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeTab;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeTab;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/String;
+	public final fun getSfSymbol ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeColorWell_androidKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeColorWell_androidKt;
 	public fun <init> ()V
