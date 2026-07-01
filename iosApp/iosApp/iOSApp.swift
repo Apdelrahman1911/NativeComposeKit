@@ -10,7 +10,10 @@ struct iOSApp: App {
         WindowGroup {
             // Real native chrome (UINavigationBar + UITabBar) as a DUMB projection of the Compose-owned stack:
             // it renders state and sends intents; it never owns or reconciles the navigation stack.
-            NativeNavShell(root: root).ignoresSafeArea(.keyboard)
+            // Edge-to-edge: the shell fills under the status bar + home indicator so Compose content renders
+            // BEHIND the native nav/tab bars and scrolls under their Liquid Glass. The bars still sit at the
+            // safe-area edges (via the shell's safeAreaLayoutGuide); content is inset below them in Compose.
+            NativeNavShell(root: root).ignoresSafeArea()
         }
     }
 }
