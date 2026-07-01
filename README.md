@@ -250,8 +250,7 @@ Full reference with every parameter, both renderers, and examples is in
   [`NativeBadge`](docs/components/display-and-state.md),
   [`NativeAvatar`](docs/components/display-and-state.md),
   [`NativeChip`](docs/components/display-and-state.md)
-- **Accessibility & focus** — [`nativeDismissKeyboardOnTap`, `nativeHeading`](docs/components/accessibility.md)
-- **Deprecated** — [`NativeTabBar`, `NativeTooltip`](docs/components/deprecated.md)
+- **Accessibility & focus** — [`nativeDismissKeyboardOnTap`, `nativeHeading`, `nativeAutoFocus`, focus handles / order / group](docs/components/accessibility.md)
 
 ## Documentation
 

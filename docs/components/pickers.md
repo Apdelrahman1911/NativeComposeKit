@@ -1,6 +1,6 @@
 # Pickers
 
-Controls for selecting a value: a date, a color, or the current page in a pager. Each renders the most native control per platform.
+Controls for selecting a value — a date, a color, the current page in a pager — plus a swipeable pager and list load-more helpers. Native controls per platform where one exists (`UIDatePicker` / `UIColorWell` / `UIPageControl` on iOS); the pager and load-more helpers are Compose-drawn on both.
 
 ### NativeDatePicker
 
@@ -134,3 +134,76 @@ NativePageControl(
 - On iOS, `hidesForSinglePage` is set, so a single page shows no dots (the iOS convention).
 - On Android, interactive dots (with `onCurrentPageChange`) drop the inter-dot gap and give each dot a >=48dp touch target; display-only dots stay compact with 8dp spacing.
 - Colors come straight from the theme-resolved style, so the dots adapt to light and dark without `overrideUserInterfaceStyle`.
+
+### NativePager
+
+A horizontally swipeable pager for carousels, onboarding, and image galleries. Pair it with `NativePageControl` for the dots.
+
+**Android / iOS:** Compose-drawn on both — a thin wrapper over Compose Foundation's `HorizontalPager` (no UIKit control hosts arbitrary Compose pages; the pager supplies the swipe/fling physics).
+
+**Use it when**
+- You need swipeable paged content — a carousel, onboarding flow, or gallery.
+
+**Avoid it when**
+- You only need the dots indicator — use `NativePageControl` alone.
+
+**Parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `pageCount` | `Int` | — | Total pages (feeds the default `state`). |
+| `modifier` | `Modifier` | `Modifier` | Layout modifier. |
+| `state` | `PagerState` | `rememberPagerState { pageCount }` | Pager state; pass your own to drive it and bind `NativePageControl`. |
+| `contentPadding` | `PaddingValues` | `PaddingValues(0.dp)` | Padding around the pages (e.g. to peek neighbors). |
+| `pageSpacing` | `Dp` | `0.dp` | Gap between pages. |
+| `userScrollEnabled` | `Boolean` | `true` | Whether swipe gestures page. |
+| `key` | `((page: Int) -> Any)?` | `null` | Stable key per page. |
+| `pageContent` | `@Composable PagerScope.(page: Int) -> Unit` | — | The page slot. |
+
+**Example**
+
+```kotlin
+val state = rememberPagerState { items.size }
+val scope = rememberCoroutineScope()
+NativePager(items.size, state = state) { page -> PageCard(items[page]) }
+NativePageControl(
+    pageCount = items.size,
+    currentPage = state.currentPage,
+    onCurrentPageChange = { scope.launch { state.animateScrollToPage(it) } },
+    modifier = Modifier.fillMaxWidth(),
+)
+```
+
+**Notes**
+- State-driven: it reuses Compose `PagerState`, so binding to `NativePageControl` (read `state.currentPage`, page via `animateScrollToPage`) is direct.
+- Compose-on-both by necessity — no UIKit control hosts arbitrary Compose pages. (A real gap, unlike the retired `NativeTabBar`, which had a native `UISegmentedControl` alternative.)
+
+### Load more (list pagination)
+
+Infinite-scroll helpers for a paginated `LazyColumn`: an effect that fires as the list nears its end, and a slottable footer. Compose-on-both (built on `LazyListState` / `LazyListScope`).
+
+**Use it when**
+- A long, server-paged list should load the next page as the user approaches the end.
+
+**API**
+
+| Symbol | Signature | Description |
+|---|---|---|
+| `NativePageLoadState` | `enum { Idle, Loading, Error, EndReached }` | The list's load state; you own the transitions. |
+| `NativeLoadMoreEffect` | `@Composable (listState: LazyListState, buffer: Int = 3, enabled: Boolean = true, onLoadMore: () -> Unit)` | Fires `onLoadMore` once when the list scrolls within `buffer` items of the end. Guard concurrent loads via `enabled`. |
+| `LazyListScope.nativePaginationFooter` | `(state, onRetry = {}, loading = { spinner }, error = { retry -> button })` | A footer row: spinner while `Loading`, a retry (slot) on `Error`, nothing at `Idle`/`EndReached`. Both slots overridable. |
+
+**Example**
+
+```kotlin
+val listState = rememberLazyListState()
+LazyColumn(state = listState) {
+    items(rows, key = { it.id }) { Row(it) }
+    nativePaginationFooter(loadState, onRetry = ::retry)
+}
+NativeLoadMoreEffect(listState, enabled = loadState == NativePageLoadState.Idle) { loadNextPage() }
+```
+
+**Notes**
+- `NativeLoadMoreEffect` holds no paging state — you decide what "load more" does and track your own `NativePageLoadState`. Set `enabled = false` (e.g. at `EndReached` or while loading) to pause.
+- Nesting a `LazyColumn` inside another vertical scroll needs a bounded height on the inner list.

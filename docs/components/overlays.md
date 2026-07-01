@@ -96,49 +96,70 @@ NativePopover(
 
 ### NativeDialog
 
-A modal dialog for custom centered content — a themed `NativeCard` in a Compose `Dialog`, shown while it is in composition.
+A modal dialog for custom centered content, built to fit *your* design system rather than one fixed layout — a themed surface in a Compose `Dialog`, shown while it is in composition. `icon` / `title` / `actions` / `content` are slots; colors, shape, elevation, padding, and alignment are all overridable, with theme-resolved defaults.
 
-**Android:** Compose `Dialog` containing a `NativeCard`.
-**iOS:** the same Compose `Dialog` and `NativeCard`.
+**Android:** Compose `Dialog` + a themed surface.
+**iOS:** the same Compose `Dialog` + surface (Compose-on-both).
 
 **Use it when**
-- You need custom centered content that the native paths do not cover (a form, a list, an image).
+- You need custom centered content the native paths do not cover (a form, a list, an image).
+- You want the dialog to match your product's look — its own icon, title, colors, shape, and layout.
 
 **Avoid it when**
 - The content is plain text plus buttons — use `NativeFeedbackController.alert` for a real `UIAlertController` on iOS.
 - You want a bottom-anchored or detented panel — use `NativeSheet` for a real `UISheetPresentationController` on iOS.
 
-**Parameters**
+**Parameters** (slot-based overload)
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | `onDismissRequest` | `() -> Unit` | — | Fires on scrim tap or back, gated by `dismissOnClickOutside` / `dismissOnBackPress`. |
-| `modifier` | `Modifier` | `Modifier` | Applies to the dialog card. |
-| `title` | `String?` | `null` | Optional heading shown above the content. |
-| `dismissOnBackPress` | `Boolean` | `true` | Allows dismissal via the back gesture. |
-| `dismissOnClickOutside` | `Boolean` | `true` | Allows dismissal by tapping the scrim. |
-| `testTag` | `String?` | `null` | Test tag for the card. |
-| `actions` | `@Composable RowScope.() -> Unit` | `{}` | Trailing, end-aligned button row. |
+| `modifier` | `Modifier` | `Modifier` | Applies to the dialog surface. |
+| `icon` | `(@Composable () -> Unit)?` | `null` | Optional icon slot, above the title. |
+| `title` | `(@Composable () -> Unit)?` | `null` | Optional title slot (uses the title color). |
+| `dismissOnBackPress` | `Boolean` | `true` | Allow dismissal via the back gesture. |
+| `dismissOnClickOutside` | `Boolean` | `true` | Allow dismissal by tapping the scrim. |
+| `colorsOverride` | `NativeDialogColors?` | `null` | Container / content / title / border colors; defaults resolve from the theme. |
+| `cornerRadius` | `Dp?` | `null` | Surface corner radius (default `tokens.cornerMedium`). |
+| `elevation` | `Dp?` | `null` | Surface shadow elevation (default `6.dp`). |
+| `contentPadding` | `PaddingValues?` | `null` | Inner padding (default `tokens.spacingLg`). |
+| `horizontalAlignment` | `Alignment.Horizontal` | `Alignment.Start` | Column alignment of icon / title / content. |
+| `properties` | `DialogProperties?` | `null` | Advanced `Dialog` properties (e.g. platform width); overrides the dismiss booleans when set. |
+| `testTag` | `String?` | `null` | Test tag for the surface. |
+| `actions` | `(@Composable RowScope.() -> Unit)?` | `null` | Trailing, end-aligned button row; omit for an informational dialog. |
 | `content` | `@Composable ColumnScope.() -> Unit` | — | Dialog body. |
+
+A convenience overload takes `title: String?` (rendered in the title slot with the dialog's title color) in place of the `icon` / `title` slots — for the common text-title case.
 
 **Example**
 
 ```kotlin
-var open by remember { mutableStateOf(false) }
-if (open) {
-    NativeDialog(
-        onDismissRequest = { open = false },
-        title = "Rename",
-        actions = { NativeButton("Save", onClick = ::save) },
-    ) {
-        NativeTextField(name, { name = it })
-    }
-}
+// Simple (String title):
+if (open) NativeDialog(
+    title = "Delete file?",
+    onDismissRequest = { open = false },
+    actions = { NativeButton("Delete", onClick = ::delete) },
+) { NativeText("This can't be undone.") }
+
+// Customized (slots + colors + shape + centered):
+NativeDialog(
+    onDismissRequest = { open = false },
+    icon = { NativeText("✨", style = NativeTextStyle.Display) },
+    title = { NativeText("What's new", style = NativeTextStyle.Title) },
+    colorsOverride = NativeDialogColors(
+        container = scheme.secondaryContainer,
+        content = scheme.onSecondaryContainer,
+        title = scheme.onSecondaryContainer,
+    ),
+    cornerRadius = 28.dp,
+    horizontalAlignment = Alignment.CenterHorizontally,
+    actions = { NativeButton("Got it", onClick = { open = false }) },
+) { NativeText("Reader themes and faster sync.", align = TextAlign.Center) }
 ```
 
 **Notes**
-- This is a kept Compose-on-both component. A centered custom-content modal has no single native control to delegate to, so it is the intended primitive for arbitrary centered content.
-- On iOS a `Dialog` mounts a fresh native scene. To avoid a first-frame backdrop flash, the body is composed with `LocalNativeSurface = Color.Unspecified` so `NativeText` takes its Compose-`Text` path (no interop region), and the dialog provides `LocalNativeInteropPlacement = Overlay` so native controls such as `NativeButton` actions composite above the opaque card with no cut-out hole. All component types work normally inside a dialog.
+- Kept Compose-on-both: a centered custom-content modal has no single native control to delegate to, so it is the intended primitive for arbitrary centered content. The native *fixed* alert is `NativeFeedbackController.alert`.
+- On iOS a `Dialog` mounts a fresh native scene. To avoid a first-frame backdrop flash, the body composes with `LocalNativeSurface = Color.Unspecified` (so `NativeText` takes its Compose-`Text` path, no interop region) and the dialog provides `LocalNativeInteropPlacement = Overlay` (so native controls such as `NativeButton` actions composite above the opaque surface with no cut-out hole). All component types work normally inside.
 
 ### NativeShareSheet
 

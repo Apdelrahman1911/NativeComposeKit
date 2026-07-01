@@ -7,13 +7,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,8 +32,14 @@ import io.github.apdelrahman1911.nativecomposekit.components.NativeCard
 import io.github.apdelrahman1911.nativecomposekit.components.NativeCardVariant
 import io.github.apdelrahman1911.nativecomposekit.components.NativeColorWell
 import io.github.apdelrahman1911.nativecomposekit.components.NativeDatePicker
+import io.github.apdelrahman1911.nativecomposekit.components.NativeLoadMoreEffect
 import io.github.apdelrahman1911.nativecomposekit.components.NativePageControl
+import io.github.apdelrahman1911.nativecomposekit.components.NativePageLoadState
+import io.github.apdelrahman1911.nativecomposekit.components.NativePager
 import io.github.apdelrahman1911.nativecomposekit.components.NativeText
+import io.github.apdelrahman1911.nativecomposekit.components.nativePaginationFooter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonColors
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonSize
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonVariant
@@ -41,13 +54,14 @@ private val onboardingPages = listOf("Track what you read", "Sync across devices
 
 @Composable
 fun PickersShowcase() = ShowcaseScreen(
-    intro = "Controls for picking a value — a calendar date, a color, or the active page in a pager. " +
-        "Each renders the most native control per platform: UIDatePicker / UIColorWell / UIPageControl on " +
-        "iOS, Material and branded Compose equivalents on Android.",
+    intro = "Controls for picking a value — a date, a color, the active page in a pager — plus pagination " +
+        "helpers. Each renders the most native control per platform where one exists (UIDatePicker / " +
+        "UIColorWell / UIPageControl on iOS); the pager and load-more helpers are Compose-drawn on both.",
 ) {
     DatePickerSection()
     ColorWellSection()
     PageControlSection()
+    LoadMoreSection()
 }
 
 // ---------- NativeDatePicker ----------
@@ -181,54 +195,108 @@ private fun Swatch(color: Color) {
 @Composable
 private fun PageControlSection() {
     ShowcaseSection(
-        title = "Page control",
-        description = "The row of dots for a carousel or onboarding flow. The pager owns the page; the " +
-            "control indicates it (and can drive it via tap on iOS).",
+        title = "Pager & page control",
+        description = "A swipeable NativePager for the pages, with NativePageControl showing — and driving — " +
+            "the dots. The pager owns the current page; the control indicates it (and pages on tap).",
     ) {
         WhenToUse(
-            "A carousel, featured banner, or onboarding flow paired with a pager.",
-            "You want an indicator, not the primary paging control.",
+            "A carousel, featured banner, or onboarding flow.",
+            "NativePager for swipeable content; NativePageControl for the dots indicator.",
         )
 
-        var page by remember { mutableStateOf(0) }
         val pageCount = onboardingPages.size
+        val pagerState = rememberPagerState { pageCount }
+        val scope = rememberCoroutineScope()
 
-        ExampleLabel("Synced to a counter + Next button")
+        ExampleLabel("Swipe the pager or tap the dots")
         NativeCard(variant = NativeCardVariant.Outlined) {
-            // The "page" the dots track. In a real screen this would be a HorizontalPager.
-            NativeText(onboardingPages[page], style = NativeTextStyle.Title)
-            NativeText(
-                "Step ${page + 1} of $pageCount",
-                style = NativeTextStyle.Label,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            Spacer(Modifier.size(16.dp))
-            Row(
+            NativePager(
+                pageCount = pageCount,
+                state = pagerState,
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+            ) { page ->
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+                    NativeText(
+                        "Step ${page + 1} of $pageCount",
+                        style = NativeTextStyle.Label,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    NativeText(onboardingPages[page], style = NativeTextStyle.Title)
+                }
+            }
+            Spacer(Modifier.size(12.dp))
+            NativePageControl(
+                pageCount = pageCount,
+                currentPage = pagerState.currentPage,
+                onCurrentPageChange = { scope.launch { pagerState.animateScrollToPage(it) } },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+
+        Note(
+            "NativePager wraps Compose Foundation's HorizontalPager — Compose-drawn on both platforms (no UIKit " +
+                "control hosts arbitrary Compose pages). Drive it with a PagerState and bind NativePageControl to " +
+                "state.currentPage + animateScrollToPage. Give the page control a width or it collapses on iOS.",
+        )
+    }
+}
+
+// ---------- Load more (infinite list) ----------
+
+@Composable
+private fun LoadMoreSection() {
+    ShowcaseSection(
+        title = "Load more (infinite list)",
+        description = "Infinite scroll for a paginated list: fire loadNext near the end, show a footer while " +
+            "loading, and stop at the end.",
+    ) {
+        WhenToUse(
+            "A long, server-paged list that loads the next page as you approach the end.",
+            "NativeLoadMoreEffect detects the scroll; nativePaginationFooter shows the loading/error/end row.",
+        )
+
+        var rows by remember { mutableStateOf((1..20).toList()) }
+        var loadState by remember { mutableStateOf(NativePageLoadState.Idle) }
+        val listState = rememberLazyListState()
+        val scope = rememberCoroutineScope()
+
+        ExampleLabel("Scroll to the end to load more (stops at 60)")
+        NativeCard(variant = NativeCardVariant.Outlined) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth().height(220.dp),
+                state = listState,
             ) {
-                // weight(1f) gives the control a width — it collapses to zero otherwise on iOS.
-                NativePageControl(
-                    pageCount = pageCount,
-                    currentPage = page,
-                    onCurrentPageChange = { page = it },
-                    modifier = Modifier.weight(1f),
-                )
-                NativeButton(
-                    text = if (page == pageCount - 1) "Done" else "Next",
-                    onClick = { page = (page + 1) % pageCount },
-                    variant = NativeButtonVariant.Tertiary,
-                    size = NativeButtonSize.Small,
-                )
+                items(rows, key = { it }) { n ->
+                    NativeText(
+                        "Item $n",
+                        style = NativeTextStyle.Body,
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                    )
+                }
+                nativePaginationFooter(loadState)
+            }
+        }
+
+        NativeLoadMoreEffect(
+            listState = listState,
+            enabled = loadState == NativePageLoadState.Idle && rows.size < 60,
+        ) {
+            loadState = NativePageLoadState.Loading
+            scope.launch {
+                delay(700)
+                rows = rows + ((rows.size + 1)..(rows.size + 20))
+                loadState = if (rows.size >= 60) NativePageLoadState.EndReached else NativePageLoadState.Idle
             }
         }
 
         Note(
-            "Give it a width — Modifier.weight(1f) in a Row or fillMaxWidth — or the iOS UIPageControl " +
-                "collapses to ~0 width and becomes invisible. Pass onCurrentPageChange to allow tap-to-page " +
-                "(matches UIPageControl); leave it null for a display-only indicator. iOS hides the dots for a " +
-                "single page.",
+            "NativeLoadMoreEffect fires onLoadMore once when the list scrolls within `buffer` items of the end; " +
+                "guard it against concurrent loads (here enabled = state == Idle). nativePaginationFooter renders " +
+                "a spinner while loading, a retry on error, and nothing at the end — both slots overridable.",
         )
     }
 }

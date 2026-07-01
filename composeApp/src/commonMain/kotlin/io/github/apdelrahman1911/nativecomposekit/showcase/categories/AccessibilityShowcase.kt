@@ -18,8 +18,13 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.NativeFieldIn
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeImeAction
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeKeyboardType
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeFieldFocus
+import io.github.apdelrahman1911.nativecomposekit.components.nativeAutoFocus
 import io.github.apdelrahman1911.nativecomposekit.components.nativeDismissKeyboardOnTap
+import io.github.apdelrahman1911.nativecomposekit.components.nativeFocusOrder
+import io.github.apdelrahman1911.nativecomposekit.components.nativeFocusTarget
 import io.github.apdelrahman1911.nativecomposekit.components.nativeHeading
+import io.github.apdelrahman1911.nativecomposekit.components.rememberNativeFocusHandle
 import io.github.apdelrahman1911.nativecomposekit.showcase.ExampleLabel
 import io.github.apdelrahman1911.nativecomposekit.showcase.Note
 import io.github.apdelrahman1911.nativecomposekit.showcase.ShowcaseScreen
@@ -77,6 +82,31 @@ fun AccessibilityShowcase() = ShowcaseScreen(
         )
     }
 
+    ShowcaseSection(
+        title = "Focus management",
+        description = "Auto-focus a field when a form opens, and move focus between fields from callbacks with " +
+            "focus handles and an explicit next/previous order.",
+    ) {
+        var formOpen by remember { mutableStateOf(false) }
+        ExampleLabel("Open the form — the first field auto-focuses; the keyboard's Next jumps to the second")
+        NativeButton(
+            text = if (formOpen) "Close form" else "Open form",
+            onClick = { formOpen = !formOpen },
+            variant = NativeButtonVariant.Secondary,
+        )
+        if (formOpen) FocusForm()
+
+        WhenToUse(
+            "Focus the first field when a form or dialog appears (nativeAutoFocus).",
+            "Advance to the next field on the keyboard's Next action (a focus handle + nativeFocusOrder).",
+        )
+        Note(
+            "nativeAutoFocus requests focus on first composition; rememberNativeFocusHandle + nativeFocusTarget " +
+                "give a handle you can requestFocus() from a callback; nativeFocusOrder wires the next/previous " +
+                "traversal chain; nativeFocusGroup groups controls into a single tab-stop. All Compose-drawn.",
+        )
+    }
+
     Note(
         "Accessibility defaults the kit applies for you: every control carries a contentDescription (with a " +
             "contentDescription override where you need a custom label); toggles, sliders, and steppers announce " +
@@ -117,6 +147,42 @@ private fun ProfileForm() {
             onClick = { },
             variant = NativeButtonVariant.Primary,
             fullWidth = true,
+        )
+    }
+}
+
+/** Two fields: the first auto-focuses on appear; the keyboard's Next advances to the second via a focus handle. */
+@Composable
+private fun FocusForm() {
+    var first by remember { mutableStateOf("") }
+    var last by remember { mutableStateOf("") }
+    val firstField = rememberNativeFocusHandle()
+    val lastField = rememberNativeFocusHandle()
+    Column(
+        modifier = Modifier.fillMaxWidth().nativeDismissKeyboardOnTap(),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        NativeTextField(
+            value = first,
+            onValueChange = { first = it },
+            label = "First name",
+            modifier = Modifier
+                .fillMaxWidth()
+                .nativeAutoFocus()
+                .nativeFocusTarget(firstField)
+                .nativeFocusOrder(next = lastField),
+            input = NativeFieldInput(imeAction = NativeImeAction.Next),
+            focus = NativeFieldFocus(onSubmit = { lastField.requestFocus() }),
+        )
+        NativeTextField(
+            value = last,
+            onValueChange = { last = it },
+            label = "Last name",
+            modifier = Modifier
+                .fillMaxWidth()
+                .nativeFocusTarget(lastField)
+                .nativeFocusOrder(previous = firstField),
+            input = NativeFieldInput(imeAction = NativeImeAction.Done),
         )
     }
 }

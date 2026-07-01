@@ -1,6 +1,6 @@
 # Accessibility & focus
 
-Modifier extensions for focus, soft-keyboard dismissal, and screen-reader navigation. These are the focus/IME/accessibility helpers the kit uses internally, exposed for app screens. Both are Compose-drawn and behave the same on Android and iOS.
+Modifier extensions for focus, soft-keyboard dismissal, and screen-reader navigation. These are the focus/IME/accessibility helpers the kit uses internally, exposed for app screens. All are Compose-drawn and behave the same on Android and iOS.
 
 ### nativeDismissKeyboardOnTap
 
@@ -54,4 +54,72 @@ None. The modifier takes no arguments. It is not `@Composable`.
 
 ```kotlin
 NativeText("Settings", modifier = Modifier.nativeHeading())
+```
+
+### nativeAutoFocus
+
+A `@Composable` `Modifier` extension that requests focus for the element when it first enters composition (while `enabled`) — e.g. focus the first field when a form or dialog opens.
+
+**Android / iOS:** remembers a `FocusRequester` and requests focus in a one-shot `LaunchedEffect`; identical on both.
+
+**Use it when**
+- You want to focus the first field when a form or dialog appears.
+
+**Avoid it when**
+- The element is not focusable — apply to a `NativeTextField` or an element made focusable.
+
+**Parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `enabled` | `Boolean` | `true` | When true, requests focus on first composition. |
+
+**Example**
+
+```kotlin
+NativeTextField(value, onValueChange, modifier = Modifier.nativeAutoFocus())
+```
+
+### rememberNativeFocusHandle / nativeFocusTarget
+
+A `NativeFocusHandle` moves focus to (or releases it from) a target element imperatively — e.g. advance to the next field on submit. Obtain it with `rememberNativeFocusHandle()`, attach it with `Modifier.nativeFocusTarget(handle)`, then call `requestFocus()` / `freeFocus()`.
+
+| Member | Type | Description |
+|---|---|---|
+| `NativeFocusHandle.requestFocus` | `() -> Unit` | Move focus to the attached element (opens the keyboard for a field). |
+| `NativeFocusHandle.freeFocus` | `() -> Unit` | Release focus without moving it elsewhere. |
+| `rememberNativeFocusHandle` | `@Composable () -> NativeFocusHandle` | Remember a handle. |
+| `Modifier.nativeFocusTarget` | `(handle: NativeFocusHandle) -> Modifier` | Attach a handle to the element. |
+
+**Example**
+
+```kotlin
+val next = rememberNativeFocusHandle()
+NativeTextField(email, { email = it }, focus = NativeFieldFocus(onSubmit = { next.requestFocus() }))
+NativeTextField(pw, { pw = it }, modifier = Modifier.nativeFocusTarget(next))
+```
+
+### nativeFocusOrder
+
+A `Modifier` extension that sets explicit focus traversal — where focus goes on **next** / **previous** (Tab, hardware keys, the IME "next" action). Point each field at the next (and optionally previous) handle to build a form's tab chain.
+
+**Parameters**
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `next` | `NativeFocusHandle?` | `null` | The element focus moves to on "next". |
+| `previous` | `NativeFocusHandle?` | `null` | The element focus moves to on "previous". |
+
+**Example**
+
+```kotlin
+Modifier.nativeFocusTarget(emailHandle).nativeFocusOrder(next = passwordHandle)
+```
+
+### nativeFocusGroup
+
+A `Modifier` extension that groups descendant focusables so they behave as a single tab-stop / 2D-navigable cluster (Compose `focusGroup`). Not `@Composable`; takes no arguments.
+
+```kotlin
+Row(Modifier.nativeFocusGroup()) { /* controls navigated as one unit */ }
 ```

@@ -2,7 +2,14 @@ package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.focusGroup
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.semantics.heading
@@ -35,3 +42,68 @@ public fun Modifier.nativeDismissKeyboardOnTap(): Modifier {
  * `NativeText("Settings", modifier = Modifier.nativeHeading())`
  */
 public fun Modifier.nativeHeading(): Modifier = this.semantics { heading() }
+
+/**
+ * Request focus for this element when it first enters composition (while [enabled]) — e.g. focus the first field
+ * when a dialog or screen opens. Apply to a focusable element (a `NativeTextField`, or any element made focusable).
+ * `@Composable` because it remembers a `FocusRequester` and runs a one-shot effect.
+ *
+ * `NativeTextField(value, onValueChange, modifier = Modifier.nativeAutoFocus())`
+ */
+@Composable
+public fun Modifier.nativeAutoFocus(enabled: Boolean = true): Modifier {
+    val requester = remember { FocusRequester() }
+    LaunchedEffect(enabled) {
+        if (enabled) requester.requestFocus()
+    }
+    return this.focusRequester(requester)
+}
+
+/**
+ * A handle to imperatively move focus to (or release it from) a target element from callbacks — e.g. advance to
+ * the next field on submit. Obtain with [rememberNativeFocusHandle], attach with [Modifier.nativeFocusTarget],
+ * then call [requestFocus]. Chain handles with [Modifier.nativeFocusOrder] to define traversal order.
+ */
+@Stable
+public class NativeFocusHandle internal constructor() {
+    internal val requester: FocusRequester = FocusRequester()
+
+    /** Move focus to the attached element (opens the keyboard for a text field). */
+    public fun requestFocus() {
+        requester.requestFocus()
+    }
+
+    /** Release focus from the attached element without moving focus elsewhere. */
+    public fun freeFocus() {
+        requester.freeFocus()
+    }
+}
+
+/** Remember a [NativeFocusHandle] for imperative focus control. Attach it with [Modifier.nativeFocusTarget]. */
+@Composable
+public fun rememberNativeFocusHandle(): NativeFocusHandle = remember { NativeFocusHandle() }
+
+/** Attach [handle] to this element so its [NativeFocusHandle.requestFocus]/[NativeFocusHandle.freeFocus] control it. */
+public fun Modifier.nativeFocusTarget(handle: NativeFocusHandle): Modifier =
+    this.focusRequester(handle.requester)
+
+/**
+ * Set explicit focus traversal order for this element — where focus goes on **next** / **previous** (Tab, a
+ * hardware keyboard, or the IME "next" action). Point each field at the [next] (and optionally [previous]) handle
+ * to build a form's tab chain.
+ *
+ * `Modifier.nativeFocusTarget(emailHandle).nativeFocusOrder(next = passwordHandle)`
+ */
+public fun Modifier.nativeFocusOrder(
+    next: NativeFocusHandle? = null,
+    previous: NativeFocusHandle? = null,
+): Modifier = this.focusProperties {
+    next?.let { this.next = it.requester }
+    previous?.let { this.previous = it.requester }
+}
+
+/**
+ * Group descendant focusables so they behave as a single tab-stop / 2D-navigable cluster (Compose `focusGroup`).
+ * Apply to a row/section of controls so keyboard/hardware-key navigation treats them as one unit.
+ */
+public fun Modifier.nativeFocusGroup(): Modifier = this.focusGroup()

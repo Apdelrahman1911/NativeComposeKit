@@ -73,10 +73,11 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/Composa
 	public final fun getLambda$1672545611$nativecomposekit_release ()Lkotlin/jvm/functions/Function3;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeDialogKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeDialogKt;
+public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativePaginationKt {
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativePaginationKt;
 	public fun <init> ()V
-	public final fun getLambda$1103775555$nativecomposekit_release ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-770941218$nativecomposekit_release ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1521736584$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeScaffoldKt {
@@ -207,7 +208,8 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeD
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeDialogKt {
-	public static final fun NativeDialog (Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Ljava/lang/String;ZZLjava/lang/String;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+	public static final fun NativeDialog-IRVCIvc (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;ZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeDialogColors;Landroidx/compose/ui/unit/Dp;Landroidx/compose/ui/unit/Dp;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/Alignment$Horizontal;Landroidx/compose/ui/window/DialogProperties;Ljava/lang/String;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;III)V
+	public static final fun NativeDialog-ItC2D5E (Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;ZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeDialogColors;Landroidx/compose/ui/unit/Dp;Landroidx/compose/ui/unit/Dp;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/Alignment$Horizontal;Landroidx/compose/ui/window/DialogProperties;Ljava/lang/String;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeDividerKt {
@@ -226,9 +228,21 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeE
 	public static final fun NativeEmptyState (Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeFocusHandle {
+	public static final field $stable I
+	public final fun freeFocus ()V
+	public final fun requestFocus ()V
+}
+
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeFocusModifiersKt {
+	public static final fun nativeAutoFocus (Landroidx/compose/ui/Modifier;ZLandroidx/compose/runtime/Composer;II)Landroidx/compose/ui/Modifier;
 	public static final fun nativeDismissKeyboardOnTap (Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/Modifier;
+	public static final fun nativeFocusGroup (Landroidx/compose/ui/Modifier;)Landroidx/compose/ui/Modifier;
+	public static final fun nativeFocusOrder (Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/NativeFocusHandle;Lio/github/apdelrahman1911/nativecomposekit/components/NativeFocusHandle;)Landroidx/compose/ui/Modifier;
+	public static synthetic fun nativeFocusOrder$default (Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/NativeFocusHandle;Lio/github/apdelrahman1911/nativecomposekit/components/NativeFocusHandle;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static final fun nativeFocusTarget (Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/NativeFocusHandle;)Landroidx/compose/ui/Modifier;
 	public static final fun nativeHeading (Landroidx/compose/ui/Modifier;)Landroidx/compose/ui/Modifier;
+	public static final fun rememberNativeFocusHandle (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/components/NativeFocusHandle;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeIconButtonKt {
@@ -306,6 +320,26 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeO
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativePageControlKt {
 	public static final fun NativePageControl-Pz9yvRs (IILandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativePageLoadState : java/lang/Enum {
+	public static final field EndReached Lio/github/apdelrahman1911/nativecomposekit/components/NativePageLoadState;
+	public static final field Error Lio/github/apdelrahman1911/nativecomposekit/components/NativePageLoadState;
+	public static final field Idle Lio/github/apdelrahman1911/nativecomposekit/components/NativePageLoadState;
+	public static final field Loading Lio/github/apdelrahman1911/nativecomposekit/components/NativePageLoadState;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativePageLoadState;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/NativePageLoadState;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativePagerKt {
+	public static final fun NativePager-GHTll3U (ILandroidx/compose/ui/Modifier;Landroidx/compose/foundation/pager/PagerState;Landroidx/compose/foundation/layout/PaddingValues;FZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativePaginationKt {
+	public static final fun NativeLoadMoreEffect (Landroidx/compose/foundation/lazy/LazyListState;IZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun nativePaginationFooter (Landroidx/compose/foundation/lazy/LazyListScope;Lio/github/apdelrahman1911/nativecomposekit/components/NativePageLoadState;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)V
+	public static synthetic fun nativePaginationFooter$default (Landroidx/compose/foundation/lazy/LazyListScope;Lio/github/apdelrahman1911/nativecomposekit/components/NativePageLoadState;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativePopoverKt {
@@ -444,10 +478,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeS
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/NativeTabBarKt {
-	public static final fun NativeTabBar (Ljava/util/List;ILkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
-}
-
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeTextFieldKt {
 	public static final fun NativeTextField-IZZ9rbA (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldInput;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldFocus;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldColors;Landroidx/compose/ui/unit/Dp;Landroidx/compose/ui/text/TextStyle;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Ljava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextFieldIosOptions;Landroidx/compose/runtime/Composer;IIII)V
 }
@@ -458,10 +488,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeT
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeToggleKt {
 	public static final fun NativeToggle (ZLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZLjava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/components/NativeTooltipKt {
-	public static final fun NativeTooltip (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeTopBarKt {
@@ -716,6 +742,25 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
 	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeDialogColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component4-0d7_KjU ()J
+	public final fun copy-jRlVdoo (JJJJ)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeDialogColors;
+	public static synthetic fun copy-jRlVdoo$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeDialogColors;JJJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeDialogColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBorder-0d7_KjU ()J
+	public final fun getContainer-0d7_KjU ()J
+	public final fun getContent-0d7_KjU ()J
+	public final fun getTitle-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldColors {

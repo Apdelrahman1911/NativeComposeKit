@@ -1,8 +1,16 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.CompositionLocalProvider
@@ -25,6 +33,7 @@ import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackStatus
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeInlineStatus
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeDialogColors
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextContentType
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearanceScope
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeCapabilities
@@ -428,34 +437,105 @@ class ComponentRenderUiTest {
         onNodeWithText("Save").assertIsDisplayed()
     }
 
-    @Suppress("DEPRECATION") // NativeTabBar is deprecated (→ NativeSegmentedControl); kept under test until removal.
-    @Test
-    fun tabBar_renders_tabs_and_selection_fires() = runComposeUiTest {
-        var picked = -1
-        setContent {
-            NativeAppearanceScope {
-                NativeTabBar(tabs = listOf("Overview", "Chapters"), selectedIndex = 0, onSelectedIndexChange = { picked = it })
-            }
-        }
-        onNodeWithText("Overview").assertIsDisplayed()
-        onNodeWithText("Chapters").performClick()
-        assertEquals(1, picked)
-    }
-
-    @Suppress("DEPRECATION") // NativeTooltip is deprecated; kept under test until removal.
-    @Test
-    fun tooltip_renders_its_anchor() = runComposeUiTest {
-        setContent {
-            NativeAppearanceScope { NativeTooltip(text = "Add to library") { NativeText("Anchor") } }
-        }
-        onNodeWithText("Anchor").assertIsDisplayed()
-    }
-
     @Test
     fun nativeHeading_marks_the_node_as_a_heading() = runComposeUiTest {
         setContent {
             NativeAppearanceScope { NativeText("Section", modifier = Modifier.nativeHeading()) }
         }
         onNode(SemanticsMatcher.keyIsDefined(SemanticsProperties.Heading)).assertIsDisplayed()
+    }
+
+    // ---- Component-gap track (dialog customization, pager, load-more, focus utils) ----
+
+    @Test
+    fun dialog_renders_icon_title_slot_and_custom_colors() = runComposeUiTest {
+        setContent {
+            NativeAppearanceScope {
+                NativeDialog(
+                    onDismissRequest = {},
+                    icon = { NativeText("★") },
+                    title = { NativeText("Custom title") },
+                    colorsOverride = NativeDialogColors(
+                        container = Color.Black,
+                        content = Color.White,
+                        title = Color.White,
+                    ),
+                    actions = { NativeButton("OK", onClick = {}) },
+                ) {
+                    NativeText("Body text")
+                }
+            }
+        }
+        onNodeWithText("★").assertIsDisplayed()
+        onNodeWithText("Custom title").assertIsDisplayed()
+        onNodeWithText("Body text").assertIsDisplayed()
+        onNodeWithText("OK").assertIsDisplayed()
+    }
+
+    @Test
+    fun pager_renders_the_current_page() = runComposeUiTest {
+        setContent {
+            NativeAppearanceScope {
+                val state = rememberPagerState { 3 }
+                NativePager(
+                    pageCount = 3,
+                    state = state,
+                    modifier = Modifier.fillMaxWidth().height(120.dp),
+                ) { page ->
+                    NativeText("Page $page")
+                }
+            }
+        }
+        onNodeWithText("Page 0").assertIsDisplayed()
+    }
+
+    @Test
+    fun loadMoreEffect_fires_once_when_the_end_is_visible() = runComposeUiTest {
+        var loads = 0
+        setContent {
+            NativeAppearanceScope {
+                val listState = rememberLazyListState()
+                LazyColumn(modifier = Modifier.fillMaxWidth().height(600.dp), state = listState) {
+                    items(4) { i ->
+                        NativeText("Row $i", modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
+                    }
+                }
+                NativeLoadMoreEffect(listState = listState, buffer = 3) { loads++ }
+            }
+        }
+        waitForIdle()
+        assertEquals(1, loads)
+    }
+
+    @Test
+    fun focus_utilities_compose_and_render() = runComposeUiTest {
+        setContent {
+            NativeAppearanceScope {
+                val first = rememberNativeFocusHandle()
+                val second = rememberNativeFocusHandle()
+                Column {
+                    Box(
+                        Modifier
+                            .size(40.dp)
+                            .nativeAutoFocus()
+                            .nativeFocusTarget(first)
+                            .nativeFocusOrder(next = second)
+                            .focusable()
+                            .testTag("focus-a"),
+                    )
+                    Box(
+                        Modifier
+                            .size(40.dp)
+                            .nativeFocusTarget(second)
+                            .nativeFocusOrder(previous = first)
+                            .nativeFocusGroup()
+                            .focusable()
+                            .testTag("focus-b"),
+                    )
+                }
+            }
+        }
+        onNodeWithTag("focus-a").assertIsDisplayed()
+        onNodeWithTag("focus-b").assertIsDisplayed()
     }
 }

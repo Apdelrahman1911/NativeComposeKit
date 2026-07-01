@@ -46,6 +46,19 @@ public data class NativeFieldColors(
     val cursor: Color,
 )
 
+/**
+ * Colors for [io.github.apdelrahman1911.nativecomposekit.components.NativeDialog]. Defaults resolve from the
+ * theme (`surface`/`onSurface`); pass a copy to restyle the dialog's surface, body content, and title. [border]
+ * is `Unspecified` for no border.
+ */
+@Immutable
+public data class NativeDialogColors(
+    val container: Color,
+    val content: Color,
+    val title: Color,
+    val border: Color = Color.Unspecified,
+)
+
 /** Fully resolved text-field styling handed to the platform renderer. */
 @Immutable
 internal data class ResolvedFieldStyle(

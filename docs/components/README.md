@@ -13,13 +13,12 @@ iOS-specific interop behavior is in [`interop-notes.md`](../interop-notes.md).
 - [Text & input](text-and-input.md) — `NativeText`, `NativeTextField`, `NativeSearchBar`, `NativeOtpField`
 - [Buttons](buttons.md) — `NativeButton`, `NativeIconButton`, `NativeSplitButton`, `NativeMenu`
 - [Selection & sliders](selection-and-sliders.md) — `NativeToggle`, `NativeCheckbox`, `NativeRadioGroup`, `NativeSegmentedControl`, `NativeSlider`, `NativeStepper`, `NativeRating`
-- [Pickers](pickers.md) — `NativeDatePicker`, `NativeColorWell`, `NativePageControl`
+- [Pickers & pagination](pickers.md) — `NativeDatePicker`, `NativeColorWell`, `NativePageControl`, `NativePager`, load-more helpers
 - [Overlays](overlays.md) — `NativeSheet`, `NativePopover`, `NativeDialog`, `NativeShareSheet`
 - [Feedback & progress](feedback.md) — `NativeProgressIndicator`, alert / confirmation sheet / snackbar / toast / banner / inline status
 - [Layout](layout.md) — `NativeCard`, `NativeScaffold`, `NativeTopBar`, `NativeListSection`, `NativeListItem`, `NativeDivider`
 - [Display & state](display-and-state.md) — `NativeContentState`, `NativeSkeleton`, `NativeEmptyState`, `NativePullRefresh`, `NativeBadge`, `NativeAvatar`, `NativeChip`
-- [Accessibility & focus](accessibility.md) — `nativeDismissKeyboardOnTap`, `nativeHeading`
-- [Deprecated](deprecated.md) — `NativeTabBar`, `NativeTooltip`
+- [Accessibility & focus](accessibility.md) — `nativeDismissKeyboardOnTap`, `nativeHeading`, `nativeAutoFocus`, focus handles / order / group
 
 ## Index
 
@@ -35,14 +34,18 @@ iOS-specific interop behavior is in [`interop-notes.md`](../interop-notes.md).
 | `NativeContentState` | [Display & state](display-and-state.md) |
 | `NativeDatePicker` | [Pickers](pickers.md) |
 | `NativeDialog` | [Overlays](overlays.md) |
+| `NativeDialogColors` | [Overlays](overlays.md) |
 | `NativeDivider` | [Layout](layout.md) |
 | `NativeEmptyState` | [Display & state](display-and-state.md) |
 | `NativeIconButton` | [Buttons](buttons.md) |
 | `NativeListItem` | [Layout](layout.md) |
 | `NativeListSection` | [Layout](layout.md) |
+| `NativeLoadMoreEffect` | [Pickers](pickers.md) |
 | `NativeMenu` | [Buttons](buttons.md) |
 | `NativeOtpField` | [Text & input](text-and-input.md) |
 | `NativePageControl` | [Pickers](pickers.md) |
+| `NativePageLoadState` | [Pickers](pickers.md) |
+| `NativePager` | [Pickers](pickers.md) |
 | `NativePopover` | [Overlays](overlays.md) |
 | `NativeProgressIndicator` | [Feedback & progress](feedback.md) |
 | `NativePullRefresh` | [Display & state](display-and-state.md) |
@@ -60,7 +63,12 @@ iOS-specific interop behavior is in [`interop-notes.md`](../interop-notes.md).
 | `NativeTextField` | [Text & input](text-and-input.md) |
 | `NativeToggle` | [Selection & sliders](selection-and-sliders.md) |
 | `NativeTopBar` | [Layout](layout.md) |
+| `NativeFocusHandle` | [Accessibility & focus](accessibility.md) |
+| `nativeAutoFocus` | [Accessibility & focus](accessibility.md) |
 | `nativeDismissKeyboardOnTap` | [Accessibility & focus](accessibility.md) |
+| `nativeFocusGroup` | [Accessibility & focus](accessibility.md) |
+| `nativeFocusOrder` | [Accessibility & focus](accessibility.md) |
+| `nativeFocusTarget` | [Accessibility & focus](accessibility.md) |
 | `nativeHeading` | [Accessibility & focus](accessibility.md) |
-| `NativeTabBar` *(deprecated)* | [Deprecated](deprecated.md) |
-| `NativeTooltip` *(deprecated)* | [Deprecated](deprecated.md) |
+| `nativePaginationFooter` | [Pickers](pickers.md) |
+| `rememberNativeFocusHandle` | [Accessibility & focus](accessibility.md) |

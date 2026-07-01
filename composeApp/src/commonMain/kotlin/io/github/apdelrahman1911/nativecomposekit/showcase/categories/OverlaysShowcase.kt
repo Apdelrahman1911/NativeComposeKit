@@ -10,10 +10,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.components.NativeButton
 import io.github.apdelrahman1911.nativecomposekit.components.NativeDialog
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeDialogColors
 import io.github.apdelrahman1911.nativecomposekit.components.NativePopover
 import io.github.apdelrahman1911.nativecomposekit.components.NativeSegmentedControl
 import io.github.apdelrahman1911.nativecomposekit.components.NativeSheet
@@ -92,9 +96,39 @@ private fun DialogSection() {
             }
         }
 
+        // Same component, a totally different look — icon + title slots, custom tonal colors, a rounder shape,
+        // and centered layout. Nothing about the dialog is locked to one visual design.
+        var styledOpen by remember { mutableStateOf(false) }
+        ExampleLabel("Fully customized — icon, colors, shape, centered")
+        NativeButton("What's new", onClick = { styledOpen = true }, variant = NativeButtonVariant.Secondary)
+        if (styledOpen) {
+            NativeDialog(
+                onDismissRequest = { styledOpen = false },
+                icon = { NativeText("✨", style = NativeTextStyle.Display) },
+                title = { NativeText("What's new", style = NativeTextStyle.Title) },
+                colorsOverride = NativeDialogColors(
+                    container = MaterialTheme.colorScheme.secondaryContainer,
+                    content = MaterialTheme.colorScheme.onSecondaryContainer,
+                    title = MaterialTheme.colorScheme.onSecondaryContainer,
+                ),
+                cornerRadius = 28.dp,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                actions = {
+                    NativeButton("Got it", onClick = { styledOpen = false }, size = NativeButtonSize.Small)
+                },
+            ) {
+                NativeText(
+                    "Reader themes, faster sync, and swipe-to-archive.",
+                    style = NativeTextStyle.Body,
+                    align = TextAlign.Center,
+                )
+            }
+        }
+
         WhenToUse(
             "Custom centered content the native paths don't cover — a short form, a list, an image.",
             "A confirmation that pairs a message with a clear default and a destructive choice.",
+            "Any product's dialog look — icon/title/actions slots, colors, shape, elevation, alignment are yours.",
             "For a plain message + buttons, use feedback.alert instead (native UIAlertController).",
         )
     }
