@@ -28,8 +28,8 @@ kotlin {
             // Swift host (iosApp/iosApp/ContentView.swift).
             baseName = "ComposeApp"
             isStatic = true
-            // Re-export the :nativecomposekit library's public ObjC symbols into ComposeApp-Swift.h so the SwiftUI
-            // shell can still see NativeNavBridge / NativeNavCancellable / NativeShellChromeKt (now living in
+            // Re-export the :nativecomposekit library's public ObjC symbols into ComposeApp-Swift.h so the native
+            // chrome shell can see the NativeChromeSource contract + NativeChromeState + NativeShellChrome (living in
             // :nativecomposekit). Requires `api(project(":nativecomposekit"))` below (export needs the api configuration).
             export(project(":nativecomposekit"))
         }

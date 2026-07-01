@@ -1,4 +1,4 @@
-package io.github.apdelrahman1911.nativecomposekit.navigation
+package io.github.apdelrahman1911.nativecomposekit.app.navigation
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInHorizontally
@@ -28,14 +28,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /** A tab and how it appears in the Material navigation bar. */
-public data class NativeNavBarItem(val tab: NativeTab, val label: String, val icon: ImageVector)
+data class NativeNavBarItem(val tab: NativeTab, val label: String, val icon: ImageVector)
 
 /**
- * The Compose navigation **renderer**, driven entirely by [NativeNavigator] (the source of truth). This is the
- * shell on BOTH platforms — Android, and iOS (hosted in one `ComposeUIViewController`). Compose owns the stack;
- * no native SwiftUI/UIKit container owns or reconciles it, which is what keeps the source of truth single-owned.
- * The `NavigationBar` chrome here is Material; a platform can wrap this renderer in its own native chrome while
- * still driving the same public [NativeNavigator] API.
+ * The Material-chrome navigation renderer, driven entirely by [NativeNavigator] (the source of truth). It drives
+ * the whole app on Android; on iOS the native-chrome shell renders content through [NativeNavContent] and draws
+ * its own real `UINavigationBar` + `UITabBar` instead (this Material host stays the iOS Compose-chrome fallback).
+ * Compose owns the stack; no native container owns or reconciles it, which is what keeps the source of truth
+ * single-owned. A platform can wrap this renderer in its own native chrome while still driving the same
+ * [NativeNavigator].
  *
  * Renders the selected tab's **top** route inside an `AnimatedContent` (push slides forward, pop backward);
  * system/predictive back → [NativeNavigator.pop]; the `NavigationBar` → [NativeNavigator.selectTab]; a non-null
@@ -43,7 +44,7 @@ public data class NativeNavBarItem(val tab: NativeTab, val label: String, val ic
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-public fun NativeNavHost(
+fun NativeNavHost(
     navigator: NativeNavigator,
     graph: NativeNavGraph,
     tabs: List<NativeNavBarItem>,
@@ -91,12 +92,13 @@ public fun NativeNavHost(
 /**
  * The **content-only** navigation renderer: the current top route (push slides forward, pop backward), the
  * platform back handler (system/predictive back and the iOS edge-swipe → [NativeNavigator.pop]), and the sheet.
- * It draws NO chrome. [NativeNavHost] wraps this in Material chrome; the iOS shell wraps it in real native chrome
- * (a `UINavigationBar` + `UITabBar`) — and either way this stays the single Kotlin-owned stack renderer.
+ * It draws NO chrome. [NativeNavHost] wraps this in Material chrome; the iOS native-chrome shell wraps it in real
+ * native chrome (a `UINavigationBar` + `UITabBar`) — and either way this stays the single Kotlin-owned stack
+ * renderer.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-public fun NativeNavContent(
+fun NativeNavContent(
     navigator: NativeNavigator,
     graph: NativeNavGraph,
     modifier: Modifier = Modifier,

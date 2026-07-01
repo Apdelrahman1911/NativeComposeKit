@@ -15,15 +15,15 @@ import io.github.apdelrahman1911.nativecomposekit.app.appNavGraph
 import io.github.apdelrahman1911.nativecomposekit.app.appRootRoute
 import io.github.apdelrahman1911.nativecomposekit.app.appRouteTitle
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackHost
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavBarItem
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavHost
-import io.github.apdelrahman1911.nativecomposekit.navigation.rememberNativeNavigator
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavBarItem
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavHost
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.rememberNativeNavigator
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearance
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearanceScope
 
 /**
  * Shared Compose entry: the **Compose navigation shell** for BOTH platforms. It builds the
- * [io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavigator] source of truth and renders it via
+ * [io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavigator] source of truth and renders it via
  * `NativeNavHost` inside a single host — an Android Activity, or one `ComposeUIViewController` on iOS
  * (`MainViewController()`). Compose owns the navigation stack outright: there is no native SwiftUI/UIKit
  * navigation container mirroring or reconciling it, so the stack has exactly one owner.

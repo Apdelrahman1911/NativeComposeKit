@@ -1,6 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.app
 
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeRoute
 
 /**
  * The app's navigation destinations. The library never knows these cases — it only uses [NativeRoute.id]. The id

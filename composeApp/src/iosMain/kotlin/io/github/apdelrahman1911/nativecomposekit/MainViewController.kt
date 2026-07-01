@@ -7,21 +7,23 @@ import io.github.apdelrahman1911.nativecomposekit.app.appNavGraph
 import io.github.apdelrahman1911.nativecomposekit.app.appRootRoute
 import io.github.apdelrahman1911.nativecomposekit.app.appRouteTitle
 import io.github.apdelrahman1911.nativecomposekit.app.configureCoilImageLoader
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavChrome
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavContent
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavLog
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.createNativeNavigator
+import io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeAction
+import io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeSource
+import io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeTab
 import io.github.apdelrahman1911.nativecomposekit.components.NativeImeLog
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackHost
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeChromeAction
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeChromeTab
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavChrome
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavContent
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavLog
-import io.github.apdelrahman1911.nativecomposekit.navigation.createNativeNavigator
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearanceScope
 import platform.UIKit.UIViewController
 
 /**
  * The pure-Compose iOS entry, exposed as `MainViewControllerKt.MainViewController()`. Renders the shared shell
- * ([App] = `NativeNavigator` + `NativeNavHost`, Material chrome) in ONE `ComposeUIViewController`. Kept as a
- * self-contained fallback; the production shell is [createNativeNavRoot] (native chrome over the same renderer).
+ * ([App] = the sample's `NativeNavigator` + `NativeNavHost`, Material chrome) in ONE `ComposeUIViewController`.
+ * Kept as a self-contained fallback; the production shell is [createNativeNavRoot] (native chrome over the same
+ * renderer).
  */
 fun MainViewController(): UIViewController {
     NativeNavLog.enabled = true
@@ -32,17 +34,19 @@ fun MainViewController(): UIViewController {
 
 /**
  * Everything the Swift native-chrome shell needs, sharing ONE navigator: the [contentViewController] (a
- * `ComposeUIViewController` that renders ONLY the nav stack via `NativeNavContent`) and the [chrome] bridge that
- * drives the native `UINavigationBar` + `UITabBar`. Compose/[NativeNavigator] remains the sole stack owner.
+ * `ComposeUIViewController` that renders ONLY the nav stack via `NativeNavContent`) and the [chrome] source that
+ * drives the native `UINavigationBar` + `UITabBar`. Compose/`NativeNavigator` remains the sole stack owner; the
+ * shell sees only the kit's nav-agnostic [NativeChromeSource] contract.
  */
 class NativeNavRoot(
     val contentViewController: UIViewController,
-    val chrome: NativeNavChrome,
+    val chrome: NativeChromeSource,
 )
 
 /**
  * Build the iOS native-chrome shell's pieces — exposed to Swift as `MainViewControllerKt.createNativeNavRoot()`.
- * One navigator (source of truth) feeds both the content view controller and the chrome bridge.
+ * One navigator (source of truth) feeds both the content view controller and the chrome source; a real consumer
+ * would swap this reference navigator for its own and adapt it into the same [NativeChromeSource] contract.
  */
 fun createNativeNavRoot(): NativeNavRoot {
     NativeNavLog.enabled = true // demo: trace navigation (Xcode console tag "NCK-Nav")

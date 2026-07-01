@@ -50,10 +50,10 @@ A themed screen scaffold (top bar, bottom bar, FAB, content) decoupled from navi
 **iOS:** the same Compose `Scaffold`.
 
 **Use it when**
-- You build a standalone screen and want top-bar/bottom-bar/FAB slots without going through the nav host.
+- You build a standalone screen and want top-bar/bottom-bar/FAB slots without a navigation shell.
 
 **Avoid it when**
-- The screen already gets its chrome from `NativeNavHost`.
+- The screen already gets its chrome from a navigation shell.
 
 **Parameters**
 

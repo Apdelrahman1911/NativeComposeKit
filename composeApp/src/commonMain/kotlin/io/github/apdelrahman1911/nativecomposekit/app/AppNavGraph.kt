@@ -1,10 +1,10 @@
 package io.github.apdelrahman1911.nativecomposekit.app
 
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavGraph
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavigator
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab
-import io.github.apdelrahman1911.nativecomposekit.navigation.nativeNavGraph
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavGraph
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavigator
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeRoute
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeTab
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.nativeNavGraph
 import io.github.apdelrahman1911.nativecomposekit.showcase.ShowcaseCategoryScreen
 import io.github.apdelrahman1911.nativecomposekit.showcase.ShowcaseHomeScreen
 import io.github.apdelrahman1911.nativecomposekit.showcase.showcaseTitle

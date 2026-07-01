@@ -1,4 +1,4 @@
-package io.github.apdelrahman1911.nativecomposekit.navigation
+package io.github.apdelrahman1911.nativecomposekit.app.navigation
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

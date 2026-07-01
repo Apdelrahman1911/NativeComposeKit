@@ -13,7 +13,7 @@ import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 
 /**
  * A themed screen scaffold — top bar + bottom bar + FAB + content — **decoupled from navigation** (unlike the
- * chrome baked into [io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavHost]). Use it for any standalone screen: pair it
+ * chrome baked into a navigation host). Use it for any standalone screen: pair it
  * with [NativeTopBar] in [topBar]. **Compose-drawn on both platforms.**
  *
  * The [containerColor] (default `background`) is **published via `LocalNativeSurface`** for the content, so

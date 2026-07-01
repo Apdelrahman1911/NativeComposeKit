@@ -1,23 +1,26 @@
-package io.github.apdelrahman1911.nativecomposekit.navigation
+package io.github.apdelrahman1911.nativecomposekit.app.navigation
 
 import androidx.compose.runtime.Stable
 
 /**
- * The **single source of truth** for navigation (architecture.md §7). Renderers (the Android `NativeNavHost`,
- * the iOS SwiftUI shell) are projections that render this state and report user actions back as intents — there
- * is never a second independent stack. Mirrors the `@Stable` + intent-method shape of
- * `components/feedback/NativeFeedbackController`.
+ * The single source of truth for the sample app's navigation. This is **reference wiring** that ships with the
+ * sample, not part of the published kit — a real consumer brings its own navigation library and adapts it to the
+ * kit's `NativeChromeSource` contract the same way [NativeNavChrome] does here.
  *
- * Intents mutate [state] (snapshot state → Compose recomposes) and then notify [observe] subscribers (→ the
- * SwiftUI projection updates). All mutation flows through these methods, so the observer fires deterministically
+ * Renderers — the Compose `NativeNavHost` / `NativeNavContent`, and (on iOS) the native-chrome adapter — are
+ * projections that render this state and report user actions back as intents; there is never a second independent
+ * stack. It mirrors the `@Stable` + intent-method shape used by the kit's feedback controller.
+ *
+ * Intents mutate [state] (snapshot state → Compose recomposes) and then notify [observe] subscribers (→ the iOS
+ * chrome projection updates). All mutation flows through these methods, so the observer fires deterministically
  * even when no Compose composition is driving the navigator (the iOS case).
  */
 @Stable
-public class NativeNavigator internal constructor(public val state: NativeNavigationState) {
+class NativeNavigator internal constructor(val state: NativeNavigationState) {
 
     private val observers = mutableListOf<(NativeNavSnapshot) -> Unit>()
 
-    // ---- Intent API (architecture.md §7) ----
+    // ---- Intent API ----
 
     /** Compact dump of every tab's stack for tracing. */
     private fun stacksDump(): String =
@@ -28,7 +31,7 @@ public class NativeNavigator internal constructor(public val state: NativeNaviga
      * top is a no-op. This both forbids an invalid duplicate-of-top stack and absorbs a repeated push of the same
      * screen (e.g. a double tap, or a re-fired click as a screen re-appears) instead of stacking it twice.
      */
-    public fun push(route: NativeRoute) {
+    fun push(route: NativeRoute) {
         val stack = state.stackFor(state.selectedTab)
         if (stack.lastOrNull()?.id == route.id) {
             NativeNavLog.log { "push ignored (already on top) '${route.id}' sel=${state.selectedTab.id}" }
@@ -40,7 +43,7 @@ public class NativeNavigator internal constructor(public val state: NativeNaviga
     }
 
     /** Pop the top of the selected tab's stack. Returns false (and does nothing) if already at the root. */
-    public fun pop(): Boolean {
+    fun pop(): Boolean {
         val stack = state.stackFor(state.selectedTab)
         if (stack.size <= 1) {
             NativeNavLog.log { "pop ignored (at root) sel=${state.selectedTab.id}  ${stacksDump()}" }
@@ -53,7 +56,7 @@ public class NativeNavigator internal constructor(public val state: NativeNaviga
     }
 
     /** Pop the selected tab's stack back to its root. */
-    public fun popToRoot() {
+    fun popToRoot() {
         val stack = state.stackFor(state.selectedTab)
         if (stack.size <= 1) return
         while (stack.size > 1) stack.removeAt(stack.lastIndex)
@@ -61,7 +64,7 @@ public class NativeNavigator internal constructor(public val state: NativeNaviga
     }
 
     /** Select a tab (tab-bar tap). No-op if already selected. */
-    public fun selectTab(tab: NativeTab) {
+    fun selectTab(tab: NativeTab) {
         if (state.selectedTab.id == tab.id) return
         state.selectedTab = tab
         NativeNavLog.log { "selectTab '${tab.id}'  ${stacksDump()}" }
@@ -69,20 +72,20 @@ public class NativeNavigator internal constructor(public val state: NativeNaviga
     }
 
     /** Present [route] as a sheet over the current content. */
-    public fun presentSheet(route: NativeRoute) {
+    fun presentSheet(route: NativeRoute) {
         state.sheet = route
         notifyObservers()
     }
 
     /** Dismiss the current sheet, if any. */
-    public fun dismissSheet() {
+    fun dismissSheet() {
         if (state.sheet == null) return
         state.sheet = null
         notifyObservers()
     }
 
     /** Replace [tab]'s entire stack (deep-link / cross-tab entry). [routes] must be non-empty (root-first). */
-    public fun replaceStack(tab: NativeTab, routes: List<NativeRoute>) {
+    fun replaceStack(tab: NativeTab, routes: List<NativeRoute>) {
         require(routes.isNotEmpty()) { "replaceStack requires a non-empty stack (at least a root route)" }
         val stack = state.stackFor(tab)
         stack.clear()
@@ -91,12 +94,12 @@ public class NativeNavigator internal constructor(public val state: NativeNaviga
     }
 
     /** Replace the selected tab's stack. */
-    public fun replaceStack(routes: List<NativeRoute>): Unit = replaceStack(state.selectedTab, routes)
+    fun replaceStack(routes: List<NativeRoute>): Unit = replaceStack(state.selectedTab, routes)
 
-    // ---- Observation: the SwiftUI bridge subscribes here ----
+    // ---- Observation: the iOS native-chrome adapter subscribes here ----
 
     /** An immutable, ObjC-friendly projection of the whole nav state (all ids are plain strings). */
-    public fun snapshot(): NativeNavSnapshot = NativeNavSnapshot(
+    fun snapshot(): NativeNavSnapshot = NativeNavSnapshot(
         selectedTabId = state.selectedTab.id,
         tabIds = state.tabs.map { it.id },
         stackIdsByTab = state.tabs.associate { tab -> tab.id to state.stackFor(tab).map { it.id } },
@@ -107,7 +110,7 @@ public class NativeNavigator internal constructor(public val state: NativeNaviga
      * Subscribe to state changes. [onChange] fires once immediately with the current snapshot, then after every
      * intent. Returns a cancellable; call [NativeNavCancellable.cancel] to stop (and break any retain cycle).
      */
-    public fun observe(onChange: (NativeNavSnapshot) -> Unit): NativeNavCancellable {
+    fun observe(onChange: (NativeNavSnapshot) -> Unit): NativeNavCancellable {
         observers.add(onChange)
         onChange(snapshot())
         return NativeNavCancellable { observers.remove(onChange) }
@@ -122,7 +125,7 @@ public class NativeNavigator internal constructor(public val state: NativeNaviga
 }
 
 /** Immutable projection of [NativeNavigator] state, safe to hand across the Kotlin↔Swift boundary. */
-public data class NativeNavSnapshot(
+data class NativeNavSnapshot(
     val selectedTabId: String,
     val tabIds: List<String>,
     /** tabId → [routeId...] root-first. */
@@ -131,6 +134,6 @@ public data class NativeNavSnapshot(
 )
 
 /** Handle returned by [NativeNavigator.observe]; [cancel] removes the subscription. */
-public fun interface NativeNavCancellable {
-    public fun cancel()
+fun interface NativeNavCancellable {
+    fun cancel()
 }

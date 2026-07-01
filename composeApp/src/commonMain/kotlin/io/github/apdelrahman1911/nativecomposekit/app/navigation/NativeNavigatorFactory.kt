@@ -1,4 +1,4 @@
-package io.github.apdelrahman1911.nativecomposekit.navigation
+package io.github.apdelrahman1911.nativecomposekit.app.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -8,16 +8,16 @@ import androidx.compose.runtime.remember
  *
  * Use [rememberNativeNavigator] from a Compose composition (Android `NativeNavHost`); use [createNativeNavigator]
  * to build one **outside** composition (iOS, where several hosted `ComposeUIViewController`s must share a single
- * navigator instance held by the SwiftUI shell).
+ * navigator instance held by the native-chrome shell).
  */
 @Composable
-public fun rememberNativeNavigator(
+fun rememberNativeNavigator(
     tabs: List<NativeTab>,
     initialTab: NativeTab = tabs.first(),
     rootRoutes: (NativeTab) -> NativeRoute,
 ): NativeNavigator = remember { createNativeNavigator(tabs, initialTab, rootRoutes) }
 
-public fun createNativeNavigator(
+fun createNativeNavigator(
     tabs: List<NativeTab>,
     initialTab: NativeTab = tabs.first(),
     rootRoutes: (NativeTab) -> NativeRoute,

@@ -5,8 +5,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 // The Native UI design-system kit as a standalone KMP library. It does NOT emit its own iOS framework —
 // `:composeApp` owns the single `ComposeApp` framework and links this module statically into it (and
 // `export(project(":nativecomposekit"))` re-exports the kit's public ObjC symbols into the framework header so the
-// SwiftUI shell can see NativeNavBridge / NativeShellChromeKt / etc.). Dependency-pure: Compose-official
-// artifacts only, no Coil/Ktor (those stay app-side in :composeApp).
+// native chrome shell can see the NativeChromeSource contract / NativeShellChrome / etc.). Dependency-pure:
+// Compose-official artifacts only, no Coil/Ktor (those stay app-side in :composeApp).
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
@@ -55,10 +55,6 @@ kotlin {
             api(compose.ui)
             api(compose.materialIconsExtended)
             // NO Coil, NO Ktor — image loading + networking are app concerns (kept in :composeApp).
-        }
-        androidMain.dependencies {
-            // Used by navigation/NativeBackHandler.android.kt (system/predictive back).
-            implementation(libs.androidx.activity.compose)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))

@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextOverflow
 
 /**
  * An **in-content** tab strip for switching views within a screen (e.g. Overview / Chapters / Comments) —
- * distinct from the app's bottom tab bar (that's the native `TabView`/`NativeNavHost` shell). **Compose-drawn
+ * distinct from the app's bottom tab bar (that's the native chrome shell). **Compose-drawn
  * on both platforms** (a Material `PrimaryTabRow` with a moving indicator, themed by AppTheme). Single
  * selection across [tabs]; [onSelectedIndexChange] reports the tapped index. Labels are single-line/ellipsized.
  *

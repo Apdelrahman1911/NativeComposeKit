@@ -18,8 +18,8 @@ import androidx.compose.ui.text.style.TextOverflow
 
 /**
  * A themed top app bar, **decoupled from navigation** — drop it into any screen (or [NativeScaffold.topBar])
- * without going through [io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavHost]. **Compose-drawn on both platforms**
- * (the native iOS nav bar belongs to the SwiftUI shell; this is the in-content/Android chrome). Colors come
+ * without going through a navigation host's chrome. **Compose-drawn on both platforms**
+ * (the native iOS nav bar belongs to the native chrome shell; this is the in-content/Android chrome). Colors come
  * from AppTheme (`surface` container, `onSurface` title).
  *
  * [navigationIcon] is a plain Compose [ImageVector] (Compose-drawn chrome — no SF-Symbol slot); pair it with

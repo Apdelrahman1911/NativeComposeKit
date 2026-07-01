@@ -10,7 +10,7 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate {
     private let root: NativeNavRoot
     private let navBar = UINavigationBar()
     private let tabBar = UITabBar()
-    private var cancellable: NativeNavCancellable?
+    private var cancellable: NativeChromeCancellable?
     private var tabItemsById: [String: UITabBarItem] = [:]
     private var actionIdByTag: [Int: String] = [:]
     private var presentedSheet: UIViewController?

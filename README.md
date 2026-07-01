@@ -258,7 +258,7 @@ Full reference with every parameter, both renderers, and examples is in
 - [Components reference](docs/components/README.md) — every component, parameter, and example
 - [Architecture](docs/architecture.md) — how the shared API resolves to platform renderers
 - [Design-system rules](docs/design-system-rules.md) — what a component must do to belong
-- [Navigation](docs/navigation.md) — the navigation host and routing
+- [Navigation](docs/navigation.md) — bring your own navigation; the kit's nav-agnostic native chrome contract
 - [iOS interop notes](docs/interop-notes.md) — UIKit interop limitations and trade-offs
 
 ## Building

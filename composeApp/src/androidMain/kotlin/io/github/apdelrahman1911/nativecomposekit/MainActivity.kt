@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import io.github.apdelrahman1911.nativecomposekit.app.configureCoilImageLoader
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavLog
+import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavLog
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

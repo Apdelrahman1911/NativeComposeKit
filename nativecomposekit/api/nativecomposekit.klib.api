@@ -360,18 +360,18 @@ final enum class io.github.apdelrahman1911.nativecomposekit.components/NativeShe
     final fun values(): kotlin/Array<io.github.apdelrahman1911.nativecomposekit.components/NativeSheetDetent> // io.github.apdelrahman1911.nativecomposekit.components/NativeSheetDetent.values|values#static(){}[0]
 }
 
-abstract fun interface io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavCancellable { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavCancellable|null[0]
-    abstract fun cancel() // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavCancellable.cancel|cancel(){}[0]
+abstract fun interface io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeCancellable { // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeCancellable|null[0]
+    abstract fun cancel() // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeCancellable.cancel|cancel(){}[0]
 }
 
-abstract interface io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute|null[0]
-    abstract val id // io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute.id|{}id[0]
-        abstract fun <get-id>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute.id.<get-id>|<get-id>(){}[0]
-}
-
-abstract interface io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab|null[0]
-    abstract val id // io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab.id|{}id[0]
-        abstract fun <get-id>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab.id.<get-id>|<get-id>(){}[0]
+abstract interface io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource { // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource|null[0]
+    abstract fun actionTapped(kotlin/String) // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.actionTapped|actionTapped(kotlin.String){}[0]
+    abstract fun backRequested() // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.backRequested|backRequested(){}[0]
+    abstract fun currentState(): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.currentState|currentState(){}[0]
+    abstract fun dismissSheet() // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.dismissSheet|dismissSheet(){}[0]
+    abstract fun observe(kotlin/Function1<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState, kotlin/Unit>): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeCancellable // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.observe|observe(kotlin.Function1<io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeState,kotlin.Unit>){}[0]
+    abstract fun sheetViewController(): platform.UIKit/UIViewController? // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.sheetViewController|sheetViewController(){}[0]
+    abstract fun tabSelected(kotlin/String) // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeSource.tabSelected|tabSelected(kotlin.String){}[0]
 }
 
 sealed interface <#A: out kotlin/Any?> io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState { // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState|null[0]
@@ -412,6 +412,69 @@ sealed interface <#A: out kotlin/Any?> io.github.apdelrahman1911.nativecomposeki
         final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Loading.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Loading.toString|toString(){}[0]
     }
+}
+
+final class io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction { // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction|null[0]
+    constructor <init>(kotlin/String, kotlin/String) // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.<init>|<init>(kotlin.String;kotlin.String){}[0]
+
+    final val id // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.id|{}id[0]
+        final fun <get-id>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.id.<get-id>|<get-id>(){}[0]
+    final val sfSymbol // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.sfSymbol|{}sfSymbol[0]
+        final fun <get-sfSymbol>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.sfSymbol.<get-sfSymbol>|<get-sfSymbol>(){}[0]
+
+    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.component1|component1(){}[0]
+    final fun component2(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.component2|component2(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ...): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.copy|copy(kotlin.String;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.toString|toString(){}[0]
+}
+
+final class io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState { // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState|null[0]
+    constructor <init>(kotlin/String, kotlin/Boolean, kotlin/String, kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab>, kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction>, kotlin/String?) // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.<init>|<init>(kotlin.String;kotlin.Boolean;kotlin.String;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeTab>;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeAction>;kotlin.String?){}[0]
+
+    final val actions // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.actions|{}actions[0]
+        final fun <get-actions>(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction> // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.actions.<get-actions>|<get-actions>(){}[0]
+    final val canGoBack // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.canGoBack|{}canGoBack[0]
+        final fun <get-canGoBack>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.canGoBack.<get-canGoBack>|<get-canGoBack>(){}[0]
+    final val selectedTabId // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.selectedTabId|{}selectedTabId[0]
+        final fun <get-selectedTabId>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.selectedTabId.<get-selectedTabId>|<get-selectedTabId>(){}[0]
+    final val sheetId // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.sheetId|{}sheetId[0]
+        final fun <get-sheetId>(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.sheetId.<get-sheetId>|<get-sheetId>(){}[0]
+    final val tabs // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.tabs|{}tabs[0]
+        final fun <get-tabs>(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab> // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.tabs.<get-tabs>|<get-tabs>(){}[0]
+    final val title // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.title|{}title[0]
+        final fun <get-title>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.title.<get-title>|<get-title>(){}[0]
+
+    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component1|component1(){}[0]
+    final fun component2(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component2|component2(){}[0]
+    final fun component3(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component3|component3(){}[0]
+    final fun component4(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab> // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component4|component4(){}[0]
+    final fun component5(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction> // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component5|component5(){}[0]
+    final fun component6(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component6|component6(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/Boolean = ..., kotlin/String = ..., kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab> = ..., kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction> = ..., kotlin/String? = ...): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.copy|copy(kotlin.String;kotlin.Boolean;kotlin.String;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeTab>;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeAction>;kotlin.String?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.toString|toString(){}[0]
+}
+
+final class io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab { // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/String) // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.<init>|<init>(kotlin.String;kotlin.String;kotlin.String){}[0]
+
+    final val id // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.id|{}id[0]
+        final fun <get-id>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.id.<get-id>|<get-id>(){}[0]
+    final val sfSymbol // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.sfSymbol|{}sfSymbol[0]
+        final fun <get-sfSymbol>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.sfSymbol.<get-sfSymbol>|<get-sfSymbol>(){}[0]
+    final val title // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.title|{}title[0]
+        final fun <get-title>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.title.<get-title>|<get-title>(){}[0]
+
+    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.component1|component1(){}[0]
+    final fun component2(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.component2|component2(){}[0]
+    final fun component3(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.component3|component3(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ..., kotlin/String = ...): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.copy|copy(kotlin.String;kotlin.String;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction { // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction|null[0]
@@ -796,160 +859,6 @@ final class io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAct
     final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.toString|toString(){}[0]
 }
 
-final class io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction|null[0]
-    constructor <init>(kotlin/String, kotlin/String) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction.<init>|<init>(kotlin.String;kotlin.String){}[0]
-
-    final val id // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction.id|{}id[0]
-        final fun <get-id>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction.id.<get-id>|<get-id>(){}[0]
-    final val sfSymbol // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction.sfSymbol|{}sfSymbol[0]
-        final fun <get-sfSymbol>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction.sfSymbol.<get-sfSymbol>|<get-sfSymbol>(){}[0]
-
-    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction.component1|component1(){}[0]
-    final fun component2(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction.component2|component2(){}[0]
-    final fun copy(kotlin/String = ..., kotlin/String = ...): io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction.copy|copy(kotlin.String;kotlin.String){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction.toString|toString(){}[0]
-}
-
-final class io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState|null[0]
-    constructor <init>(kotlin/String, kotlin/Boolean, kotlin/String, kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab>, kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction>, kotlin/String?) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.<init>|<init>(kotlin.String;kotlin.Boolean;kotlin.String;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.navigation.NativeChromeTab>;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.navigation.NativeChromeAction>;kotlin.String?){}[0]
-
-    final val actions // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.actions|{}actions[0]
-        final fun <get-actions>(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction> // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.actions.<get-actions>|<get-actions>(){}[0]
-    final val canGoBack // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.canGoBack|{}canGoBack[0]
-        final fun <get-canGoBack>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.canGoBack.<get-canGoBack>|<get-canGoBack>(){}[0]
-    final val selectedTabId // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.selectedTabId|{}selectedTabId[0]
-        final fun <get-selectedTabId>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.selectedTabId.<get-selectedTabId>|<get-selectedTabId>(){}[0]
-    final val sheetId // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.sheetId|{}sheetId[0]
-        final fun <get-sheetId>(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.sheetId.<get-sheetId>|<get-sheetId>(){}[0]
-    final val tabs // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.tabs|{}tabs[0]
-        final fun <get-tabs>(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab> // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.tabs.<get-tabs>|<get-tabs>(){}[0]
-    final val title // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.title|{}title[0]
-        final fun <get-title>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.title.<get-title>|<get-title>(){}[0]
-
-    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.component1|component1(){}[0]
-    final fun component2(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.component2|component2(){}[0]
-    final fun component3(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.component3|component3(){}[0]
-    final fun component4(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab> // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.component4|component4(){}[0]
-    final fun component5(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction> // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.component5|component5(){}[0]
-    final fun component6(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.component6|component6(){}[0]
-    final fun copy(kotlin/String = ..., kotlin/Boolean = ..., kotlin/String = ..., kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab> = ..., kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction> = ..., kotlin/String? = ...): io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.copy|copy(kotlin.String;kotlin.Boolean;kotlin.String;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.navigation.NativeChromeTab>;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.navigation.NativeChromeAction>;kotlin.String?){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState.toString|toString(){}[0]
-}
-
-final class io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab|null[0]
-    constructor <init>(kotlin/String, kotlin/String, kotlin/String) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.<init>|<init>(kotlin.String;kotlin.String;kotlin.String){}[0]
-
-    final val id // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.id|{}id[0]
-        final fun <get-id>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.id.<get-id>|<get-id>(){}[0]
-    final val sfSymbol // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.sfSymbol|{}sfSymbol[0]
-        final fun <get-sfSymbol>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.sfSymbol.<get-sfSymbol>|<get-sfSymbol>(){}[0]
-    final val title // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.title|{}title[0]
-        final fun <get-title>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.title.<get-title>|<get-title>(){}[0]
-
-    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.component1|component1(){}[0]
-    final fun component2(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.component2|component2(){}[0]
-    final fun component3(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.component3|component3(){}[0]
-    final fun copy(kotlin/String = ..., kotlin/String = ..., kotlin/String = ...): io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.copy|copy(kotlin.String;kotlin.String;kotlin.String){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab.toString|toString(){}[0]
-}
-
-final class io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem|null[0]
-    constructor <init>(io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab, kotlin/String, androidx.compose.ui.graphics.vector/ImageVector) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.<init>|<init>(io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab;kotlin.String;androidx.compose.ui.graphics.vector.ImageVector){}[0]
-
-    final val icon // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.icon|{}icon[0]
-        final fun <get-icon>(): androidx.compose.ui.graphics.vector/ImageVector // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.icon.<get-icon>|<get-icon>(){}[0]
-    final val label // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.label|{}label[0]
-        final fun <get-label>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.label.<get-label>|<get-label>(){}[0]
-    final val tab // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.tab|{}tab[0]
-        final fun <get-tab>(): io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.tab.<get-tab>|<get-tab>(){}[0]
-
-    final fun component1(): io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.component1|component1(){}[0]
-    final fun component2(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.component2|component2(){}[0]
-    final fun component3(): androidx.compose.ui.graphics.vector/ImageVector // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.component3|component3(){}[0]
-    final fun copy(io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab = ..., kotlin/String = ..., androidx.compose.ui.graphics.vector/ImageVector = ...): io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.copy|copy(io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab;kotlin.String;androidx.compose.ui.graphics.vector.ImageVector){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem.toString|toString(){}[0]
-}
-
-final class io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavChrome { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavChrome|null[0]
-    constructor <init>(io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator, io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraph, kotlin/Function1<io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute, kotlin/String>, kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeTab>, kotlin/Function1<kotlin/String, kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeAction>>, kotlin/Function1<kotlin/String, kotlin/Unit>) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavChrome.<init>|<init>(io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavigator;io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavGraph;kotlin.Function1<io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute,kotlin.String>;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.navigation.NativeChromeTab>;kotlin.Function1<kotlin.String,kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.navigation.NativeChromeAction>>;kotlin.Function1<kotlin.String,kotlin.Unit>){}[0]
-
-    final fun actionTapped(kotlin/String) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavChrome.actionTapped|actionTapped(kotlin.String){}[0]
-    final fun backRequested() // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavChrome.backRequested|backRequested(){}[0]
-    final fun currentState(): io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavChrome.currentState|currentState(){}[0]
-    final fun dismissSheet() // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavChrome.dismissSheet|dismissSheet(){}[0]
-    final fun observe(kotlin/Function1<io.github.apdelrahman1911.nativecomposekit.navigation/NativeChromeState, kotlin/Unit>): io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavCancellable // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavChrome.observe|observe(kotlin.Function1<io.github.apdelrahman1911.nativecomposekit.navigation.NativeChromeState,kotlin.Unit>){}[0]
-    final fun sheetViewController(): platform.UIKit/UIViewController? // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavChrome.sheetViewController|sheetViewController(){}[0]
-    final fun tabSelected(kotlin/String) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavChrome.tabSelected|tabSelected(kotlin.String){}[0]
-}
-
-final class io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraph // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraph|null[0]
-
-final class io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraphBuilder { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraphBuilder|null[0]
-    final val screens // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraphBuilder.screens|{}screens[0]
-        final fun <get-screens>(): kotlin.collections/MutableMap<kotlin.reflect/KClass<out io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute>, kotlin/Function3<io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>> // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraphBuilder.screens.<get-screens>|<get-screens>(){}[0]
-
-    final inline fun <#A1: reified io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute> screen(noinline kotlin/Function3<#A1, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraphBuilder.screen|screen(kotlin.Function3<0:0,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>){0§<io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute>}[0]
-}
-
-final class io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot|null[0]
-    constructor <init>(kotlin/String, kotlin.collections/List<kotlin/String>, kotlin.collections/Map<kotlin/String, kotlin.collections/List<kotlin/String>>, kotlin/String?) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.<init>|<init>(kotlin.String;kotlin.collections.List<kotlin.String>;kotlin.collections.Map<kotlin.String,kotlin.collections.List<kotlin.String>>;kotlin.String?){}[0]
-
-    final val selectedTabId // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.selectedTabId|{}selectedTabId[0]
-        final fun <get-selectedTabId>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.selectedTabId.<get-selectedTabId>|<get-selectedTabId>(){}[0]
-    final val sheetId // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.sheetId|{}sheetId[0]
-        final fun <get-sheetId>(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.sheetId.<get-sheetId>|<get-sheetId>(){}[0]
-    final val stackIdsByTab // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.stackIdsByTab|{}stackIdsByTab[0]
-        final fun <get-stackIdsByTab>(): kotlin.collections/Map<kotlin/String, kotlin.collections/List<kotlin/String>> // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.stackIdsByTab.<get-stackIdsByTab>|<get-stackIdsByTab>(){}[0]
-    final val tabIds // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.tabIds|{}tabIds[0]
-        final fun <get-tabIds>(): kotlin.collections/List<kotlin/String> // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.tabIds.<get-tabIds>|<get-tabIds>(){}[0]
-
-    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.component1|component1(){}[0]
-    final fun component2(): kotlin.collections/List<kotlin/String> // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.component2|component2(){}[0]
-    final fun component3(): kotlin.collections/Map<kotlin/String, kotlin.collections/List<kotlin/String>> // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.component3|component3(){}[0]
-    final fun component4(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.component4|component4(){}[0]
-    final fun copy(kotlin/String = ..., kotlin.collections/List<kotlin/String> = ..., kotlin.collections/Map<kotlin/String, kotlin.collections/List<kotlin/String>> = ..., kotlin/String? = ...): io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.copy|copy(kotlin.String;kotlin.collections.List<kotlin.String>;kotlin.collections.Map<kotlin.String,kotlin.collections.List<kotlin.String>>;kotlin.String?){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot.toString|toString(){}[0]
-}
-
-final class io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigationState { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigationState|null[0]
-    final val tabs // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigationState.tabs|{}tabs[0]
-        final fun <get-tabs>(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab> // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigationState.tabs.<get-tabs>|<get-tabs>(){}[0]
-
-    final var selectedTab // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigationState.selectedTab|{}selectedTab[0]
-        final fun <get-selectedTab>(): io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigationState.selectedTab.<get-selectedTab>|<get-selectedTab>(){}[0]
-    final var sheet // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigationState.sheet|{}sheet[0]
-        final fun <get-sheet>(): io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute? // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigationState.sheet.<get-sheet>|<get-sheet>(){}[0]
-
-    final fun currentStack(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute> // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigationState.currentStack|currentStack(){}[0]
-    final fun top(): io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigationState.top|top(){}[0]
-}
-
-final class io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator|null[0]
-    final val state // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.state|{}state[0]
-        final fun <get-state>(): io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigationState // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.state.<get-state>|<get-state>(){}[0]
-
-    final fun dismissSheet() // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.dismissSheet|dismissSheet(){}[0]
-    final fun observe(kotlin/Function1<io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot, kotlin/Unit>): io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavCancellable // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.observe|observe(kotlin.Function1<io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavSnapshot,kotlin.Unit>){}[0]
-    final fun pop(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.pop|pop(){}[0]
-    final fun popToRoot() // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.popToRoot|popToRoot(){}[0]
-    final fun presentSheet(io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.presentSheet|presentSheet(io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute){}[0]
-    final fun push(io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.push|push(io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute){}[0]
-    final fun replaceStack(io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab, kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute>) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.replaceStack|replaceStack(io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute>){}[0]
-    final fun replaceStack(kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute>) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.replaceStack|replaceStack(kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute>){}[0]
-    final fun selectTab(io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.selectTab|selectTab(io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab){}[0]
-    final fun snapshot(): io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavSnapshot // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator.snapshot|snapshot(){}[0]
-}
-
 final class io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities { // io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities|null[0]
     constructor <init>(kotlin/Boolean = ...) // io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities.<init>|<init>(kotlin.Boolean){}[0]
 
@@ -1073,12 +982,6 @@ final object io.github.apdelrahman1911.nativecomposekit.components/NativeImeLog 
         final fun <set-enabled>(kotlin/Boolean) // io.github.apdelrahman1911.nativecomposekit.components/NativeImeLog.enabled.<set-enabled>|<set-enabled>(kotlin.Boolean){}[0]
 }
 
-final object io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavLog { // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavLog|null[0]
-    final var enabled // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavLog.enabled|{}enabled[0]
-        final fun <get-enabled>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavLog.enabled.<get-enabled>|<get-enabled>(){}[0]
-        final fun <set-enabled>(kotlin/Boolean) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavLog.enabled.<set-enabled>|<set-enabled>(kotlin.Boolean){}[0]
-}
-
 final object io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance { // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance|null[0]
     final var darkOverride // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.darkOverride|{}darkOverride[0]
         final fun <get-darkOverride>(): kotlin/Boolean? // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.darkOverride.<get-darkOverride>|<get-darkOverride>(){}[0]
@@ -1096,6 +999,9 @@ final object io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme { // i
         final fun <get-tokens>(androidx.compose.runtime/Composer?, kotlin/Int): io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens // io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme.tokens.<get-tokens>|<get-tokens>(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 }
 
+final val io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeAction$stableprop // io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeAction$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeAction$stableprop[0]
+final val io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeState$stableprop // io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeState$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeState$stableprop[0]
+final val io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeTab$stableprop // io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeTab$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeTab$stableprop[0]
 final val io.github.apdelrahman1911.nativecomposekit.components.feedback/LocalNativeFeedbackController // io.github.apdelrahman1911.nativecomposekit.components.feedback/LocalNativeFeedbackController|{}LocalNativeFeedbackController[0]
     final fun <get-LocalNativeFeedbackController>(): androidx.compose.runtime/ProvidableCompositionLocal<io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController> // io.github.apdelrahman1911.nativecomposekit.components.feedback/LocalNativeFeedbackController.<get-LocalNativeFeedbackController>|<get-LocalNativeFeedbackController>(){}[0]
 final val io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop[0]
@@ -1124,17 +1030,6 @@ final val io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelr
 final val io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelrahman1911_nativecomposekit_components_NativeShare$stableprop // io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelrahman1911_nativecomposekit_components_NativeShare$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_NativeShare$stableprop[0]
 final val io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelrahman1911_nativecomposekit_components_NativeShareContent$stableprop // io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelrahman1911_nativecomposekit_components_NativeShareContent$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_NativeShareContent$stableprop[0]
 final val io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelrahman1911_nativecomposekit_components_NativeSwipeAction$stableprop // io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelrahman1911_nativecomposekit_components_NativeSwipeAction$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_NativeSwipeAction$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeAction$stableprop // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeAction$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeAction$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeState$stableprop // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeState$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeState$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeTab$stableprop // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeTab$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeTab$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavBarItem$stableprop // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavBarItem$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavBarItem$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavChrome$stableprop // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavChrome$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavChrome$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraph$stableprop // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraph$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraph$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraphBuilder$stableprop // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraphBuilder$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraphBuilder$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavLog$stableprop // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavLog$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavLog$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavSnapshot$stableprop // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavSnapshot$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavSnapshot$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigationState$stableprop // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigationState$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigationState$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigator$stableprop // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigator$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigator$stableprop[0]
 final val io.github.apdelrahman1911.nativecomposekit.theme/LocalNativeCapabilities // io.github.apdelrahman1911.nativecomposekit.theme/LocalNativeCapabilities|{}LocalNativeCapabilities[0]
     final fun <get-LocalNativeCapabilities>(): androidx.compose.runtime/ProvidableCompositionLocal<io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities> // io.github.apdelrahman1911.nativecomposekit.theme/LocalNativeCapabilities.<get-LocalNativeCapabilities>|<get-LocalNativeCapabilities>(){}[0]
 final val io.github.apdelrahman1911.nativecomposekit.theme/LocalNativeStatusColors // io.github.apdelrahman1911.nativecomposekit.theme/LocalNativeStatusColors|{}LocalNativeStatusColors[0]
@@ -1158,6 +1053,10 @@ final fun (androidx.compose.ui/Modifier).io.github.apdelrahman1911.nativecompose
 final fun (androidx.compose.ui/Modifier).io.github.apdelrahman1911.nativecomposekit.components/nativeImePadding(androidx.compose.runtime/Composer?, kotlin/Int): androidx.compose.ui/Modifier // io.github.apdelrahman1911.nativecomposekit.components/nativeImePadding|nativeImePadding@androidx.compose.ui.Modifier(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 final fun <#A: kotlin/Any?> io.github.apdelrahman1911.nativecomposekit.components/NativeContentState(io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState<#A>, androidx.compose.ui/Modifier?, kotlin/Function0<kotlin/Unit>?, kotlin/String?, kotlin/String?, androidx.compose.ui.graphics.vector/ImageVector?, kotlin/String?, kotlin/String?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function3<io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function3<#A, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // io.github.apdelrahman1911.nativecomposekit.components/NativeContentState|NativeContentState(io.github.apdelrahman1911.nativecomposekit.components.NativeLoadState<0:0>;androidx.compose.ui.Modifier?;kotlin.Function0<kotlin.Unit>?;kotlin.String?;kotlin.String?;androidx.compose.ui.graphics.vector.ImageVector?;kotlin.String?;kotlin.String?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function3<io.github.apdelrahman1911.nativecomposekit.components.NativeLoadState.Error,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function3<0:0,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){0§<kotlin.Any?>}[0]
 final fun <#A: kotlin/Any?> io.github.apdelrahman1911.nativecomposekit.components/NativeRadioGroup(kotlin.collections/List<#A>, #A?, kotlin/Function1<#A, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Function1<#A, kotlin/String>?, kotlin/Boolean, io.github.apdelrahman1911.nativecomposekit.components/NativeSelectionStyle?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.apdelrahman1911.nativecomposekit.components/NativeRadioGroup|NativeRadioGroup(kotlin.collections.List<0:0>;0:0?;kotlin.Function1<0:0,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Function1<0:0,kotlin.String>?;kotlin.Boolean;io.github.apdelrahman1911.nativecomposekit.components.NativeSelectionStyle?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){0§<kotlin.Any?>}[0]
+final fun io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeAction$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeAction$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeAction$stableprop_getter(){}[0]
+final fun io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeState$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeState$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeState$stableprop_getter(){}[0]
+final fun io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeTab$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.chrome/io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeTab$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_chrome_NativeChromeTab$stableprop_getter(){}[0]
+final fun io.github.apdelrahman1911.nativecomposekit.chrome/nativeSheetHostViewController(kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>): platform.UIKit/UIViewController // io.github.apdelrahman1911.nativecomposekit.chrome/nativeSheetHostViewController|nativeSheetHostViewController(kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackHost(io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackHost|NativeFeedbackHost(io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackController?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeInlineStatus(kotlin/String, io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackStatus?, androidx.compose.ui/Modifier?, kotlin/String?, androidx.compose.ui.graphics.vector/ImageVector?, kotlin/Boolean, kotlin/Boolean, kotlin/String?, kotlin/Function0<kotlin/Unit>?, kotlin/Function0<kotlin/Unit>?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeInlineStatus|NativeInlineStatus(kotlin.String;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackStatus?;androidx.compose.ui.Modifier?;kotlin.String?;androidx.compose.ui.graphics.vector.ImageVector?;kotlin.Boolean;kotlin.Boolean;kotlin.String?;kotlin.Function0<kotlin.Unit>?;kotlin.Function0<kotlin.Unit>?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop_getter(){}[0]
@@ -1224,22 +1123,6 @@ final fun io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelr
 final fun io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelrahman1911_nativecomposekit_components_NativeShareContent$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelrahman1911_nativecomposekit_components_NativeShareContent$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_components_NativeShareContent$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelrahman1911_nativecomposekit_components_NativeSwipeAction$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components/io_github_apdelrahman1911_nativecomposekit_components_NativeSwipeAction$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_components_NativeSwipeAction$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components/rememberNativeShare(androidx.compose.runtime/Composer?, kotlin/Int): io.github.apdelrahman1911.nativecomposekit.components/NativeShare // io.github.apdelrahman1911.nativecomposekit.components/rememberNativeShare|rememberNativeShare(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavContent(io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator, io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraph, androidx.compose.ui/Modifier?, kotlin/Boolean, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavContent|NativeNavContent(io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavigator;io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavGraph;androidx.compose.ui.Modifier?;kotlin.Boolean;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavHost(io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator, io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraph, kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavBarItem>, androidx.compose.ui/Modifier?, kotlin/Function1<io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute, kotlin/String>?, kotlin/Function3<androidx.compose.foundation.layout/RowScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavHost|NativeNavHost(io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavigator;io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavGraph;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavBarItem>;androidx.compose.ui.Modifier?;kotlin.Function1<io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute,kotlin.String>?;kotlin.Function3<androidx.compose.foundation.layout.RowScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/createNativeNavigator(kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab>, io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab = ..., kotlin/Function1<io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab, io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute>): io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator // io.github.apdelrahman1911.nativecomposekit.navigation/createNativeNavigator|createNativeNavigator(kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab>;io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab;kotlin.Function1<io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab,io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute>){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeAction$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeAction$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeAction$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeState$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeState$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeState$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeTab$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeTab$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_navigation_NativeChromeTab$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavBarItem$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavBarItem$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavBarItem$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavChrome$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavChrome$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavChrome$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraph$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraph$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraph$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraphBuilder$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraphBuilder$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavGraphBuilder$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavLog$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavLog$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavLog$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavSnapshot$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavSnapshot$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavSnapshot$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigationState$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigationState$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigationState$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigator$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.navigation/io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigator$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_navigation_NativeNavigator$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/nativeNavGraph(kotlin/Function1<io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraphBuilder, kotlin/Unit>): io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavGraph // io.github.apdelrahman1911.nativecomposekit.navigation/nativeNavGraph|nativeNavGraph(kotlin.Function1<io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavGraphBuilder,kotlin.Unit>){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.navigation/rememberNativeNavigator(kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab>, io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab?, kotlin/Function1<io.github.apdelrahman1911.nativecomposekit.navigation/NativeTab, io.github.apdelrahman1911.nativecomposekit.navigation/NativeRoute>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): io.github.apdelrahman1911.nativecomposekit.navigation/NativeNavigator // io.github.apdelrahman1911.nativecomposekit.navigation/rememberNativeNavigator|rememberNativeNavigator(kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab>;io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab?;kotlin.Function1<io.github.apdelrahman1911.nativecomposekit.navigation.NativeTab,io.github.apdelrahman1911.nativecomposekit.navigation.NativeRoute>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/AppTheme(kotlin/Boolean, androidx.compose.material3/ColorScheme?, androidx.compose.material3/ColorScheme?, androidx.compose.material3/Typography?, androidx.compose.material3/Shapes?, io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens?, io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors?, io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.apdelrahman1911.nativecomposekit.theme/AppTheme|AppTheme(kotlin.Boolean;androidx.compose.material3.ColorScheme?;androidx.compose.material3.ColorScheme?;androidx.compose.material3.Typography?;androidx.compose.material3.Shapes?;io.github.apdelrahman1911.nativecomposekit.theme.NativeTokens?;io.github.apdelrahman1911.nativecomposekit.theme.NativeStatusColors?;io.github.apdelrahman1911.nativecomposekit.theme.NativeStatusColors?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearanceScope(kotlin/Boolean, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearanceScope|NativeAppearanceScope(kotlin.Boolean;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeAppearance$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeAppearance$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_theme_NativeAppearance$stableprop_getter(){}[0]
