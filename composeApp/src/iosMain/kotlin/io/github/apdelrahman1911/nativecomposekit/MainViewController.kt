@@ -1,11 +1,16 @@
 package io.github.apdelrahman1911.nativecomposekit
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.window.ComposeUIViewController
 import io.github.apdelrahman1911.nativecomposekit.app.AppRoute
 import io.github.apdelrahman1911.nativecomposekit.app.AppTab
 import io.github.apdelrahman1911.nativecomposekit.app.appNavGraph
 import io.github.apdelrahman1911.nativecomposekit.app.appRootRoute
 import io.github.apdelrahman1911.nativecomposekit.app.appRouteTitle
+import io.github.apdelrahman1911.nativecomposekit.app.LocalNativeContentTopInset
 import io.github.apdelrahman1911.nativecomposekit.app.configureCoilImageLoader
 import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavChrome
 import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavContent
@@ -62,7 +67,17 @@ fun createNativeNavRoot(): NativeNavRoot {
 
     // iOS renders content only (renderSheet = false); the shell presents the sheet as a real native sheet.
     val contentViewController = ComposeUIViewController {
-        NativeAppearanceScope { NativeFeedbackHost { NativeNavContent(navigator, graph, renderSheet = false) } }
+        NativeAppearanceScope {
+            NativeFeedbackHost {
+                // The native shell's UINavigationBar overlays the content; publish its height (surfaced as the
+                // content VC's top safe-area inset) so scrollable screens start below the bar yet still render
+                // behind it and scroll under the Liquid Glass.
+                val topInset = WindowInsets.safeDrawing.asPaddingValues().calculateTopPadding()
+                CompositionLocalProvider(LocalNativeContentTopInset provides topInset) {
+                    NativeNavContent(navigator, graph, renderSheet = false)
+                }
+            }
+        }
     }
 
     val chrome = NativeNavChrome(

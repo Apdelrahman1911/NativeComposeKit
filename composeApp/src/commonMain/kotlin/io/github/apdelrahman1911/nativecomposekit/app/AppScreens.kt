@@ -28,8 +28,11 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextSty
 @Composable
 fun SettingsScreen(onOpenComponentMatrix: () -> Unit = {}, onOpenInteropRepro: () -> Unit = {}) {
     var notify by remember { mutableStateOf(true) }
+    // Start below the overlaying native nav bar, but keep the scroll filling behind it (0 on Android).
+    val topInset = LocalNativeContentTopInset.current
     Column(
-        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
+            .padding(start = 16.dp, top = 16.dp + topInset, end = 16.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         NativeText("Settings — Compose content in a native tab.", style = NativeTextStyle.Label)

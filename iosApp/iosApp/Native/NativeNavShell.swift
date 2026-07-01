@@ -8,6 +8,7 @@ import ComposeApp
 /// Kotlin `NativeNavigator` is the sole owner; nothing here reads, mirrors, or reconciles the stack.
 final class NativeShellViewController: UIViewController, UITabBarDelegate, UINavigationBarDelegate {
     private let root: NativeNavRoot
+    private let content: UIViewController
     private let navBar = UINavigationBar()
     private let tabBar = UITabBar()
     private var cancellable: NativeChromeCancellable?
@@ -17,6 +18,7 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
 
     init(root: NativeNavRoot) {
         self.root = root
+        self.content = root.contentViewController
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) { fatalError("init(coder:) not used") }
@@ -27,7 +29,6 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
             NativeShellChromeKt.nativeBackgroundUIColor(dark: traits.userInterfaceStyle == .dark)
         }
 
-        let content = root.contentViewController
         addChild(content)
         content.view.translatesAutoresizingMaskIntoConstraints = false
         navBar.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +51,10 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
             tabBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tabBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            content.view.topAnchor.constraint(equalTo: navBar.bottomAnchor),
+            // Content fills from the very top, BEHIND the nav bar (which is added above it in the z-order). The
+            // top safe-area inset (set in viewDidLayoutSubviews) makes Compose content start below the bar while
+            // the scroll still renders behind it → content scrolls under the Liquid Glass.
+            content.view.topAnchor.constraint(equalTo: view.topAnchor),
             content.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             content.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             content.view.bottomAnchor.constraint(equalTo: tabBar.topAnchor),
@@ -59,6 +63,17 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
         render(root.chrome.currentState())
         cancellable = root.chrome.observe { [weak self] state in
             DispatchQueue.main.async { self?.render(state) }
+        }
+    }
+
+    // The nav bar overlays the content (content is pinned to the top and fills behind the bar). Inset the hosted
+    // Compose content by the bar's height so its scrollable content STARTS below the bar yet still renders BEHIND
+    // it and scrolls under the Liquid Glass. additionalSafeAreaInsets flows into Compose's WindowInsets.safeDrawing.
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let top = navBar.frame.height
+        if content.additionalSafeAreaInsets.top != top {
+            content.additionalSafeAreaInsets = UIEdgeInsets(top: top, left: 0, bottom: 0, right: 0)
         }
     }
 

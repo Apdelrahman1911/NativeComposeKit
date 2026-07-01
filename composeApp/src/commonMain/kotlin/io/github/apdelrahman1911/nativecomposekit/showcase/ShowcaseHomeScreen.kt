@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.github.apdelrahman1911.nativecomposekit.app.LocalNativeContentTopInset
 import io.github.apdelrahman1911.nativecomposekit.components.NativeListItem
 import io.github.apdelrahman1911.nativecomposekit.components.NativeListSection
 import io.github.apdelrahman1911.nativecomposekit.components.NativeText
@@ -25,13 +26,15 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextSty
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShowcaseHomeScreen(onOpenCategory: (String) -> Unit) {
+    // iOS's native nav bar overlays the content — begin below it but let the scroll fill behind it (0 on Android).
+    val topInset = LocalNativeContentTopInset.current
     Scaffold(contentWindowInsets = WindowInsets(0, 0, 0, 0)) { inner ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(inner)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 16.dp),
+                .padding(start = 16.dp, top = 16.dp + topInset, end = 16.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {

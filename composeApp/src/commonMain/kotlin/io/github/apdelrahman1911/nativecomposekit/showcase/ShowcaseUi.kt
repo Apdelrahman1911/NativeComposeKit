@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.github.apdelrahman1911.nativecomposekit.app.LocalNativeContentTopInset
 import io.github.apdelrahman1911.nativecomposekit.components.NativeCard
 import io.github.apdelrahman1911.nativecomposekit.components.NativeCardVariant
 import io.github.apdelrahman1911.nativecomposekit.components.NativeText
@@ -36,6 +37,9 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShowcaseScreen(intro: String, content: @Composable ColumnScope.() -> Unit) {
+    // The native nav bar overlays the content on iOS; begin below it (0 on Android — its Material bar reserves
+    // space) while the scroll viewport still fills behind the bar so content scrolls under the Liquid Glass.
+    val topInset = LocalNativeContentTopInset.current
     Scaffold(contentWindowInsets = WindowInsets(0, 0, 0, 0)) { inner ->
         Column(
             modifier = Modifier
@@ -45,7 +49,7 @@ fun ShowcaseScreen(intro: String, content: @Composable ColumnScope.() -> Unit) {
                 // Inset INSIDE the scroll: it extends the scrollable content's bottom (so a focused field can
                 // scroll clear of the keyboard) instead of shrinking the viewport and clipping the rows below it.
                 .nativeImePadding()
-                .padding(horizontal = 16.dp, vertical = 16.dp),
+                .padding(start = 16.dp, top = 16.dp + topInset, end = 16.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(28.dp),
         ) {
             if (intro.isNotBlank()) {
