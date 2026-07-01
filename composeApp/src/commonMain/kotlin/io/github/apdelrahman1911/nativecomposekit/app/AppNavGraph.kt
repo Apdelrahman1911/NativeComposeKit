@@ -18,7 +18,7 @@ fun appRootRoute(tab: NativeTab): NativeRoute = when (tab) {
 }
 
 /**
- * Title shown in the chrome (the Android top app bar, and — via `NativeNavBridge.title` — the iOS nav bar).
+ * Title shown in the chrome top app bar, rendered by `NativeNavHost` on both platforms.
  * One source of truth for both platforms.
  */
 fun appRouteTitle(route: NativeRoute): String = when (route) {

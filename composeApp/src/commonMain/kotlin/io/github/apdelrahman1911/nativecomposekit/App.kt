@@ -22,13 +22,14 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearance
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearanceScope
 
 /**
- * Shared Compose entry: the **Compose/Material navigation shell** (Tier-1 chrome on Android, and the iOS-15
- * fallback). It builds the [io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavigator] source of truth and renders it via
- * `NativeNavHost`. On iOS 16+ the production shell is native SwiftUI (`NativeShell`) driving the same navigator
- * through `NativeNavBridge` — `App()` is not used there.
+ * Shared Compose entry: the **Compose navigation shell** for BOTH platforms. It builds the
+ * [io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavigator] source of truth and renders it via
+ * `NativeNavHost` inside a single host — an Android Activity, or one `ComposeUIViewController` on iOS
+ * (`MainViewController()`). Compose owns the navigation stack outright: there is no native SwiftUI/UIKit
+ * navigation container mirroring or reconciling it, so the stack has exactly one owner.
  *
  * Appearance (dark/light + RTL) is process-wide via [NativeAppearance] / [NativeAppearanceScope], so toggling it
- * (from the Catalog tab) applies to the whole app and the native chrome.
+ * (from the Catalog tab) applies to the whole app and its chrome.
  */
 @Composable
 fun App() {

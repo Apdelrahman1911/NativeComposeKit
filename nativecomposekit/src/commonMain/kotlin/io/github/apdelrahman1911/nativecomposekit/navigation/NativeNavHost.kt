@@ -31,10 +31,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 public data class NativeNavBarItem(val tab: NativeTab, val label: String, val icon: ImageVector)
 
 /**
- * The Compose/Material navigation **adapter** — a renderer driven entirely by [NativeNavigator] (the SoT). Used
- * as Android's Tier-1 shell (and the iOS-15 fallback); the iOS-16+ production shell is native SwiftUI driving
- * the same navigator via `NativeNavBridge`. A later `NativeNav3Shell(navigator, graph){}` can replace this
- * against the same public `NativeNavigator` API without touching the core.
+ * The Compose navigation **renderer**, driven entirely by [NativeNavigator] (the source of truth). This is the
+ * shell on BOTH platforms — Android, and iOS (hosted in one `ComposeUIViewController`). Compose owns the stack;
+ * no native SwiftUI/UIKit container owns or reconciles it, which is what keeps the source of truth single-owned.
+ * The `NavigationBar` chrome here is Material; a platform can wrap this renderer in its own native chrome while
+ * still driving the same public [NativeNavigator] API.
  *
  * Renders the selected tab's **top** route inside an `AnimatedContent` (push slides forward, pop backward);
  * system/predictive back → [NativeNavigator.pop]; the `NavigationBar` → [NativeNavigator.selectTab]; a non-null

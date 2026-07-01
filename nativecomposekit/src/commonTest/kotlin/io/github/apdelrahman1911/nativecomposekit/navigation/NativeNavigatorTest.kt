@@ -114,17 +114,16 @@ class NativeNavigatorTest {
     }
 
     @Test
-    fun reconcileStack_is_idempotent_and_truncates_on_pop() {
+    fun push_is_idempotent_at_the_top() {
+        // Regression: a fast double-tap (or a re-fired click as a screen re-appears) must not stack the same
+        // route twice — pushing the route already on top is a no-op. Guards the historical duplicate-push.
         val nav = navigator()
-        nav.push(TestRoute("a-1")); nav.push(TestRoute("a-2"))
-        // same ids → no-op
-        nav.reconcileStack("a", listOf("a-root", "a-1", "a-2"))
+        nav.push(TestRoute("a-1"))
+        assertEquals(2, nav.state.currentStack().size)
+        nav.push(TestRoute("a-1")) // same id already on top → ignored
+        assertEquals(2, nav.state.currentStack().size)
+        assertEquals("a-1", nav.state.top().id)
+        nav.push(TestRoute("a-2")) // a different route still pushes
         assertEquals(3, nav.state.currentStack().size)
-        // SwiftUI reports a back-swipe (shorter path) → truncate
-        nav.reconcileStack("a", listOf("a-root", "a-1"))
-        assertEquals(listOf("a-root", "a-1"), nav.state.currentStack().map { it.id })
-        // unknown id → ignored
-        nav.reconcileStack("a", listOf("a-root", "ghost"))
-        assertEquals(listOf("a-root", "a-1"), nav.state.currentStack().map { it.id })
     }
 }

@@ -5,7 +5,7 @@ import kotlin.reflect.KClass
 
 /**
  * Maps each [NativeRoute] to the shared `@Composable` that renders it. Built with the [nativeNavGraph] DSL and
- * consumed by **both** adapters (Android `NativeNavHost`, iOS `NativeNavBridge`). Platform-neutral commonMain.
+ * consumed by `NativeNavHost` (the Compose renderer on both platforms). Platform-neutral commonMain.
  *
  * Routes are matched by their **runtime class** (registered via the reified [NativeNavGraphBuilder.screen]), not
  * by id string — so any arguments carried in the route data class are available to the screen. (Id strings are

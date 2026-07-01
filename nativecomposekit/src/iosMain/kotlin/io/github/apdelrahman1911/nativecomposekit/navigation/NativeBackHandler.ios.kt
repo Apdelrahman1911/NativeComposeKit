@@ -1,10 +1,16 @@
 package io.github.apdelrahman1911.nativecomposekit.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.backhandler.BackHandler
 
-/** No-op on iOS: the production shell handles back via the native SwiftUI `NavigationStack` gesture, and
- * Compose-on-iOS (the iOS-15 fallback) has no system back button to intercept. */
+/**
+ * iOS: the system back affordance is the left-edge swipe, which Compose Multiplatform routes through
+ * [androidx.compose.ui.backhandler.BackHandler]. Wiring it here lets the pure-Compose [NativeNavHost] pop the
+ * Kotlin-owned stack on an edge-swipe — with no UIKit/SwiftUI navigation container owning a second stack.
+ */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal actual fun NativeBackHandler(enabled: Boolean, onBack: () -> Unit) {
-    // intentionally empty
+    BackHandler(enabled = enabled, onBack = onBack)
 }

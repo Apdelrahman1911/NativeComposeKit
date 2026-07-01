@@ -1,45 +1,20 @@
 package io.github.apdelrahman1911.nativecomposekit
 
 import androidx.compose.ui.window.ComposeUIViewController
-import io.github.apdelrahman1911.nativecomposekit.app.AppRoute
-import io.github.apdelrahman1911.nativecomposekit.app.AppTab
-import io.github.apdelrahman1911.nativecomposekit.app.appNavGraph
-import io.github.apdelrahman1911.nativecomposekit.app.appRootRoute
-import io.github.apdelrahman1911.nativecomposekit.app.appRouteTitle
 import io.github.apdelrahman1911.nativecomposekit.app.configureCoilImageLoader
 import io.github.apdelrahman1911.nativecomposekit.components.NativeImeLog
-import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavBridge
 import io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavLog
-import io.github.apdelrahman1911.nativecomposekit.navigation.createNativeNavigator
 import platform.UIKit.UIViewController
 
 /**
- * Exposed to Swift as `MainViewControllerKt.MainViewController()` — the **iOS-15 fallback** that renders the
- * shared Compose/Material shell ([App]) inside a single `ComposeUIViewController` (used by `ContentView`).
+ * The single iOS entry point, exposed to Swift as `MainViewControllerKt.MainViewController()` and hosted by
+ * `ContentView`. Renders the shared Compose navigation shell ([App] = `NativeNavigator` + `NativeNavHost`) inside
+ * ONE `ComposeUIViewController`. Compose owns the entire navigation stack; Swift only hosts this view controller
+ * and owns no navigation state — there is no SwiftUI/UIKit stack to fight the Kotlin source of truth.
  */
 fun MainViewController(): UIViewController {
-    configureCoilImageLoader() // app-level image loader (Coil + Ktor/Darwin); the kit stays dependency-free
-    return ComposeUIViewController { App() } // native shell chrome is themed by NativeAppearanceScope (iOS)
-}
-
-/**
- * Build the navigation bridge the SwiftUI shell (`NativeShell`) drives — exposed to Swift as
- * `MainViewControllerKt.createNativeNavBridge()`. Creates one shared [io.github.apdelrahman1911.nativecomposekit.navigation.NativeNavigator]
- * (the source of truth) + the app graph; the shell holds the returned bridge for the app's lifetime.
- */
-fun createNativeNavBridge(): NativeNavBridge {
-    NativeNavLog.enabled = true // demo: trace navigation (Xcode console tag "NCK-Nav") to diagnose stack issues
+    NativeNavLog.enabled = true // demo: trace navigation (Xcode console tag "NCK-Nav")
     NativeImeLog.enabled = true // demo: trace keyboard-frame inset (Xcode console tag "NCK-Kbd")
     configureCoilImageLoader() // app-level image loader (Coil + Ktor/Darwin); the kit stays dependency-free
-    val navigator = createNativeNavigator(
-        tabs = AppTab.entries.toList(),
-        initialTab = AppTab.Catalog,
-        rootRoutes = ::appRootRoute,
-    )
-    return NativeNavBridge(
-        navigator = navigator,
-        graph = appNavGraph(navigator),
-        routeForId = { id -> if (id == AppRoute.GlassInteropTest.id) AppRoute.GlassInteropTest else null },
-        titleForRoute = ::appRouteTitle,
-    )
+    return ComposeUIViewController { App() }
 }
