@@ -933,6 +933,7 @@ public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeN
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/navigation/NativeNavHostKt {
+	public static final fun NativeNavContent (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavigator;Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavGraph;Landroidx/compose/ui/Modifier;ZLandroidx/compose/runtime/Composer;II)V
 	public static final fun NativeNavHost (Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavigator;Lio/github/apdelrahman1911/nativecomposekit/navigation/NativeNavGraph;Ljava/util/List;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 

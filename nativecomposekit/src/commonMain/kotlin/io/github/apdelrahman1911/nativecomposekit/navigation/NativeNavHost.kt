@@ -53,17 +53,8 @@ public fun NativeNavHost(
 ) {
     val state = navigator.state
     val selectedTab = state.selectedTab
-    val stack = state.currentStack()
-    val top = stack.last()
-    val canPop = stack.size > 1
-
-    // System / predictive back pops the current tab's stack (only enabled when there's somewhere to go back to).
-    NativeBackHandler(enabled = canPop) { navigator.pop() }
-
-    // Track depth to choose the slide direction (push = forward, pop = backward).
-    var prevDepth by remember { mutableStateOf(stack.size) }
-    val forward = stack.size >= prevDepth
-    SideEffect { prevDepth = stack.size }
+    val top = state.currentStack().last()
+    val canPop = state.currentStack().size > 1
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -93,24 +84,58 @@ public fun NativeNavHost(
             }
         },
     ) { inner ->
-        AnimatedContent(
-            targetState = top,
-            modifier = Modifier.padding(inner),
-            transitionSpec = {
-                val enter = slideInHorizontally { w -> if (forward) w else -w }
-                val exit = slideOutHorizontally { w -> if (forward) -w else w }
-                enter togetherWith exit
-            },
-            contentKey = { it.id },
-            label = "NativeNavHost",
-        ) { route ->
-            graph.Content(route)
-        }
+        NativeNavContent(navigator, graph, Modifier.padding(inner))
+    }
+}
+
+/**
+ * The **content-only** navigation renderer: the current top route (push slides forward, pop backward), the
+ * platform back handler (system/predictive back and the iOS edge-swipe → [NativeNavigator.pop]), and the sheet.
+ * It draws NO chrome. [NativeNavHost] wraps this in Material chrome; the iOS shell wraps it in real native chrome
+ * (a `UINavigationBar` + `UITabBar`) — and either way this stays the single Kotlin-owned stack renderer.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+public fun NativeNavContent(
+    navigator: NativeNavigator,
+    graph: NativeNavGraph,
+    modifier: Modifier = Modifier,
+    // Whether to render the sheet inline as a Compose `ModalBottomSheet`. Android uses true; iOS passes false and
+    // presents the sheet as a real native `UISheetPresentationController` from its chrome shell instead.
+    renderSheet: Boolean = true,
+) {
+    val state = navigator.state
+    val stack = state.currentStack()
+    val top = stack.last()
+    val canPop = stack.size > 1
+
+    // System / predictive / edge-swipe back pops the current tab's stack (only when there's somewhere to go).
+    NativeBackHandler(enabled = canPop) { navigator.pop() }
+
+    // Track depth to choose the slide direction (push = forward, pop = backward).
+    var prevDepth by remember { mutableStateOf(stack.size) }
+    val forward = stack.size >= prevDepth
+    SideEffect { prevDepth = stack.size }
+
+    AnimatedContent(
+        targetState = top,
+        modifier = modifier.fillMaxSize(),
+        transitionSpec = {
+            val enter = slideInHorizontally { w -> if (forward) w else -w }
+            val exit = slideOutHorizontally { w -> if (forward) -w else w }
+            enter togetherWith exit
+        },
+        contentKey = { it.id },
+        label = "NativeNavContent",
+    ) { route ->
+        graph.Content(route)
     }
 
-    state.sheet?.let { sheetRoute ->
-        ModalBottomSheet(onDismissRequest = { navigator.dismissSheet() }) {
-            graph.Content(sheetRoute)
+    if (renderSheet) {
+        state.sheet?.let { sheetRoute ->
+            ModalBottomSheet(onDismissRequest = { navigator.dismissSheet() }) {
+                graph.Content(sheetRoute)
+            }
         }
     }
 }
