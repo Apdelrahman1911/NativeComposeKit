@@ -38,7 +38,6 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
         content.didMove(toParent: self)
         tabBar.delegate = self
         navBar.delegate = self
-        navBar.prefersLargeTitles = true
         configureBarAppearance()
 
         let safe = view.safeAreaLayoutGuide
@@ -89,7 +88,6 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
         // screen) once pushed. The back button is derived by UIKit from a second item placed below the current
         // one; tapping it routes to `backRequested()` via the UINavigationBarDelegate. Actions map to right items.
         let item = UINavigationItem(title: state.title)
-        item.largeTitleDisplayMode = state.canGoBack ? .never : .always
         actionIdByTag.removeAll()
         item.rightBarButtonItems = state.actions.enumerated().map { (i, action) in
             let b = UIBarButtonItem(

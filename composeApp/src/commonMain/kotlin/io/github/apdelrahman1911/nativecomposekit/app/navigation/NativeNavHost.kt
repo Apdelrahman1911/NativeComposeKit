@@ -12,17 +12,13 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,7 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 
 /** A tab and how it appears in the Material navigation bar. */
 data class NativeNavBarItem(val tab: NativeTab, val label: String, val icon: ImageVector)
@@ -43,12 +38,10 @@ data class NativeNavBarItem(val tab: NativeTab, val label: String, val icon: Ima
  * single-owned. A platform can wrap this renderer in its own native chrome while still driving the same
  * [NativeNavigator].
  *
- * A tab root shows a Material `LargeTopAppBar` (a large title that collapses on scroll — the platform-native
- * behavior, mirroring the iOS large title); a pushed route shows a regular `TopAppBar` with a back arrow (the iOS
- * inline title). The collapse resets on every destination change so a freshly-shown screen starts expanded.
- * Renders the selected tab's **top** route inside an `AnimatedContent` (push slides forward, pop backward);
- * system/predictive back → [NativeNavigator.pop]; the `NavigationBar` → [NativeNavigator.selectTab]; a non-null
- * [NativeNavigationState.sheet] → `ModalBottomSheet`.
+ * A compact `TopAppBar` sits at the top (with a back arrow once pushed) so the content fills the screen directly
+ * beneath it — no tall header eating vertical space. Renders the selected tab's **top** route inside an
+ * `AnimatedContent` (push slides forward, pop backward); system/predictive back → [NativeNavigator.pop]; the
+ * `NavigationBar` → [NativeNavigator.selectTab]; a non-null [NativeNavigationState.sheet] → `ModalBottomSheet`.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,37 +58,20 @@ fun NativeNavHost(
     val top = state.currentStack().last()
     val canPop = state.currentStack().size > 1
 
-    // Collapse-on-scroll for the large title, reset to expanded whenever the destination changes (push/pop/tab)
-    // so a newly-shown root never inherits the previous screen's collapsed offset.
-    val topBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topBarState)
-    LaunchedEffect(top.id) {
-        topBarState.heightOffset = 0f
-        topBarState.contentOffset = 0f
-    }
-
     Scaffold(
-        modifier = modifier
-            .fillMaxSize()
-            .then(if (canPop) Modifier else Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)),
+        modifier = modifier.fillMaxSize(),
         topBar = {
-            if (canPop) {
-                TopAppBar(
-                    title = { Text(title(top)) },
-                    navigationIcon = {
+            TopAppBar(
+                title = { Text(title(top)) },
+                navigationIcon = {
+                    if (canPop) {
                         IconButton(onClick = { navigator.pop() }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                         }
-                    },
-                    actions = actions,
-                )
-            } else {
-                LargeTopAppBar(
-                    title = { Text(title(top)) },
-                    actions = actions,
-                    scrollBehavior = scrollBehavior,
-                )
-            }
+                    }
+                },
+                actions = actions,
+            )
         },
         bottomBar = {
             NavigationBar {
