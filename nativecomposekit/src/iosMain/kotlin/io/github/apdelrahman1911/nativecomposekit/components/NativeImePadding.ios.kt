@@ -43,15 +43,19 @@ public actual fun Modifier.nativeImePadding(): Modifier {
             queue = NSOperationQueue.mainQueue,
         ) { note: NSNotification? ->
             val frameValue = note?.userInfo?.get(UIKeyboardFrameEndUserInfoKey)
-            bottomPoints = if (frameValue is platform.Foundation.NSValue) {
+            val computed = if (frameValue is platform.Foundation.NSValue) {
                 val keyboardTop = frameValue.CGRectValue().useContents { origin.y }
                 val screenHeight = UIScreen.mainScreen.bounds.useContents { size.height }
                 max(0.0, screenHeight - keyboardTop)
             } else {
                 0.0
             }
+            // While the keyboard is up, the reported end frame oscillates a few points as the
+            // suggestions/QuickType bar toggles. Hold the largest extent seen so the inset stays stable
+            // (no per-frame relayout) and drop to zero only when the keyboard actually leaves the screen.
+            bottomPoints = if (computed <= 0.0) 0.0 else max(bottomPoints, computed)
             if (NativeImeLog.enabled) {
-                println("NCK-Kbd: frameEnd present=${frameValue != null} inset=${bottomPoints}pt")
+                println("NCK-Kbd: frameEnd present=${frameValue != null} computed=${computed}pt inset=${bottomPoints}pt")
             }
         }
         onDispose { center.removeObserver(observer) }

@@ -41,8 +41,10 @@ fun ShowcaseScreen(intro: String, content: @Composable ColumnScope.() -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(inner)
-                .nativeImePadding()
                 .verticalScroll(rememberScrollState())
+                // Inset INSIDE the scroll: it extends the scrollable content's bottom (so a focused field can
+                // scroll clear of the keyboard) instead of shrinking the viewport and clipping the rows below it.
+                .nativeImePadding()
                 .padding(horizontal = 16.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(28.dp),
         ) {

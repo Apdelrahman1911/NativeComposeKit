@@ -1,8 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.material3.MaterialTheme
@@ -13,7 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeCharacterLimitBehavior
@@ -79,14 +76,14 @@ public fun NativeTextField(
         onValueChange(capped)
     }
 
-    // Keyboard avoidance: the native interop input isn't tracked by Compose's automatic
-    // bring-into-view (that only follows Compose focus), so when the field reports focus we scroll it
-    // into view ourselves, re-running as the IME inset settles. Pairs with the host scroll applying
-    // `imePadding()` so the viewport ends above the keyboard (+ accessory + safe area).
+    // Keyboard avoidance: the native interop input isn't tracked by Compose's automatic bring-into-view
+    // (that only follows Compose focus), so when the field gains focus we scroll it into view ourselves —
+    // ONCE per focus. Keying this on the live IME inset re-ran it on every keyboard frame; the iOS keyboard
+    // end-frame bounces (keys vs keys+suggestions) so the scroll never settled and rows below the field were
+    // relocated mid-relayout. The host scroll's `nativeImePadding()` keeps the content clear of the keyboard.
     val bringIntoView = remember { BringIntoViewRequester() }
     var isFocused by remember { mutableStateOf(false) }
-    val imeBottom = WindowInsets.ime.getBottom(LocalDensity.current)
-    LaunchedEffect(isFocused, imeBottom) {
+    LaunchedEffect(isFocused) {
         if (isFocused) bringIntoView.bringIntoView()
     }
     val focusForwarding = focus.copy(
