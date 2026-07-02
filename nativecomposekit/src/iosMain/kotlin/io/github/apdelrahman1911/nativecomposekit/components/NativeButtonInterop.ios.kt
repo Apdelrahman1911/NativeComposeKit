@@ -3,6 +3,7 @@ package io.github.apdelrahman1911.nativecomposekit.components
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenu
+import platform.UIKit.UIMenu
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedButtonStyle
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.CValue
@@ -234,11 +235,28 @@ internal class NativeButtonViews {
         button.setEnabled(enabled && !loading)
 
         if (menu != null) {
-            button.menu = buildUIMenu(menu)
+            // Rebuild the UIMenu only when its STRUCTURE changes (titles/icons/roles/enabled/selected) —
+            // rebuilding per update re-fires on every scroll frame and dismisses an open menu mid-gesture.
+            // The cached actions dispatch by index into `currentMenu`, so fresh onSelect lambdas from each
+            // recomposition are always the ones invoked (no stale captures).
+            currentMenu = menu
+            val fingerprint = menu.structuralFingerprint()
+            if (builtMenuFingerprint != fingerprint) {
+                builtMenuFingerprint = fingerprint
+                builtMenu = buildUIMenu(menu) { index -> currentMenu?.items?.getOrNull(index)?.onSelect?.invoke() }
+            }
+            if (button.menu !== builtMenu) button.menu = builtMenu
             button.showsMenuAsPrimaryAction = true
         } else {
+            currentMenu = null
+            builtMenu = null
+            builtMenuFingerprint = null
             button.menu = null
             button.showsMenuAsPrimaryAction = false
         }
     }
+
+    private var currentMenu: NativeMenu? = null
+    private var builtMenu: UIMenu? = null
+    private var builtMenuFingerprint: List<Any?>? = null
 }

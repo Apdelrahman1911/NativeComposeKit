@@ -16,9 +16,11 @@ import platform.Foundation.NSNotification
 import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSOperationQueue
 import platform.UIKit.CGRectValue
+import platform.UIKit.UIApplication
 import platform.UIKit.UIKeyboardFrameEndUserInfoKey
 import platform.UIKit.UIKeyboardWillChangeFrameNotification
 import platform.UIKit.UIScreen
+import platform.UIKit.UIWindow
 import platform.darwin.NSObjectProtocol
 import kotlin.math.max
 
@@ -45,9 +47,25 @@ public actual fun Modifier.nativeImePadding(minBottom: Dp): Modifier {
         ) { note: NSNotification? ->
             val frameValue = note?.userInfo?.get(UIKeyboardFrameEndUserInfoKey)
             val computed = if (frameValue is platform.Foundation.NSValue) {
-                val keyboardTop = frameValue.CGRectValue().useContents { origin.y }
-                val screenHeight = UIScreen.mainScreen.bounds.useContents { size.height }
-                max(0.0, screenHeight - keyboardTop)
+                val app = UIApplication.sharedApplication
+                val window = app.keyWindow ?: (app.windows.firstOrNull() as? UIWindow)
+                if (window != null) {
+                    // Convert the keyboard's end frame (screen coords) into the WINDOW so the overlap is right
+                    // when the app doesn't fill the screen (iPad Split View / Slide Over / Stage Manager).
+                    val local = window.convertRect(frameValue.CGRectValue(), fromWindow = null)
+                    val keyboardTop = local.useContents { origin.y }
+                    val keyboardWidth = local.useContents { size.width }
+                    val windowHeight = window.bounds.useContents { size.height }
+                    val windowWidth = window.bounds.useContents { size.width }
+                    // An iPad floating/undocked keyboard is strictly narrower than the window and doesn't
+                    // occlude the bottom — no inset for it (a docked keyboard always spans the full width).
+                    if (keyboardWidth + 0.5 < windowWidth) 0.0 else max(0.0, windowHeight - keyboardTop)
+                } else {
+                    // No window yet (very early in launch): fall back to screen-relative math.
+                    val keyboardTop = frameValue.CGRectValue().useContents { origin.y }
+                    val screenHeight = UIScreen.mainScreen.bounds.useContents { size.height }
+                    max(0.0, screenHeight - keyboardTop)
+                }
             } else {
                 0.0
             }
