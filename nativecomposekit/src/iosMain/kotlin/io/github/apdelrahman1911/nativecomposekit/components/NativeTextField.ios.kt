@@ -15,6 +15,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.UIKitView
+import androidx.compose.ui.platform.LocalDensity
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeCapitalization
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeClearButtonMode
@@ -279,12 +280,39 @@ private fun SingleLineField(
     events.field = field
     val backing = remember { UIView() }
 
+    // The left/right accessory views are built ONCE per icon/style config (remember), not per update — the
+    // update block re-fires on every keystroke, and re-allocating a UIImageView/UIButton there churned layout
+    // and could swallow a trailing-button tap mid-gesture. The button targets `events`, which always forwards
+    // to the CURRENT onTrailingIconClick, so the cached view never goes stale.
+    val leadName = leadingIcon?.sfSymbolName
+    val leftAccessory = remember(leadName, style) {
+        if (leadName != null) paddedIcon(leadName, H_PADDING, ICON_GAP, style) else spacer(H_PADDING)
+    }
+    val trailName = trailingIcon?.sfSymbolName
+    val hasTrailingClick = onTrailingIconClick != null
+    val rightAccessory = remember(trailName, hasTrailingClick, style) {
+        when {
+            trailName == null -> spacer(H_PADDING)
+            hasTrailingClick -> UIButton().apply {
+                setImage(UIImage.systemImageNamed(trailName), forState = UIControlStateNormal)
+                tintColor = style.colors.placeholder.toUIColor()
+                setFrame(CGRectMake(0.0, 0.0, ICON_GAP + ICON_SIZE + H_PADDING, ICON_SIZE))
+                addTarget(events, sel_registerName("trailingTapped"), UIControlEventTouchUpInside)
+            }
+            else -> paddedIcon(trailName, ICON_GAP, H_PADDING, style)
+        }
+    }
+
+    // Dynamic Type: the glyphs scale live (UIFontMetrics), so the fixed host must scale with them or large
+    // accessibility sizes clip inside it. Compose surfaces the preferred content size as Density.fontScale.
+    val hostHeight = style.minHeight * maxOf(1f, LocalDensity.current.fontScale)
+
     UIKitView(
         factory = {
             backing.pinFilling(field)
             backing
         },
-        modifier = Modifier.fillMaxWidth().height(style.minHeight),
+        modifier = Modifier.fillMaxWidth().height(hostHeight),
         properties = touch.toInteropProperties(),
         update = { _ ->
             backing.backgroundColor = style.colors.container.toUIColor()
@@ -314,34 +342,21 @@ private fun SingleLineField(
             field.keyboardAppearance = ios.keyboardAppearance.toKeyboardAppearance()
             field.textContentType = contentType?.toUITextContentType()
 
-            // Leading icon / left padding.
-            val leadName = leadingIcon?.sfSymbolName
-            field.leftView = if (leadName != null) paddedIcon(leadName, H_PADDING, ICON_GAP, style) else spacer(H_PADDING)
-            field.leftViewMode = UITextFieldViewMode.UITextFieldViewModeAlways
-
-            // Trailing icon takes priority over the system clear button (they share the right slot).
-            val trailName = trailingIcon?.sfSymbolName
-            if (trailName != null) {
-                // With a click handler the trailing icon is a real tappable UIButton (reveal-password, clear,
-                // …) wired to `trailingTapped`; without one it stays a display-only glyph. Mirrors Android's
-                // IconButton wiring (previously the iOS trailing icon was an inert UIImageView).
-                field.rightView = if (onTrailingIconClick != null) {
-                    UIButton().apply {
-                        setImage(UIImage.systemImageNamed(trailName), forState = UIControlStateNormal)
-                        tintColor = style.colors.placeholder.toUIColor()
-                        setFrame(CGRectMake(0.0, 0.0, ICON_GAP + ICON_SIZE + H_PADDING, ICON_SIZE))
-                        addTarget(events, sel_registerName("trailingTapped"), UIControlEventTouchUpInside)
-                    }
-                } else {
-                    paddedIcon(trailName, ICON_GAP, H_PADDING, style)
-                }
-                field.rightViewMode = UITextFieldViewMode.UITextFieldViewModeAlways
-                field.clearButtonMode = UITextFieldViewMode.UITextFieldViewModeNever
-            } else {
-                field.rightView = spacer(H_PADDING)
-                field.rightViewMode = UITextFieldViewMode.UITextFieldViewModeAlways
-                field.clearButtonMode = ios.clearButton.toViewMode()
+            // Leading icon / left padding — assign the cached view only when it actually changed.
+            if (field.leftView !== leftAccessory) {
+                field.leftView = leftAccessory
+                field.leftViewMode = UITextFieldViewMode.UITextFieldViewModeAlways
             }
+
+            // Trailing icon takes priority over the system clear button (they share the right slot). With a
+            // click handler the cached trailing view is a real tappable UIButton (reveal-password, clear, …)
+            // wired to `trailingTapped`; without one it's a display-only glyph.
+            if (field.rightView !== rightAccessory) {
+                field.rightView = rightAccessory
+                field.rightViewMode = UITextFieldViewMode.UITextFieldViewModeAlways
+            }
+            field.clearButtonMode =
+                if (trailName != null) UITextFieldViewMode.UITextFieldViewModeNever else ios.clearButton.toViewMode()
 
             if (ios.keyboardAccessory.doneButton) {
                 if (field.inputAccessoryView == null) {
@@ -399,13 +414,17 @@ private fun MultilineField(
     // Resolve the accessory button title in composition (localized default) for the update closure below.
     val doneText = ios.keyboardAccessory.doneText ?: LocalNativeStrings.current.done
 
-    val minHeight = style.minHeight * 2 // multiline default: a couple of lines tall
+    // Dynamic Type: scale the fixed host with the preferred content size so scaled glyphs don't clip.
+    val minHeight = style.minHeight * 2 * maxOf(1f, LocalDensity.current.fontScale) // ~two lines tall
 
     UIKitView(
         factory = {
             textView.addSubview(placeholderLabel)
+            // Return the BACKING as the interop root (the editor pinned inside it) — matching SingleLineField.
+            // Returning the editor itself detached it from the backing, so the theme-colored backing never
+            // rendered and the editor's rounded corners exposed the system backdrop.
             backing.pinFilling(textView)
-            textView
+            backing
         },
         modifier = Modifier.fillMaxWidth().height(minHeight),
         properties = touch.toInteropProperties(),
