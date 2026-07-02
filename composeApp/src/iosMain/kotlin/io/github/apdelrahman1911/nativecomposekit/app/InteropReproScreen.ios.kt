@@ -88,7 +88,10 @@ private fun ScrollClipVsDriftRepro() {
         )
         // Re-mount the interop views when the placement flips so the new mode takes effect cleanly.
         key(overlay) {
-            Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+            Column(
+                Modifier.fillMaxSize().verticalScroll(rememberScrollState())
+                    .padding(bottom = LocalNativeContentBottomInset.current), // clear the overlaying tab bar
+            ) {
                 repeat(40) { i ->
                     Row(
                         Modifier.fillMaxWidth().height(56.dp)
@@ -124,7 +127,10 @@ private fun MenuDriftRepro() {
                 "the button now drifts from its row on every subsequent scroll.",
             modifier = Modifier.padding(12.dp),
         )
-        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+        Column(
+            Modifier.fillMaxSize().verticalScroll(rememberScrollState())
+                .padding(bottom = LocalNativeContentBottomInset.current), // clear the overlaying tab bar
+        ) {
             repeat(40) { i ->
                 Row(
                     Modifier.fillMaxWidth().height(52.dp)
