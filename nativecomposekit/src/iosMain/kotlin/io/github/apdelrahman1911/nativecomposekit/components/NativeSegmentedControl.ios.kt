@@ -82,6 +82,14 @@ internal actual fun PlatformNativeSegmentedControl(
                 options.forEachIndexed { i, title ->
                     control.insertSegmentWithTitle(title, i.toULong(), false)
                 }
+            } else {
+                // Same count ≠ same titles (a locale switch or dynamic labels change text, not count):
+                // sync each title in place so the segments never go stale.
+                options.forEachIndexed { i, title ->
+                    if (control.titleForSegmentAtIndex(i.toULong()) != title) {
+                        control.setTitle(title, forSegmentAtIndex = i.toULong())
+                    }
+                }
             }
             control.selectedSegmentTintColor = style.selectedColor.toUIColor()
             // Dynamic Type: the scaled brand font (toUIFont scales via UIFontMetrics) on the segment titles.

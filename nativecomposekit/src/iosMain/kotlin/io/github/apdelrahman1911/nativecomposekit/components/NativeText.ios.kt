@@ -2,6 +2,7 @@ package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -53,6 +54,9 @@ internal actual fun PlatformNativeText(
         // region never reveals the system backdrop.
         val label = remember { UILabel() }
         val remeasure = rememberUIKitInteropRemeasureRequester()
+        // Re-measure only when something size-affecting changes (the text, its style, the line count) —
+        // never per-update (see NativeToggle for the scroll-frame rationale).
+        LaunchedEffect(text, textStyle, maxLines) { remeasure.requestRemeasure() }
         UIKitView(
             factory = { label },
             modifier = modifier.remeasureRequester(remeasure),
@@ -67,7 +71,6 @@ internal actual fun PlatformNativeText(
                 l.lineBreakMode =
                     if (overflow == TextOverflow.Ellipsis) NSLineBreakByTruncatingTail else NSLineBreakByWordWrapping
                 testTag?.let { l.setAccessibilityId(it) }
-                remeasure.requestRemeasure()
             },
         )
     } else {

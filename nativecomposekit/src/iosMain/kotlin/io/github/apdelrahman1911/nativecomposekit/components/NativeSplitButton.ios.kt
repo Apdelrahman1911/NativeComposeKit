@@ -2,6 +2,7 @@ package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -57,6 +58,10 @@ internal actual fun PlatformNativeSplitButton(
     // Overlay placement inside a NativeDialog (no cut-out hole → no first-frame black flash); cut-out elsewhere.
     val overlay = LocalNativeInteropPlacement.current == NativeInteropPlacement.Overlay
 
+    // Re-measure only when something size-affecting changes — never per-update (see NativeToggle for the
+    // scroll-frame rationale).
+    LaunchedEffect(text, loading, leadingIcon?.sfSymbolName, style) { remeasure.requestRemeasure() }
+
     UIKitView(
         factory = {
             primary.build(style.iconSpacing.value.toDouble(), centered = false)
@@ -103,7 +108,6 @@ internal actual fun PlatformNativeSplitButton(
             )
             (contentDescription ?: text.takeIf { it.isNotBlank() })?.let { primary.button.accessibilityLabel = it }
             testTag?.let { backing.setAccessibilityId(it) }
-            remeasure.requestRemeasure()
         },
     )
 }
