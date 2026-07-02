@@ -51,50 +51,69 @@ public enum class NativePresentation { Native, Branded }
 
 /**
  * One button in a [NativeFeedbackController.alert]. [onClick] runs after the alert dismisses.
+ * Compared by identity (it holds a lambda); not a `data class` so fields stay addable binary-compatibly.
  */
 @Immutable
-public data class NativeAlertAction(
-    val label: String,
-    val onClick: () -> Unit = {},
-    val role: NativeAlertActionRole = NativeAlertActionRole.Default,
+public class NativeAlertAction(
+    public val label: String,
+    public val onClick: () -> Unit = {},
+    public val role: NativeAlertActionRole = NativeAlertActionRole.Default,
 )
 
 /**
- * One row in a [NativeFeedbackController.confirmationSheet]. [icon] shows a leading glyph (Android uses
- * [NativeIcon.androidImageVector]; iOS uses [NativeIcon.sfSymbolName]).
+ * One row in a [NativeFeedbackController.confirmationSheet]. [icon] shows a leading glyph on Android
+ * ([NativeIcon.androidImageVector]) and in the iOS **Branded** presentation ([NativeIcon.sfSymbolName]);
+ * the iOS *Native* presentation (`UIAlertController`) has no public action-image API and drops it.
+ * Named for the *confirmation sheet* (not the presentational
+ * [io.github.apdelrahman1911.nativecomposekit.components.NativeSheet]), like [NativeConfirmationSheetIosOptions].
  */
 @Immutable
-public data class NativeSheetAction(
-    val label: String,
-    val onClick: () -> Unit = {},
-    val role: NativeAlertActionRole = NativeAlertActionRole.Default,
-    val icon: NativeIcon? = null,
+public class NativeConfirmationAction(
+    public val label: String,
+    public val onClick: () -> Unit = {},
+    public val role: NativeAlertActionRole = NativeAlertActionRole.Default,
+    public val icon: NativeIcon? = null,
 )
 
-/** Android-only knobs for [NativeFeedbackController.toast]. */
+/** Android-only knobs for [NativeFeedbackController.toast]. Compares by value. */
 @Immutable
-public data class NativeToastAndroidOptions(
+public class NativeToastAndroidOptions(
     /**
      * Use the real `android.widget.Toast` instead of the brand-themed Compose HUD. True system toast
      * (renders even outside the app) but unstyleable on Android 12+ and ignores the brand theme/dark mode.
      */
-    val useSystemToast: Boolean = false,
-)
+    public val useSystemToast: Boolean = false,
+) {
+    override fun equals(other: Any?): Boolean =
+        this === other || (other is NativeToastAndroidOptions && useSystemToast == other.useSystemToast)
 
-/** iOS-only knobs for [NativeFeedbackController.alert]. */
+    override fun hashCode(): Int = useSystemToast.hashCode()
+}
+
+/** iOS-only knobs for [NativeFeedbackController.alert]. Compares by value. */
 @Immutable
-public data class NativeAlertIosOptions(
+public class NativeAlertIosOptions(
     /** [NativePresentation.Native] = real `UIAlertController`; [NativePresentation.Branded] = themed overlay. */
-    val presentation: NativePresentation = NativePresentation.Native,
-)
+    public val presentation: NativePresentation = NativePresentation.Native,
+) {
+    override fun equals(other: Any?): Boolean =
+        this === other || (other is NativeAlertIosOptions && presentation == other.presentation)
+
+    override fun hashCode(): Int = presentation.hashCode()
+}
 
 /**
  * iOS-only knobs for [NativeFeedbackController.confirmationSheet]. Named for the *confirmation sheet* (not the
  * presentational [io.github.apdelrahman1911.nativecomposekit.components.NativeSheet]) so the kit can add a `NativeSheetIosOptions` for
- * that component without a name clash.
+ * that component without a name clash. Compares by value.
  */
 @Immutable
-public data class NativeConfirmationSheetIosOptions(
+public class NativeConfirmationSheetIosOptions(
     /** [NativePresentation.Native] = real action-sheet `UIAlertController`; [NativePresentation.Branded] = themed overlay. */
-    val presentation: NativePresentation = NativePresentation.Native,
-)
+    public val presentation: NativePresentation = NativePresentation.Native,
+) {
+    override fun equals(other: Any?): Boolean =
+        this === other || (other is NativeConfirmationSheetIosOptions && presentation == other.presentation)
+
+    override fun hashCode(): Int = presentation.hashCode()
+}

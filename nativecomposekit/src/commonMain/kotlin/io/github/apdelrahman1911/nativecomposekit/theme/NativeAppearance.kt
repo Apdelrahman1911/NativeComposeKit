@@ -75,10 +75,10 @@ public fun NativeAppearanceScope(
     darkColors: ColorScheme = DarkColors,
     typography: Typography = AppTypography,
     shapes: Shapes = AppShapes,
-    tokens: NativeTokens = NativeTokens(),
+    tokens: NativeTokens = DefaultNativeTokens,
     lightStatusColors: NativeStatusColors = LightStatusColors,
     darkStatusColors: NativeStatusColors = DarkStatusColors,
-    strings: NativeStrings = NativeStrings(),
+    strings: NativeStrings = DefaultNativeStrings,
     content: @Composable () -> Unit,
 ) {
     val dark = NativeAppearance.darkOverride ?: isSystemInDarkTheme()

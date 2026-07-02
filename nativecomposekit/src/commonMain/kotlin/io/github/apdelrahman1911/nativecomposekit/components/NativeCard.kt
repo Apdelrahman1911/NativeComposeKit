@@ -70,7 +70,7 @@ public fun NativeCard(
             container = scheme.surfaceVariant; fg = scheme.onSurfaceVariant; elevation = 0.dp; outline = null
         }
         NativeCardVariant.Elevated -> {
-            container = scheme.surface; fg = scheme.onSurface; elevation = 2.dp; outline = null
+            container = scheme.surface; fg = scheme.onSurface; elevation = NativeTheme.tokens.elevationRaised; outline = null
         }
         NativeCardVariant.Outlined -> {
             container = scheme.surface; fg = scheme.onSurface; elevation = 0.dp; outline = scheme.outlineVariant

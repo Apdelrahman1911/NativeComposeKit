@@ -405,16 +405,15 @@ sealed interface <#A: out kotlin/Any?> io.github.apdelrahman1911.nativecomposeki
     }
 
     final class Error : io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState<kotlin/Nothing> { // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error|null[0]
-        constructor <init>(kotlin/String? = ...) // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error.<init>|<init>(kotlin.String?){}[0]
+        constructor <init>(kotlin/String? = ..., kotlin/Throwable? = ...) // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error.<init>|<init>(kotlin.String?;kotlin.Throwable?){}[0]
 
+        final val cause // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error.cause|{}cause[0]
+            final fun <get-cause>(): kotlin/Throwable? // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error.cause.<get-cause>|<get-cause>(){}[0]
         final val message // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error.message|{}message[0]
             final fun <get-message>(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error.message.<get-message>|<get-message>(){}[0]
 
-        final fun component1(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error.component1|component1(){}[0]
-        final fun copy(kotlin/String? = ...): io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error.copy|copy(kotlin.String?){}[0]
         final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error.equals|equals(kotlin.Any?){}[0]
         final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error.hashCode|hashCode(){}[0]
-        final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Error.toString|toString(){}[0]
     }
 
     final object Empty : io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState<kotlin/Nothing> { // io.github.apdelrahman1911.nativecomposekit.components/NativeLoadState.Empty|null[0]
@@ -438,12 +437,8 @@ final class io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction
     final val sfSymbol // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.sfSymbol|{}sfSymbol[0]
         final fun <get-sfSymbol>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.sfSymbol.<get-sfSymbol>|<get-sfSymbol>(){}[0]
 
-    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.component1|component1(){}[0]
-    final fun component2(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.component2|component2(){}[0]
-    final fun copy(kotlin/String = ..., kotlin/String = ...): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.copy|copy(kotlin.String;kotlin.String){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState { // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState|null[0]
@@ -464,17 +459,8 @@ final class io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState 
     final val title // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.title|{}title[0]
         final fun <get-title>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.title.<get-title>|<get-title>(){}[0]
 
-    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component1|component1(){}[0]
-    final fun component2(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component2|component2(){}[0]
-    final fun component3(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component3|component3(){}[0]
-    final fun component4(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab> // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component4|component4(){}[0]
-    final fun component5(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction> // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component5|component5(){}[0]
-    final fun component6(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component6|component6(){}[0]
-    final fun component7(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.component7|component7(){}[0]
-    final fun copy(kotlin/String = ..., kotlin/Boolean = ..., kotlin/String = ..., kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab> = ..., kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction> = ..., kotlin/String? = ..., kotlin/String? = ...): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.copy|copy(kotlin.String;kotlin.Boolean;kotlin.String;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeTab>;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeAction>;kotlin.String?;kotlin.String?){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeState.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab { // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab|null[0]
@@ -487,13 +473,8 @@ final class io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab { 
     final val title // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.title|{}title[0]
         final fun <get-title>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.title.<get-title>|<get-title>(){}[0]
 
-    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.component1|component1(){}[0]
-    final fun component2(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.component2|component2(){}[0]
-    final fun component3(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.component3|component3(){}[0]
-    final fun copy(kotlin/String = ..., kotlin/String = ..., kotlin/String = ...): io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.copy|copy(kotlin.String;kotlin.String;kotlin.String){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeTab.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction { // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction|null[0]
@@ -505,14 +486,6 @@ final class io.github.apdelrahman1911.nativecomposekit.components.feedback/Nativ
         final fun <get-onClick>(): kotlin/Function0<kotlin/Unit> // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction.onClick.<get-onClick>|<get-onClick>(){}[0]
     final val role // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction.role|{}role[0]
         final fun <get-role>(): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction.role.<get-role>|<get-role>(){}[0]
-
-    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction.component1|component1(){}[0]
-    final fun component2(): kotlin/Function0<kotlin/Unit> // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction.component2|component2(){}[0]
-    final fun component3(): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction.component3|component3(){}[0]
-    final fun copy(kotlin/String = ..., kotlin/Function0<kotlin/Unit> = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole = ...): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction.copy|copy(kotlin.String;kotlin.Function0<kotlin.Unit>;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeAlertActionRole){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertIosOptions { // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertIosOptions|null[0]
@@ -521,11 +494,21 @@ final class io.github.apdelrahman1911.nativecomposekit.components.feedback/Nativ
     final val presentation // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertIosOptions.presentation|{}presentation[0]
         final fun <get-presentation>(): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativePresentation // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertIosOptions.presentation.<get-presentation>|<get-presentation>(){}[0]
 
-    final fun component1(): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativePresentation // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertIosOptions.component1|component1(){}[0]
-    final fun copy(io.github.apdelrahman1911.nativecomposekit.components.feedback/NativePresentation = ...): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertIosOptions // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertIosOptions.copy|copy(io.github.apdelrahman1911.nativecomposekit.components.feedback.NativePresentation){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertIosOptions.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertIosOptions.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertIosOptions.toString|toString(){}[0]
+}
+
+final class io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction { // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction|null[0]
+    constructor <init>(kotlin/String, kotlin/Function0<kotlin/Unit> = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon? = ...) // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction.<init>|<init>(kotlin.String;kotlin.Function0<kotlin.Unit>;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeAlertActionRole;io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon?){}[0]
+
+    final val icon // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction.icon|{}icon[0]
+        final fun <get-icon>(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon? // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction.icon.<get-icon>|<get-icon>(){}[0]
+    final val label // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction.label|{}label[0]
+        final fun <get-label>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction.label.<get-label>|<get-label>(){}[0]
+    final val onClick // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction.onClick|{}onClick[0]
+        final fun <get-onClick>(): kotlin/Function0<kotlin/Unit> // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction.onClick.<get-onClick>|<get-onClick>(){}[0]
+    final val role // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction.role|{}role[0]
+        final fun <get-role>(): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction.role.<get-role>|<get-role>(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions { // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions|null[0]
@@ -534,45 +517,20 @@ final class io.github.apdelrahman1911.nativecomposekit.components.feedback/Nativ
     final val presentation // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions.presentation|{}presentation[0]
         final fun <get-presentation>(): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativePresentation // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions.presentation.<get-presentation>|<get-presentation>(){}[0]
 
-    final fun component1(): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativePresentation // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions.component1|component1(){}[0]
-    final fun copy(io.github.apdelrahman1911.nativecomposekit.components.feedback/NativePresentation = ...): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions.copy|copy(io.github.apdelrahman1911.nativecomposekit.components.feedback.NativePresentation){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController { // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController|null[0]
     final fun alert(kotlin/String? = ..., kotlin/String? = ..., kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertAction>, kotlin/Function0<kotlin/Unit>? = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertIosOptions = ...): kotlin/Long // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController.alert|alert(kotlin.String?;kotlin.String?;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeAlertAction>;kotlin.Function0<kotlin.Unit>?;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeAlertIosOptions){}[0]
     final fun banner(kotlin/String, kotlin/String? = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackStatus = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackPosition = ..., kotlin/String? = ..., kotlin/Function0<kotlin/Unit>? = ..., kotlin/Boolean = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackDuration = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeQueueBehavior = ..., kotlin/Function0<kotlin/Unit>? = ..., kotlin/Boolean = ...): kotlin/Long // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController.banner|banner(kotlin.String;kotlin.String?;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackStatus;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackPosition;kotlin.String?;kotlin.Function0<kotlin.Unit>?;kotlin.Boolean;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackDuration;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeQueueBehavior;kotlin.Function0<kotlin.Unit>?;kotlin.Boolean){}[0]
     final fun clearAll() // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController.clearAll|clearAll(){}[0]
-    final fun confirmationSheet(kotlin/String? = ..., kotlin/String? = ..., kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction>, kotlin/Function0<kotlin/Unit>? = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions = ...): kotlin/Long // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController.confirmationSheet|confirmationSheet(kotlin.String?;kotlin.String?;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeSheetAction>;kotlin.Function0<kotlin.Unit>?;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeConfirmationSheetIosOptions){}[0]
+    final fun confirmationSheet(kotlin/String? = ..., kotlin/String? = ..., kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationAction>, kotlin/Function0<kotlin/Unit>? = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeConfirmationSheetIosOptions = ...): kotlin/Long // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController.confirmationSheet|confirmationSheet(kotlin.String?;kotlin.String?;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeConfirmationAction>;kotlin.Function0<kotlin.Unit>?;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeConfirmationSheetIosOptions){}[0]
     final fun dismiss(kotlin/Long) // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController.dismiss|dismiss(kotlin.Long){}[0]
     final fun dismissCurrent() // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController.dismissCurrent|dismissCurrent(){}[0]
     final fun dismissCurrentModal() // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController.dismissCurrentModal|dismissCurrentModal(){}[0]
     final fun snackbar(kotlin/String, io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackStatus = ..., kotlin/String? = ..., kotlin/Function0<kotlin/Unit>? = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackDuration = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeQueueBehavior = ..., kotlin/Function0<kotlin/Unit>? = ..., kotlin/Boolean = ...): kotlin/Long // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController.snackbar|snackbar(kotlin.String;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackStatus;kotlin.String?;kotlin.Function0<kotlin.Unit>?;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackDuration;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeQueueBehavior;kotlin.Function0<kotlin.Unit>?;kotlin.Boolean){}[0]
     final fun toast(kotlin/String, io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackStatus = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackDuration = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackPosition = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeQueueBehavior = ..., kotlin/Function0<kotlin/Unit>? = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeToastAndroidOptions = ...): kotlin/Long // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController.toast|toast(kotlin.String;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackStatus;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackDuration;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackPosition;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeQueueBehavior;kotlin.Function0<kotlin.Unit>?;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeToastAndroidOptions){}[0]
-}
-
-final class io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction { // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction|null[0]
-    constructor <init>(kotlin/String, kotlin/Function0<kotlin/Unit> = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon? = ...) // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.<init>|<init>(kotlin.String;kotlin.Function0<kotlin.Unit>;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeAlertActionRole;io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon?){}[0]
-
-    final val icon // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.icon|{}icon[0]
-        final fun <get-icon>(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon? // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.icon.<get-icon>|<get-icon>(){}[0]
-    final val label // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.label|{}label[0]
-        final fun <get-label>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.label.<get-label>|<get-label>(){}[0]
-    final val onClick // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.onClick|{}onClick[0]
-        final fun <get-onClick>(): kotlin/Function0<kotlin/Unit> // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.onClick.<get-onClick>|<get-onClick>(){}[0]
-    final val role // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.role|{}role[0]
-        final fun <get-role>(): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.role.<get-role>|<get-role>(){}[0]
-
-    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.component1|component1(){}[0]
-    final fun component2(): kotlin/Function0<kotlin/Unit> // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.component2|component2(){}[0]
-    final fun component3(): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.component3|component3(){}[0]
-    final fun component4(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon? // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.component4|component4(){}[0]
-    final fun copy(kotlin/String = ..., kotlin/Function0<kotlin/Unit> = ..., io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon? = ...): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.copy|copy(kotlin.String;kotlin.Function0<kotlin.Unit>;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeAlertActionRole;io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon?){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeSheetAction.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeToastAndroidOptions { // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeToastAndroidOptions|null[0]
@@ -581,11 +539,8 @@ final class io.github.apdelrahman1911.nativecomposekit.components.feedback/Nativ
     final val useSystemToast // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeToastAndroidOptions.useSystemToast|{}useSystemToast[0]
         final fun <get-useSystemToast>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeToastAndroidOptions.useSystemToast.<get-useSystemToast>|<get-useSystemToast>(){}[0]
 
-    final fun component1(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeToastAndroidOptions.component1|component1(){}[0]
-    final fun copy(kotlin/Boolean = ...): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeToastAndroidOptions // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeToastAndroidOptions.copy|copy(kotlin.Boolean){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeToastAndroidOptions.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeToastAndroidOptions.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeToastAndroidOptions.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors { // io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors|null[0]
@@ -598,13 +553,9 @@ final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeBu
     final val content // io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors.content|{}content[0]
         final fun <get-content>(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors.content.<get-content>|<get-content>(){}[0]
 
-    final fun component1(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors.component1|component1(){}[0]
-    final fun component2(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors.component2|component2(){}[0]
-    final fun component3(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors.component3|component3(){}[0]
     final fun copy(androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ...): io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors // io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors.copy|copy(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeButtonColors.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit { // io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit|null[0]
@@ -615,12 +566,8 @@ final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeCh
     final val max // io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit.max|{}max[0]
         final fun <get-max>(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit.max.<get-max>|<get-max>(){}[0]
 
-    final fun component1(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit.component1|component1(){}[0]
-    final fun component2(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimitBehavior // io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit.component2|component2(){}[0]
-    final fun copy(kotlin/Int = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimitBehavior = ...): io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit // io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit.copy|copy(kotlin.Int;io.github.apdelrahman1911.nativecomposekit.components.model.NativeCharacterLimitBehavior){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors { // io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors|null[0]
@@ -635,14 +582,9 @@ final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeDi
     final val title // io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors.title|{}title[0]
         final fun <get-title>(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors.title.<get-title>|<get-title>(){}[0]
 
-    final fun component1(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors.component1|component1(){}[0]
-    final fun component2(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors.component2|component2(){}[0]
-    final fun component3(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors.component3|component3(){}[0]
-    final fun component4(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors.component4|component4(){}[0]
     final fun copy(androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ...): io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors // io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors.copy|copy(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeDialogColors.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors { // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors|null[0]
@@ -669,20 +611,9 @@ final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeFi
     final val text // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.text|{}text[0]
         final fun <get-text>(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.text.<get-text>|<get-text>(){}[0]
 
-    final fun component1(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.component1|component1(){}[0]
-    final fun component10(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.component10|component10(){}[0]
-    final fun component2(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.component2|component2(){}[0]
-    final fun component3(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.component3|component3(){}[0]
-    final fun component4(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.component4|component4(){}[0]
-    final fun component5(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.component5|component5(){}[0]
-    final fun component6(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.component6|component6(){}[0]
-    final fun component7(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.component7|component7(){}[0]
-    final fun component8(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.component8|component8(){}[0]
-    final fun component9(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.component9|component9(){}[0]
     final fun copy(androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ...): io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.copy|copy(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldColors.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldFocus { // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldFocus|null[0]
@@ -693,12 +624,7 @@ final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeFi
     final val onSubmit // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldFocus.onSubmit|{}onSubmit[0]
         final fun <get-onSubmit>(): kotlin/Function0<kotlin/Unit>? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldFocus.onSubmit.<get-onSubmit>|<get-onSubmit>(){}[0]
 
-    final fun component1(): kotlin/Function1<kotlin/Boolean, kotlin/Unit>? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldFocus.component1|component1(){}[0]
-    final fun component2(): kotlin/Function0<kotlin/Unit>? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldFocus.component2|component2(){}[0]
     final fun copy(kotlin/Function1<kotlin/Boolean, kotlin/Unit>? = ..., kotlin/Function0<kotlin/Unit>? = ...): io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldFocus // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldFocus.copy|copy(kotlin.Function1<kotlin.Boolean,kotlin.Unit>?;kotlin.Function0<kotlin.Unit>?){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldFocus.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldFocus.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldFocus.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput { // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput|null[0]
@@ -723,19 +649,8 @@ final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeFi
     final val singleLine // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.singleLine|{}singleLine[0]
         final fun <get-singleLine>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.singleLine.<get-singleLine>|<get-singleLine>(){}[0]
 
-    final fun component1(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardType // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.component1|component1(){}[0]
-    final fun component2(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeImeAction // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.component2|component2(){}[0]
-    final fun component3(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.component3|component3(){}[0]
-    final fun component4(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.component4|component4(){}[0]
-    final fun component5(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.component5|component5(){}[0]
-    final fun component6(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.component6|component6(){}[0]
-    final fun component7(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeCapitalization // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.component7|component7(){}[0]
-    final fun component8(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.component8|component8(){}[0]
-    final fun component9(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.component9|component9(){}[0]
-    final fun copy(io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardType = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeImeAction = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Int = ..., kotlin/Int = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeCapitalization = ..., kotlin/Boolean = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeCharacterLimit? = ...): io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.copy|copy(io.github.apdelrahman1911.nativecomposekit.components.model.NativeKeyboardType;io.github.apdelrahman1911.nativecomposekit.components.model.NativeImeAction;kotlin.Boolean;kotlin.Boolean;kotlin.Int;kotlin.Int;io.github.apdelrahman1911.nativecomposekit.components.model.NativeCapitalization;kotlin.Boolean;io.github.apdelrahman1911.nativecomposekit.components.model.NativeCharacterLimit?){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeFieldInput.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon { // io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon|null[0]
@@ -748,13 +663,8 @@ final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeIc
     final val sfSymbolName // io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon.sfSymbolName|{}sfSymbolName[0]
         final fun <get-sfSymbolName>(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon.sfSymbolName.<get-sfSymbolName>|<get-sfSymbolName>(){}[0]
 
-    final fun component1(): androidx.compose.ui.graphics.vector/ImageVector? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon.component1|component1(){}[0]
-    final fun component2(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon.component2|component2(){}[0]
-    final fun component3(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon.component3|component3(){}[0]
-    final fun copy(androidx.compose.ui.graphics.vector/ImageVector? = ..., kotlin/String? = ..., kotlin/String? = ...): io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon // io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon.copy|copy(androidx.compose.ui.graphics.vector.ImageVector?;kotlin.String?;kotlin.String?){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory { // io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory|null[0]
@@ -767,13 +677,8 @@ final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeKe
     final val style // io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory.style|{}style[0]
         final fun <get-style>(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessoryStyle // io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory.style.<get-style>|<get-style>(){}[0]
 
-    final fun component1(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory.component1|component1(){}[0]
-    final fun component2(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory.component2|component2(){}[0]
-    final fun component3(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessoryStyle // io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory.component3|component3(){}[0]
-    final fun copy(kotlin/Boolean = ..., kotlin/String? = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessoryStyle = ...): io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory // io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory.copy|copy(kotlin.Boolean;kotlin.String?;io.github.apdelrahman1911.nativecomposekit.components.model.NativeKeyboardAccessoryStyle){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu { // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu|null[0]
@@ -783,13 +688,6 @@ final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeMe
         final fun <get-items>(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem> // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu.items.<get-items>|<get-items>(){}[0]
     final val title // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu.title|{}title[0]
         final fun <get-title>(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu.title.<get-title>|<get-title>(){}[0]
-
-    final fun component1(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem> // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu.component1|component1(){}[0]
-    final fun component2(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu.component2|component2(){}[0]
-    final fun copy(kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem> = ..., kotlin/String? = ...): io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu.copy|copy(kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenuItem>;kotlin.String?){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenu.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem { // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem|null[0]
@@ -807,17 +705,6 @@ final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeMe
         final fun <get-selected>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.selected.<get-selected>|<get-selected>(){}[0]
     final val title // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.title|{}title[0]
         final fun <get-title>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.title.<get-title>|<get-title>(){}[0]
-
-    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.component1|component1(){}[0]
-    final fun component2(): kotlin/Function0<kotlin/Unit> // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.component2|component2(){}[0]
-    final fun component3(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon? // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.component3|component3(){}[0]
-    final fun component4(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItemRole // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.component4|component4(){}[0]
-    final fun component5(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.component5|component5(){}[0]
-    final fun component6(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.component6|component6(){}[0]
-    final fun copy(kotlin/String = ..., kotlin/Function0<kotlin/Unit> = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeIcon? = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItemRole = ..., kotlin/Boolean = ..., kotlin/Boolean = ...): io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.copy|copy(kotlin.String;kotlin.Function0<kotlin.Unit>;io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon?;io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenuItemRole;kotlin.Boolean;kotlin.Boolean){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeMenuItem.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions { // io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions|null[0]
@@ -830,13 +717,8 @@ final class io.github.apdelrahman1911.nativecomposekit.components.model/NativeTe
     final val keyboardAppearance // io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions.keyboardAppearance|{}keyboardAppearance[0]
         final fun <get-keyboardAppearance>(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAppearance // io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions.keyboardAppearance.<get-keyboardAppearance>|<get-keyboardAppearance>(){}[0]
 
-    final fun component1(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeClearButtonMode // io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions.component1|component1(){}[0]
-    final fun component2(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAppearance // io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions.component2|component2(){}[0]
-    final fun component3(): io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory // io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions.component3|component3(){}[0]
-    final fun copy(io.github.apdelrahman1911.nativecomposekit.components.model/NativeClearButtonMode = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAppearance = ..., io.github.apdelrahman1911.nativecomposekit.components.model/NativeKeyboardAccessory = ...): io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions // io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions.copy|copy(io.github.apdelrahman1911.nativecomposekit.components.model.NativeClearButtonMode;io.github.apdelrahman1911.nativecomposekit.components.model.NativeKeyboardAppearance;io.github.apdelrahman1911.nativecomposekit.components.model.NativeKeyboardAccessory){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components.model/NativeTextFieldIosOptions.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components/NativeColorWellIosOptions { // io.github.apdelrahman1911.nativecomposekit.components/NativeColorWellIosOptions|null[0]
@@ -883,12 +765,8 @@ final class io.github.apdelrahman1911.nativecomposekit.components/NativeShareCon
     final val url // io.github.apdelrahman1911.nativecomposekit.components/NativeShareContent.url|{}url[0]
         final fun <get-url>(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.components/NativeShareContent.url.<get-url>|<get-url>(){}[0]
 
-    final fun component1(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.components/NativeShareContent.component1|component1(){}[0]
-    final fun component2(): kotlin/String? // io.github.apdelrahman1911.nativecomposekit.components/NativeShareContent.component2|component2(){}[0]
-    final fun copy(kotlin/String? = ..., kotlin/String? = ...): io.github.apdelrahman1911.nativecomposekit.components/NativeShareContent // io.github.apdelrahman1911.nativecomposekit.components/NativeShareContent.copy|copy(kotlin.String?;kotlin.String?){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components/NativeShareContent.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components/NativeShareContent.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components/NativeShareContent.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction { // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction|null[0]
@@ -902,15 +780,6 @@ final class io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAct
         final fun <get-label>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.label.<get-label>|<get-label>(){}[0]
     final val onAction // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.onAction|{}onAction[0]
         final fun <get-onAction>(): kotlin/Function0<kotlin/Unit> // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.onAction.<get-onAction>|<get-onAction>(){}[0]
-
-    final fun component1(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.component1|component1(){}[0]
-    final fun component2(): kotlin/Function0<kotlin/Unit> // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.component2|component2(){}[0]
-    final fun component3(): androidx.compose.ui.graphics.vector/ImageVector? // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.component3|component3(){}[0]
-    final fun component4(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.component4|component4(){}[0]
-    final fun copy(kotlin/String = ..., kotlin/Function0<kotlin/Unit> = ..., androidx.compose.ui.graphics.vector/ImageVector? = ..., kotlin/Boolean = ...): io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.copy|copy(kotlin.String;kotlin.Function0<kotlin.Unit>;androidx.compose.ui.graphics.vector.ImageVector?;kotlin.Boolean){}[0]
-    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.equals|equals(kotlin.Any?){}[0]
-    final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.components/NativeSwipeAction.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities { // io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities|null[0]
@@ -919,11 +788,8 @@ final class io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities 
     final val isReduceMotionEnabled // io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities.isReduceMotionEnabled|{}isReduceMotionEnabled[0]
         final fun <get-isReduceMotionEnabled>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities.isReduceMotionEnabled.<get-isReduceMotionEnabled>|<get-isReduceMotionEnabled>(){}[0]
 
-    final fun component1(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities.component1|component1(){}[0]
-    final fun copy(kotlin/Boolean = ...): io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities // io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities.copy|copy(kotlin.Boolean){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors { // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors|null[0]
@@ -954,37 +820,30 @@ final class io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors 
     final val warningContainer // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.warningContainer|{}warningContainer[0]
         final fun <get-warningContainer>(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.warningContainer.<get-warningContainer>|<get-warningContainer>(){}[0]
 
-    final fun component1(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component1|component1(){}[0]
-    final fun component10(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component10|component10(){}[0]
-    final fun component11(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component11|component11(){}[0]
-    final fun component12(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component12|component12(){}[0]
-    final fun component2(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component2|component2(){}[0]
-    final fun component3(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component3|component3(){}[0]
-    final fun component4(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component4|component4(){}[0]
-    final fun component5(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component5|component5(){}[0]
-    final fun component6(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component6|component6(){}[0]
-    final fun component7(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component7|component7(){}[0]
-    final fun component8(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component8|component8(){}[0]
-    final fun component9(): androidx.compose.ui.graphics/Color // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.component9|component9(){}[0]
     final fun copy(androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ...): io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.copy|copy(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors.toString|toString(){}[0]
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings { // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings|null[0]
-    constructor <init>(kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/Function1<kotlin/Int, kotlin/String> = ..., kotlin/Function2<kotlin/String, kotlin/Int, kotlin/String> = ..., kotlin/Function2<kotlin/Int, kotlin/Int, kotlin/String> = ..., kotlin/Function2<kotlin/Int, kotlin/Int, kotlin/String> = ..., kotlin/Function1<kotlin/Int, kotlin/String> = ...) // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.<init>|<init>(kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.Function1<kotlin.Int,kotlin.String>;kotlin.Function2<kotlin.String,kotlin.Int,kotlin.String>;kotlin.Function2<kotlin.Int,kotlin.Int,kotlin.String>;kotlin.Function2<kotlin.Int,kotlin.Int,kotlin.String>;kotlin.Function1<kotlin.Int,kotlin.String>){}[0]
+    constructor <init>(kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/Function1<kotlin/Int, kotlin/String> = ..., kotlin/Function2<kotlin/String, kotlin/Int, kotlin/String> = ..., kotlin/Function2<kotlin/Int, kotlin/Int, kotlin/String> = ..., kotlin/Function2<kotlin/Int, kotlin/Int, kotlin/String> = ..., kotlin/Function1<kotlin/Int, kotlin/String> = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/Function2<kotlin/Int, kotlin/Int, kotlin/String> = ...) // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.<init>|<init>(kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.Function1<kotlin.Int,kotlin.String>;kotlin.Function2<kotlin.String,kotlin.Int,kotlin.String>;kotlin.Function2<kotlin.Int,kotlin.Int,kotlin.String>;kotlin.Function2<kotlin.Int,kotlin.Int,kotlin.String>;kotlin.Function1<kotlin.Int,kotlin.String>;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.Function2<kotlin.Int,kotlin.Int,kotlin.String>){}[0]
 
     final val alertCancel // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.alertCancel|{}alertCancel[0]
         final fun <get-alertCancel>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.alertCancel.<get-alertCancel>|<get-alertCancel>(){}[0]
     final val alertOk // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.alertOk|{}alertOk[0]
         final fun <get-alertOk>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.alertOk.<get-alertOk>|<get-alertOk>(){}[0]
+    final val back // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.back|{}back[0]
+        final fun <get-back>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.back.<get-back>|<get-back>(){}[0]
     final val chipRemove // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.chipRemove|{}chipRemove[0]
         final fun <get-chipRemove>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.chipRemove.<get-chipRemove>|<get-chipRemove>(){}[0]
     final val colorPickerTitle // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.colorPickerTitle|{}colorPickerTitle[0]
         final fun <get-colorPickerTitle>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.colorPickerTitle.<get-colorPickerTitle>|<get-colorPickerTitle>(){}[0]
+    final val colorSwatchDescription // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.colorSwatchDescription|{}colorSwatchDescription[0]
+        final fun <get-colorSwatchDescription>(): kotlin/Function2<kotlin/Int, kotlin/Int, kotlin/String> // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.colorSwatchDescription.<get-colorSwatchDescription>|<get-colorSwatchDescription>(){}[0]
     final val colorWellDescription // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.colorWellDescription|{}colorWellDescription[0]
         final fun <get-colorWellDescription>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.colorWellDescription.<get-colorWellDescription>|<get-colorWellDescription>(){}[0]
+    final val dialogPaneTitle // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.dialogPaneTitle|{}dialogPaneTitle[0]
+        final fun <get-dialogPaneTitle>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.dialogPaneTitle.<get-dialogPaneTitle>|<get-dialogPaneTitle>(){}[0]
     final val dismiss // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.dismiss|{}dismiss[0]
         final fun <get-dismiss>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.dismiss.<get-dismiss>|<get-dismiss>(){}[0]
     final val done // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.done|{}done[0]
@@ -1007,6 +866,10 @@ final class io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings { // 
         final fun <get-ratingDescription>(): kotlin/Function2<kotlin/String, kotlin/Int, kotlin/String> // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.ratingDescription.<get-ratingDescription>|<get-ratingDescription>(){}[0]
     final val ratingSetDescription // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.ratingSetDescription|{}ratingSetDescription[0]
         final fun <get-ratingSetDescription>(): kotlin/Function2<kotlin/Int, kotlin/Int, kotlin/String> // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.ratingSetDescription.<get-ratingSetDescription>|<get-ratingSetDescription>(){}[0]
+    final val refresh // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.refresh|{}refresh[0]
+        final fun <get-refresh>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.refresh.<get-refresh>|<get-refresh>(){}[0]
+    final val refreshing // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.refreshing|{}refreshing[0]
+        final fun <get-refreshing>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.refreshing.<get-refreshing>|<get-refreshing>(){}[0]
     final val retry // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.retry|{}retry[0]
         final fun <get-retry>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.retry.<get-retry>|<get-retry>(){}[0]
     final val searchClear // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.searchClear|{}searchClear[0]
@@ -1015,6 +878,14 @@ final class io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings { // 
         final fun <get-searchPlaceholder>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.searchPlaceholder.<get-searchPlaceholder>|<get-searchPlaceholder>(){}[0]
     final val splitButtonMore // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.splitButtonMore|{}splitButtonMore[0]
         final fun <get-splitButtonMore>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.splitButtonMore.<get-splitButtonMore>|<get-splitButtonMore>(){}[0]
+    final val statusError // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.statusError|{}statusError[0]
+        final fun <get-statusError>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.statusError.<get-statusError>|<get-statusError>(){}[0]
+    final val statusInfo // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.statusInfo|{}statusInfo[0]
+        final fun <get-statusInfo>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.statusInfo.<get-statusInfo>|<get-statusInfo>(){}[0]
+    final val statusSuccess // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.statusSuccess|{}statusSuccess[0]
+        final fun <get-statusSuccess>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.statusSuccess.<get-statusSuccess>|<get-statusSuccess>(){}[0]
+    final val statusWarning // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.statusWarning|{}statusWarning[0]
+        final fun <get-statusWarning>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.statusWarning.<get-statusWarning>|<get-statusWarning>(){}[0]
     final val stepperDecrement // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.stepperDecrement|{}stepperDecrement[0]
         final fun <get-stepperDecrement>(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.stepperDecrement.<get-stepperDecrement>|<get-stepperDecrement>(){}[0]
     final val stepperIncrement // io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings.stepperIncrement|{}stepperIncrement[0]
@@ -1022,7 +893,7 @@ final class io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings { // 
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens { // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens|null[0]
-    constructor <init>(androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ...) // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.<init>|<init>(androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp){}[0]
+    constructor <init>(androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ...) // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.<init>|<init>(androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp){}[0]
 
     final val buttonHeightLarge // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.buttonHeightLarge|{}buttonHeightLarge[0]
         final fun <get-buttonHeightLarge>(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.buttonHeightLarge.<get-buttonHeightLarge>|<get-buttonHeightLarge>(){}[0]
@@ -1042,10 +913,16 @@ final class io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens { // i
         final fun <get-buttonPadVMedium>(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.buttonPadVMedium.<get-buttonPadVMedium>|<get-buttonPadVMedium>(){}[0]
     final val buttonPadVSmall // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.buttonPadVSmall|{}buttonPadVSmall[0]
         final fun <get-buttonPadVSmall>(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.buttonPadVSmall.<get-buttonPadVSmall>|<get-buttonPadVSmall>(){}[0]
+    final val cornerLarge // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.cornerLarge|{}cornerLarge[0]
+        final fun <get-cornerLarge>(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.cornerLarge.<get-cornerLarge>|<get-cornerLarge>(){}[0]
     final val cornerMedium // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.cornerMedium|{}cornerMedium[0]
         final fun <get-cornerMedium>(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.cornerMedium.<get-cornerMedium>|<get-cornerMedium>(){}[0]
     final val cornerSmall // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.cornerSmall|{}cornerSmall[0]
         final fun <get-cornerSmall>(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.cornerSmall.<get-cornerSmall>|<get-cornerSmall>(){}[0]
+    final val elevationOverlay // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.elevationOverlay|{}elevationOverlay[0]
+        final fun <get-elevationOverlay>(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.elevationOverlay.<get-elevationOverlay>|<get-elevationOverlay>(){}[0]
+    final val elevationRaised // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.elevationRaised|{}elevationRaised[0]
+        final fun <get-elevationRaised>(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.elevationRaised.<get-elevationRaised>|<get-elevationRaised>(){}[0]
     final val fieldMinHeight // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.fieldMinHeight|{}fieldMinHeight[0]
         final fun <get-fieldMinHeight>(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.fieldMinHeight.<get-fieldMinHeight>|<get-fieldMinHeight>(){}[0]
     final val spacingLg // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.spacingLg|{}spacingLg[0]
@@ -1057,26 +934,9 @@ final class io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens { // i
     final val spacingXs // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.spacingXs|{}spacingXs[0]
         final fun <get-spacingXs>(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.spacingXs.<get-spacingXs>|<get-spacingXs>(){}[0]
 
-    final fun component1(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component1|component1(){}[0]
-    final fun component10(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component10|component10(){}[0]
-    final fun component11(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component11|component11(){}[0]
-    final fun component12(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component12|component12(){}[0]
-    final fun component13(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component13|component13(){}[0]
-    final fun component14(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component14|component14(){}[0]
-    final fun component15(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component15|component15(){}[0]
-    final fun component16(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component16|component16(){}[0]
-    final fun component2(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component2|component2(){}[0]
-    final fun component3(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component3|component3(){}[0]
-    final fun component4(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component4|component4(){}[0]
-    final fun component5(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component5|component5(){}[0]
-    final fun component6(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component6|component6(){}[0]
-    final fun component7(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component7|component7(){}[0]
-    final fun component8(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component8|component8(){}[0]
-    final fun component9(): androidx.compose.ui.unit/Dp // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.component9|component9(){}[0]
-    final fun copy(androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ...): io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.copy|copy(androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp){}[0]
+    final fun copy(androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ..., androidx.compose.ui.unit/Dp = ...): io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.copy|copy(androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.hashCode|hashCode(){}[0]
-    final fun toString(): kotlin/String // io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens.toString|toString(){}[0]
 }
 
 final object io.github.apdelrahman1911.nativecomposekit.components/NativeImeLog { // io.github.apdelrahman1911.nativecomposekit.components/NativeImeLog|null[0]
@@ -1096,8 +956,12 @@ final object io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance {
 }
 
 final object io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme { // io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme|null[0]
+    final val capabilities // io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme.capabilities|{}capabilities[0]
+        final fun <get-capabilities>(androidx.compose.runtime/Composer?, kotlin/Int): io.github.apdelrahman1911.nativecomposekit.theme/NativeCapabilities // io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme.capabilities.<get-capabilities>|<get-capabilities>(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
     final val statusColors // io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme.statusColors|{}statusColors[0]
         final fun <get-statusColors>(androidx.compose.runtime/Composer?, kotlin/Int): io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors // io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme.statusColors.<get-statusColors>|<get-statusColors>(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+    final val strings // io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme.strings|{}strings[0]
+        final fun <get-strings>(androidx.compose.runtime/Composer?, kotlin/Int): io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings // io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme.strings.<get-strings>|<get-strings>(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
     final val tokens // io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme.tokens|{}tokens[0]
         final fun <get-tokens>(androidx.compose.runtime/Composer?, kotlin/Int): io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens // io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme.tokens.<get-tokens>|<get-tokens>(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 }
@@ -1109,9 +973,9 @@ final val io.github.apdelrahman1911.nativecomposekit.components.feedback/LocalNa
     final fun <get-LocalNativeFeedbackController>(): androidx.compose.runtime/ProvidableCompositionLocal<io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController> // io.github.apdelrahman1911.nativecomposekit.components.feedback/LocalNativeFeedbackController.<get-LocalNativeFeedbackController>|<get-LocalNativeFeedbackController>(){}[0]
 final val io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop[0]
 final val io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertIosOptions$stableprop // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertIosOptions$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertIosOptions$stableprop[0]
+final val io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationAction$stableprop // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationAction$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationAction$stableprop[0]
 final val io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationSheetIosOptions$stableprop // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationSheetIosOptions$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationSheetIosOptions$stableprop[0]
 final val io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeFeedbackController$stableprop // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeFeedbackController$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeFeedbackController$stableprop[0]
-final val io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeSheetAction$stableprop // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeSheetAction$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeSheetAction$stableprop[0]
 final val io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeToastAndroidOptions$stableprop // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeToastAndroidOptions$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeToastAndroidOptions$stableprop[0]
 final val io.github.apdelrahman1911.nativecomposekit.components.model/io_github_apdelrahman1911_nativecomposekit_components_model_NativeButtonColors$stableprop // io.github.apdelrahman1911.nativecomposekit.components.model/io_github_apdelrahman1911_nativecomposekit_components_model_NativeButtonColors$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_model_NativeButtonColors$stableprop[0]
 final val io.github.apdelrahman1911.nativecomposekit.components.model/io_github_apdelrahman1911_nativecomposekit_components_model_NativeCharacterLimit$stableprop // io.github.apdelrahman1911.nativecomposekit.components.model/io_github_apdelrahman1911_nativecomposekit_components_model_NativeCharacterLimit$stableprop|#static{}io_github_apdelrahman1911_nativecomposekit_components_model_NativeCharacterLimit$stableprop[0]
@@ -1174,9 +1038,9 @@ final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeF
 final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeInlineStatus(kotlin/String, androidx.compose.ui/Modifier?, io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackStatus?, kotlin/String?, androidx.compose.ui.graphics.vector/ImageVector?, kotlin/Boolean, kotlin/Boolean, kotlin/String?, kotlin/Function0<kotlin/Unit>?, kotlin/Function0<kotlin/Unit>?, kotlin/String?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeInlineStatus|NativeInlineStatus(kotlin.String;androidx.compose.ui.Modifier?;io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackStatus?;kotlin.String?;androidx.compose.ui.graphics.vector.ImageVector?;kotlin.Boolean;kotlin.Boolean;kotlin.String?;kotlin.Function0<kotlin.Unit>?;kotlin.Function0<kotlin.Unit>?;kotlin.String?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertAction$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertIosOptions$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertIosOptions$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeAlertIosOptions$stableprop_getter(){}[0]
+final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationAction$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationAction$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationAction$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationSheetIosOptions$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationSheetIosOptions$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeConfirmationSheetIosOptions$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeFeedbackController$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeFeedbackController$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeFeedbackController$stableprop_getter(){}[0]
-final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeSheetAction$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeSheetAction$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeSheetAction$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeToastAndroidOptions$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.feedback/io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeToastAndroidOptions$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_components_feedback_NativeToastAndroidOptions$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components.feedback/rememberNativeFeedbackController(androidx.compose.runtime/Composer?, kotlin/Int): io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeFeedbackController // io.github.apdelrahman1911.nativecomposekit.components.feedback/rememberNativeFeedbackController|rememberNativeFeedbackController(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.components.model/io_github_apdelrahman1911_nativecomposekit_components_model_NativeButtonColors$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.components.model/io_github_apdelrahman1911_nativecomposekit_components_model_NativeButtonColors$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_components_model_NativeButtonColors$stableprop_getter(){}[0]
@@ -1242,10 +1106,12 @@ final fun io.github.apdelrahman1911.nativecomposekit.components/rememberNativeFo
 final fun io.github.apdelrahman1911.nativecomposekit.components/rememberNativeShare(androidx.compose.runtime/Composer?, kotlin/Int): io.github.apdelrahman1911.nativecomposekit.components/NativeShare // io.github.apdelrahman1911.nativecomposekit.components/rememberNativeShare|rememberNativeShare(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/AppTheme(kotlin/Boolean, androidx.compose.material3/ColorScheme?, androidx.compose.material3/ColorScheme?, androidx.compose.material3/Typography?, androidx.compose.material3/Shapes?, io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens?, io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors?, io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors?, io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.apdelrahman1911.nativecomposekit.theme/AppTheme|AppTheme(kotlin.Boolean;androidx.compose.material3.ColorScheme?;androidx.compose.material3.ColorScheme?;androidx.compose.material3.Typography?;androidx.compose.material3.Shapes?;io.github.apdelrahman1911.nativecomposekit.theme.NativeTokens?;io.github.apdelrahman1911.nativecomposekit.theme.NativeStatusColors?;io.github.apdelrahman1911.nativecomposekit.theme.NativeStatusColors?;io.github.apdelrahman1911.nativecomposekit.theme.NativeStrings?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearanceScope(kotlin/Boolean, androidx.compose.material3/ColorScheme?, androidx.compose.material3/ColorScheme?, androidx.compose.material3/Typography?, androidx.compose.material3/Shapes?, io.github.apdelrahman1911.nativecomposekit.theme/NativeTokens?, io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors?, io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors?, io.github.apdelrahman1911.nativecomposekit.theme/NativeStrings?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearanceScope|NativeAppearanceScope(kotlin.Boolean;androidx.compose.material3.ColorScheme?;androidx.compose.material3.ColorScheme?;androidx.compose.material3.Typography?;androidx.compose.material3.Shapes?;io.github.apdelrahman1911.nativecomposekit.theme.NativeTokens?;io.github.apdelrahman1911.nativecomposekit.theme.NativeStatusColors?;io.github.apdelrahman1911.nativecomposekit.theme.NativeStatusColors?;io.github.apdelrahman1911.nativecomposekit.theme.NativeStrings?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun io.github.apdelrahman1911.nativecomposekit.theme/darkNativeStatusColors(androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ...): io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors // io.github.apdelrahman1911.nativecomposekit.theme/darkNativeStatusColors|darkNativeStatusColors(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeAppearance$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeAppearance$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_theme_NativeAppearance$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeCapabilities$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeCapabilities$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_theme_NativeCapabilities$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeStatusColors$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeStatusColors$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_theme_NativeStatusColors$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeStrings$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeStrings$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_theme_NativeStrings$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeTheme$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeTheme$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_theme_NativeTheme$stableprop_getter(){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeTokens$stableprop_getter(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.theme/io_github_apdelrahman1911_nativecomposekit_theme_NativeTokens$stableprop_getter|io_github_apdelrahman1911_nativecomposekit_theme_NativeTokens$stableprop_getter(){}[0]
+final fun io.github.apdelrahman1911.nativecomposekit.theme/lightNativeStatusColors(androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ..., androidx.compose.ui.graphics/Color = ...): io.github.apdelrahman1911.nativecomposekit.theme/NativeStatusColors // io.github.apdelrahman1911.nativecomposekit.theme/lightNativeStatusColors|lightNativeStatusColors(androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color){}[0]
 final fun io.github.apdelrahman1911.nativecomposekit.theme/nativeBackgroundUIColor(kotlin/Boolean): platform.UIKit/UIColor // io.github.apdelrahman1911.nativecomposekit.theme/nativeBackgroundUIColor|nativeBackgroundUIColor(kotlin.Boolean){}[0]

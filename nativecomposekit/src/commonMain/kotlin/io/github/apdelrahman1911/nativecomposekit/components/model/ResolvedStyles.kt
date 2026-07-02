@@ -9,12 +9,32 @@ import androidx.compose.ui.unit.Dp
 @Immutable
 internal data class NativeInsets(val start: Dp, val top: Dp, val end: Dp, val bottom: Dp)
 
+/**
+ * Caller-override colors for the button family. Compares by value; not a `data class` so fields can
+ * be added binary-compatibly — use [copy] to derive variants.
+ */
 @Immutable
-public data class NativeButtonColors(
-    val container: Color,
-    val content: Color,
-    val border: Color = Color.Unspecified, // Unspecified == no border
-)
+public class NativeButtonColors(
+    public val container: Color,
+    public val content: Color,
+    public val border: Color = Color.Unspecified, // Unspecified == no border
+) {
+    /** Returns a copy with the given colors replaced. */
+    public fun copy(
+        container: Color = this.container,
+        content: Color = this.content,
+        border: Color = this.border,
+    ): NativeButtonColors = NativeButtonColors(container, content, border)
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NativeButtonColors) return false
+        return container == other.container && content == other.content && border == other.border
+    }
+
+    override fun hashCode(): Int =
+        (container.hashCode() * 31 + content.hashCode()) * 31 + border.hashCode()
+}
 
 /**
  * Fully resolved button styling handed to the platform renderer. The renderer reads ONLY these
@@ -32,32 +52,107 @@ internal data class ResolvedButtonStyle(
     val textStyle: TextStyle,
 )
 
+/**
+ * Caller-override colors for text fields. Compares by value; not a `data class` so fields can be
+ * added binary-compatibly — use [copy] to derive variants.
+ */
 @Immutable
-public data class NativeFieldColors(
-    val text: Color,
-    val placeholder: Color,
-    val container: Color,
-    val border: Color,
-    val focusedBorder: Color,
-    val errorBorder: Color,
-    val label: Color,
-    val helper: Color,
-    val error: Color,
-    val cursor: Color,
-)
+public class NativeFieldColors(
+    public val text: Color,
+    public val placeholder: Color,
+    public val container: Color,
+    public val border: Color,
+    public val focusedBorder: Color,
+    public val errorBorder: Color,
+    public val label: Color,
+    public val helper: Color,
+    public val error: Color,
+    public val cursor: Color,
+) {
+    /** Returns a copy with the given colors replaced. */
+    public fun copy(
+        text: Color = this.text,
+        placeholder: Color = this.placeholder,
+        container: Color = this.container,
+        border: Color = this.border,
+        focusedBorder: Color = this.focusedBorder,
+        errorBorder: Color = this.errorBorder,
+        label: Color = this.label,
+        helper: Color = this.helper,
+        error: Color = this.error,
+        cursor: Color = this.cursor,
+    ): NativeFieldColors = NativeFieldColors(
+        text, placeholder, container, border, focusedBorder, errorBorder, label, helper, error, cursor,
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NativeFieldColors) return false
+        return text == other.text &&
+            placeholder == other.placeholder &&
+            container == other.container &&
+            border == other.border &&
+            focusedBorder == other.focusedBorder &&
+            errorBorder == other.errorBorder &&
+            label == other.label &&
+            helper == other.helper &&
+            error == other.error &&
+            cursor == other.cursor
+    }
+
+    override fun hashCode(): Int {
+        var result = text.hashCode()
+        result = 31 * result + placeholder.hashCode()
+        result = 31 * result + container.hashCode()
+        result = 31 * result + border.hashCode()
+        result = 31 * result + focusedBorder.hashCode()
+        result = 31 * result + errorBorder.hashCode()
+        result = 31 * result + label.hashCode()
+        result = 31 * result + helper.hashCode()
+        result = 31 * result + error.hashCode()
+        result = 31 * result + cursor.hashCode()
+        return result
+    }
+}
 
 /**
  * Colors for [io.github.apdelrahman1911.nativecomposekit.components.NativeDialog]. Defaults resolve from the
- * theme (`surface`/`onSurface`); pass a copy to restyle the dialog's surface, body content, and title. [border]
- * is `Unspecified` for no border.
+ * theme (`surface`/`onSurface`); pass a [copy] to restyle the dialog's surface, body content, and title.
+ * [border] is `Unspecified` for no border. Compares by value; not a `data class` so fields can be added
+ * binary-compatibly.
  */
 @Immutable
-public data class NativeDialogColors(
-    val container: Color,
-    val content: Color,
-    val title: Color,
-    val border: Color = Color.Unspecified,
-)
+public class NativeDialogColors(
+    public val container: Color,
+    public val content: Color,
+    public val title: Color,
+    public val border: Color = Color.Unspecified,
+) {
+    /** Returns a copy with the given colors replaced. */
+    public fun copy(
+        container: Color = this.container,
+        content: Color = this.content,
+        title: Color = this.title,
+        border: Color = this.border,
+    ): NativeDialogColors = NativeDialogColors(container, content, title, border)
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NativeDialogColors) return false
+        return container == other.container &&
+            content == other.content &&
+            title == other.title &&
+            border == other.border
+    }
+
+    override fun hashCode(): Int {
+        var result = container.hashCode()
+        result = 31 * result + content.hashCode()
+        result = 31 * result + title.hashCode()
+        result = 31 * result + border.hashCode()
+        return result
+    }
+}
 
 /** Fully resolved text-field styling handed to the platform renderer. */
 @Immutable

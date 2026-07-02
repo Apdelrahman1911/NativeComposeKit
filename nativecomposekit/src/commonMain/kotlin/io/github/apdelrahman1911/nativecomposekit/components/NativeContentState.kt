@@ -22,9 +22,21 @@ public sealed interface NativeLoadState<out T> {
     /** Loaded successfully but there is nothing to display (empty list / no results). */
     public data object Empty : NativeLoadState<Nothing>
 
-    /** The load failed; [message] is a user-facing reason. Pair with `onRetry` for a retry affordance. */
+    /**
+     * The load failed; [message] is a user-facing reason and [cause] the underlying exception (for
+     * logging/diagnostics — never rendered). Pair with `onRetry` for a retry affordance. Compares by
+     * value over [message]/[cause]; not a `data class` so fields stay addable binary-compatibly.
+     */
     @Immutable
-    public data class Error(val message: String? = null) : NativeLoadState<Nothing>
+    public class Error(
+        public val message: String? = null,
+        public val cause: Throwable? = null,
+    ) : NativeLoadState<Nothing> {
+        override fun equals(other: Any?): Boolean =
+            this === other || (other is Error && message == other.message && cause == other.cause)
+
+        override fun hashCode(): Int = (message?.hashCode() ?: 0) * 31 + (cause?.hashCode() ?: 0)
+    }
 
     /** Loaded; [value] is the payload to render. */
     @Immutable

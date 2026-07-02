@@ -82,8 +82,8 @@ public fun NativeDialog(
         content = scheme.onSurface,
         title = scheme.onSurface,
     )
-    val shape = RoundedCornerShape(cornerRadius ?: NativeTheme.tokens.cornerMedium)
-    val resolvedElevation = elevation ?: 6.dp
+    val shape = RoundedCornerShape(cornerRadius ?: NativeTheme.tokens.cornerLarge)
+    val resolvedElevation = elevation ?: NativeTheme.tokens.elevationOverlay
     val pad = contentPadding ?: PaddingValues(NativeTheme.tokens.spacingLg)
     val tokens = NativeTheme.tokens
 

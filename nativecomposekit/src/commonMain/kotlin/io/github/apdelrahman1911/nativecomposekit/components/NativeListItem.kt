@@ -49,12 +49,12 @@ import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
  * remove it from your list in [onAction] and the row disappears. [destructive] tints the reveal red.
  */
 @Immutable
-public data class NativeSwipeAction(
-    val label: String,
-    val onAction: () -> Unit,
+public class NativeSwipeAction(
+    public val label: String,
+    public val onAction: () -> Unit,
     /** Decorative reveal glyph — a plain Compose [ImageVector] (the reveal is Compose-drawn on both platforms). */
-    val icon: ImageVector? = null,
-    val destructive: Boolean = false,
+    public val icon: ImageVector? = null,
+    public val destructive: Boolean = false,
 )
 
 /**

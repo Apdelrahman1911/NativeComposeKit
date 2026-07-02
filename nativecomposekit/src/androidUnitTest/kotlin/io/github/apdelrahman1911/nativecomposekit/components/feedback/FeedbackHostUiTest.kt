@@ -41,8 +41,8 @@ class FeedbackHostUiTest {
             }
         }
         val ids = runOnIdle {
-            val first = controller.confirmationSheet(title = "First", actions = listOf(NativeSheetAction("Go")))
-            val second = controller.confirmationSheet(title = "Second", actions = listOf(NativeSheetAction("Go")))
+            val first = controller.confirmationSheet(title = "First", actions = listOf(NativeConfirmationAction("Go")))
+            val second = controller.confirmationSheet(title = "Second", actions = listOf(NativeConfirmationAction("Go")))
             // First is active; second is queued behind it.
             assertEquals(first, controller.activeModal?.id)
             first to second

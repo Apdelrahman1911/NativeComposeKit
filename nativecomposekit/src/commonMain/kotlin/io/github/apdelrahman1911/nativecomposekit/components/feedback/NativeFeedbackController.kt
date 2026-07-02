@@ -77,7 +77,7 @@ internal data class SheetRecord(
     override val title: String?,
     override val message: String?,
     override val onCancel: (() -> Unit)?,
-    val actions: List<NativeSheetAction>,
+    val actions: List<NativeConfirmationAction>,
     val iosPresentation: NativePresentation,
 ) : ModalRecord
 
@@ -215,7 +215,7 @@ public class NativeFeedbackController internal constructor() {
     public fun confirmationSheet(
         title: String? = null,
         message: String? = null,
-        actions: List<NativeSheetAction>,
+        actions: List<NativeConfirmationAction>,
         onCancel: (() -> Unit)? = null,
         ios: NativeConfirmationSheetIosOptions = NativeConfirmationSheetIosOptions(),
     ): Long {

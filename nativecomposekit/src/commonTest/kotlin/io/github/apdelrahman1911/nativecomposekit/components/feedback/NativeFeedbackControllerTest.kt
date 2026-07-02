@@ -49,7 +49,7 @@ class NativeFeedbackControllerTest {
     fun dismissCurrentModal_invokes_onCancel_then_advances() {
         val c = controller()
         var cancelled = false
-        val id = c.confirmationSheet(actions = listOf(NativeSheetAction("Delete")), onCancel = { cancelled = true })
+        val id = c.confirmationSheet(actions = listOf(NativeConfirmationAction("Delete")), onCancel = { cancelled = true })
         assertEquals(id, c.activeModal?.id)
         c.dismissCurrentModal()
         assertTrue(cancelled)

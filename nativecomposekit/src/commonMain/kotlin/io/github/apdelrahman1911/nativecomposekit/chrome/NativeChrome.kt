@@ -2,30 +2,85 @@ package io.github.apdelrahman1911.nativecomposekit.chrome
 
 import androidx.compose.runtime.Immutable
 
-/** A tab as the native `UITabBar` should render it. */
+/**
+ * A tab as the native `UITabBar` should render it. Compares by value (shells may de-duplicate emissions);
+ * not a `data class` so consumer-constructed call sites survive future field additions binary-compatibly.
+ */
 @Immutable
-public data class NativeChromeTab(val id: String, val title: String, val sfSymbol: String)
+public class NativeChromeTab(
+    public val id: String,
+    public val title: String,
+    public val sfSymbol: String,
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NativeChromeTab) return false
+        return id == other.id && title == other.title && sfSymbol == other.sfSymbol
+    }
 
-/** A top-bar action (e.g. a "+"), rendered as a native `UIBarButtonItem`. */
+    override fun hashCode(): Int = (id.hashCode() * 31 + title.hashCode()) * 31 + sfSymbol.hashCode()
+}
+
+/** A top-bar action (e.g. a "+"), rendered as a native `UIBarButtonItem`. Compares by value. */
 @Immutable
-public data class NativeChromeAction(val id: String, val sfSymbol: String)
+public class NativeChromeAction(
+    public val id: String,
+    public val sfSymbol: String,
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NativeChromeAction) return false
+        return id == other.id && sfSymbol == other.sfSymbol
+    }
+
+    override fun hashCode(): Int = id.hashCode() * 31 + sfSymbol.hashCode()
+}
 
 /**
  * An immutable projection the native iOS chrome (a `UINavigationBar` + `UITabBar`) renders. It is pure display
  * data — it carries **no** route stack and is never authoritative. [sheetId] only tells the shell whether a sheet
  * should be presented; the sheet's Compose content comes from the iOS `NativeChromeSource.sheetViewController`.
+ * The shell treats one sheet at a time: to switch sheets, emit `sheetId = null` first, then the new id.
+ *
+ * Adapters construct this on every navigation change, so it is deliberately **not** a `data class`: fields
+ * ([backTitle] was one) can then be appended without breaking compiled adapters. Compares by value so
+ * shells can skip no-op emissions. `observe` callbacks may deliver on any thread — marshal to the main
+ * thread before touching UIKit.
  */
 @Immutable
-public data class NativeChromeState(
-    val title: String,
-    val canGoBack: Boolean,
-    val selectedTabId: String,
-    val tabs: List<NativeChromeTab>,
-    val actions: List<NativeChromeAction>,
-    val sheetId: String?,
+public class NativeChromeState(
+    public val title: String,
+    public val canGoBack: Boolean,
+    public val selectedTabId: String,
+    public val tabs: List<NativeChromeTab>,
+    public val actions: List<NativeChromeAction>,
+    public val sheetId: String?,
     /** The previous destination's title — shown as the native back-button label. Null at a tab root. */
-    val backTitle: String? = null,
-)
+    public val backTitle: String? = null,
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NativeChromeState) return false
+        return title == other.title &&
+            canGoBack == other.canGoBack &&
+            selectedTabId == other.selectedTabId &&
+            tabs == other.tabs &&
+            actions == other.actions &&
+            sheetId == other.sheetId &&
+            backTitle == other.backTitle
+    }
+
+    override fun hashCode(): Int {
+        var result = title.hashCode()
+        result = 31 * result + canGoBack.hashCode()
+        result = 31 * result + selectedTabId.hashCode()
+        result = 31 * result + tabs.hashCode()
+        result = 31 * result + actions.hashCode()
+        result = 31 * result + (sheetId?.hashCode() ?: 0)
+        result = 31 * result + (backTitle?.hashCode() ?: 0)
+        return result
+    }
+}
 
 /** Handle returned by [NativeChromeStateSource.observe]; [cancel] stops delivery (and breaks any retain cycle). */
 public fun interface NativeChromeCancellable {

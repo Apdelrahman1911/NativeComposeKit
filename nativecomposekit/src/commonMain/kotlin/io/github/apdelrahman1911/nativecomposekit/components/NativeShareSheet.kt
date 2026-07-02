@@ -4,9 +4,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 
-/** What to hand to the system share UI. Extend with images/files as the app needs them. */
+/**
+ * What to hand to the system share UI. Compares by value; not a `data class` so fields (images,
+ * files, a subject line) can be added later without breaking binary compatibility.
+ */
 @Immutable
-public data class NativeShareContent(val text: String? = null, val url: String? = null)
+public class NativeShareContent(
+    public val text: String? = null,
+    public val url: String? = null,
+) {
+    override fun equals(other: Any?): Boolean =
+        this === other || (other is NativeShareContent && text == other.text && url == other.url)
+
+    override fun hashCode(): Int = (text?.hashCode() ?: 0) * 31 + (url?.hashCode() ?: 0)
+}
 
 /**
  * Imperative share entry point obtained via [rememberNativeShare]; call [share] from a click lambda.

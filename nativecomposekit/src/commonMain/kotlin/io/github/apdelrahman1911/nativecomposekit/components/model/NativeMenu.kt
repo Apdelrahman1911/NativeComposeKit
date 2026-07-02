@@ -9,10 +9,10 @@ import androidx.compose.runtime.Immutable
  * `NativeIconButton`, and `NativeSplitButton` (chevron opens the menu).
  */
 @Immutable
-public data class NativeMenu(
-    val items: List<NativeMenuItem>,
+public class NativeMenu(
+    public val items: List<NativeMenuItem>,
     /** Optional header shown at the top of the menu (iOS `UIMenu.title`; ignored by Android Material). */
-    val title: String? = null,
+    public val title: String? = null,
 )
 
 /**
@@ -26,11 +26,11 @@ public data class NativeMenu(
  *   Android a trailing check). Use for single/multi-select menus (e.g. a sort-order picker).
  */
 @Immutable
-public data class NativeMenuItem(
-    val title: String,
-    val onSelect: () -> Unit,
-    val icon: NativeIcon? = null,
-    val role: NativeMenuItemRole = NativeMenuItemRole.Normal,
-    val enabled: Boolean = true,
-    val selected: Boolean = false,
+public class NativeMenuItem(
+    public val title: String,
+    public val onSelect: () -> Unit,
+    public val icon: NativeIcon? = null,
+    public val role: NativeMenuItemRole = NativeMenuItemRole.Normal,
+    public val enabled: Boolean = true,
+    public val selected: Boolean = false,
 )

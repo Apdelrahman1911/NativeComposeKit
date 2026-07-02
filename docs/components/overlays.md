@@ -120,8 +120,8 @@ A modal dialog for custom centered content, built to fit *your* design system ra
 | `dismissOnBackPress` | `Boolean` | `true` | Allow dismissal via the back gesture. |
 | `dismissOnClickOutside` | `Boolean` | `true` | Allow dismissal by tapping the scrim. |
 | `colorsOverride` | `NativeDialogColors?` | `null` | Container / content / title / border colors; defaults resolve from the theme. |
-| `cornerRadius` | `Dp?` | `null` | Surface corner radius (default `tokens.cornerMedium`). |
-| `elevation` | `Dp?` | `null` | Surface shadow elevation (default `6.dp`). |
+| `cornerRadius` | `Dp?` | `null` | Surface corner radius (default `tokens.cornerLarge`). |
+| `elevation` | `Dp?` | `null` | Surface shadow elevation (default `tokens.elevationOverlay`). |
 | `contentPadding` | `PaddingValues?` | `null` | Inner padding (default `tokens.spacingLg`). |
 | `horizontalAlignment` | `Alignment.Horizontal` | `Alignment.Start` | Column alignment of icon / title / content. |
 | `properties` | `DialogProperties?` | `null` | Advanced `Dialog` properties (e.g. platform width); overrides the dismiss booleans when set. |

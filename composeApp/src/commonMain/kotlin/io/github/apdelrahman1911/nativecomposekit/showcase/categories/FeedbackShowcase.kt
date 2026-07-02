@@ -33,7 +33,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeAler
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackPosition
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackStatus
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeInlineStatus
-import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeSheetAction
+import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeConfirmationAction
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonSize
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonVariant
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
@@ -129,14 +129,14 @@ fun FeedbackShowcase() = ShowcaseScreen(
                     feedback.confirmationSheet(
                         title = "Export report",
                         actions = listOf(
-                            NativeSheetAction("PDF", { feedback.toast("Exporting PDF") }),
-                            NativeSheetAction("CSV", { feedback.toast("Exporting CSV") }),
-                            NativeSheetAction(
+                            NativeConfirmationAction("PDF", { feedback.toast("Exporting PDF") }),
+                            NativeConfirmationAction("CSV", { feedback.toast("Exporting CSV") }),
+                            NativeConfirmationAction(
                                 "Delete report",
                                 { feedback.toast("Report deleted") },
                                 role = NativeAlertActionRole.Destructive,
                             ),
-                            NativeSheetAction("Cancel", role = NativeAlertActionRole.Cancel),
+                            NativeConfirmationAction("Cancel", role = NativeAlertActionRole.Cancel),
                         ),
                     )
                 },

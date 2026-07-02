@@ -8,12 +8,29 @@ import androidx.compose.ui.graphics.vector.ImageVector
  * Provide an [androidImageVector] for Android (Material icons) and/or an [sfSymbolName] for iOS
  * (SF Symbols). Each platform renderer uses the field it understands and ignores the other.
  *
- * A data class so two references to the same icon compare equal — inline-constructed icons in a
- * composable call would otherwise defeat recomposition skipping (and iOS size-fingerprint caching).
+ * Compares equal by value so two references to the same icon compare equal — inline-constructed icons in
+ * a composable call would otherwise defeat recomposition skipping (and iOS size-fingerprint caching). Not
+ * a `data class` so fields (tint, rendering mode, …) can be added later without breaking binary
+ * compatibility; the hand-written [equals]/[hashCode] keep the value-equality guarantee.
  */
 @Immutable
-public data class NativeIcon(
+public class NativeIcon(
     public val androidImageVector: ImageVector? = null,
     public val sfSymbolName: String? = null,
     public val contentDescription: String? = null,
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NativeIcon) return false
+        return androidImageVector == other.androidImageVector &&
+            sfSymbolName == other.sfSymbolName &&
+            contentDescription == other.contentDescription
+    }
+
+    override fun hashCode(): Int {
+        var result = androidImageVector?.hashCode() ?: 0
+        result = 31 * result + (sfSymbolName?.hashCode() ?: 0)
+        result = 31 * result + (contentDescription?.hashCode() ?: 0)
+        return result
+    }
+}

@@ -1,15 +1,10 @@
 public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeAction {
 	public static final field $stable I
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeAction;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeAction;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeAction;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getId ()Ljava/lang/String;
 	public final fun getSfSymbol ()Ljava/lang/String;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeCancellable {
@@ -20,15 +15,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChrom
 	public static final field $stable I
 	public fun <init> (Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Z
-	public final fun component3 ()Ljava/lang/String;
-	public final fun component4 ()Ljava/util/List;
-	public final fun component5 ()Ljava/util/List;
-	public final fun component6 ()Ljava/lang/String;
-	public final fun component7 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeState;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeState;Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeState;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getActions ()Ljava/util/List;
 	public final fun getBackTitle ()Ljava/lang/String;
@@ -38,7 +24,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChrom
 	public final fun getTabs ()Ljava/util/List;
 	public final fun getTitle ()Ljava/lang/String;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeStateSource {
@@ -53,17 +38,11 @@ public abstract interface class io/github/apdelrahman1911/nativecomposekit/chrom
 public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeTab {
 	public static final field $stable I
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeTab;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeTab;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeTab;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getId ()Ljava/lang/String;
 	public final fun getSfSymbol ()Ljava/lang/String;
 	public final fun getTitle ()Ljava/lang/String;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeMenu_androidKt {
@@ -287,15 +266,12 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeL
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Error : io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState {
 	public static final field $stable I
 	public fun <init> ()V
-	public fun <init> (Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Error;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Error;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Error;
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCause ()Ljava/lang/Throwable;
 	public final fun getMessage ()Ljava/lang/String;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState$Loading : io/github/apdelrahman1911/nativecomposekit/components/NativeLoadState {
@@ -408,15 +384,10 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeS
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeShareContent;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/NativeShareContent;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeShareContent;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getText ()Ljava/lang/String;
 	public final fun getUrl ()Ljava/lang/String;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeShareSheetKt {
@@ -455,19 +426,10 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeS
 	public static final field $stable I
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;Z)V
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Lkotlin/jvm/functions/Function0;
-	public final fun component3 ()Landroidx/compose/ui/graphics/vector/ImageVector;
-	public final fun component4 ()Z
-	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;Z)Lio/github/apdelrahman1911/nativecomposekit/components/NativeSwipeAction;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/NativeSwipeAction;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/graphics/vector/ImageVector;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeSwipeAction;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDestructive ()Z
 	public final fun getIcon ()Landroidx/compose/ui/graphics/vector/ImageVector;
 	public final fun getLabel ()Ljava/lang/String;
 	public final fun getOnAction ()Lkotlin/jvm/functions/Function0;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeTextFieldKt {
@@ -490,17 +452,9 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/feedbac
 	public static final field $stable I
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;)V
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Lkotlin/jvm/functions/Function0;
-	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
-	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertAction;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertAction;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertAction;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLabel ()Ljava/lang/String;
 	public final fun getOnClick ()Lkotlin/jvm/functions/Function0;
 	public final fun getRole ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole : java/lang/Enum {
@@ -517,13 +471,19 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/feedbac
 	public fun <init> ()V
 	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;)V
 	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
-	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertIosOptions;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertIosOptions;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertIosOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getPresentation ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeConfirmationAction {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;)V
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getIcon ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getOnClick ()Lkotlin/jvm/functions/Function0;
+	public final fun getRole ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeConfirmationSheetIosOptions {
@@ -531,13 +491,9 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/feedbac
 	public fun <init> ()V
 	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;)V
 	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
-	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeConfirmationSheetIosOptions;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeConfirmationSheetIosOptions;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeConfirmationSheetIosOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getPresentation ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativePresentation;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeFeedbackController {
@@ -615,46 +571,20 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/feedbac
 	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeQueueBehavior;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeSheetAction {
-	public static final field $stable I
-	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;)V
-	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Lkotlin/jvm/functions/Function0;
-	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
-	public final fun component4 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;
-	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeSheetAction;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeSheetAction;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeSheetAction;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getIcon ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;
-	public final fun getLabel ()Ljava/lang/String;
-	public final fun getOnClick ()Lkotlin/jvm/functions/Function0;
-	public final fun getRole ()Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeAlertActionRole;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class io/github/apdelrahman1911/nativecomposekit/components/feedback/NativeToastAndroidOptions {
 	public static final field $stable I
 	public fun <init> ()V
 	public fun <init> (Z)V
 	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Z
-	public final fun copy (Z)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeToastAndroidOptions;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeToastAndroidOptions;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/feedback/NativeToastAndroidOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getUseSystemToast ()Z
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors {
 	public static final field $stable I
 	public synthetic fun <init> (JJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (JJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-0d7_KjU ()J
-	public final fun component2-0d7_KjU ()J
-	public final fun component3-0d7_KjU ()J
 	public final fun copy-ysEtTa8 (JJJ)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;
 	public static synthetic fun copy-ysEtTa8$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;JJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;
 	public fun equals (Ljava/lang/Object;)Z
@@ -662,7 +592,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public final fun getContainer-0d7_KjU ()J
 	public final fun getContent-0d7_KjU ()J
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonShape : java/lang/Enum {
@@ -707,15 +636,10 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public static final field $stable I
 	public fun <init> (ILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;)V
 	public synthetic fun <init> (ILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()I
-	public final fun component2 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;
-	public final fun copy (ILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;ILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBehavior ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior;
 	public final fun getMax ()I
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimitBehavior : java/lang/Enum {
@@ -740,10 +664,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public static final field $stable I
 	public synthetic fun <init> (JJJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (JJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-0d7_KjU ()J
-	public final fun component2-0d7_KjU ()J
-	public final fun component3-0d7_KjU ()J
-	public final fun component4-0d7_KjU ()J
 	public final fun copy-jRlVdoo (JJJJ)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeDialogColors;
 	public static synthetic fun copy-jRlVdoo$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeDialogColors;JJJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeDialogColors;
 	public fun equals (Ljava/lang/Object;)Z
@@ -752,22 +672,11 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public final fun getContent-0d7_KjU ()J
 	public final fun getTitle-0d7_KjU ()J
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldColors {
 	public static final field $stable I
 	public synthetic fun <init> (JJJJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-0d7_KjU ()J
-	public final fun component10-0d7_KjU ()J
-	public final fun component2-0d7_KjU ()J
-	public final fun component3-0d7_KjU ()J
-	public final fun component4-0d7_KjU ()J
-	public final fun component5-0d7_KjU ()J
-	public final fun component6-0d7_KjU ()J
-	public final fun component7-0d7_KjU ()J
-	public final fun component8-0d7_KjU ()J
-	public final fun component9-0d7_KjU ()J
 	public final fun copy--K518z4 (JJJJJJJJJJ)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldColors;
 	public static synthetic fun copy--K518z4$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldColors;JJJJJJJJJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldColors;
 	public fun equals (Ljava/lang/Object;)Z
@@ -782,7 +691,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public final fun getPlaceholder-0d7_KjU ()J
 	public final fun getText-0d7_KjU ()J
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldFocus {
@@ -790,15 +698,10 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public fun <init> ()V
 	public fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;)V
 	public synthetic fun <init> (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lkotlin/jvm/functions/Function1;
-	public final fun component2 ()Lkotlin/jvm/functions/Function0;
 	public final fun copy (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldFocus;
 	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldFocus;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldFocus;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getOnFocusChanged ()Lkotlin/jvm/functions/Function1;
 	public final fun getOnSubmit ()Lkotlin/jvm/functions/Function0;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldInput {
@@ -806,17 +709,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public fun <init> ()V
 	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;)V
 	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;
-	public final fun component2 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;
-	public final fun component3 ()Z
-	public final fun component4 ()Z
-	public final fun component5 ()I
-	public final fun component6 ()I
-	public final fun component7 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;
-	public final fun component8 ()Z
-	public final fun component9 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;
-	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldInput;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldInput;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardType;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction;ZZIILio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;ZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeCharacterLimit;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeFieldInput;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAutoCorrect ()Z
 	public final fun getCapitalization ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeCapitalization;
@@ -828,7 +720,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public final fun getSecure ()Z
 	public final fun getSingleLine ()Z
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon {
@@ -836,17 +727,11 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public fun <init> ()V
 	public fun <init> (Landroidx/compose/ui/graphics/vector/ImageVector;Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Landroidx/compose/ui/graphics/vector/ImageVector;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Landroidx/compose/ui/graphics/vector/ImageVector;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Ljava/lang/String;
-	public final fun copy (Landroidx/compose/ui/graphics/vector/ImageVector;Ljava/lang/String;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Landroidx/compose/ui/graphics/vector/ImageVector;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAndroidImageVector ()Landroidx/compose/ui/graphics/vector/ImageVector;
 	public final fun getContentDescription ()Ljava/lang/String;
 	public final fun getSfSymbolName ()Ljava/lang/String;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeImeAction : java/lang/Enum {
@@ -875,17 +760,11 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public fun <init> ()V
 	public fun <init> (ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;)V
 	public synthetic fun <init> (ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Z
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;
-	public final fun copy (ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;ZLjava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDoneButton ()Z
 	public final fun getDoneText ()Ljava/lang/String;
 	public final fun getStyle ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessoryStyle : java/lang/Enum {
@@ -920,38 +799,20 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public static final field $stable I
 	public fun <init> (Ljava/util/List;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/util/List;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/util/List;Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getItems ()Ljava/util/List;
 	public final fun getTitle ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItem {
 	public static final field $stable I
 	public fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;ZZ)V
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Lkotlin/jvm/functions/Function0;
-	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;
-	public final fun component4 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;
-	public final fun component5 ()Z
-	public final fun component6 ()Z
-	public final fun copy (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;ZZ)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItem;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItem;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;ZZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItem;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEnabled ()Z
 	public final fun getIcon ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;
 	public final fun getOnSelect ()Lkotlin/jvm/functions/Function0;
 	public final fun getRole ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;
 	public final fun getSelected ()Z
 	public final fun getTitle ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole : java/lang/Enum {
@@ -982,17 +843,11 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public fun <init> ()V
 	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;)V
 	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
-	public final fun component2 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;
-	public final fun component3 ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;
-	public final fun copy (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextFieldIosOptions;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextFieldIosOptions;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;ILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextFieldIosOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getClearButton ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeClearButtonMode;
 	public final fun getKeyboardAccessory ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAccessory;
 	public final fun getKeyboardAppearance ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeKeyboardAppearance;
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeTextStyle : java/lang/Enum {
@@ -1033,13 +888,9 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeCapabi
 	public fun <init> ()V
 	public fun <init> (Z)V
 	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Z
-	public final fun copy (Z)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeCapabilities;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/theme/NativeCapabilities;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeCapabilities;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public final fun isReduceMotionEnabled ()Z
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeCapabilitiesKt {
@@ -1049,18 +900,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeCapabi
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors {
 	public static final field $stable I
 	public synthetic fun <init> (JJJJJJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-0d7_KjU ()J
-	public final fun component10-0d7_KjU ()J
-	public final fun component11-0d7_KjU ()J
-	public final fun component12-0d7_KjU ()J
-	public final fun component2-0d7_KjU ()J
-	public final fun component3-0d7_KjU ()J
-	public final fun component4-0d7_KjU ()J
-	public final fun component5-0d7_KjU ()J
-	public final fun component6-0d7_KjU ()J
-	public final fun component7-0d7_KjU ()J
-	public final fun component8-0d7_KjU ()J
-	public final fun component9-0d7_KjU ()J
 	public final fun copy-2qZNXz8 (JJJJJJJJJJJJ)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;
 	public static synthetic fun copy-2qZNXz8$default (Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;JJJJJJJJJJJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1077,23 +916,29 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeStatus
 	public final fun getWarning-0d7_KjU ()J
 	public final fun getWarningContainer-0d7_KjU ()J
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColorsKt {
+	public static final fun darkNativeStatusColors-2qZNXz8 (JJJJJJJJJJJJ)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;
+	public static synthetic fun darkNativeStatusColors-2qZNXz8$default (JJJJJJJJJJJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;
 	public static final fun getLocalNativeStatusColors ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+	public static final fun lightNativeStatusColors-2qZNXz8 (JJJJJJJJJJJJ)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;
+	public static synthetic fun lightNativeStatusColors-2qZNXz8$default (JJJJJJJJJJJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeStrings {
 	public static final field $stable I
 	public fun <init> ()V
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getAlertCancel ()Ljava/lang/String;
 	public final fun getAlertOk ()Ljava/lang/String;
+	public final fun getBack ()Ljava/lang/String;
 	public final fun getChipRemove ()Ljava/lang/String;
 	public final fun getColorPickerTitle ()Ljava/lang/String;
+	public final fun getColorSwatchDescription ()Lkotlin/jvm/functions/Function2;
 	public final fun getColorWellDescription ()Ljava/lang/String;
+	public final fun getDialogPaneTitle ()Ljava/lang/String;
 	public final fun getDismiss ()Ljava/lang/String;
 	public final fun getDone ()Ljava/lang/String;
 	public final fun getEmptyStateTitle ()Ljava/lang/String;
@@ -1105,10 +950,16 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeString
 	public final fun getPageDescription ()Lkotlin/jvm/functions/Function2;
 	public final fun getRatingDescription ()Lkotlin/jvm/functions/Function2;
 	public final fun getRatingSetDescription ()Lkotlin/jvm/functions/Function2;
+	public final fun getRefresh ()Ljava/lang/String;
+	public final fun getRefreshing ()Ljava/lang/String;
 	public final fun getRetry ()Ljava/lang/String;
 	public final fun getSearchClear ()Ljava/lang/String;
 	public final fun getSearchPlaceholder ()Ljava/lang/String;
 	public final fun getSplitButtonMore ()Ljava/lang/String;
+	public final fun getStatusError ()Ljava/lang/String;
+	public final fun getStatusInfo ()Ljava/lang/String;
+	public final fun getStatusSuccess ()Ljava/lang/String;
+	public final fun getStatusWarning ()Ljava/lang/String;
 	public final fun getStepperDecrement ()Ljava/lang/String;
 	public final fun getStepperIncrement ()Ljava/lang/String;
 }
@@ -1120,32 +971,18 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeString
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeTheme {
 	public static final field $stable I
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTheme;
+	public final fun getCapabilities (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeCapabilities;
 	public final fun getStatusColors (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;
+	public final fun getStrings (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStrings;
 	public final fun getTokens (Landroidx/compose/runtime/Composer;I)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeTokens {
 	public static final field $stable I
-	public synthetic fun <init> (FFFFFFFFFFFFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (FFFFFFFFFFFFFFFFLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-D9Ej5fM ()F
-	public final fun component10-D9Ej5fM ()F
-	public final fun component11-D9Ej5fM ()F
-	public final fun component12-D9Ej5fM ()F
-	public final fun component13-D9Ej5fM ()F
-	public final fun component14-D9Ej5fM ()F
-	public final fun component15-D9Ej5fM ()F
-	public final fun component16-D9Ej5fM ()F
-	public final fun component2-D9Ej5fM ()F
-	public final fun component3-D9Ej5fM ()F
-	public final fun component4-D9Ej5fM ()F
-	public final fun component5-D9Ej5fM ()F
-	public final fun component6-D9Ej5fM ()F
-	public final fun component7-D9Ej5fM ()F
-	public final fun component8-D9Ej5fM ()F
-	public final fun component9-D9Ej5fM ()F
-	public final fun copy-TfHjUgA (FFFFFFFFFFFFFFFF)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;
-	public static synthetic fun copy-TfHjUgA$default (Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;FFFFFFFFFFFFFFFFILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;
+	public synthetic fun <init> (FFFFFFFFFFFFFFFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FFFFFFFFFFFFFFFFFFFLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy-3cAl3GE (FFFFFFFFFFFFFFFFFFF)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;
+	public static synthetic fun copy-3cAl3GE$default (Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;FFFFFFFFFFFFFFFFFFFILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getButtonHeightLarge-D9Ej5fM ()F
 	public final fun getButtonHeightMedium-D9Ej5fM ()F
@@ -1156,15 +993,17 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeTokens
 	public final fun getButtonPadVLarge-D9Ej5fM ()F
 	public final fun getButtonPadVMedium-D9Ej5fM ()F
 	public final fun getButtonPadVSmall-D9Ej5fM ()F
+	public final fun getCornerLarge-D9Ej5fM ()F
 	public final fun getCornerMedium-D9Ej5fM ()F
 	public final fun getCornerSmall-D9Ej5fM ()F
+	public final fun getElevationOverlay-D9Ej5fM ()F
+	public final fun getElevationRaised-D9Ej5fM ()F
 	public final fun getFieldMinHeight-D9Ej5fM ()F
 	public final fun getSpacingLg-D9Ej5fM ()F
 	public final fun getSpacingMd-D9Ej5fM ()F
 	public final fun getSpacingSm-D9Ej5fM ()F
 	public final fun getSpacingXs-D9Ej5fM ()F
 	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeTokensKt {

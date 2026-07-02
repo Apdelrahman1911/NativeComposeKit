@@ -17,6 +17,11 @@ import androidx.compose.runtime.staticCompositionLocalOf
  * Text you pass to a component yourself (titles, labels, placeholders, action labels) is never touched by
  * this table — it only covers what the kit would otherwise hardcode. Screen-reader-only strings matter as
  * much as the visible ones: they are what TalkBack/VoiceOver announce.
+ *
+ * Create your translated instance **once** (a top-level `val`, or `remember { NativeStrings(…) }`) and pass
+ * that same instance — the table is compared by identity, so a fresh instance per recomposition would
+ * re-invalidate everything under the static local. New entries are only ever **appended** with defaults, so
+ * positional and named construction stay source-compatible across releases.
  */
 @Immutable
 public class NativeStrings(
@@ -64,7 +69,32 @@ public class NativeStrings(
     public val pageDescription: (page: Int, pageCount: Int) -> String = { page, count -> "Page $page of $count" },
     /** Accessibility action label of a page-control dot, given the 1-based page it jumps to. */
     public val goToPage: (page: Int) -> String = { page -> "Go to page $page" },
+    /** Accessibility label of a top bar's navigation (back) control when the caller provides none. */
+    public val back: String = "Back",
+    /** Accessibility pane title announced when a [io.github.apdelrahman1911.nativecomposekit.components.NativeDialog] with no plain-text title opens. */
+    public val dialogPaneTitle: String = "Dialog",
+    /** Accessibility action label that triggers a pull-to-refresh without the gesture. */
+    public val refresh: String = "Refresh",
+    /** Announced while a pull-to-refresh is in flight. */
+    public val refreshing: String = "Refreshing",
+    /** Spoken name of the Success feedback status (prefixed to screen-reader announcements). */
+    public val statusSuccess: String = "Success",
+    /** Spoken name of the Warning feedback status. */
+    public val statusWarning: String = "Warning",
+    /** Spoken name of the Info feedback status. */
+    public val statusInfo: String = "Info",
+    /** Spoken name of the Error feedback status. */
+    public val statusError: String = "Error",
+    /** Accessibility description of a preset color swatch, given its 1-based index and the swatch count. */
+    public val colorSwatchDescription: (index: Int, count: Int) -> String = { index, count -> "Color $index of $count" },
 )
+
+/**
+ * The default (English) strings table — a single shared instance so the default parameter of
+ * [AppTheme]/`NativeAppearanceScope` keeps one identity across recompositions (the table holds
+ * lambdas, so identity is its only meaningful equality).
+ */
+internal val DefaultNativeStrings: NativeStrings = NativeStrings()
 
 /**
  * The active [NativeStrings] table. Static: a language change replaces the whole table at the root, which

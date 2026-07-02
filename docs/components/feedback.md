@@ -270,7 +270,7 @@ A blocking action sheet for choosing among actions. Posted through the controlle
 |---|---|---|---|
 | `title` | `String?` | `null` | Sheet title. |
 | `message` | `String?` | `null` | Sheet body. |
-| `actions` | `List<NativeSheetAction>` | — | The action rows. Each may carry a `NativeIcon`. |
+| `actions` | `List<NativeConfirmationAction>` | — | The action rows. Each may carry a `NativeIcon`. |
 | `onCancel` | `(() -> Unit)?` | `null` | Called when dismissed without choosing an action. |
 | `ios` | `NativeConfirmationSheetIosOptions` | `NativeConfirmationSheetIosOptions()` | iOS presentation strategy (see below). |
 
@@ -280,15 +280,15 @@ A blocking action sheet for choosing among actions. Posted through the controlle
 feedback.confirmationSheet(
     title = "Photo",
     actions = listOf(
-        NativeSheetAction("Share", { share() }),
-        NativeSheetAction("Delete", { delete() }, role = NativeAlertActionRole.Destructive),
-        NativeSheetAction("Cancel", role = NativeAlertActionRole.Cancel),
+        NativeConfirmationAction("Share", { share() }),
+        NativeConfirmationAction("Delete", { delete() }, role = NativeAlertActionRole.Destructive),
+        NativeConfirmationAction("Cancel", role = NativeAlertActionRole.Cancel),
     ),
 )
 ```
 
 **Notes**
-- `NativeSheetAction.icon` uses `NativeIcon.androidImageVector` on Android and `NativeIcon.sfSymbolName` on iOS.
+- `NativeConfirmationAction.icon` uses `NativeIcon.androidImageVector` on Android and `NativeIcon.sfSymbolName` on iOS.
 - On iPad the native action sheet is anchored to the centre of the presenter's view via KVC (`popoverPresentationController` is not a static member in this Kotlin/Native UIKit version); on iPhone the popover controller is `nil`, so the anchoring is a no-op and behavior is unchanged.
 
 ### NativeInlineStatus
@@ -349,7 +349,7 @@ These back the feedback API surface above.
 | `NativeAlertActionRole` | `Default`, `Cancel`, `Destructive` | At most one `Cancel` per alert. `Destructive` renders red. |
 | `NativePresentation` | `Native`, `Branded` | iOS presentation strategy for alert/sheet. |
 | `NativeAlertAction` | `label: String`, `onClick: () -> Unit = {}`, `role: NativeAlertActionRole = Default` | One alert button. `onClick` runs after the alert dismisses. |
-| `NativeSheetAction` | `label: String`, `onClick: () -> Unit = {}`, `role: NativeAlertActionRole = Default`, `icon: NativeIcon? = null` | One sheet row. |
+| `NativeConfirmationAction` | `label: String`, `onClick: () -> Unit = {}`, `role: NativeAlertActionRole = Default`, `icon: NativeIcon? = null` | One sheet row. |
 | `NativeToastAndroidOptions` | `useSystemToast: Boolean = false` | Android-only toast knob. |
 | `NativeAlertIosOptions` | `presentation: NativePresentation = Native` | iOS-only alert knob. |
 | `NativeConfirmationSheetIosOptions` | `presentation: NativePresentation = Native` | iOS-only confirmation-sheet knob. |
