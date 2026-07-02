@@ -231,7 +231,7 @@ A hairline separator for stacked rows or side-by-side content.
 | modifier | Modifier | Modifier | Layout modifier applied to the divider. |
 | orientation | NativeDividerOrientation | NativeDividerOrientation.Horizontal | `Horizontal` separates stacked rows; `Vertical` separates side-by-side content. |
 | thickness | Dp | 1.dp | Line thickness. |
-| color | Color? | null | Line color; falls back to `outlineVariant`. |
+| color | Color? | null | Line color; the default is derived from the surface it sits on (published `LocalNativeSurface` nudged toward `onSurface`) so it stays visible on a page, in a Filled card, and in dark mode. |
 | startIndent | Dp | 0.dp | Leading inset (top inset when `Vertical`). |
 | endIndent | Dp | 0.dp | Trailing inset (bottom inset when `Vertical`). |
 | testTag | String? | null | Test tag for UI tests. |
@@ -242,4 +242,4 @@ A hairline separator for stacked rows or side-by-side content.
 NativeDivider(startIndent = 56.dp) // inset under a leading icon
 ```
 
-**Notes** — Defaults to a 1dp `outlineVariant` line. For a `Horizontal` divider the `startIndent`/`endIndent` insets are layout-direction aware, so an inset separator that begins after a list item's text aligns correctly in RTL. For a `Vertical` divider they map to top/bottom insets, which is a direction-neutral axis.
+**Notes** — Defaults to a 1dp surface-adaptive line (derived from the published `LocalNativeSurface` nudged toward `onSurface`, so it never vanishes on a Filled card or in dark mode); pass an explicit `color` to override. For a `Horizontal` divider the `startIndent`/`endIndent` insets are layout-direction aware, so an inset separator that begins after a list item's text aligns correctly in RTL. For a `Vertical` divider they map to top/bottom insets, which is a direction-neutral axis.

@@ -28,7 +28,7 @@ version = "0.1.0"
 apiValidation {
     @OptIn(ExperimentalBCVApi::class)
     klib {
-        // Also validate the KLIB ABI (the iOS-facing surface — e.g. NativeNavBridge — that the JVM dump misses).
+        // Also validate the KLIB ABI (the iOS-facing surface — e.g. NativeChromeSource — that the JVM dump misses).
         enabled = true
     }
 }

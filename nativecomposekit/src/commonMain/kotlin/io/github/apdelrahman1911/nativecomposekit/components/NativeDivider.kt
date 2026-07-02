@@ -18,7 +18,9 @@ import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 public enum class NativeDividerOrientation { Horizontal, Vertical }
 
 /**
- * A hairline separator (Compose-drawn on both platforms). Defaults to a 1dp `outlineVariant` line. For a
+ * A hairline separator (Compose-drawn on both platforms). The default 1dp color is derived from the surface
+ * it sits on (the published `LocalNativeSurface` nudged toward `onSurface`), so it stays visible on a page,
+ * inside a Filled card, and in dark mode; pass an explicit [color] to override. For a
  * [NativeDividerOrientation.Horizontal] divider the [startIndent]/[endIndent] insets are **layout-direction
  * aware** (an iOS-style inset separator that begins after a list item's text aligns correctly in RTL); for
  * a [NativeDividerOrientation.Vertical] divider they map to top/bottom insets (a vertical axis — so they are

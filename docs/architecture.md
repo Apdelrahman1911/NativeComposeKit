@@ -121,9 +121,11 @@ Principles:
   - Platform-only knobs → `ios = …` / `android = …` typed option objects.
   - Native touch behavior → `touch: NativeInteropTouch` (see §6).
   - Every option has a **safe default**, so the short call still compiles.
-- **Grouping organizes a rich surface; it never shrinks it.** Even "simple" components (Toggle,
-  Stepper) carry the full surface (label, supporting text, size, style, colors, haptics, touch,
-  testTag, ios/android) — they just don't *require* any of it.
+- **Grouping organizes a rich surface; it never shrinks it.** Components expose the knobs that are
+  meaningful for them (per the inclusion rule below) — a text field carries the full input/focus/ios
+  clusters, while a leaf like Toggle stays deliberately small (checked, enabled, a11y, testTag). The
+  point is that grouping never *hides* a knob a component should have, not that every component carries
+  every possible knob.
 
 ### Inclusion rule (bounds "expose everything")
 Expose a knob if **(1)** it is meaningful for real production customization, **(2)** it is safe to
@@ -148,26 +150,27 @@ A **raw** escape hatch like `ios.configure { uiTextField -> … }` **cannot be i
 1. **Shared props** where behavior aligns (identical semantics both platforms).
 2. **Documented divergence** — each component's renderer differences are documented on its [components reference](components/README.md) page.
 3. **Typed `ios` / `android` option objects** for knobs that don't generalize.
-4. **Safe fallbacks** — an unsupported prop is a documented **no-op**, never a crash. Callers branch
-   intentionally via `NativeCapabilities` (§5) when they care.
+4. **Safe fallbacks** — an unsupported prop is a documented **no-op**, never a crash. Runtime signals a
+   component adapts to (e.g. reduce-motion) are published via `NativeCapabilities` (§5).
 
 ---
 
-## 5. NativeCapabilities (added early)
+## 5. NativeCapabilities
 
-A small, honest, runtime-truthful capability layer so we never pretend a feature exists:
+A small, runtime-truthful capability layer so components adapt to the environment instead of pretending.
+It's an `@Immutable data class` published via `LocalNativeCapabilities` by `NativeAppearanceScope` (which
+reads the real platform values); components read `LocalNativeCapabilities.current`. Kept intentionally tiny
+and grown only as signals are actually wired:
 
 ```kotlin
-object NativeCapabilities {
-    val platformVersion: NativePlatformVersion          // os + version
-    val isLiquidGlassAvailable: Boolean                // iOS >= 26 at runtime
-    val supportsNativeSearch: Boolean
-    val supportsSwiftCharts: Boolean
-    val supportsMultilineNativeField: Boolean
-    // grows as features land; each flag is a real check, not aspirational
-}
+@Immutable
+data class NativeCapabilities(
+    val isReduceMotionEnabled: Boolean = false, // iOS Reduce Motion / Android Remove animations
+)
 ```
 
+Today it carries only `isReduceMotionEnabled` (e.g. `NativeSkeleton`'s shimmer defaults off when it's set).
+Add further system-derived signals here as they are implemented — each a real read, never aspirational.
 Pairs with the "unsupported = documented no-op" rule.
 
 ---

@@ -2,9 +2,11 @@
 
 A thin Swift app around the shared Compose UI. The entry point (`iOSApp.swift`) creates the Kotlin
 navigator with `MainViewControllerKt.createNativeNavRoot()` and hands it to `NativeNavShell`
-(`Native/NativeNavShell.swift`) — real UIKit chrome (`UINavigationController` + `UITabBarController`)
-that projects the Compose-owned navigation state and sends intents back. It never owns or reconciles
-the stack; Kotlin stays the single source of truth. The shell ignores safe areas so Compose content
+(`Native/NativeNavShell.swift`) — real UIKit chrome (a bare `UINavigationBar` + `UITabBar`, **not**
+stack-owning `UINavigationController`/`UITabBarController`) that projects the Compose-owned navigation
+state and sends intents back. Using the bare bars is deliberate: a `UINavigationController` owns a stack
+by construction and would fight Kotlin's navigator (the dual-ownership bug the design forbids). It never
+owns or reconciles the stack; Kotlin stays the single source of truth. The shell ignores safe areas so Compose content
 renders edge-to-edge and scrolls under the Liquid Glass bars. See
 [`docs/native-chrome.md`](../docs/native-chrome.md) for the full pattern.
 

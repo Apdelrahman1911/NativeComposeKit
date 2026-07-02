@@ -60,9 +60,10 @@ val bottomInset = WindowInsets.safeDrawing.asPaddingValues().calculateBottomPadd
 CompositionLocalProvider(LocalNativeContentBottomInset provides bottomInset) { … }
 ```
 
-`LocalNativeContentTopInset`/`LocalNativeContentBottomInset` live in the **sample app**
-(`app/NativeContentInsets.kt`), not the library — the shell is a reference implementation, and the local is
-one line to copy. It defaults to `0.dp`, which is also the correct Android value: the Material `NativeNavHost`
+`LocalNativeContentBottomInset` lives in the **sample app** (`app/NativeContentInsets.kt`), not the library
+— the shell is a reference implementation, and the local is one line to copy. (The nav bar needs no matching
+top inset: the content view controller is constrained below it, so only the overlaying tab bar's height is
+published.) It defaults to `0.dp`, which is also the correct Android value: the Material `NativeNavHost`
 reserves space for its `NavigationBar` through Scaffold padding, so shared screens read the local and stay
 correct on both platforms without a platform check.
 

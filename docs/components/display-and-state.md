@@ -23,11 +23,11 @@ A switcher that renders the right UI for a `NativeLoadState`: a spinner while lo
 | `state` | `NativeLoadState<T>` | — | Current load state. |
 | `modifier` | `Modifier` | `Modifier` | Applied to the content box and the centered placeholder box. |
 | `onRetry` | `(() -> Unit)?` | `null` | When set, the default error state shows a retry button. |
-| `emptyTitle` | `String` | `"Nothing here yet"` | Title for the default empty state. |
+| `emptyTitle` | `String` | `LocalNativeStrings.current.emptyStateTitle` (English: `"Nothing here yet"`) | Title for the default empty state; localized via `NativeStrings`. |
 | `emptyMessage` | `String?` | `null` | Message for the default empty state. |
 | `emptyIcon` | `ImageVector?` | `null` | Icon for the default empty and error states. |
-| `errorTitle` | `String` | `"Something went wrong"` | Title for the default error state. |
-| `retryLabel` | `String` | `"Retry"` | Label for the retry button. |
+| `errorTitle` | `String` | `LocalNativeStrings.current.errorStateTitle` (English: `"Something went wrong"`) | Title for the default error state; localized via `NativeStrings`. |
+| `retryLabel` | `String` | `LocalNativeStrings.current.retry` (English: `"Retry"`) | Label for the retry button; localized via `NativeStrings`. |
 | `loadingContent` | `(@Composable () -> Unit)?` | `null` | Override for the loading visual (e.g. skeleton rows). |
 | `emptyContent` | `(@Composable () -> Unit)?` | `null` | Override for the empty visual. |
 | `errorContent` | `(@Composable (NativeLoadState.Error) -> Unit)?` | `null` | Override for the error visual; receives the error state. |

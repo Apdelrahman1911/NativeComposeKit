@@ -47,8 +47,8 @@ public enum class NativeKeyboardAppearance { Default, Light, Dark }
 
 /**
  * Visual style of the iOS keyboard input-accessory.
- * - [FullWidthBar] (default): a clean full-width rectangular bar above the keyboard with a Done button.
- * - [Toolbar]: a standard translucent `UIToolbar` with a Done bar-button.
+ * - [FullWidthBar]: a clean full-width rectangular bar above the keyboard with a Done button.
+ * - [Toolbar] (default): a standard translucent `UIToolbar` with a Done bar-button.
  */
 public enum class NativeKeyboardAccessoryStyle { FullWidthBar, Toolbar }
 

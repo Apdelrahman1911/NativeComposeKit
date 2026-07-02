@@ -109,7 +109,7 @@ NativeTextField(
 - `ios.keyboardAppearance` and `ios.keyboardAccessory` are iOS-only and are no-ops on Android. The Done accessory dismisses the keyboard and, for single-line fields, fires `focus.onSubmit`.
 - Character limit behavior is identical on both platforms (enforced in shared code): `Enforce` hard-caps input (typing past the max is rejected, paste is trimmed); `WarnOnly` lets the value exceed the max and leaves it to the caller to surface a counter or error.
 - Keyboard avoidance: a focused field scrolls to stay above the keyboard. The host scroll container must apply the kit's `Modifier.nativeImePadding(minBottom = …)`; the component supplies the bring-into-view. On Android it delegates to Compose's IME inset; on iOS it tracks the real keyboard frame in window coordinates (correct under the edge-to-edge chrome shell, and zero for a floating iPad keyboard).
-- Single-line fields keep a fixed height, so very large accessibility text sizes may clip.
+- Single-line fields scale their host height with the Dynamic Type font scale (`style.minHeight × fontScale`, multiline ×2), so large accessibility text sizes grow the field instead of clipping.
 
 ### NativeSearchBar
 
@@ -132,7 +132,7 @@ An inline search field for browse and search screens. Distinct from a nav-bar `.
 | `value` | `String` | — | Current query text. |
 | `onValueChange` | `(String) -> Unit` | — | Called with the new query on edit. |
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
-| `placeholder` | `String` | `"Search"` | Placeholder text. |
+| `placeholder` | `String` | `LocalNativeStrings.current.searchPlaceholder` (English: `"Search"`) | Placeholder text; the default is localized via the `NativeStrings` theme layer. |
 | `onSearch` | `(() -> Unit)?` | `null` | Fired on the keyboard Search/Return key. |
 | `onCancel` | `(() -> Unit)?` | `null` | Fired on the iOS Cancel button and the Android clear button (which also clears the text). |
 | `enabled` | `Boolean` | `true` | Whether the field accepts input. |
