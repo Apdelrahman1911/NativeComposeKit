@@ -48,7 +48,7 @@ private class GlassTestState {
  * surface with no published `LocalNativeSurface`** (the bare path — on iOS this is a Liquid Glass sheet) and
  * again **inside a `NativeCard`** (which publishes its `surfaceVariant`). Compare the two: if the bare controls
  * are clean, bare-on-glass is allowed; if they show black/white rectangles, the rule is definitive — UIKit
- * controls must live in a solid surface. See `docs/interop-backdrop-audit.md`.
+ * controls must live in a solid surface. See `docs/interop-notes.md`.
  */
 @Composable
 fun GlassInteropTestScreen() {

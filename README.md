@@ -63,7 +63,7 @@ Compose artifacts — no third-party runtime dependencies.
 ```
 :nativecomposekit     the UI kit (published surface; ABI-locked with binary-compatibility-validator)
 :composeApp   the sample catalog app that exercises every component on both platforms
-iosApp        thin SwiftUI host that loads the shared Compose UI
+iosApp        native iOS host: the UIKit chrome shell (UINavigationBar + UITabBar) in a SwiftUI app entry
 ```
 
 ## Setup
@@ -102,9 +102,6 @@ kotlin {
     }
 }
 ```
-
-`org.jetbrains.compose.experimental.uikit.enabled=true` must be set in `gradle.properties` for the
-iOS UIKit interop to compile.
 
 ## Usage
 
@@ -163,6 +160,10 @@ renderers set `overrideUserInterfaceStyle` from the luminance of the surface the
 read correctly in light and dark on any background. See
 [`docs/design-system-rules.md`](docs/design-system-rules.md) for the rules a component follows.
 
+Strings the kit renders on its own (retry buttons, alert fallbacks, accessibility labels) come from a
+localizable table with English defaults — pass a translated `NativeStrings` the same way:
+`AppTheme(strings = NativeStrings(retry = "…", dismiss = "…"))`.
+
 ## Project structure
 
 A typical app using the kit looks like:
@@ -174,7 +175,7 @@ app/
     screens/            your screens, built from Native* components
   androidMain/          MainActivity → App()
   iosMain/              MainViewController → App()
-iosApp/                 SwiftUI host (ComposeUIViewController)
+iosApp/                 native iOS host (chrome shell + ComposeUIViewController)
 ```
 
 Keep `AppTheme` at the root so every component resolves the same theme. Build screens out of

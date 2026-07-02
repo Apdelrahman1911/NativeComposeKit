@@ -26,6 +26,7 @@ iOS-specific interop behavior is in [`interop-notes.md`](../interop-notes.md).
 |---|---|
 | `NativeAvatar` | [Display & state](display-and-state.md) |
 | `NativeBadge` | [Display & state](display-and-state.md) |
+| `NativeBadgedBox` | [Display & state](display-and-state.md) |
 | `NativeButton` | [Buttons](buttons.md) |
 | `NativeCard` | [Layout](layout.md) |
 | `NativeCheckbox` | [Selection & sliders](selection-and-sliders.md) |
@@ -37,7 +38,9 @@ iOS-specific interop behavior is in [`interop-notes.md`](../interop-notes.md).
 | `NativeDialogColors` | [Overlays](overlays.md) |
 | `NativeDivider` | [Layout](layout.md) |
 | `NativeEmptyState` | [Display & state](display-and-state.md) |
+| `NativeFeedbackHost` | [Feedback & progress](feedback.md) |
 | `NativeIconButton` | [Buttons](buttons.md) |
+| `NativeInlineStatus` | [Feedback & progress](feedback.md) |
 | `NativeListItem` | [Layout](layout.md) |
 | `NativeListSection` | [Layout](layout.md) |
 | `NativeLoadMoreEffect` | [Pickers](pickers.md) |
@@ -58,6 +61,7 @@ iOS-specific interop behavior is in [`interop-notes.md`](../interop-notes.md).
 | `NativeSheet` | [Overlays](overlays.md) |
 | `NativeSkeleton` | [Display & state](display-and-state.md) |
 | `NativeSlider` | [Selection & sliders](selection-and-sliders.md) |
+| `NativeSplitButton` | [Buttons](buttons.md) |
 | `NativeStepper` | [Selection & sliders](selection-and-sliders.md) |
 | `NativeText` | [Text & input](text-and-input.md) |
 | `NativeTextField` | [Text & input](text-and-input.md) |
@@ -70,5 +74,6 @@ iOS-specific interop behavior is in [`interop-notes.md`](../interop-notes.md).
 | `nativeFocusOrder` | [Accessibility & focus](accessibility.md) |
 | `nativeFocusTarget` | [Accessibility & focus](accessibility.md) |
 | `nativeHeading` | [Accessibility & focus](accessibility.md) |
+| `nativeImePadding` | [Text & input](text-and-input.md) |
 | `nativePaginationFooter` | [Pickers](pickers.md) |
 | `rememberNativeFocusHandle` | [Accessibility & focus](accessibility.md) |

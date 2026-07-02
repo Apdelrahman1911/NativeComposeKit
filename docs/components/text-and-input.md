@@ -108,7 +108,7 @@ NativeTextField(
 - The clear button (`ios.clearButton`) is a real `UITextField` affordance on iOS. Android has no native equivalent; add one with `trailingIcon` + `onTrailingIconClick` (works on both platforms). A leading `ios.clearButton` is suppressed when a `trailingIcon` is set, since they share the right slot.
 - `ios.keyboardAppearance` and `ios.keyboardAccessory` are iOS-only and are no-ops on Android. The Done accessory dismisses the keyboard and, for single-line fields, fires `focus.onSubmit`.
 - Character limit behavior is identical on both platforms (enforced in shared code): `Enforce` hard-caps input (typing past the max is rejected, paste is trimmed); `WarnOnly` lets the value exceed the max and leaves it to the caller to surface a counter or error.
-- Keyboard avoidance: a focused field scrolls to stay above the keyboard. The host scroll container must apply `Modifier.imePadding()`; the component supplies the bring-into-view. Android uses native Compose IME handling and needs no extra work.
+- Keyboard avoidance: a focused field scrolls to stay above the keyboard. The host scroll container must apply the kit's `Modifier.nativeImePadding(minBottom = …)`; the component supplies the bring-into-view. On Android it delegates to Compose's IME inset; on iOS it tracks the real keyboard frame in window coordinates (correct under the edge-to-edge chrome shell, and zero for a floating iPad keyboard).
 - Single-line fields keep a fixed height, so very large accessibility text sizes may clip.
 
 ### NativeSearchBar

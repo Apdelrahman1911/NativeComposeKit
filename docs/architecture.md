@@ -18,10 +18,11 @@ We do **not** pick "UIKit vs SwiftUI" globally. Responsibilities are split by ti
 ```
                  iOS                                   Android
  ┌───────────────────────────────────┐   ┌───────────────────────────────────┐
- │ TIER 1 — Native shell (SwiftUI)    │   │ TIER 1 — Native shell (Material)  │
- │  TabView / NavigationStack         │   │  Scaffold / Nav / TopAppBar        │
- │  .toolbar / .searchable / .sheet   │   │  ModalBottomSheet / Dialog / Menu  │
- │  .alert / Menu  (Liquid Glass)     │   │  (Material 3 / Material You)        │
+ │ TIER 1 — Native shell (UIKit)      │   │ TIER 1 — Native shell (Material)  │
+ │  UINavigationBar / UITabBar        │   │  Scaffold / Nav / TopAppBar        │
+ │  (dumb chrome projection)          │   │  ModalBottomSheet / Dialog / Menu  │
+ │  UISheetPresentationController     │   │  (Material 3 / Material You)        │
+ │  UIAlertController  (Liquid Glass) │   │                                     │
  └───────────────┬───────────────────┘   └───────────────┬───────────────────┘
                  │ hosts per screen                       │ hosts per screen
  ┌───────────────▼───────────────────────────────────────▼───────────────────┐
@@ -45,24 +46,26 @@ Liquid Glass) and is the correct trade for this product.
 
 ### Liquid Glass — precise wording
 Compose may approximate some glass-like visuals in its own custom content, but it **cannot own real
-iOS system chrome** (native `TabView`, `NavigationStack`, toolbar, search, sheets) or the
+iOS system chrome** (the native `UINavigationBar`/`UITabBar` shell, toolbars, search, sheets) or the
 **system-applied Liquid Glass** treatment. Note also that even native controls embedded inside the
 Compose Metal layer get their native styling but **not guaranteed glass background-refraction** across
 the interop boundary (the effect samples real content behind it). For true iOS system chrome and the
-latest iOS visual language, the shell/presentation layer must be **native SwiftUI**.
+latest iOS visual language, the shell/presentation layer must be **native** (the UIKit chrome shell
+hosted from the SwiftUI app entry — see `docs/native-chrome.md`).
 
 ---
 
-## 2. Tier 1 — what is native SwiftUI on iOS
+## 2. Tier 1 — what is native shell on iOS
 
 Everything that is system chrome or a system presentation:
 
-- App shell / `@main App`, scene setup.
-- The native chrome shell: a Liquid Glass `UITabBar` (iOS 26) + `UINavigationBar` + `.toolbar`-style actions.
-  (The push/pop stack itself is Compose-owned — these are dumb chrome, not a stack-owning `NavigationStack`; see §7.)
-- `.searchable` (native search + scopes + suggestions).
-- `.sheet` / `.fullScreenCover` / detents, `.popover`.
-- `.alert` / `.confirmationDialog`, `Menu` / context menus.
+- App shell / `@main App`, scene setup (the one SwiftUI layer — it hosts the UIKit chrome shell).
+- The native chrome shell: a Liquid Glass `UITabBar` (iOS 26) + `UINavigationBar` + toolbar-style actions.
+  (The push/pop stack itself is Compose-owned — these are dumb chrome, not a stack-owning container; see §7
+  and `docs/native-chrome.md` for the layout/inset contract.)
+- Native search affordances (system search bar + keyboard).
+- `UISheetPresentationController` (detents, grabber), popovers.
+- `UIAlertController` alerts/action sheets, `UIMenu` context menus.
 - System pickers presented modally (share, photo/file/contact).
 - Liquid Glass structure (free when the shell is native + built against the iOS 26 SDK).
 
@@ -223,7 +226,7 @@ NativeChromeSource  (kit contract, iOS)  ->  native chrome shell:
 - **Compose is the single stack owner on both platforms.** On iOS the stack lives in one
   `ComposeUIViewController` (content-only render) and the native bars are dumb chrome over it — there is **no**
   SwiftUI `NavigationStack` or UIKit `UINavigationController` owning a second stack. That is what avoids the dual
-  ownership that used to cause a push/pop loop (see `docs/interop-notes.md`).
+  ownership that used to cause a push/pop loop (see `docs/navigation.md`).
 - Renderer actions become **your** intents: back / edge-swipe → your "pop"; tab tap → your "select tab"; native
   sheet dismissal → clear your sheet state.
 - The sample app ships a lightweight reference navigator (`composeApp/.../app/navigation/`) and its

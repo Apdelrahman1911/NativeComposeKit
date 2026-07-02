@@ -37,7 +37,7 @@ sealed interface AppRoute : NativeRoute {
         override val id = "showcase/$key"
     }
 
-    /** Debug sheet: the bare-vs-card Liquid Glass interop stress test (see docs/interop-backdrop-audit.md). */
+    /** Debug sheet: the bare-vs-card Liquid Glass interop stress test (see docs/interop-notes.md). */
     data object GlassInteropTest : AppRoute {
         override val id = "debug/glass-interop"
     }

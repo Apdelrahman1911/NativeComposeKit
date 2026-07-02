@@ -10,8 +10,9 @@ any navigation system can drive. Your app owns its navigation stack outright; th
 mirrors it.
 
 This is deliberate. The kit originally tried to co-own the stack across Swift and Kotlin, and that dual ownership
-was the root cause of a push/pop loop on iOS (a native container fighting the Kotlin stack — see
-`docs/interop-notes.md`). The fix made **Compose the single owner**; once that was true, the kit no longer needed
+was the root cause of a push/pop loop on iOS (a native stack container fighting the Kotlin stack — any
+`NavigationStack`/`UINavigationController` reconciling against it just relocated the loop). The fix made
+**Compose the single owner**; once that was true, the kit no longer needed
 to own navigation at all. What remains valuable — and stays in the library — is the *native chrome*, exposed
 through a small contract.
 

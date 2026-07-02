@@ -83,13 +83,13 @@ NativeScaffold(topBar = { NativeTopBar("Settings") }) { inner ->
 A themed top app bar, decoupled from navigation, for any screen or a `NativeScaffold` top-bar slot.
 
 **Android:** Compose `TopAppBar`, or `CenterAlignedTopAppBar` when `centerTitle` is set.
-**iOS:** the same Compose bar (the native iOS nav bar belongs to the SwiftUI shell).
+**iOS:** the same Compose bar (the native iOS nav bar belongs to the native chrome shell — see `docs/native-chrome.md`).
 
 **Use it when**
 - You need in-content or Android screen chrome with a title, optional nav icon, and trailing actions.
 
 **Avoid it when**
-- You want the native iOS navigation bar; that lives in the SwiftUI shell, not here.
+- You want the native iOS navigation bar; that lives in the native chrome shell (`docs/native-chrome.md`), not here.
 
 **Parameters**
 

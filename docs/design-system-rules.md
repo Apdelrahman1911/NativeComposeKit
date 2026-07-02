@@ -26,7 +26,7 @@ examples (all real bugs found via the manga flow, now fixed + guarded):
 - **`NativeInlineStatus`** outlined interior → `resolveSurfaceFill(LocalNativeSurface, surface)`.
 - **`NativeChip`** border → the M3 `outline` role (the default `outlineVariant` disappeared on a card).
 - **iOS native controls** → `interopBackingColor()` (`UiKitInterop.ios.kt`) pins the interop backing to
-  `LocalNativeSurface`, clear on glass. See `interop-backdrop-audit.md`.
+  `LocalNativeSurface`, clear on glass. See `docs/interop-notes.md`.
 
 **Visual regression harness:** `app/ComponentMatrixScreen.kt` (Settings → "Component surface matrix") renders
 each surface-sensitive component on the page vs inside a Filled card — the check that would have caught all of
@@ -40,7 +40,7 @@ removed — it was an async-image-loader wrapper with no tokens/variants; apps u
 brand-specific treatment (e.g. the manga gradient cover fallback) as **app-level** composables.
 
 ## 4. The kit stays third-party-dependency-free
-`components/` (and `theme/`, `navigation/`) depend on **Compose-official artifacts only** — no third-party
+`components/` (and `theme/`, `chrome/`) depend on **Compose-official artifacts only** — no third-party
 libraries. App concerns that need one (image loading → Coil, networking → Ktor) live in the **app** module/layer,
 never in the kit. This keeps the kit light for every future consumer and is why image loading was pushed out
 (rule 3). When in doubt, a dependency belongs in the app.
@@ -56,11 +56,11 @@ material surfaces, native `UILabel` on solid) — and that exception is document
 - **Wheel / `UIPickerView` picker** → covered by `NativeSegmentedControl` / `NativeMenu` / `NativeRadioGroup` /
   `NativeDatePicker`; a standalone wheel would duplicate them.
 - **System notifications** → needs OS permissions + plumbing; out of scope.
-- **Native glass popover & real system Liquid Glass chrome** → owned by the native **shell** (SwiftUI
-  `TabView`/`NavigationStack`/`.popover`), not Compose content.
+- **Native glass popover & real system Liquid Glass chrome** → owned by the native **shell** (the UIKit
+  `UINavigationBar`/`UITabBar` chrome — see `docs/native-chrome.md`), not Compose content.
 - **Time / datetime picker** → `NativeDatePicker` is date-only v1; a follow-up if needed.
 
 ## Open / deferred
 - **iOS-26 Liquid Glass refraction vs the opaque `pinFilling` backing** on toggle/slider/segmented/search/
   datepicker — the opaque backing blocks the material's refraction; needs visual tuning on an iOS 26 device
-  (translucent/material backing, or gate on a solid surface). Tracked in `interop-backdrop-audit.md`.
+  (translucent/material backing, or gate on a solid surface). Tracked in `docs/interop-notes.md`.
