@@ -18,7 +18,6 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.NativeFieldIn
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeImeAction
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeKeyboardType
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
-import io.github.apdelrahman1911.nativecomposekit.components.model.NativeFieldFocus
 import io.github.apdelrahman1911.nativecomposekit.components.nativeAutoFocus
 import io.github.apdelrahman1911.nativecomposekit.components.nativeDismissKeyboardOnTap
 import io.github.apdelrahman1911.nativecomposekit.components.nativeFocusOrder
@@ -173,8 +172,9 @@ private fun FocusForm() {
                 .nativeAutoFocus()
                 .nativeFocusTarget(firstField)
                 .nativeFocusOrder(next = lastField),
+            // imeAction = Next + nativeFocusOrder IS the chain — no onSubmit needed (the kit runs a
+            // submit handler AND the default action, so wiring requestFocus there would move twice).
             input = NativeFieldInput(imeAction = NativeImeAction.Next),
-            focus = NativeFieldFocus(onSubmit = { lastField.requestFocus() }),
         )
         NativeTextField(
             value = last,

@@ -57,4 +57,13 @@ class MangaDataTest {
         val (top, bottom) = gradientColors("crimson-vanguard")
         assertTrue(top != bottom, "gradient stops should differ")
     }
+
+    @Test
+    fun unread_count_matches_the_unread_chapters() {
+        // The builder derives `unread` from the chapter list — guard the invariant so a data edit
+        // can't silently ship a badge count that disagrees with the rows.
+        for (m in MangaLibrary.all) {
+            assertEquals(m.chapters.count { !it.read }, m.unread, "${m.id} unread count drifted")
+        }
+    }
 }

@@ -126,4 +126,28 @@ class NativeNavigatorTest {
         nav.push(TestRoute("a-2")) // a different route still pushes
         assertEquals(3, nav.state.currentStack().size)
     }
+
+    @Test
+    fun reselecting_the_current_tab_pops_it_to_root() {
+        // Platform convention on both OSes: a re-tap of the selected tab returns to that tab's start.
+        val nav = navigator()
+        nav.push(TestRoute("a-1"))
+        nav.push(TestRoute("a-2"))
+        assertEquals(3, nav.state.currentStack().size)
+        nav.selectTab(TestTab.A)
+        assertEquals(1, nav.state.currentStack().size)
+        assertEquals("a-root", nav.state.top().id)
+        // Re-tapping at the root stays a no-op.
+        nav.selectTab(TestTab.A)
+        assertEquals(1, nav.state.currentStack().size)
+    }
+
+    @Test
+    fun selecting_a_foreign_tab_fails_fast_instead_of_corrupting_state() {
+        val nav = navigator()
+        val foreign = object : NativeTab { override val id: String = "not-mine" }
+        val failed = runCatching { nav.selectTab(foreign) }
+        assertTrue(failed.exceptionOrNull() is IllegalArgumentException)
+        assertEquals(TestTab.A, nav.state.selectedTab) // untouched
+    }
 }

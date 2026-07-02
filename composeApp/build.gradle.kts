@@ -24,8 +24,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            // Must match `import ComposeApp` + `MainViewControllerKt.MainViewController()` in the
-            // Swift host (iosApp/iosApp/ContentView.swift).
+            // Must match `import ComposeApp` in the Swift host (iosApp/iosApp/iOSApp.swift, which boots
+            // the native chrome shell via NativeNavRootKt.createNativeNavRoot()).
             baseName = "ComposeApp"
             isStatic = true
             // Re-export the :nativecomposekit library's public ObjC symbols into ComposeApp-Swift.h so the native
@@ -65,6 +65,9 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
+            // The navigator/chrome tests drive coroutine scopes directly — depend on coroutines
+            // explicitly instead of leaning on compose.runtime's transitive version.
+            implementation(libs.kotlinx.coroutines.core)
         }
         // The sample's tests are plain JVM logic tests (navigator, chrome projection, data) — no Compose
         // UI test / Robolectric here; that harness lives in :nativecomposekit where the render tests are.
@@ -93,10 +96,4 @@ android {
         buildConfig = true // BuildConfig.DEBUG gates the demo diagnostics (nav/keyboard tracing) to debug builds
     }
 
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true // required so Robolectric can load themes/manifest for Compose tests
-            isReturnDefaultValues = true
-        }
-    }
 }

@@ -63,9 +63,20 @@ class NativeNavigator internal constructor(val state: NativeNavigationState) {
         notifyObservers()
     }
 
-    /** Select a tab (tab-bar tap). No-op if already selected. */
+    /**
+     * Select a tab (tab-bar tap). Re-selecting the already-selected tab pops it to its root — the platform
+     * convention on both OSes (iOS tab bars and Android bottom navigation both treat a re-tap as
+     * "take me back to the start of this tab"). [tab] must be one of the navigator's tabs.
+     */
     fun selectTab(tab: NativeTab) {
-        if (state.selectedTab.id == tab.id) return
+        require(state.tabById(tab.id) != null) {
+            "selectTab('${tab.id}') is not one of the navigator's tabs: ${state.tabs.map { it.id }}"
+        }
+        if (state.selectedTab.id == tab.id) {
+            NativeNavLog.log { "selectTab '${tab.id}' re-selected -> popToRoot" }
+            popToRoot()
+            return
+        }
         state.selectedTab = tab
         NativeNavLog.log { "selectTab '${tab.id}'  ${stacksDump()}" }
         notifyObservers()

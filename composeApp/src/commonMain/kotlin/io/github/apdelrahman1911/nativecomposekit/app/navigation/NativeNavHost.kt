@@ -1,6 +1,8 @@
 package io.github.apdelrahman1911.nativecomposekit.app.navigation
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
@@ -20,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,7 +43,7 @@ data class NativeNavBarItem(val tab: NativeTab, val label: String, val icon: Ima
  *
  * A compact `TopAppBar` sits at the top (with a back arrow once pushed) so the content fills the screen directly
  * beneath it — no tall header eating vertical space. Renders the selected tab's **top** route inside an
- * `AnimatedContent` (push slides forward, pop backward); system/predictive back → [NativeNavigator.pop]; the
+ * `AnimatedContent` (push slides forward, pop backward; tab switches cross-fade); system back → [NativeNavigator.pop]; the
  * `NavigationBar` → [NativeNavigator.selectTab]; a non-null [NativeNavigationState.sheet] → `ModalBottomSheet`.
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -92,7 +95,7 @@ fun NativeNavHost(
 
 /**
  * The **content-only** navigation renderer: the current top route (push slides forward, pop backward), the
- * platform back handler (system/predictive back and the iOS edge-swipe → [NativeNavigator.pop]), and the sheet.
+ * platform back handler (system back and the iOS edge-swipe → [NativeNavigator.pop]), and the sheet.
  * It draws NO chrome. [NativeNavHost] wraps this in Material chrome; the iOS native-chrome shell wraps it in real
  * native chrome (a `UINavigationBar` + `UITabBar`) — and either way this stays the single Kotlin-owned stack
  * renderer.
@@ -112,32 +115,61 @@ fun NativeNavContent(
     val top = stack.last()
     val canPop = stack.size > 1
 
-    // System / predictive / edge-swipe back pops the current tab's stack (only when there's somewhere to go).
+    // System (gesture/button) and iOS edge-swipe back pop the current tab's stack (only when there's
+    // somewhere to go).
     NativeBackHandler(enabled = canPop) { navigator.pop() }
 
-    // Track depth to choose the slide direction (push = forward, pop = backward).
+    // Screens keep their `rememberSaveable` state (scroll positions, filters, expanded rows) across
+    // back navigation, tab switches, and re-entry: each route composes inside its own saved-state slot.
+    val stateHolder = rememberSaveableStateHolder()
+    // Drop saved state for routes that no longer exist ANYWHERE (popped/replaced) — without this,
+    // dismissed screens would accumulate state for the app's lifetime.
+    val aliveIds = state.tabs.flatMapTo(mutableSetOf()) { tab -> state.stackFor(tab).map { it.id } }
+        .also { ids -> state.sheet?.let { ids.add(it.id) } }
+    var prevAlive by remember { mutableStateOf(aliveIds.toSet()) }
+    SideEffect {
+        (prevAlive - aliveIds).forEach(stateHolder::removeState)
+        prevAlive = aliveIds.toSet()
+    }
+
+    // Track depth to choose the slide direction (push = forward, pop = backward) — and detect tab
+    // switches, which are lateral (not hierarchical) and must not masquerade as a push/pop slide.
     var prevDepth by remember { mutableStateOf(stack.size) }
+    var prevTabId by remember { mutableStateOf(state.selectedTab.id) }
+    val tabChanged = prevTabId != state.selectedTab.id
     val forward = stack.size >= prevDepth
-    SideEffect { prevDepth = stack.size }
+    SideEffect {
+        prevDepth = stack.size
+        prevTabId = state.selectedTab.id
+    }
 
     AnimatedContent(
         targetState = top,
         modifier = modifier.fillMaxSize(),
         transitionSpec = {
-            val enter = slideInHorizontally { w -> if (forward) w else -w }
-            val exit = slideOutHorizontally { w -> if (forward) -w else w }
-            enter togetherWith exit
+            if (tabChanged) {
+                // Lateral move between sibling tabs: a quick cross-fade, no directional slide.
+                fadeIn() togetherWith fadeOut()
+            } else {
+                val enter = slideInHorizontally { w -> if (forward) w else -w }
+                val exit = slideOutHorizontally { w -> if (forward) -w else w }
+                enter togetherWith exit
+            }
         },
         contentKey = { it.id },
         label = "NativeNavContent",
     ) { route ->
-        graph.Content(route)
+        stateHolder.SaveableStateProvider(route.id) {
+            graph.Content(route)
+        }
     }
 
     if (renderSheet) {
         state.sheet?.let { sheetRoute ->
             ModalBottomSheet(onDismissRequest = { navigator.dismissSheet() }) {
-                graph.Content(sheetRoute)
+                stateHolder.SaveableStateProvider(sheetRoute.id) {
+                    graph.Content(sheetRoute)
+                }
             }
         }
     }

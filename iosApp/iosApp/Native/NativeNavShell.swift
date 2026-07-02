@@ -13,8 +13,10 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
     private let tabBar = UITabBar()
     private var cancellable: NativeChromeCancellable?
     private var tabItemsById: [String: UITabBarItem] = [:]
+    private var renderedTabs: [NativeChromeTab] = []
     private var actionIdByTag: [Int: String] = [:]
     private var presentedSheet: UIViewController?
+    private var presentedSheetId: String?
 
     init(root: NativeNavRoot) {
         self.root = root
@@ -124,14 +126,21 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
             navBar.setItems([item], animated: false)
         }
 
-        // Bottom bar: build items once, then reflect the selected tab.
-        if tabBar.items == nil {
+        // Bottom bar: RECONCILE the items against every emission — tabs carry localized titles and can be
+        // conditional, so building them once would let the native bar drift from the Kotlin projection
+        // (the exact "shell-side stale state" this contract forbids). NativeChromeTab compares by value.
+        let tabsChanged = tabBar.items == nil
+            || renderedTabs.count != state.tabs.count
+            || zip(renderedTabs, state.tabs).contains(where: { !$0.isEqual($1) })
+        if tabsChanged {
+            tabItemsById.removeAll()
             var built: [UITabBarItem] = []
             for (i, t) in state.tabs.enumerated() {
                 let ti = UITabBarItem(title: t.title, image: UIImage(systemName: t.sfSymbol), tag: i)
                 tabItemsById[t.id] = ti
                 built.append(ti)
             }
+            renderedTabs = state.tabs
             tabBar.setItems(built, animated: false)
         }
         tabBar.selectedItem = tabItemsById[state.selectedTabId]
@@ -148,18 +157,39 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
     /// to strand `presentedSheet` pointing at nothing and wedge the feature until relaunch — so this defers and
     /// re-syncs against the CURRENT chrome state once the transition (or attach-to-window) settles.
     private func syncSheet(_ sheetId: String?) {
-        if sheetId != nil {
-            guard presentedSheet == nil else { return }
+        if let sheetId {
+            if let current = presentedSheet {
+                // Same sheet already up → nothing to do. A DIFFERENT id means the projection replaced the
+                // sheet: dismiss the old one, then re-sync from the completion so UIKit never sees a
+                // present-during-dismiss (tracking the id is what makes A→B switches possible at all).
+                guard presentedSheetId != sheetId else { return }
+                presentedSheet = nil
+                presentedSheetId = nil
+                current.dismiss(animated: true) { [weak self] in
+                    guard let self else { return }
+                    self.syncSheet(self.root.chrome.currentState().sheetId)
+                }
+                return
+            }
             if let inFlight = presentedViewController {
-                // Only wait out our own dismissal; a foreign stable modal is not ours to fight.
-                guard inFlight.isBeingDismissed else { return }
-                if let coordinator = inFlight.transitionCoordinator {
-                    coordinator.animate(alongsideTransition: nil) { [weak self] _ in
-                        guard let self else { return }
-                        self.syncSheet(self.root.chrome.currentState().sheetId)
+                // Our own dismissal in flight: re-sync when its transition settles.
+                if inFlight.isBeingDismissed {
+                    if let coordinator = inFlight.transitionCoordinator {
+                        coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+                            guard let self else { return }
+                            self.syncSheet(self.root.chrome.currentState().sheetId)
+                        }
+                    } else {
+                        DispatchQueue.main.async { [weak self] in
+                            guard let self else { return }
+                            self.syncSheet(self.root.chrome.currentState().sheetId)
+                        }
                     }
                 } else {
-                    DispatchQueue.main.async { [weak self] in
+                    // A FOREIGN modal (e.g. a feedback alert) is up — not ours to fight, but without a
+                    // retry the sheet would only appear after the next unrelated chrome emission. Poll
+                    // shortly; each blocked attempt schedules exactly one retry, so this self-limits.
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
                         guard let self else { return }
                         self.syncSheet(self.root.chrome.currentState().sheetId)
                     }
@@ -183,9 +213,11 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
                 spc.delegate = self
             }
             presentedSheet = sheet
+            presentedSheetId = sheetId
             present(sheet, animated: true)
         } else if let sheet = presentedSheet {
             presentedSheet = nil
+            presentedSheetId = nil
             sheet.dismiss(animated: true)
         }
     }
@@ -214,6 +246,7 @@ extension NativeShellViewController: UISheetPresentationControllerDelegate {
     // never decides navigation, it only tells Kotlin the user closed the sheet. Idempotent.
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         presentedSheet = nil
+        presentedSheetId = nil
         root.chrome.dismissSheet()
     }
 }

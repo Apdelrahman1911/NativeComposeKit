@@ -45,10 +45,10 @@ fun SettingsScreen(onOpenComponentMatrix: () -> Unit = {}, onOpenInteropRepro: (
                         trailing = { NativeToggle(checked = notify, onCheckedChange = { notify = it }) },
                     )
                 },
-                { NativeListItem("Reading direction", trailingText = "L → R", onClick = {}) },
+                { NativeListItem("Reading direction", trailingText = "L → R") }, // display-only value row
             ),
         )
-        NativeListSection(
+        if (AppDevTools.enabled) NativeListSection(
             header = "Developer",
             rows = listOf(
                 {

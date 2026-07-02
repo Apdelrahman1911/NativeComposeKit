@@ -151,14 +151,15 @@ private fun FieldStates() {
             value = "ACCT-4471-9920",
             onValueChange = {},
             label = "Account number",
-            helperText = "Selectable, but not editable.",
+            helperText = "Not editable.",
             readOnly = true,
             modifier = Modifier.fillMaxWidth(),
         )
 
         Note(
-            "enabled = false greys the field and blocks focus. readOnly = true keeps it focusable and " +
-                "selectable (copyable) but rejects edits — use it for generated identifiers and locked values.",
+            "enabled = false greys the field and blocks focus. readOnly = true rejects edits — on Android " +
+                "the text stays selectable (copyable); an iOS single-line field is fully non-interactive " +
+                "(use a multiline field for copyable read-only text there).",
         )
     }
 }

@@ -36,6 +36,7 @@ fun MainViewController(): UIViewController {
     // Demo diagnostics — debug binaries only, never in release.
     NativeNavLog.enabled = Platform.isDebugBinary
     NativeImeLog.enabled = Platform.isDebugBinary
+    io.github.apdelrahman1911.nativecomposekit.app.AppDevTools.enabled = Platform.isDebugBinary
     configureCoilImageLoader()
     return ComposeUIViewController { App() }
 }
@@ -61,6 +62,7 @@ fun createNativeNavRoot(): NativeNavRoot {
     // Demo diagnostics (nav tracing "NCK-Nav", keyboard-inset tracing "NCK-Kbd") — debug binaries only.
     NativeNavLog.enabled = Platform.isDebugBinary
     NativeImeLog.enabled = Platform.isDebugBinary
+    io.github.apdelrahman1911.nativecomposekit.app.AppDevTools.enabled = Platform.isDebugBinary
     configureCoilImageLoader() // app-level image loader (Coil + Ktor/Darwin); the kit stays dependency-free
 
     val navigator = createNativeNavigator(

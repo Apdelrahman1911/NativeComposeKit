@@ -187,6 +187,8 @@ private fun AppearanceRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         NativeText(label, style = NativeTextStyle.Body)
-        NativeToggle(checked = checked, onCheckedChange = onCheckedChange)
+        // The visible label is separate text — name the switch itself or screen readers hear an
+        // anonymous control (the exact anti-pattern the accessibility page warns about).
+        NativeToggle(checked = checked, onCheckedChange = onCheckedChange, contentDescription = label)
     }
 }

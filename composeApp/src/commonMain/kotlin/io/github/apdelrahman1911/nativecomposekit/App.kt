@@ -5,16 +5,17 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import io.github.apdelrahman1911.nativecomposekit.app.AppDevTools
 import io.github.apdelrahman1911.nativecomposekit.app.AppRoute
 import io.github.apdelrahman1911.nativecomposekit.app.AppTab
 import io.github.apdelrahman1911.nativecomposekit.app.appNavGraph
 import io.github.apdelrahman1911.nativecomposekit.app.appRootRoute
 import io.github.apdelrahman1911.nativecomposekit.app.appRouteTitle
+import io.github.apdelrahman1911.nativecomposekit.components.NativeIconButton
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackHost
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon
 import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavBarItem
 import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavHost
 import io.github.apdelrahman1911.nativecomposekit.app.navigation.rememberNativeNavigator
@@ -51,11 +52,14 @@ fun App() {
                 ),
                 title = ::appRouteTitle,
                 actions = {
-                    // The "+" on the Library tab presents the debug glass-interop stress test as a sheet.
-                    if (navigator.state.selectedTab.id == AppTab.Library.id) {
-                        IconButton(onClick = { navigator.presentSheet(AppRoute.GlassInteropTest) }) {
-                            Icon(Icons.Filled.Add, contentDescription = "Glass interop test")
-                        }
+                    // Debug builds only: the "+" on the Library tab presents the glass-interop stress
+                    // test as a sheet. Rendered with the kit's own icon button (the sample models kit usage).
+                    if (AppDevTools.enabled && navigator.state.selectedTab.id == AppTab.Library.id) {
+                        NativeIconButton(
+                            icon = NativeIcon(androidImageVector = Icons.Filled.Add, sfSymbolName = "plus"),
+                            onClick = { navigator.presentSheet(AppRoute.GlassInteropTest) },
+                            contentDescription = "Glass interop test",
+                        )
                     }
                 },
             )

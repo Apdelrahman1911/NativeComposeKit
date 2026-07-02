@@ -4,14 +4,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -32,32 +29,29 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 /**
  * The scroll container every showcase category screen sits in. [intro] is a one- or two-sentence summary shown
  * under the (native) nav-bar title. The screen is hosted inside the nav stack, which already draws the title bar,
- * so there is no in-content top bar here.
+ * so there is no in-content top bar here — and no nested Scaffold either (hosted screens are plain scrollable
+ * columns; the shell owns chrome, the appearance scope owns the background).
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShowcaseScreen(intro: String, content: @Composable ColumnScope.() -> Unit) {
     // The native nav bar overlays the content on iOS; begin below it (0 on Android — its Material bar reserves
     // space) while the scroll viewport still fills behind the bar so content scrolls under the Liquid Glass.
     val bottomInset = LocalNativeContentBottomInset.current
-    Scaffold(contentWindowInsets = WindowInsets(0, 0, 0, 0)) { inner ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(inner)
-                .verticalScroll(rememberScrollState())
-                // Inset INSIDE the scroll: it extends the scrollable content's bottom (so a focused field can
-                // scroll clear of the keyboard, and the last content clears the overlaying tab bar) instead of
-                // shrinking the viewport and clipping the rows.
-                .nativeImePadding(minBottom = bottomInset)
-                .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(28.dp),
-        ) {
-            if (intro.isNotBlank()) {
-                NativeText(intro, style = NativeTextStyle.Body, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-            content()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            // Inset INSIDE the scroll: it extends the scrollable content's bottom (so a focused field can
+            // scroll clear of the keyboard, and the last content clears the overlaying tab bar) instead of
+            // shrinking the viewport and clipping the rows.
+            .nativeImePadding(minBottom = bottomInset)
+            .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(28.dp),
+    ) {
+        if (intro.isNotBlank()) {
+            NativeText(intro, style = NativeTextStyle.Body, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
+        content()
     }
 }
 
