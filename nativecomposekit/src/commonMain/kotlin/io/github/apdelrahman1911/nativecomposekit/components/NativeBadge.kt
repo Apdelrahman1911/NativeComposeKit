@@ -43,9 +43,7 @@ public fun NativeBadge(
         contentDescription?.let { cd -> m = m.semantics { this.contentDescription = cd } }
         Badge(modifier = m, containerColor = container, contentColor = onContainer)
     } else {
-        // Guard maxCount ≥ 1 so a zero/negative cap can't render "0+"/"-5+".
-        val cap = maxCount.coerceAtLeast(1)
-        val display = if (count > cap) "$cap+" else count.toString()
+        val display = badgeDisplayText(count, maxCount)
         val cd = contentDescription ?: display
         var m = modifier.semantics { this.contentDescription = cd }
         testTag?.let { m = m.testTag(it) }
@@ -58,6 +56,15 @@ public fun NativeBadge(
  * numbered pill (visible), and a non-positive count renders nothing (the "no badge when zero" UX).
  */
 internal fun badgeIsVisible(count: Int?): Boolean = count == null || count > 0
+
+/**
+ * The text a numbered [NativeBadge] pill shows: [count] itself up to and including the cap, `"$cap+"` above
+ * it. The cap is [maxCount] coerced to ≥ 1 so a zero/negative cap can't render `"0+"`/`"-5+"`.
+ */
+internal fun badgeDisplayText(count: Int, maxCount: Int): String {
+    val cap = maxCount.coerceAtLeast(1)
+    return if (count > cap) "$cap+" else count.toString()
+}
 
 /**
  * Overlays [badge] on the top-end corner of [content] (e.g. a tab icon or manga cover). The badge anchors

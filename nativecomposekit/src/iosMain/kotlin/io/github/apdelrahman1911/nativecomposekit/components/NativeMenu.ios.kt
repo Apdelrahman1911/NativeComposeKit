@@ -16,13 +16,18 @@ import platform.UIKit.UIMenuElementState
  * native `.destructive` attribute (red) and disabled items the `.disabled` attribute. Attached to a button
  * via `UIButton.menu` + `showsMenuAsPrimaryAction`.
  *
+ * Returns **null for an itemless model**: attaching an empty `UIMenu` as a primary action swallows the tap
+ * to pop an empty menu container, while a nil `UIButton.menu` installs no menu interaction at all — the tap
+ * falls through to the button's normal action (matching Android, which renders no dropdown surface).
+ *
  * Handlers dispatch **by index through [onSelectAt]** rather than capturing each item's `onSelect` lambda:
  * the caller caches the built menu across recompositions (rebuilding `UIMenu` per update dismissed an open
  * menu under the user's finger), and index dispatch lets the cached actions always reach the CURRENT model's
  * callbacks instead of stale captures.
  */
 @OptIn(BetaInteropApi::class, ExperimentalForeignApi::class)
-internal fun buildUIMenu(menu: NativeMenu, onSelectAt: (Int) -> Unit): UIMenu {
+internal fun buildUIMenu(menu: NativeMenu, onSelectAt: (Int) -> Unit): UIMenu? {
+    if (menu.items.isEmpty()) return null
     val actions = menu.items.mapIndexed { index, item ->
         val image = item.icon?.sfSymbolName?.let { UIImage.systemImageNamed(it) }
         val action = UIAction.actionWithTitle(

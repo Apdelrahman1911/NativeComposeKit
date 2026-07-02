@@ -19,10 +19,12 @@ import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
  * the millis are local-midnight.
  *
  * Scope: this v1 is **date selection**. iOS `UIDatePicker` also supports time / date-and-time natively; a
- * `mode` parameter (with the matching Android time wiring) is a planned fast-follow. On Android the picker
- * is effectively uncontrolled after first composition (Material's `DatePickerState` owns the selection);
- * `minMillis`/`maxMillis`/`enabled` are honored on both platforms (Android via `SelectableDates` + a dimmed,
- * non-selectable calendar when disabled).
+ * `mode` parameter (with the matching Android time wiring) is a planned fast-follow. The control is
+ * controlled on both platforms: programmatic [selectedMillis] changes (including `null` to clear) reach the
+ * UI. `minMillis`/`maxMillis`/`enabled` are honored on both platforms (Android via `SelectableDates` + a
+ * dimmed, non-selectable calendar when disabled). On Android, min/max updates re-gate which dates are
+ * selectable, but the **year dropdown range is fixed at first composition** (Material's `DatePickerState`
+ * captures `yearRange` once; rebuilding the state to widen it would drop the user's selection).
  */
 @Composable
 public fun NativeDatePicker(
@@ -50,6 +52,15 @@ public fun NativeDatePicker(
         testTag = testTag,
     )
 }
+
+private const val MillisPerUtcDay = 86_400_000L
+
+/**
+ * Floors epoch [millis] to 00:00:00.000 UTC of the day it falls in — the value shape of the kit's
+ * "UTC start of day" contract. Floored (not truncated) division, so pre-1970 instants land on their own
+ * day's start rather than the next day's (plain `/`/`%` round toward zero for negatives).
+ */
+internal fun utcDayStart(millis: Long): Long = millis.floorDiv(MillisPerUtcDay) * MillisPerUtcDay
 
 /** Native date renderer. Android → Material `DatePicker`; iOS → `UIDatePicker` (compact). */
 @Composable

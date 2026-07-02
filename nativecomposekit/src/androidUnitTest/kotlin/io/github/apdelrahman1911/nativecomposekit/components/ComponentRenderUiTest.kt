@@ -483,7 +483,6 @@ class ComponentRenderUiTest {
             NativeAppearanceScope {
                 val state = rememberPagerState { 3 }
                 NativePager(
-                    pageCount = 3,
                     state = state,
                     modifier = Modifier.fillMaxWidth().height(120.dp),
                 ) { page ->

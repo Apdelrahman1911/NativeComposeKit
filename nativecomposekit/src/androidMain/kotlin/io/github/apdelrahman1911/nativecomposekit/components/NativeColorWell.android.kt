@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.size
@@ -12,17 +13,22 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
@@ -56,9 +62,18 @@ internal actual fun PlatformNativeColorWell(
     val cd = contentDescription ?: strings.colorWellDescription
     m = m.semantics { this.contentDescription = cd }
 
-    var swatch = m.size(36.dp).clip(CircleShape).background(color).border(1.dp, scheme.outline, CircleShape)
-    if (enabled) swatch = swatch.clickable { open = true }
-    androidx.compose.foundation.layout.Box(swatch)
+    // A ≥48dp touch target around the 36dp visual, and a real button role + action label for screen readers.
+    // clickable(enabled = false) keeps the node announced (as disabled) instead of silently dropping the action.
+    Box(
+        modifier = m
+            .minimumInteractiveComponentSize()
+            .clickable(enabled = enabled, role = Role.Button, onClickLabel = strings.colorPickerTitle) {
+                open = true
+            },
+        contentAlignment = Alignment.Center,
+    ) {
+        Box(Modifier.size(36.dp).clip(CircleShape).background(color).border(1.dp, scheme.outline, CircleShape))
+    }
 
     if (open) {
         AlertDialog(
@@ -70,19 +85,27 @@ internal actual fun PlatformNativeColorWell(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    ColorWellPresets.forEach { c ->
-                        val selected = c.toArgb() == color.toArgb()
-                        androidx.compose.foundation.layout.Box(
+                    ColorWellPresets.forEachIndexed { index, c ->
+                        val isCurrent = c.toArgb() == color.toArgb()
+                        Box(
                             Modifier
                                 .size(40.dp)
                                 .clip(CircleShape)
                                 .background(c)
                                 .border(
-                                    width = if (selected) 3.dp else 1.dp,
-                                    color = if (selected) scheme.primary else scheme.outline,
+                                    width = if (isCurrent) 3.dp else 1.dp,
+                                    color = if (isCurrent) scheme.primary else scheme.outline,
                                     shape = CircleShape,
                                 )
-                                .clickable { onColorChange(c); open = false },
+                                .clickable { onColorChange(c); open = false }
+                                // The swatches are color-only: give each a spoken name, a button role, and
+                                // the selected state so the current pick is announced.
+                                .semantics {
+                                    this.contentDescription =
+                                        strings.colorSwatchDescription(index + 1, ColorWellPresets.size)
+                                    this.role = Role.Button
+                                    this.selected = isCurrent
+                                },
                         )
                     }
                 }

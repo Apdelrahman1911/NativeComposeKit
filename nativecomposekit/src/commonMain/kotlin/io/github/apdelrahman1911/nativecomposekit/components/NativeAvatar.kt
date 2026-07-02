@@ -105,9 +105,10 @@ public fun NativeAvatar(
 
 /**
  * First two code points, uppercased — counts by code point (not UTF-16 unit) so an astral-plane character
- * (emoji / surrogate pair) yields one whole glyph instead of half a broken one.
+ * (emoji / surrogate pair) yields one whole glyph instead of half a broken one. Internal for unit tests;
+ * callers pre-trim (an all-whitespace input passes through as-is).
  */
-private fun String.firstTwoCodePointsUpper(): String {
+internal fun String.firstTwoCodePointsUpper(): String {
     val sb = StringBuilder()
     var i = 0
     var taken = 0

@@ -19,6 +19,9 @@ import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
  */
 @Composable
 internal fun NativeMenuDropdown(expanded: Boolean, onDismiss: () -> Unit, menu: NativeMenu) {
+    // No rows → no dropdown: an itemless DropdownMenu still opens an empty floating surface (and traps the
+    // next outside tap to dismiss it). Matches iOS, where an empty model attaches no UIMenu at all.
+    if (menu.items.isEmpty()) return
     DropdownMenu(expanded = expanded, onDismissRequest = onDismiss) {
         menu.items.forEach { item ->
             val tint = if (item.role == NativeMenuItemRole.Destructive) {

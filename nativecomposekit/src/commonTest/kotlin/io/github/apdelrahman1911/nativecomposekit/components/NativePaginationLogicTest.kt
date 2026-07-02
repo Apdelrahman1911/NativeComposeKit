@@ -31,4 +31,35 @@ class NativePaginationLogicTest {
         assertFalse(shouldLoadMore(lastVisibleIndex = 8, totalItems = 10, buffer = -5))
         assertTrue(shouldLoadMore(lastVisibleIndex = 9, totalItems = 10, buffer = -5))
     }
+
+    // ---- the re-arm rule (loadMoreShouldFire): once per item count, again on growth ----
+
+    @Test
+    fun first_approach_fires() {
+        assertTrue(loadMoreShouldFire(lastVisibleIndex = 9, totalItems = 10, buffer = 3, lastFiredTotal = null))
+    }
+
+    @Test
+    fun same_total_does_not_refire() {
+        // Scroll jitter near the end at an unchanged count must not spam the loader.
+        assertFalse(loadMoreShouldFire(lastVisibleIndex = 9, totalItems = 10, buffer = 3, lastFiredTotal = 10))
+    }
+
+    @Test
+    fun data_growth_rearms_while_still_within_the_buffer() {
+        // A short page that doesn't fill the viewport keeps the end visible: the count change alone must
+        // re-fire, or the list stalls (the pre-fix edge-triggered boolean never re-armed).
+        assertTrue(loadMoreShouldFire(lastVisibleIndex = 11, totalItems = 12, buffer = 3, lastFiredTotal = 10))
+    }
+
+    @Test
+    fun growth_away_from_the_end_does_not_fire() {
+        // A full page pushed the end out of the buffer — wait for the next approach.
+        assertFalse(loadMoreShouldFire(lastVisibleIndex = 9, totalItems = 30, buffer = 3, lastFiredTotal = 10))
+    }
+
+    @Test
+    fun failed_load_with_no_growth_does_not_loop() {
+        assertFalse(loadMoreShouldFire(lastVisibleIndex = 9, totalItems = 10, buffer = 0, lastFiredTotal = 10))
+    }
 }

@@ -13,6 +13,8 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedPageC
  * tapping the indicator (matches `UIPageControl`); leave it null for a display-only indicator.
  *
  * [currentPage] is clamped to `0..pageCount-1`. Typically paired with a pager that owns the actual paging.
+ * With **one page or none, no dots render on either platform** (iOS via the control's `hidesForSinglePage`;
+ * Android by rendering nothing) — a lone always-active dot indicates nothing.
  *
  * `NativePageControl(pageCount = covers.size, currentPage = page)`
  */

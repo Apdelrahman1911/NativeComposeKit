@@ -12,9 +12,12 @@ import androidx.compose.ui.viewinterop.rememberUIKitInteropRemeasureRequester
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCAction
+import platform.Foundation.NSCalendar
 import platform.Foundation.NSDate
+import platform.Foundation.NSTimeZone
 import platform.Foundation.dateWithTimeIntervalSince1970
 import platform.Foundation.timeIntervalSince1970
+import platform.Foundation.timeZoneWithName
 import platform.UIKit.UIControlEventValueChanged
 import platform.UIKit.UIDatePicker
 import platform.UIKit.UIDatePickerMode
@@ -33,7 +36,9 @@ private class DatePickerHandler : NSObject() {
 
     @ObjCAction
     fun changed() {
-        control?.let { onChange((it.date.timeIntervalSince1970 * 1000.0).toLong()) }
+        // Even pinned to UTC, a date-mode UIDatePicker preserves the time-of-day of whatever date it was
+        // seeded with — floor to the UTC day start so emitted values honor the kit's contract.
+        control?.let { onChange(utcDayStart((it.date.timeIntervalSince1970 * 1000.0).toLong())) }
     }
 }
 
@@ -59,6 +64,18 @@ internal actual fun PlatformNativeDatePicker(
         UIDatePicker().apply {
             datePickerMode = UIDatePickerMode.UIDatePickerModeDate
             preferredDatePickerStyle = UIDatePickerStyle.UIDatePickerStyleCompact
+            // The kit's contract is UTC epoch millis at the start of the day, but UIDatePicker resolves
+            // days in the device's LOCAL zone by default — a UTC-midnight input renders as the previous
+            // day anywhere west of UTC. Pin the control AND its calendar to UTC so days round-trip; the
+            // calendar is a copy because currentCalendar is shared (mutating its zone would leak app-wide).
+            val utc = NSTimeZone.timeZoneWithName("UTC")
+            if (utc != null) {
+                timeZone = utc
+                (NSCalendar.currentCalendar.copy() as? NSCalendar)?.let { cal ->
+                    cal.timeZone = utc
+                    calendar = cal
+                }
+            }
             addTarget(handler, sel_registerName("changed"), UIControlEventValueChanged)
         }
     }

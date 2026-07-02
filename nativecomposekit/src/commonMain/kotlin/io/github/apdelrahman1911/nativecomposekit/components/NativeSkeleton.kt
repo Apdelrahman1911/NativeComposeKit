@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.LayoutDirection
 import io.github.apdelrahman1911.nativecomposekit.components.internal.resolveSurfaceFill
 import io.github.apdelrahman1911.nativecomposekit.components.internal.skeletonColors
@@ -44,9 +45,12 @@ public fun NativeSkeleton(
     modifier: Modifier = Modifier,
     shape: Shape? = null,
     shimmer: Boolean = !LocalNativeCapabilities.current.isReduceMotionEnabled,
+    testTag: String? = null,
 ) {
     val scheme = MaterialTheme.colorScheme
     val clipShape = shape ?: RoundedCornerShape(NativeTheme.tokens.cornerSmall)
+    var m = modifier
+    testTag?.let { m = m.testTag(it) }
     // Derive the block tone from the surface the skeleton actually sits on (the published LocalNativeSurface),
     // nudged toward onSurface — so it keeps a consistent, visible contrast on the page, inside a Filled card
     // (which is itself surfaceVariant — a fixed surfaceVariant base would vanish there), or in dark mode.
@@ -55,7 +59,7 @@ public fun NativeSkeleton(
     val (base, highlight) = skeletonColors(container, scheme.onSurface)
 
     if (!shimmer) {
-        Box(modifier.clip(clipShape).background(base))
+        Box(m.clip(clipShape).background(base))
         return
     }
 
@@ -72,7 +76,7 @@ public fun NativeSkeleton(
     // shimmer animates by redrawing, without recomposing this composable ~60×/s for its whole loading life.
     // The gradient slides a [base → highlight → base] sweep one full width across in the reading direction.
     Box(
-        modifier
+        m
             .clip(clipShape)
             .drawWithCache {
                 val widthPx = size.width

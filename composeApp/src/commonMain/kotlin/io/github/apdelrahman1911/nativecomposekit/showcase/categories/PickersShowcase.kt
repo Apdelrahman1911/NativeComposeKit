@@ -112,9 +112,9 @@ private fun DatePickerSection() {
 
         Note(
             "selectedMillis is UTC epoch milliseconds at the start of the day — what Material's " +
-                "DatePickerState emits and what the iOS renderer mirrors. Convert to the device zone at the " +
-                "display layer; don't assume the value is local midnight. On Android the picker is " +
-                "effectively uncontrolled after first composition.",
+                "DatePickerState emits and what the iOS renderer mirrors (its UIDatePicker is pinned to " +
+                "UTC). Convert to the device zone at the display layer; don't assume the value is local " +
+                "midnight. Programmatic selectedMillis changes reach the UI on both platforms.",
         )
     }
 }
@@ -210,8 +210,8 @@ private fun PageControlSection() {
 
         ExampleLabel("Swipe the pager or tap the dots")
         NativeCard(variant = NativeCardVariant.Outlined) {
+            // The state overload: the state's pageCount lambda is the single source of the count.
             NativePager(
-                pageCount = pageCount,
                 state = pagerState,
                 modifier = Modifier.fillMaxWidth(),
             ) { page ->
@@ -294,9 +294,11 @@ private fun LoadMoreSection() {
         }
 
         Note(
-            "NativeLoadMoreEffect fires onLoadMore once when the list scrolls within `buffer` items of the end; " +
-                "guard it against concurrent loads (here enabled = state == Idle). nativePaginationFooter renders " +
-                "a spinner while loading, a retry on error, and nothing at the end — both slots overridable.",
+            "NativeLoadMoreEffect fires onLoadMore when the list scrolls within `buffer` items of the end — " +
+                "once per item count, re-arming when data grows so short pages keep chaining; guard it against " +
+                "concurrent loads (here enabled = state == Idle). nativePaginationFooter renders a spinner " +
+                "while loading, a retry on error (hidden without onRetry), and nothing at the end — both " +
+                "slots overridable.",
         )
     }
 }

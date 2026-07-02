@@ -24,9 +24,21 @@ private class ColorWellHandler : NSObject() {
     var control: UIColorWell? = null
     var onChange: (Color) -> Unit = {}
 
+    /**
+     * The last color the control and Compose agreed on — written by `update` when it pushes a value in, and
+     * here when the picker reports one out. `update` only assigns `selectedColor` when the incoming value
+     * differs from this: an unconditional write on every update races an in-flight picker drag (each change
+     * round-trips through recomposition and lands back on the control mid-gesture).
+     */
+    var lastSynced: Color? = null
+
     @ObjCAction
     fun colorChanged() {
-        control?.selectedColor?.let { onChange(it.toComposeColor()) }
+        control?.selectedColor?.let {
+            val color = it.toComposeColor()
+            lastSynced = color
+            onChange(color)
+        }
     }
 }
 
@@ -66,7 +78,12 @@ internal actual fun PlatformNativeColorWell(
         properties = scrollSafeInteropProperties(), // overlay placement so the backing isn't clipped on scroll
         update = {
             backing.backgroundColor = backingColor
-            control.selectedColor = color.toUIColor()
+            // Push the app-side color only when it isn't the one already synced (see ColorWellHandler.lastSynced);
+            // a caller that transforms/rejects a pick still gets its value applied.
+            if (color != handler.lastSynced) {
+                control.selectedColor = color.toUIColor()
+                handler.lastSynced = color
+            }
             control.supportsAlpha = supportsAlpha
             control.enabled = enabled
             contentDescription?.let { control.accessibilityLabel = it }

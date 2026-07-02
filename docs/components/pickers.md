@@ -40,9 +40,10 @@ NativeDatePicker(
 ```
 
 **Notes**
-- `selectedMillis`, `minMillis`, and `maxMillis` are UTC epoch milliseconds at the start of the day. This is what Material's `DatePickerState` emits, and the iOS renderer mirrors it. To show a picked date in the user's zone, convert with the device timezone at the display layer; do not assume the millis are local midnight.
+- `selectedMillis`, `minMillis`, and `maxMillis` are UTC epoch milliseconds at the start of the day. This is what Material's `DatePickerState` emits, and the iOS renderer mirrors it: the `UIDatePicker` (and its calendar) is pinned to UTC, and emitted values are floored to the UTC day start — so a UTC-midnight input shows the same calendar day everywhere, and picks round-trip without a wall-clock time smuggled in. To show a picked date in the user's zone, convert with the device timezone at the display layer; do not assume the millis are local midnight.
+- The control is controlled on both platforms: programmatic `selectedMillis` changes (including `null` to clear) reach the UI. On Android this is a guarded write-back into Material's `DatePickerState`, so there is no feedback loop with `onSelectedMillisChange`.
 - `minMillis`, `maxMillis`, and `enabled` are honored on both platforms. On Android the bounds are enforced through `SelectableDates`; when disabled the calendar is dimmed (`alpha(0.38f)`) and non-selectable, since Material's `DatePicker` has no `enabled` parameter.
-- On Android the picker is effectively uncontrolled after first composition. Material's `DatePickerState` owns the selection; the component reports changes out but does not write back into the state.
+- On Android, later `minMillis`/`maxMillis` updates re-gate which dates are selectable, but the **year dropdown range is fixed at first composition** — Material's `DatePickerState` captures `yearRange` once, and rebuilding the state to widen the dropdown would drop the user's selection.
 - On iOS the compact `UIDatePicker` is pinned inside a theme-colored backing and sets its light/dark appearance from the luminance of the surface it sits on (`LocalNativeSurface`), not the page.
 
 ### NativeColorWell
@@ -90,6 +91,7 @@ NativeColorWell(
 **Notes**
 - `ios.supportsAlpha` applies only on iOS. The Android preset swatches are opaque, so the option is a no-op there.
 - The Android presets are picker data (a fixed 16-color palette), not theme styling, and do not adapt to the app theme.
+- On Android the swatch has a ≥48dp touch target, a button role with a "Pick a color" action label, and announces as disabled when `enabled = false`; each preset swatch in the dialog is announced as "Color N of M" with its selected state.
 
 ### NativePageControl
 
@@ -131,7 +133,7 @@ NativePageControl(
 
 **Notes**
 - Give it a width. As a content-sized `UIKitView`-backed control on iOS, it does not expose a reliable intrinsic width through interop, so with no width constraint it collapses to ~0 width and becomes invisible. Use `Modifier.weight(1f)` in a `Row` or another width constraint.
-- On iOS, `hidesForSinglePage` is set, so a single page shows no dots (the iOS convention).
+- A single page (or none) shows no dots on either platform — iOS via `hidesForSinglePage` (the iOS convention), Android by rendering nothing at all.
 - On Android, interactive dots (with `onCurrentPageChange`) drop the inter-dot gap and give each dot a >=48dp touch target; display-only dots stay compact with 8dp spacing.
 - Colors come straight from the theme-resolved style, so the dots adapt to light and dark without `overrideUserInterfaceStyle`.
 
@@ -149,23 +151,32 @@ A horizontally swipeable pager for carousels, onboarding, and image galleries. P
 
 **Parameters**
 
+Two overloads — one owner of the page count each. `NativePager(pageCount, …)` owns its state internally; `NativePager(state, …)` takes a caller-owned `PagerState` and has **no count parameter** (the state's `pageCount` lambda is the single source of truth — previously a passed count was silently ignored when a state was also given).
+
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `pageCount` | `Int` | — | Total pages (feeds the default `state`). |
+| `pageCount` | `Int` | — | *(count overload only)* Total pages; feeds the internal `PagerState`. |
+| `state` | `PagerState` | — | *(state overload only)* Caller-owned pager state; carries the page count. |
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
-| `state` | `PagerState` | `rememberPagerState { pageCount }` | Pager state; pass your own to drive it and bind `NativePageControl`. |
 | `contentPadding` | `PaddingValues` | `PaddingValues(0.dp)` | Padding around the pages (e.g. to peek neighbors). |
+| `pageSize` | `PageSize` | `PageSize.Fill` | Page sizing: full-viewport pages, or `PageSize.Fixed(dp)` for carousel-style cells. |
 | `pageSpacing` | `Dp` | `0.dp` | Gap between pages. |
+| `beyondViewportPageCount` | `Int` | `0` | Pages composed ahead/behind the visible ones (pre-load heavy pages). |
 | `userScrollEnabled` | `Boolean` | `true` | Whether swipe gestures page. |
 | `key` | `((page: Int) -> Any)?` | `null` | Stable key per page. |
+| `testTag` | `String?` | `null` | Test identifier on the pager. |
 | `pageContent` | `@Composable PagerScope.(page: Int) -> Unit` | — | The page slot. |
 
 **Example**
 
 ```kotlin
+// Self-contained: the pager owns its state.
+NativePager(items.size) { page -> PageCard(items[page]) }
+
+// Driven: own the state to bind the dots.
 val state = rememberPagerState { items.size }
 val scope = rememberCoroutineScope()
-NativePager(items.size, state = state) { page -> PageCard(items[page]) }
+NativePager(state) { page -> PageCard(items[page]) }
 NativePageControl(
     pageCount = items.size,
     currentPage = state.currentPage,
@@ -180,18 +191,20 @@ NativePageControl(
 
 ### Load more (list pagination)
 
-Infinite-scroll helpers for a paginated `LazyColumn`: an effect that fires as the list nears its end, and a slottable footer. Compose-on-both (built on `LazyListState` / `LazyListScope`).
+Infinite-scroll helpers for a paginated `LazyColumn` or lazy grid: an effect that fires as the list nears its end, and a slottable footer. Compose-on-both (built on `LazyListState`/`LazyGridState` and `LazyListScope`/`LazyGridScope`).
 
 **Use it when**
-- A long, server-paged list should load the next page as the user approaches the end.
+- A long, server-paged list or grid should load the next page as the user approaches the end.
 
 **API**
 
 | Symbol | Signature | Description |
 |---|---|---|
 | `NativePageLoadState` | `enum { Idle, Loading, Error, EndReached }` | The list's load state; you own the transitions. |
-| `NativeLoadMoreEffect` | `@Composable (listState: LazyListState, buffer: Int = 3, enabled: Boolean = true, onLoadMore: () -> Unit)` | Fires `onLoadMore` once when the list scrolls within `buffer` items of the end. Guard concurrent loads via `enabled`. |
-| `LazyListScope.nativePaginationFooter` | `(state, onRetry = {}, loading = { spinner }, error = { retry -> button })` | A footer row: spinner while `Loading`, a retry (slot) on `Error`, nothing at `Idle`/`EndReached`. Both slots overridable. |
+| `NativeLoadMoreEffect` | `@Composable (listState: LazyListState, buffer: Int = 3, enabled: Boolean = true, onLoadMore: () -> Unit)` | Fires `onLoadMore` when the list scrolls within `buffer` items of the end — at most once per item count, re-armed when the count grows (a page that doesn't fill the viewport still chains into the next load). Guard concurrent loads via `enabled`. |
+| `NativeLoadMoreEffect` (grid) | `@Composable (gridState: LazyGridState, buffer: Int = 3, enabled: Boolean = true, onLoadMore: () -> Unit)` | The same trigger and re-arm rules for a lazy grid. |
+| `LazyListScope.nativePaginationFooter` | `(state, onRetry: (() -> Unit)? = null, loading = { spinner }, error = { retry -> button })` | A footer row: spinner (announced as "Loading") while `Loading`, a retry slot on `Error`, nothing at `Idle`/`EndReached`. With `onRetry = null` the default error slot renders no Retry button (no dead affordance); the slot receives the nullable callback. Both slots overridable. |
+| `LazyGridScope.nativePaginationFooter` | same as the list variant | The grid footer spans the full line (`GridItemSpan(maxLineSpan)`), so it sits centered under the grid instead of inside one cell. |
 
 **Example**
 
@@ -205,5 +218,6 @@ NativeLoadMoreEffect(listState, enabled = loadState == NativePageLoadState.Idle)
 ```
 
 **Notes**
-- `NativeLoadMoreEffect` holds no paging state — you decide what "load more" does and track your own `NativePageLoadState`. Set `enabled = false` (e.g. at `EndReached` or while loading) to pause.
+- `NativeLoadMoreEffect` holds no paging state — you decide what "load more" does and track your own `NativePageLoadState`. Set `enabled = false` (e.g. at `EndReached` or while loading) to pause; re-enabling re-arms, so a list still near its end after a load chains into the next page.
+- A load that adds no items (an error) does not re-fire — surface it via the footer's `Error` state and `onRetry` instead.
 - Nesting a `LazyColumn` inside another vertical scroll needs a bounded height on the inner list.

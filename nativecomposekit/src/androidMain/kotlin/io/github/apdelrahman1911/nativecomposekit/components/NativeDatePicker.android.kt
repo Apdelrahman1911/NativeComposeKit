@@ -54,15 +54,34 @@ internal actual fun PlatformNativeDatePicker(
     val yearRange = (minMillis?.let(::yearOf) ?: DatePickerDefaults.YearRange.first)..
         (maxMillis?.let(::yearOf) ?: DatePickerDefaults.YearRange.last)
 
+    // `yearRange` is captured ONCE by the remembered state: rememberDatePickerState re-applies
+    // `selectableDates` on every recomposition (so min/max updates keep re-gating dates) but never the
+    // year range — and rebuilding the state to widen the dropdown would drop the user's selection. So a
+    // later min/max change still gates correctly; only the year dropdown keeps its first-composition span.
     val state = rememberDatePickerState(
         initialSelectedDateMillis = selectedMillis,
         yearRange = yearRange,
         selectableDates = selectable,
     )
-    // Report the user's selection out (no write-back into state → no loop).
+    // Controlled parity with iOS: push programmatic `selectedMillis` changes (including null = clear) into
+    // Material's state. The equality guard breaks the loop with the report-out effect below.
+    LaunchedEffect(selectedMillis) {
+        if (state.selectedDateMillis != selectedMillis) state.selectedDateMillis = selectedMillis
+    }
+    // Report the user's selection out; the guard skips values that came from the write-back above.
     LaunchedEffect(state.selectedDateMillis) {
         val sel = state.selectedDateMillis
         if (enabled && sel != null && sel != selectedMillis) onSelectedMillisChange(sel)
     }
-    DatePicker(state = state, modifier = m)
+    DatePicker(
+        state = state,
+        modifier = m,
+        // The kit's theme-resolved tint drives the selection/today accents (Material defaults would ignore it).
+        colors = DatePickerDefaults.colors(
+            selectedDayContainerColor = tint,
+            selectedYearContainerColor = tint,
+            todayDateBorderColor = tint,
+            todayContentColor = tint,
+        ),
+    )
 }

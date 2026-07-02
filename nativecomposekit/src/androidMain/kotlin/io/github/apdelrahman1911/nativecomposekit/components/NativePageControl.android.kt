@@ -31,6 +31,9 @@ internal actual fun PlatformNativePageControl(
     contentDescription: String?,
     testTag: String?,
 ) {
+    // Match iOS `hidesForSinglePage`: one page (or none) has nothing to indicate, so a lone always-active
+    // dot would only add noise — render nothing.
+    if (pageCount <= 1) return
     val strings = LocalNativeStrings.current
     var m = modifier
     testTag?.let { m = m.testTag(it) }
