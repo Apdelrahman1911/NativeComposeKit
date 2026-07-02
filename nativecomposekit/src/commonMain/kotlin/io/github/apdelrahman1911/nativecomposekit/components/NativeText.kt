@@ -1,5 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,6 +16,9 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextSty
  * Native text. Defaults come from AppTheme's type scale (via [style]); every other parameter is an
  * optional override so it is not locked to a single use case. Renders the most native primitive on
  * each platform — Compose `Text` on Android, a real `UILabel` on iOS.
+ *
+ * [color] defaults to the surface's content color ([LocalContentColor], like Material `Text`), so text
+ * inside a [NativeCard]/[NativeDialog] follows the container's `contentColor` automatically.
  */
 @Composable
 public fun NativeText(
@@ -54,7 +58,14 @@ private fun resolveNativeTextStyle(
         NativeTextStyle.Body -> MaterialTheme.typography.bodyLarge
         NativeTextStyle.Label -> MaterialTheme.typography.labelLarge
     }
-    var ts = base.copy(color = if (color.isSpecified) color else MaterialTheme.colorScheme.onSurface)
+    val contentColor = LocalContentColor.current
+    var ts = base.copy(
+        color = when {
+            color.isSpecified -> color
+            contentColor.isSpecified -> contentColor
+            else -> MaterialTheme.colorScheme.onSurface
+        },
+    )
     if (fontWeight != null) ts = ts.copy(fontWeight = fontWeight)
     if (align != null) ts = ts.copy(textAlign = align)
     if (override != null) ts = ts.merge(override)

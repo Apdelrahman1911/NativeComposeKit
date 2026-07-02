@@ -18,7 +18,7 @@ import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 @Composable
 public fun NativeToggle(
     checked: Boolean,
-    onCheckedChange: ((Boolean) -> Unit)? = null,
+    onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     contentDescription: String? = null,

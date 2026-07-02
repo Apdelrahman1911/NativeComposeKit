@@ -53,15 +53,15 @@ public fun NativeTextField(
     input: NativeFieldInput = NativeFieldInput(),
     focus: NativeFieldFocus = NativeFieldFocus(),
     contentType: NativeTextContentType? = null,
-    colors: NativeFieldColors? = null,
+    colorsOverride: NativeFieldColors? = null,
     cornerRadius: Dp? = null,
-    textStyle: TextStyle? = null,
+    textStyleOverride: TextStyle? = null,
     touch: NativeInteropTouch = NativeInteropTouch.Cooperative,
     contentDescription: String? = null,
     testTag: String? = null,
     ios: NativeTextFieldIosOptions = NativeTextFieldIosOptions(),
 ) {
-    val resolved = resolveFieldStyle(cornerRadius, colors, textStyle)
+    val resolved = resolveFieldStyle(cornerRadius, colorsOverride, textStyleOverride)
 
     // Character limit applied here so both platforms behave identically. Enforce hard-caps (paste
     // trimmed); WarnOnly passes input through so the caller can surface a counter/error itself.

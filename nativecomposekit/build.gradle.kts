@@ -58,13 +58,16 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // `api`, not `implementation`: these Compose types appear in the kit's PUBLIC component signatures
-            // (Modifier, @Composable params, Color, PaddingValues, ImageVector via NativeIcon), so consumers
-            // (:composeApp) must see them transitively.
+            // (Modifier, @Composable params, Color, PaddingValues, ImageVector), so consumers (:composeApp)
+            // must see them transitively.
             api(compose.runtime)
             api(compose.foundation)
             api(compose.material3)
             api(compose.ui)
-            api(compose.materialIconsExtended)
+            // Internal-only: default status/rating/list glyphs. ImageVector itself lives in compose-ui and
+            // nothing from this artifact reaches a public signature, so consumers don't inherit the large
+            // extended-icons dependency.
+            implementation(compose.materialIconsExtended)
             // NO Coil, NO Ktor — image loading + networking are app concerns (kept in :composeApp).
         }
         commonTest.dependencies {

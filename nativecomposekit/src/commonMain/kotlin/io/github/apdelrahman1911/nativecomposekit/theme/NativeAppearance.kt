@@ -4,7 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -60,18 +64,40 @@ public object NativeAppearance {
 /**
  * The single composition root wrapper: applies [AppTheme] + the layout direction from [NativeAppearance].
  * Use at the top of the catalog `App()` and inside each `ComposeUIViewController` the shell hosts, so they
- * all share one appearance.
+ * all share one appearance. Mirrors [AppTheme]'s reskin parameters and forwards them, so a host keeps the
+ * appearance-following behavior AND its own branding, tokens, and localized [strings] without having to
+ * call [AppTheme] directly.
  */
 @Composable
 public fun NativeAppearanceScope(
     drawBackground: Boolean = true,
+    lightColors: ColorScheme = LightColors,
+    darkColors: ColorScheme = DarkColors,
+    typography: Typography = AppTypography,
+    shapes: Shapes = AppShapes,
+    tokens: NativeTokens = NativeTokens(),
+    lightStatusColors: NativeStatusColors = LightStatusColors,
+    darkStatusColors: NativeStatusColors = DarkStatusColors,
+    strings: NativeStrings = NativeStrings(),
     content: @Composable () -> Unit,
 ) {
     val dark = NativeAppearance.darkOverride ?: isSystemInDarkTheme()
-    // Theme the native host chrome (iOS window + nav/tab bars) to the brand background so it matches this
-    // content. Re-runs on every dark flip (system or in-app) since `dark` changes; no-op on Android.
+    // Theme the native host chrome (iOS window background) so it matches this content. Re-runs on every
+    // dark flip (system or in-app) since `dark` changes; no-op on Android. Note: this paints the DEFAULT
+    // brand background — a host injecting custom colors that also drives a native shell should source the
+    // shell color from its injected scheme (see the AppTheme KDoc).
     LaunchedEffect(dark) { applyNativeShellChrome(dark) }
-    AppTheme(darkTheme = dark) {
+    AppTheme(
+        darkTheme = dark,
+        lightColors = lightColors,
+        darkColors = darkColors,
+        typography = typography,
+        shapes = shapes,
+        tokens = tokens,
+        lightStatusColors = lightStatusColors,
+        darkStatusColors = darkStatusColors,
+        strings = strings,
+    ) {
         // Layout direction: follow the host's locale-derived direction unless the app set an explicit
         // override — an RTL-locale user gets RTL by default; the override is for explicit app settings.
         val layoutDir = when (NativeAppearance.rtlOverride) {
@@ -79,11 +105,14 @@ public fun NativeAppearanceScope(
             false -> LayoutDirection.Ltr
             null -> LocalLayoutDirection.current
         }
-        // Publish runtime capabilities (reduce-motion) alongside layout direction for every hosted composition.
+        // Publish runtime capabilities (reduce-motion) alongside layout direction for every hosted
+        // composition, and root-provide the content color so kit text (NativeText) inherits the surface's
+        // content color like Material text does — containers (NativeCard/NativeDialog) override it locally.
         val capabilities = NativeCapabilities(isReduceMotionEnabled = rememberReduceMotion())
         CompositionLocalProvider(
             LocalLayoutDirection provides layoutDir,
             LocalNativeCapabilities provides capabilities,
+            LocalContentColor provides MaterialTheme.colorScheme.onSurface,
         ) {
             if (drawBackground) {
                 // Paint the theme background across the whole host AND publish it as the current surface.

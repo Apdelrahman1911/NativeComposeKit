@@ -19,7 +19,7 @@ private val NativeTeal = Color(0xFF0D7C66)
 private val NativeTealLight = Color(0xFF14A88C)
 private val NativeTealDark = Color(0xFF095C4C)
 
-private val LightColors = lightColorScheme(
+internal val LightColors = lightColorScheme(
     primary = NativeTeal,
     onPrimary = Color.White,
     primaryContainer = Color(0xFFB8F2E4),
@@ -32,7 +32,7 @@ private val LightColors = lightColorScheme(
     onError = Color.White,
 )
 
-private val DarkColors = darkColorScheme(
+internal val DarkColors = darkColorScheme(
     primary = NativeTealLight,
     onPrimary = Color(0xFF00382C),
     primaryContainer = NativeTealDark,
@@ -54,9 +54,9 @@ private val DarkColors = darkColorScheme(
 public val nativeLightBackground: Color = LightColors.background
 public val nativeDarkBackground: Color = DarkColors.background
 
-private val AppTypography = Typography()
+internal val AppTypography = Typography()
 
-private val AppShapes = Shapes(
+internal val AppShapes = Shapes(
     small = RoundedCornerShape(8.dp),
     medium = RoundedCornerShape(12.dp),
     large = RoundedCornerShape(16.dp),

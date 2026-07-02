@@ -1,9 +1,13 @@
 package io.github.apdelrahman1911.nativecomposekit.chrome
 
+import androidx.compose.runtime.Immutable
+
 /** A tab as the native `UITabBar` should render it. */
+@Immutable
 public data class NativeChromeTab(val id: String, val title: String, val sfSymbol: String)
 
 /** A top-bar action (e.g. a "+"), rendered as a native `UIBarButtonItem`. */
+@Immutable
 public data class NativeChromeAction(val id: String, val sfSymbol: String)
 
 /**
@@ -11,6 +15,7 @@ public data class NativeChromeAction(val id: String, val sfSymbol: String)
  * data — it carries **no** route stack and is never authoritative. [sheetId] only tells the shell whether a sheet
  * should be presented; the sheet's Compose content comes from the iOS `NativeChromeSource.sheetViewController`.
  */
+@Immutable
 public data class NativeChromeState(
     val title: String,
     val canGoBack: Boolean,

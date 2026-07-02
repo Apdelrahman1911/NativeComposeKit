@@ -1,9 +1,11 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 
 /** What to hand to the system share UI. Extend with images/files as the app needs them. */
+@Immutable
 public data class NativeShareContent(val text: String? = null, val url: String? = null)
 
 /**

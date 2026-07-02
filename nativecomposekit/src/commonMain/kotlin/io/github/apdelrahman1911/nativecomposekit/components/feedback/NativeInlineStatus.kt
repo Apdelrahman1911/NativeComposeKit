@@ -59,8 +59,8 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 @Composable
 public fun NativeInlineStatus(
     text: String,
-    status: NativeFeedbackStatus = NativeFeedbackStatus.Info,
     modifier: Modifier = Modifier,
+    status: NativeFeedbackStatus = NativeFeedbackStatus.Info,
     title: String? = null,
     icon: ImageVector? = null,
     showIcon: Boolean = true,
