@@ -22,6 +22,7 @@ import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedStepperStyle
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 
 @Composable
 internal actual fun PlatformNativeStepper(
@@ -37,13 +38,14 @@ internal actual fun PlatformNativeStepper(
     testTag: String?,
 ) {
     val m = if (testTag != null) modifier.testTag(testTag) else modifier
+    val strings = LocalNativeStrings.current
     val name = contentDescription // capture to avoid shadowing the SemanticsPropertyReceiver property
     Row(modifier = m, verticalAlignment = Alignment.CenterVertically) {
         FilledTonalIconButton(
             onClick = { onValueChange((value - step).coerceAtLeast(min)) },
             enabled = enabled && value > min,
         ) {
-            Icon(Icons.Default.Remove, contentDescription = "Decrement")
+            Icon(Icons.Default.Remove, contentDescription = strings.stepperDecrement)
         }
         Text(
             text = value.toString(),
@@ -63,7 +65,7 @@ internal actual fun PlatformNativeStepper(
             onClick = { onValueChange((value + step).coerceAtMost(max)) },
             enabled = enabled && value < max,
         ) {
-            Icon(Icons.Default.Add, contentDescription = "Increment")
+            Icon(Icons.Default.Add, contentDescription = strings.stepperIncrement)
         }
     }
 }

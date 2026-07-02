@@ -22,6 +22,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 
 /**
@@ -61,7 +62,8 @@ public fun NativeRating(
     val interactive = onChange != null
     val r = clampRating(rating, max)
     val rText = if (r % 1f == 0f) r.toInt().toString() else r.toString() // "4" not "4.0"; "4.5" stays
-    val desc = contentDescription ?: "Rating: $rText out of $max"
+    val strings = LocalNativeStrings.current
+    val desc = contentDescription ?: strings.ratingDescription(rText, max)
 
     var m = modifier.semantics {
         if (interactive) stateDescription = desc else this.contentDescription = desc
@@ -81,7 +83,7 @@ public fun NativeRating(
                 Box(
                     modifier = Modifier
                         .minimumInteractiveComponentSize()
-                        .clickable(onClickLabel = "Rate $starValue of $max", role = Role.Button) { onChange(starValue.toFloat()) },
+                        .clickable(onClickLabel = strings.ratingSetDescription(starValue, max), role = Role.Button) { onChange(starValue.toFloat()) },
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(vector, contentDescription = null, tint = tint, modifier = Modifier.size(starSize))

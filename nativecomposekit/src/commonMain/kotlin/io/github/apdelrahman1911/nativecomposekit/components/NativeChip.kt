@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.components.internal.chipBorderColor
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 
 /**
  * Chip behavior, mapped to the matching Material chip.
@@ -77,7 +78,7 @@ public fun NativeChip(
                 Box(
                     modifier = Modifier
                         .minimumInteractiveComponentSize()
-                        .clickable(onClickLabel = "Remove", role = Role.Button, onClick = onTrailing),
+                        .clickable(onClickLabel = LocalNativeStrings.current.chipRemove, role = Role.Button, onClick = onTrailing),
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(trailingIcon, contentDescription = null, modifier = Modifier.size(18.dp))

@@ -39,8 +39,9 @@ import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.components.internal.resolveSurfaceFill
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeInsets
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedFeedbackStyle
-import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 
 /**
  * An inline status message that lives **in the layout flow** (field validation, an empty-state note, a
@@ -122,16 +123,17 @@ public fun NativeInlineStatus(
             }
         }
         if (onDismiss != null) {
+            val dismissLabel = LocalNativeStrings.current.dismiss
             // ≥48dp labeled target around the 20dp glyph (the glyph alone is below the a11y minimum).
             Box(
                 modifier = Modifier
                     .minimumInteractiveComponentSize()
-                    .clickable(onClickLabel = "Dismiss", role = Role.Button, onClick = onDismiss),
+                    .clickable(onClickLabel = dismissLabel, role = Role.Button, onClick = onDismiss),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Close,
-                    contentDescription = "Dismiss",
+                    contentDescription = dismissLabel,
                     tint = style.content,
                     modifier = Modifier.size(20.dp),
                 )

@@ -22,6 +22,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 
 /**
@@ -55,7 +56,7 @@ public fun NativeOtpField(
 
     var m = modifier
     testTag?.let { m = m.testTag(it) }
-    val cd = contentDescription ?: "Enter the $length-digit code"
+    val cd = contentDescription ?: LocalNativeStrings.current.otpDescription(length)
     m = m.semantics { this.contentDescription = cd }
 
     BasicTextField(

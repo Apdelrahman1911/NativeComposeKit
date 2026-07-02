@@ -15,6 +15,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.UIKitView
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeCapitalization
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeClearButtonMode
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeFieldColors
@@ -263,6 +264,8 @@ private fun SingleLineField(
     events.onFocus = { f -> focused = f; focus.onFocusChanged?.invoke(f) }
     events.onSubmit = { focus.onSubmit?.invoke() }
     events.onTrailingClick = onTrailingIconClick
+    // Resolve the accessory button title in composition (localized default) for the update closure below.
+    val doneText = ios.keyboardAccessory.doneText ?: LocalNativeStrings.current.done
 
     val field = remember {
         UITextField().apply {
@@ -344,6 +347,7 @@ private fun SingleLineField(
                 if (field.inputAccessoryView == null) {
                     field.inputAccessoryView = makeAccessory(
                         ios.keyboardAccessory,
+                        doneText,
                         style.colors,
                         events,
                         sel_registerName("doneTapped"),
@@ -392,6 +396,8 @@ private fun MultilineField(
     events.placeholderLabel = placeholderLabel
     events.editor = textView
     val backing = remember { UIView() }
+    // Resolve the accessory button title in composition (localized default) for the update closure below.
+    val doneText = ios.keyboardAccessory.doneText ?: LocalNativeStrings.current.done
 
     val minHeight = style.minHeight * 2 // multiline default: a couple of lines tall
 
@@ -438,13 +444,13 @@ private fun MultilineField(
             if (textView.inputAccessoryView == null) {
                 textView.inputAccessoryView = if (ios.keyboardAccessory.doneButton) {
                     // Explicit opt-in keeps the caller's chosen style.
-                    makeAccessory(ios.keyboardAccessory, style.colors, events, sel_registerName("doneTapped"))
+                    makeAccessory(ios.keyboardAccessory, doneText, style.colors, events, sel_registerName("doneTapped"))
                 } else {
                     // Default: a standard UIToolbar. The OS reports a toolbar accessory as part of the keyboard
                     // frame, so Compose's ime inset includes its height and it sits above the content instead of
                     // covering it (a plain custom bar isn't always measured into that frame).
                     makeDoneToolbar(
-                        ios.keyboardAccessory.doneText,
+                        doneText,
                         style.colors.focusedBorder.toUIColor(),
                         events,
                         sel_registerName("doneTapped"),
@@ -538,12 +544,13 @@ private fun makeDoneBar(
 @OptIn(ExperimentalForeignApi::class)
 private fun makeAccessory(
     accessory: NativeKeyboardAccessory,
+    doneText: String,
     colors: NativeFieldColors,
     target: NSObject,
     action: COpaquePointer?,
 ): UIView = when (accessory.style) {
     NativeKeyboardAccessoryStyle.FullWidthBar -> makeDoneBar(
-        accessory.doneText,
+        doneText,
         colors.container.toUIColor(),
         colors.border.toUIColor(),
         colors.focusedBorder.toUIColor(),
@@ -551,7 +558,7 @@ private fun makeAccessory(
         action,
     )
     NativeKeyboardAccessoryStyle.Toolbar -> makeDoneToolbar(
-        accessory.doneText,
+        doneText,
         colors.focusedBorder.toUIColor(),
         target,
         action,

@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonVariant
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 
 /** The loading state of a paginated (load-more) list. Drives [nativePaginationFooter]; you own the transitions. */
@@ -65,7 +66,7 @@ public fun LazyListScope.nativePaginationFooter(
     onRetry: () -> Unit = {},
     loading: @Composable () -> Unit = { NativeProgressIndicator() },
     error: @Composable (retry: () -> Unit) -> Unit = { retry ->
-        NativeButton(text = "Retry", onClick = retry, variant = NativeButtonVariant.Tertiary)
+        NativeButton(text = LocalNativeStrings.current.retry, onClick = retry, variant = NativeButtonVariant.Tertiary)
     },
 ) {
     when (state) {

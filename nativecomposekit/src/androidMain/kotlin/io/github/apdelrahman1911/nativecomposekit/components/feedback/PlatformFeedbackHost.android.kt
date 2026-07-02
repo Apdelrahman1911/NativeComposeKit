@@ -225,7 +225,7 @@ private fun FeedbackBanner(record: BannerRecord, controller: NativeFeedbackContr
             if (record.dismissible) {
                 Icon(
                     imageVector = Icons.Outlined.Close,
-                    contentDescription = "Dismiss",
+                    contentDescription = io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings.current.dismiss,
                     tint = style.content,
                     modifier = Modifier.size(20.dp).clickable { controller.dismiss(record.id) },
                 )

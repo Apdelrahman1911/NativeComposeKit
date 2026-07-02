@@ -66,13 +66,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChrom
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeColorWell_androidKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeColorWell_androidKt;
-	public fun <init> ()V
-	public final fun getLambda$-466861596$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1672545611$nativecomposekit_release ()Lkotlin/jvm/functions/Function3;
-}
-
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativePaginationKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativePaginationKt;
 	public fun <init> ()V
@@ -105,13 +98,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/Composa
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeSplitButton_androidKt;
 	public fun <init> ()V
 	public final fun getLambda$-983008380$nativecomposekit_release ()Lkotlin/jvm/functions/Function3;
-}
-
-public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeStepper_androidKt {
-	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeStepper_androidKt;
-	public fun <init> ()V
-	public final fun getLambda$197706142$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$249180405$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeTopBarKt {
@@ -1006,7 +992,7 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/AppThemeKt {
-	public static final fun AppTheme (ZLandroidx/compose/material3/ColorScheme;Landroidx/compose/material3/ColorScheme;Landroidx/compose/material3/Typography;Landroidx/compose/material3/Shapes;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun AppTheme (ZLandroidx/compose/material3/ColorScheme;Landroidx/compose/material3/ColorScheme;Landroidx/compose/material3/Typography;Landroidx/compose/material3/Shapes;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStrings;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 	public static final fun getNativeDarkBackground ()J
 	public static final fun getNativeLightBackground ()J
 }
@@ -1082,6 +1068,39 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeStatus
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColorsKt {
 	public static final fun getLocalNativeStatusColors ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeStrings {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getAlertCancel ()Ljava/lang/String;
+	public final fun getAlertOk ()Ljava/lang/String;
+	public final fun getChipRemove ()Ljava/lang/String;
+	public final fun getColorPickerTitle ()Ljava/lang/String;
+	public final fun getColorWellDescription ()Ljava/lang/String;
+	public final fun getDismiss ()Ljava/lang/String;
+	public final fun getDone ()Ljava/lang/String;
+	public final fun getEmptyStateTitle ()Ljava/lang/String;
+	public final fun getErrorStateTitle ()Ljava/lang/String;
+	public final fun getGoToPage ()Lkotlin/jvm/functions/Function1;
+	public final fun getLoading ()Ljava/lang/String;
+	public final fun getMenuSelected ()Ljava/lang/String;
+	public final fun getOtpDescription ()Lkotlin/jvm/functions/Function1;
+	public final fun getPageDescription ()Lkotlin/jvm/functions/Function2;
+	public final fun getRatingDescription ()Lkotlin/jvm/functions/Function2;
+	public final fun getRatingSetDescription ()Lkotlin/jvm/functions/Function2;
+	public final fun getRetry ()Ljava/lang/String;
+	public final fun getSearchClear ()Ljava/lang/String;
+	public final fun getSearchPlaceholder ()Ljava/lang/String;
+	public final fun getSplitButtonMore ()Ljava/lang/String;
+	public final fun getStepperDecrement ()Ljava/lang/String;
+	public final fun getStepperIncrement ()Ljava/lang/String;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeStringsKt {
+	public static final fun getLocalNativeStrings ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeTheme {

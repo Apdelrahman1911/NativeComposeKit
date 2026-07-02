@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenu
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenuItemRole
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 
 /**
  * Android pull-down menu = a Material 3 [DropdownMenu] anchored to the button. Destructive items use the
@@ -39,7 +40,7 @@ internal fun NativeMenuDropdown(expanded: Boolean, onDismiss: () -> Unit, menu: 
                     null
                 },
                 trailingIcon = if (item.selected) {
-                    { Icon(Icons.Default.Check, contentDescription = "Selected", tint = tint) }
+                    { Icon(Icons.Default.Check, contentDescription = LocalNativeStrings.current.menuSelected, tint = tint) }
                 } else {
                     null
                 },

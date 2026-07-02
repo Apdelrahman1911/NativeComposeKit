@@ -84,11 +84,13 @@ public fun AppTheme(
     tokens: NativeTokens = NativeTokens(),
     lightStatusColors: NativeStatusColors = LightStatusColors,
     darkStatusColors: NativeStatusColors = DarkStatusColors,
+    strings: NativeStrings = NativeStrings(),
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
         LocalNativeTokens provides tokens,
         LocalNativeStatusColors provides if (darkTheme) darkStatusColors else lightStatusColors,
+        LocalNativeStrings provides strings,
     ) {
         MaterialTheme(
             colorScheme = if (darkTheme) darkColors else lightColors,

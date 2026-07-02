@@ -4,6 +4,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import io.github.apdelrahman1911.nativecomposekit.components.toUIColor
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 
 /**
  * iOS feedback host. Emits [content] and drives native presentation via side effects — it draws no
@@ -37,8 +38,9 @@ internal actual fun PlatformFeedbackHost(
         val primary = MaterialTheme.colorScheme.primary.toUIColor()
         val error = MaterialTheme.colorScheme.error.toUIColor()
         val cancelColor = MaterialTheme.colorScheme.onSurfaceVariant.toUIColor()
+        val strings = LocalNativeStrings.current // localized fallback action titles ("OK"/"Cancel")
         DisposableEffect(modal.id) {
-            val dismiss = presentModal(modal, cardStyle, primary, error, cancelColor, controller)
+            val dismiss = presentModal(modal, cardStyle, primary, error, cancelColor, strings, controller)
             onDispose { dismiss() }
         }
     }

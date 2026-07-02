@@ -5,6 +5,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedFeedb
 import io.github.apdelrahman1911.nativecomposekit.components.pinFilling
 import io.github.apdelrahman1911.nativecomposekit.components.toUIColor
 import io.github.apdelrahman1911.nativecomposekit.components.toUIFont
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeStrings
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
@@ -56,6 +57,7 @@ internal fun presentModal(
     primary: UIColor,
     error: UIColor,
     cancelColor: UIColor,
+    strings: NativeStrings,
     controller: NativeFeedbackController,
 ): () -> Unit {
     val branded = when (record) {
@@ -63,9 +65,9 @@ internal fun presentModal(
         is SheetRecord -> record.iosPresentation == NativePresentation.Branded
     }
     return if (branded) {
-        presentBrandedModal(record, cardStyle, primary, error, cancelColor, controller)
+        presentBrandedModal(record, cardStyle, primary, error, cancelColor, strings, controller)
     } else {
-        presentNativeModal(record, controller)
+        presentNativeModal(record, strings, controller)
     }
 }
 
@@ -110,7 +112,11 @@ private class ModalDismissDelegate(
 }
 
 @OptIn(ExperimentalForeignApi::class)
-private fun presentNativeModal(record: ModalRecord, controller: NativeFeedbackController): () -> Unit {
+private fun presentNativeModal(
+    record: ModalRecord,
+    strings: NativeStrings,
+    controller: NativeFeedbackController,
+): () -> Unit {
     val retained = mutableListOf<Any>()
     val isSheet = record is SheetRecord
     val controllerStyle = if (isSheet) UIAlertControllerStyleActionSheet else UIAlertControllerStyleAlert
@@ -130,7 +136,7 @@ private fun presentNativeModal(record: ModalRecord, controller: NativeFeedbackCo
     val hasCancel = items.any { it.second == NativeAlertActionRole.Cancel }
     if (isSheet && !hasCancel) {
         alert.addAction(
-            UIAlertAction.actionWithTitle("Cancel", UIAlertActionStyleCancel, handler = { _ ->
+            UIAlertAction.actionWithTitle(strings.alertCancel, UIAlertActionStyleCancel, handler = { _ ->
                 handled = true
                 controller.onModalResult(record.id, record.onCancel)
             }),
@@ -138,7 +144,7 @@ private fun presentNativeModal(record: ModalRecord, controller: NativeFeedbackCo
     }
     if (!isSheet && items.isEmpty()) {
         alert.addAction(
-            UIAlertAction.actionWithTitle("OK", UIAlertActionStyleDefault, handler = { _ ->
+            UIAlertAction.actionWithTitle(strings.alertOk, UIAlertActionStyleDefault, handler = { _ ->
                 handled = true
                 controller.onModalResult(record.id, null)
             }),
@@ -214,6 +220,7 @@ private fun presentBrandedModal(
     primary: UIColor,
     error: UIColor,
     cancelColor: UIColor,
+    strings: NativeStrings,
     controller: NativeFeedbackController,
 ): () -> Unit {
     val window = feedbackKeyWindow() ?: return {}
@@ -268,10 +275,10 @@ private fun presentBrandedModal(
 
     val items = record.actionItems().toMutableList()
     if (isSheet && items.none { it.second == NativeAlertActionRole.Cancel }) {
-        items += Triple("Cancel", NativeAlertActionRole.Cancel, record.onCancel ?: {})
+        items += Triple(strings.alertCancel, NativeAlertActionRole.Cancel, record.onCancel ?: {})
     }
     if (!isSheet && items.isEmpty()) {
-        items += Triple<String, NativeAlertActionRole, () -> Unit>("OK", NativeAlertActionRole.Default, {})
+        items += Triple<String, NativeAlertActionRole, () -> Unit>(strings.alertOk, NativeAlertActionRole.Default, {})
     }
     items.forEach { (label, role, action) ->
         val color = when (role) {

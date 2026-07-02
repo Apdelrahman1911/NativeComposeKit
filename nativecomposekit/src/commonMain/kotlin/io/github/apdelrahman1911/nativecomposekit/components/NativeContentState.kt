@@ -7,6 +7,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 
 /**
  * The async lifecycle of a piece of screen content: [Loading] → [Content] / [Empty] / [Error]. A small,
@@ -49,11 +50,11 @@ public fun <T> NativeContentState(
     state: NativeLoadState<T>,
     modifier: Modifier = Modifier,
     onRetry: (() -> Unit)? = null,
-    emptyTitle: String = "Nothing here yet",
+    emptyTitle: String = LocalNativeStrings.current.emptyStateTitle,
     emptyMessage: String? = null,
     emptyIcon: ImageVector? = null,
-    errorTitle: String = "Something went wrong",
-    retryLabel: String = "Retry",
+    errorTitle: String = LocalNativeStrings.current.errorStateTitle,
+    retryLabel: String = LocalNativeStrings.current.retry,
     loadingContent: (@Composable () -> Unit)? = null,
     emptyContent: (@Composable () -> Unit)? = null,
     errorContent: (@Composable (NativeLoadState.Error) -> Unit)? = null,
@@ -62,7 +63,7 @@ public fun <T> NativeContentState(
     when (state) {
         is NativeLoadState.Content -> Box(modifier) { content(state.value) }
         NativeLoadState.Loading -> Centered(modifier) {
-            if (loadingContent != null) loadingContent() else NativeProgressIndicator(contentDescription = "Loading")
+            if (loadingContent != null) loadingContent() else NativeProgressIndicator(contentDescription = LocalNativeStrings.current.loading)
         }
         NativeLoadState.Empty -> Centered(modifier) {
             if (emptyContent != null) emptyContent() else NativeEmptyState(title = emptyTitle, message = emptyMessage, icon = emptyIcon)

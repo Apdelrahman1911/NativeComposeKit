@@ -96,7 +96,11 @@ internal actual fun PlatformNativeSplitButton(
         )
         Box {
             SplitSegment(style, endShape, { expanded = true }, isEnabled, chevronPad, segMod) {
-                Icon(Icons.Filled.KeyboardArrowDown, contentDescription = "More", modifier = Modifier.size(20.dp))
+                Icon(
+                    Icons.Filled.KeyboardArrowDown,
+                    contentDescription = io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings.current.splitButtonMore,
+                    modifier = Modifier.size(20.dp),
+                )
             }
             NativeMenuDropdown(expanded = expanded, onDismiss = { expanded = false }, menu = menu)
         }

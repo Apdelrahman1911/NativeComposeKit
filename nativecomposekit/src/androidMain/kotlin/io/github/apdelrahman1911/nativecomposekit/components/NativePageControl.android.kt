@@ -18,6 +18,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedPageControlStyle
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 
 /** Android page control: a branded row of dots (the current one tinted [ResolvedPageControlStyle.current]). */
 @Composable
@@ -30,9 +31,10 @@ internal actual fun PlatformNativePageControl(
     contentDescription: String?,
     testTag: String?,
 ) {
+    val strings = LocalNativeStrings.current
     var m = modifier
     testTag?.let { m = m.testTag(it) }
-    val desc = contentDescription ?: if (pageCount > 0) "Page ${currentPage + 1} of $pageCount" else null
+    val desc = contentDescription ?: if (pageCount > 0) strings.pageDescription(currentPage + 1, pageCount) else null
     desc?.let { d -> m = m.semantics { this.contentDescription = d } }
 
     // Interactive dots get a ≥48dp touch target (with the 8dp visual centered); the larger targets supply
@@ -50,7 +52,7 @@ internal actual fun PlatformNativePageControl(
                 Box(
                     modifier = Modifier
                         .minimumInteractiveComponentSize()
-                        .clickable(onClickLabel = "Go to page ${i + 1}", role = Role.Button) { cb(i) },
+                        .clickable(onClickLabel = strings.goToPage(i + 1), role = Role.Button) { cb(i) },
                     contentAlignment = Alignment.Center,
                 ) {
                     Box(Modifier.size(8.dp).clip(CircleShape).background(dotColor))

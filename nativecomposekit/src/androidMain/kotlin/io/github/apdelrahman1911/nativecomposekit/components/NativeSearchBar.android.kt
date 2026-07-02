@@ -19,6 +19,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedSearchStyle
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 
 /**
  * Android search field: a Material filled [TextField] with its indicators removed and a rounded shape, a
@@ -55,7 +56,7 @@ internal actual fun PlatformNativeSearchBar(
         trailingIcon = {
             if (value.isNotEmpty()) {
                 IconButton(onClick = { onValueChange(""); onCancel?.invoke() }) {
-                    Icon(Icons.Default.Close, contentDescription = "Clear")
+                    Icon(Icons.Default.Close, contentDescription = LocalNativeStrings.current.searchClear)
                 }
             }
         },

@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 
 // A basic preset palette (this is picker *data*, not theme styling — fixed colors are the point of a picker).
 private val ColorWellPresets = listOf(
@@ -47,11 +48,12 @@ internal actual fun PlatformNativeColorWell(
     testTag: String?,
 ) {
     val scheme = MaterialTheme.colorScheme
+    val strings = LocalNativeStrings.current
     var open by remember { mutableStateOf(false) }
 
     var m = modifier
     testTag?.let { m = m.testTag(it) }
-    val cd = contentDescription ?: "Selected color"
+    val cd = contentDescription ?: strings.colorWellDescription
     m = m.semantics { this.contentDescription = cd }
 
     var swatch = m.size(36.dp).clip(CircleShape).background(color).border(1.dp, scheme.outline, CircleShape)
@@ -61,8 +63,8 @@ internal actual fun PlatformNativeColorWell(
     if (open) {
         AlertDialog(
             onDismissRequest = { open = false },
-            confirmButton = { TextButton(onClick = { open = false }) { Text("Done") } },
-            title = { Text("Pick a color") },
+            confirmButton = { TextButton(onClick = { open = false }) { Text(strings.done) } },
+            title = { Text(strings.colorPickerTitle) },
             text = {
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),

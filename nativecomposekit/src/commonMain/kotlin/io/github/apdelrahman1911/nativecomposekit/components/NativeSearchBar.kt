@@ -7,8 +7,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import io.github.apdelrahman1911.nativecomposekit.components.internal.resolveSurfaceFill
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedSearchStyle
-import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 
 /** iOS-only [NativeSearchBar] knobs. Each is a documented no-op on Android. */
 @Immutable
@@ -36,7 +37,7 @@ public fun NativeSearchBar(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    placeholder: String = "Search",
+    placeholder: String = LocalNativeStrings.current.searchPlaceholder,
     onSearch: (() -> Unit)? = null,
     onCancel: (() -> Unit)? = null,
     enabled: Boolean = true,

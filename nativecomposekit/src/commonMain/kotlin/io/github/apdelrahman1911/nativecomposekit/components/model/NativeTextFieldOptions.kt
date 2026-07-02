@@ -38,7 +38,8 @@ public data class NativeCharacterLimit(
 @Immutable
 public data class NativeKeyboardAccessory(
     val doneButton: Boolean = true,
-    val doneText: String = "Done",
+    /** Button title. null (the default) uses the localized table — `LocalNativeStrings.current.done`. */
+    val doneText: String? = null,
     val style: NativeKeyboardAccessoryStyle = NativeKeyboardAccessoryStyle.Toolbar,
 )
 
