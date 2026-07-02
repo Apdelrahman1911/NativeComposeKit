@@ -41,6 +41,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,11 +51,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -124,9 +127,12 @@ internal actual fun PlatformFeedbackHost(
         }
 
         // ---- Modal lane (parallel) ----
+        // key(m.id): back-to-back modals of the same kind must NOT reuse the previous one's composition
+        // slot — a reused ModalBottomSheet keeps its (hidden) sheetState and never re-shows, stranding the
+        // lane with an invisible active modal.
         when (val m = controller.activeModal) {
-            is AlertRecord -> FeedbackAlert(m, controller)
-            is SheetRecord -> FeedbackSheet(m, controller, scope)
+            is AlertRecord -> key(m.id) { FeedbackAlert(m, controller) }
+            is SheetRecord -> key(m.id) { FeedbackSheet(m, controller, scope) }
             null -> Unit
         }
     }
@@ -222,17 +228,31 @@ private fun FeedbackBanner(record: BannerRecord, controller: NativeFeedbackContr
                     Text(
                         text = record.actionLabel,
                         style = style.textStyle.copy(fontWeight = FontWeight.SemiBold, color = style.iconTint),
-                        modifier = Modifier.padding(top = 4.dp).clickable { controller.onTransientAction(record.id) },
+                        modifier = Modifier.padding(top = 4.dp)
+                            .clickable(role = Role.Button, onClickLabel = record.actionLabel) {
+                                controller.onTransientAction(record.id)
+                            },
                     )
                 }
             }
             if (record.dismissible) {
-                Icon(
-                    imageVector = Icons.Outlined.Close,
-                    contentDescription = io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings.current.dismiss,
-                    tint = style.content,
-                    modifier = Modifier.size(20.dp).clickable { controller.dismiss(record.id) },
-                )
+                val dismissLabel = LocalNativeStrings.current.dismiss
+                // ≥48dp labeled target around the 20dp glyph (matches NativeInlineStatus's dismiss).
+                Box(
+                    modifier = Modifier
+                        .minimumInteractiveComponentSize()
+                        .clickable(onClickLabel = dismissLabel, role = Role.Button) {
+                            controller.dismiss(record.id)
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Close,
+                        contentDescription = dismissLabel,
+                        tint = style.content,
+                        modifier = Modifier.size(20.dp),
+                    )
+                }
             }
         }
     }
@@ -298,15 +318,24 @@ private fun FeedbackAlert(record: AlertRecord, controller: NativeFeedbackControl
         title = record.title?.let { { Text(it) } },
         text = record.message?.let { { Text(it) } },
         confirmButton = {
-            Row(horizontalArrangement = Arrangement.spacedBy(NativeTheme.tokens.spacingXs)) {
-                others.forEach { action ->
-                    TextButton(onClick = { controller.onModalResult(record.id, action.onClick) }) {
-                        Text(
-                            action.label,
-                            color = if (action.role == NativeAlertActionRole.Destructive) MaterialTheme.colorScheme.error
-                            else MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.SemiBold,
-                        )
+            if (record.actions.isEmpty()) {
+                // Parity with iOS, which always injects a confirm (strings.alertOk) so an alert without
+                // explicit actions can still be closed by a button, not only by tapping outside.
+                val ok = LocalNativeStrings.current.alertOk
+                TextButton(onClick = { controller.onModalResult(record.id, null) }) {
+                    Text(ok, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
+                }
+            } else {
+                Row(horizontalArrangement = Arrangement.spacedBy(NativeTheme.tokens.spacingXs)) {
+                    others.forEach { action ->
+                        TextButton(onClick = { controller.onModalResult(record.id, action.onClick) }) {
+                            Text(
+                                action.label,
+                                color = if (action.role == NativeAlertActionRole.Destructive) MaterialTheme.colorScheme.error
+                                else MaterialTheme.colorScheme.primary,
+                                fontWeight = FontWeight.SemiBold,
+                            )
+                        }
                     }
                 }
             }

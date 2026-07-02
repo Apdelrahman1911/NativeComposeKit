@@ -82,8 +82,9 @@ public fun NativeInlineStatus(
     if (!filled) box = box.border(1.dp, style.border, shape)
     testTag?.let { box = box.testTag(it) }
     // Announce the status to screen readers when it appears/changes: errors interrupt (Assertive),
-    // everything else is queued (Polite). Set unconditionally so updates are spoken even with no override.
-    box = box.semantics {
+    // everything else is queued (Polite). Merge descendants so the live region carries the title/message
+    // text (a bare live region with no text announces nothing); the action/dismiss stay separate nodes.
+    box = box.semantics(mergeDescendants = true) {
         liveRegion = if (status == NativeFeedbackStatus.Error) LiveRegionMode.Assertive else LiveRegionMode.Polite
         if (contentDescription != null) this.contentDescription = contentDescription
     }
@@ -118,7 +119,8 @@ public fun NativeInlineStatus(
                 Text(
                     text = actionLabel,
                     style = style.textStyle.copy(fontWeight = FontWeight.SemiBold, color = style.iconTint),
-                    modifier = Modifier.padding(top = 4.dp).clickable(onClick = onAction),
+                    modifier = Modifier.padding(top = 4.dp)
+                        .clickable(role = Role.Button, onClickLabel = actionLabel, onClick = onAction),
                 )
             }
         }
