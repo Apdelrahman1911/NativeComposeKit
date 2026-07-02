@@ -102,6 +102,13 @@ internal fun NativeFeedbackDuration.toMillisOrNull(): Long? = when (this) {
  * message is never timed twice. Two independent lanes:
  * - **Transient** (toast/snackbar/banner): one [activeTransient] at a time, FIFO [NativeQueueBehavior].
  * - **Modal** (alert/sheet): one [activeModal] at a time, overlays a transient.
+ *
+ * **Threading: main thread only.** The queues are plain unsynchronized state read by composition; call the
+ * post/dismiss methods from UI callbacks (click lambdas, effects) — from a background coroutine, hop first:
+ * `withContext(Dispatchers.Main) { controller.toast(…) }`.
+ *
+ * **Re-entrancy is safe:** every user callback (`onDismiss`/`onAction`/`onCancel`/alert actions) runs
+ * *after* the lane has advanced, so a callback may post or dismiss again without corrupting the queue.
  */
 @Stable
 public class NativeFeedbackController internal constructor() {
@@ -217,7 +224,12 @@ public class NativeFeedbackController internal constructor() {
         return id
     }
 
-    /** Dismiss a specific message by the id returned from a post call (works for either lane). */
+    /**
+     * Dismiss a specific message by the id returned from a post call (works for either lane). Exact behavior
+     * depends on where the message is: the **active transient** → its `onDismiss` runs and the lane advances;
+     * the **active modal** → treated as a cancel (its `onCancel` runs) and the lane advances; still **queued**
+     * → removed silently with no callback.
+     */
     public fun dismiss(id: Long) {
         when {
             activeTransient?.id == id -> finishTransient(id, invokeDismiss = true)
@@ -237,8 +249,10 @@ public class NativeFeedbackController internal constructor() {
     /** Dismiss the current modal as a cancel (runs its `onCancel`) and advance the modal queue. */
     public fun dismissCurrentModal() {
         val cur = activeModal ?: return
-        cur.onCancel?.invoke()
+        // Advance BEFORE the callback so a re-entrant dismiss/post inside onCancel sees a settled lane
+        // (and the id guards correctly reject stale references to the just-finished modal).
         activeModal = modalQueue.removeFirstOrNull()
+        cur.onCancel?.invoke()
     }
 
     /** Hard reset — clears both lanes immediately without invoking callbacks. */
@@ -256,24 +270,28 @@ public class NativeFeedbackController internal constructor() {
     /** The host's timer fired for [id]: dismiss it (counts as an [onDismiss]) and advance. */
     internal fun onTransientTimeout(id: Long) = finishTransient(id, invokeDismiss = true)
 
-    /** The action button of the active transient ([id]) was tapped: run [SnackbarRecord.onAction]/[BannerRecord.onAction], then advance. */
+    /** The action button of the active transient ([id]) was tapped: advance, then run [SnackbarRecord.onAction]/[BannerRecord.onAction]. */
     internal fun onTransientAction(id: Long) {
         val cur = activeTransient ?: return
         if (cur.id != id) return
+        // Advance BEFORE the callback: an action that re-entrantly calls dismiss(id) would otherwise pass the
+        // id guard, fire a spurious onDismiss, and advance a second time (dropping a queued record).
+        activeTransient = null
+        promoteTransient()
         when (cur) {
             is SnackbarRecord -> cur.onAction?.invoke()
             is BannerRecord -> cur.onAction?.invoke()
             is ToastRecord -> {}
         }
-        activeTransient = null
-        promoteTransient()
     }
 
-    /** An action of the active modal ([id]) was chosen: run [action], then advance the modal lane. */
+    /** An action of the active modal ([id]) was chosen: advance the modal lane, then run [action]. */
     internal fun onModalResult(id: Long, action: (() -> Unit)?) {
         if (activeModal?.id != id) return
-        action?.invoke()
+        // Advance BEFORE the callback (same rationale as onTransientAction: no spurious onCancel, no
+        // double-advance when the action calls dismiss()).
         activeModal = modalQueue.removeFirstOrNull()
+        action?.invoke()
     }
 
     // endregion
@@ -288,8 +306,10 @@ public class NativeFeedbackController internal constructor() {
                 transientQueue.clear()
                 val cur = activeTransient
                 if (cur != null) {
-                    cur.onDismiss?.invoke()
+                    // Detach BEFORE the callback — an onDismiss that itself posts ReplaceCurrent would
+                    // otherwise re-enter this branch with the same record still active and recurse forever.
                     activeTransient = null
+                    cur.onDismiss?.invoke()
                 }
             }
             NativeQueueBehavior.Enqueue -> {}
@@ -305,9 +325,11 @@ public class NativeFeedbackController internal constructor() {
     private fun finishTransient(id: Long, invokeDismiss: Boolean) {
         val cur = activeTransient ?: return
         if (cur.id != id) return
-        if (invokeDismiss) cur.onDismiss?.invoke()
+        // Advance BEFORE the callback so onDismiss observes a settled lane: a re-entrant dismiss of the same
+        // id no-ops (guard above), and a post from inside onDismiss queues/promotes normally.
         activeTransient = null
         promoteTransient()
+        if (invokeDismiss) cur.onDismiss?.invoke()
     }
 
     private fun enqueueModal(record: ModalRecord) {
