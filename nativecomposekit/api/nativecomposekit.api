@@ -1019,9 +1019,9 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeAppear
 	public static final field $stable I
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/theme/NativeAppearance;
 	public final fun getDarkOverride ()Ljava/lang/Boolean;
-	public final fun getRtl ()Z
-	public final fun setDark (Z)V
-	public final fun setRtl (Z)V
+	public final fun getRtlOverride ()Ljava/lang/Boolean;
+	public final fun setDark (Ljava/lang/Boolean;)V
+	public final fun setRtl (Ljava/lang/Boolean;)V
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeAppearanceKt {

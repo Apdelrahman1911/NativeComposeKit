@@ -14,6 +14,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.components.NativeText
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import io.github.apdelrahman1911.nativecomposekit.components.NativeToggle
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
 import io.github.apdelrahman1911.nativecomposekit.showcase.ExampleLabel
@@ -143,10 +145,10 @@ private fun WeightAlignTruncateSection() {
 @Composable
 private fun AppearanceSection() {
     // NativeAppearance is snapshot-backed, so reading it here subscribes this section to its changes —
-    // no local remember needed. darkOverride is null while following the system; resolve the effective
-    // value the same way NativeAppearanceScope does. setDark flips both Compose and the native chrome.
+    // no local remember needed. Both overrides are null while following the system; resolve the effective
+    // values the same way NativeAppearanceScope does (the applied layout direction IS the effective RTL).
     val dark = NativeAppearance.darkOverride ?: isSystemInDarkTheme()
-    val rtl = NativeAppearance.rtl
+    val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 
     ShowcaseSection(
         title = "Appearance: dark mode & RTL",
@@ -161,7 +163,7 @@ private fun AppearanceSection() {
         AppearanceRow(
             label = "Right-to-left layout",
             checked = rtl,
-            onCheckedChange = { NativeAppearance.rtl = it },
+            onCheckedChange = { NativeAppearance.setRtl(it) },
         )
 
         Note(

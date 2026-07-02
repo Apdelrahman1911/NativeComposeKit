@@ -2,7 +2,7 @@ package io.github.apdelrahman1911.nativecomposekit.theme
 
 /** No-op on Android: there's no native shell here, and the Compose side already follows
  * [NativeAppearance.darkOverride] via [NativeAppearanceScope]. */
-internal actual fun applyPlatformColorScheme(dark: Boolean) {
+internal actual fun applyPlatformColorScheme(dark: Boolean?) {
     // intentionally empty
 }
 

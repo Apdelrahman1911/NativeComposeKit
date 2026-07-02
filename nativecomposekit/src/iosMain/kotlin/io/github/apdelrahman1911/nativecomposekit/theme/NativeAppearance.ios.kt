@@ -9,7 +9,11 @@ import platform.UIKit.UIWindow
  * any native controls) matches the app-wide dark/light choice. This also updates the trait collection, so
  * hosted Compose compositions see the change too (though they primarily follow [NativeAppearance.darkOverride]).
  */
-internal actual fun applyPlatformColorScheme(dark: Boolean) {
-    val style = if (dark) UIUserInterfaceStyle.UIUserInterfaceStyleDark else UIUserInterfaceStyle.UIUserInterfaceStyleLight
+internal actual fun applyPlatformColorScheme(dark: Boolean?) {
+    val style = when (dark) {
+        true -> UIUserInterfaceStyle.UIUserInterfaceStyleDark
+        false -> UIUserInterfaceStyle.UIUserInterfaceStyleLight
+        null -> UIUserInterfaceStyle.UIUserInterfaceStyleUnspecified // clear the override: follow the system
+    }
     UIApplication.sharedApplication.windows.forEach { (it as? UIWindow)?.overrideUserInterfaceStyle = style }
 }

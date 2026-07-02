@@ -1031,11 +1031,11 @@ final object io.github.apdelrahman1911.nativecomposekit.components/NativeImeLog 
 final object io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance { // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance|null[0]
     final var darkOverride // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.darkOverride|{}darkOverride[0]
         final fun <get-darkOverride>(): kotlin/Boolean? // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.darkOverride.<get-darkOverride>|<get-darkOverride>(){}[0]
-    final var rtl // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.rtl|{}rtl[0]
-        final fun <get-rtl>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.rtl.<get-rtl>|<get-rtl>(){}[0]
-        final fun <set-rtl>(kotlin/Boolean) // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.rtl.<set-rtl>|<set-rtl>(kotlin.Boolean){}[0]
+    final var rtlOverride // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.rtlOverride|{}rtlOverride[0]
+        final fun <get-rtlOverride>(): kotlin/Boolean? // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.rtlOverride.<get-rtlOverride>|<get-rtlOverride>(){}[0]
 
-    final fun setDark(kotlin/Boolean) // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.setDark|setDark(kotlin.Boolean){}[0]
+    final fun setDark(kotlin/Boolean?) // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.setDark|setDark(kotlin.Boolean?){}[0]
+    final fun setRtl(kotlin/Boolean?) // io.github.apdelrahman1911.nativecomposekit.theme/NativeAppearance.setRtl|setRtl(kotlin.Boolean?){}[0]
 }
 
 final object io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme { // io.github.apdelrahman1911.nativecomposekit.theme/NativeTheme|null[0]
