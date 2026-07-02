@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.InputChip
+import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
@@ -96,16 +98,26 @@ public fun NativeChip(
 
     val text: @Composable () -> Unit = { Text(label, maxLines = 1, overflow = TextOverflow.Ellipsis) }
     // Material's default chip border is `outlineVariant` (a faint divider tone) which vanishes on a
-    // `surfaceVariant` card. Use `outline` — the M3 boundary role — so the always-bordered styles keep a
-    // visible edge on any surface (page, card, glass). Selection styles keep their state-driven Material border.
-    val outlineBorder = BorderStroke(1.dp, chipBorderColor(MaterialTheme.colorScheme.outline, enabled))
+    // `surfaceVariant` card. Use `outline` — the M3 boundary role — so every bordered state keeps a visible
+    // edge on any surface (page, card, glass). Filter/Input keep their selected state borderless (Material's
+    // selected treatment is the tonal fill), but their UNSELECTED border gets the same `outline` fix.
+    val outline = MaterialTheme.colorScheme.outline
+    val outlineBorder = BorderStroke(1.dp, chipBorderColor(outline, enabled))
     when (style) {
         NativeChipStyle.Assist ->
             AssistChip(onClick = onClick, label = text, modifier = m, enabled = enabled, leadingIcon = leadingSlot, trailingIcon = trailingSlot, border = outlineBorder)
         NativeChipStyle.Filter ->
-            FilterChip(selected = selected, onClick = onClick, label = text, modifier = m, enabled = enabled, leadingIcon = leadingSlot, trailingIcon = trailingSlot)
+            FilterChip(
+                selected = selected, onClick = onClick, label = text, modifier = m, enabled = enabled,
+                leadingIcon = leadingSlot, trailingIcon = trailingSlot,
+                border = FilterChipDefaults.filterChipBorder(enabled = enabled, selected = selected, borderColor = outline),
+            )
         NativeChipStyle.Input ->
-            InputChip(selected = selected, onClick = onClick, label = text, modifier = m, enabled = enabled, leadingIcon = leadingSlot, trailingIcon = trailingSlot)
+            InputChip(
+                selected = selected, onClick = onClick, label = text, modifier = m, enabled = enabled,
+                leadingIcon = leadingSlot, trailingIcon = trailingSlot,
+                border = InputChipDefaults.inputChipBorder(enabled = enabled, selected = selected, borderColor = outline),
+            )
         NativeChipStyle.Suggestion ->
             SuggestionChip(onClick = onClick, label = text, modifier = m, enabled = enabled, icon = leadingSlot, border = outlineBorder)
     }
