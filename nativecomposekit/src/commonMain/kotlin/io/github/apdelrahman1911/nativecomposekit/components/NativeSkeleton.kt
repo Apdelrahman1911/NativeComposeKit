@@ -11,17 +11,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import io.github.apdelrahman1911.nativecomposekit.components.internal.resolveSurfaceFill
@@ -62,31 +59,38 @@ public fun NativeSkeleton(
         return
     }
 
-    var widthPx by remember { mutableStateOf(0f) }
     val transition = rememberInfiniteTransition(label = "skeleton")
-    val progress by transition.animateFloat(
+    val progress = transition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(tween(durationMillis = 1200, easing = LinearEasing), RepeatMode.Restart),
         label = "shimmer",
     )
-    // Slide a [base → highlight → base] gradient one full width across, in the reading direction.
     val ltr = LocalLayoutDirection.current == LayoutDirection.Ltr
-    val brush = if (widthPx <= 0f) {
-        SolidColor(base)
-    } else {
-        val startX = if (ltr) -widthPx + progress * 2f * widthPx else widthPx - progress * 2f * widthPx
-        Brush.linearGradient(
-            colors = listOf(base, highlight, base),
-            start = Offset(startX, 0f),
-            end = Offset(startX + widthPx, 0f),
-        )
-    }
 
+    // Read `progress` inside the draw phase (drawWithCache's onDrawBehind), NOT in composition — so the
+    // shimmer animates by redrawing, without recomposing this composable ~60×/s for its whole loading life.
+    // The gradient slides a [base → highlight → base] sweep one full width across in the reading direction.
     Box(
         modifier
-            .onSizeChanged { widthPx = it.width.toFloat() }
             .clip(clipShape)
-            .background(brush),
+            .drawWithCache {
+                val widthPx = size.width
+                onDrawBehind {
+                    if (widthPx <= 0f) {
+                        drawRect(SolidColor(base))
+                    } else {
+                        val p = progress.value
+                        val startX = if (ltr) -widthPx + p * 2f * widthPx else widthPx - p * 2f * widthPx
+                        drawRect(
+                            Brush.linearGradient(
+                                colors = listOf(base, highlight, base),
+                                start = Offset(startX, 0f),
+                                end = Offset(startX + widthPx, 0f),
+                            ),
+                        )
+                    }
+                }
+            },
     )
 }
