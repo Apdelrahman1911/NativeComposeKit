@@ -44,22 +44,6 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 
 /**
- * A single list row — the backbone of settings screens, chapter lists, and navigation menus.
- * **Compose-drawn on both platforms** (a row is layout, not a native leaf control). Rich but optional:
- * an [overline]/[headline]/[supporting] text column, a [leading] slot (icon / [NativeAvatar] / cover), and
- * a trailing affordance ([trailingText] for a value, [trailing] for a custom control such as a
- * [NativeToggle]). Pass [onClick] to make the row tappable; [showChevron] then adds a **layout-direction
- * aware** disclosure indicator (defaults on for tappable rows — an iOS idiom that also reads well on
- * Android for navigation).
- *
- * Accessibility: a tappable row with no interactive [trailing] is merged into a single focus target; when
- * [trailing] holds its own control (e.g. a toggle) the row is left unmerged so that control stays
- * focusable. A row with an interactive [trailing] is therefore usually left non-clickable (tap the control).
- *
- * [showDivider] draws a bottom hairline (for standalone rows); inside a [NativeListSection] leave it off —
- * the section draws the separators between rows for you.
- */
-/**
  * A trailing swipe action for a [NativeListItem] (archive, delete, …). [onAction] runs when the row is
  * swiped past the threshold (right-to-left); the row then snaps back — if the action deletes the item,
  * remove it from your list in [onAction] and the row disappears. [destructive] tints the reveal red.
@@ -73,6 +57,24 @@ public data class NativeSwipeAction(
     val destructive: Boolean = false,
 )
 
+/**
+ * A single list row — the backbone of settings screens, chapter lists, and navigation menus.
+ * **Compose-drawn on both platforms** (a row is layout, not a native leaf control). Rich but optional:
+ * an [overline]/[headline]/[supporting] text column, a [leading] slot (icon / [NativeAvatar] / cover), and
+ * a trailing affordance ([trailingText] for a value, [trailing] for a custom control such as a
+ * [NativeToggle]). Pass [onClick] to make the row tappable; [showChevron] then adds a **layout-direction
+ * aware** disclosure indicator (defaults on for tappable rows — an iOS idiom that also reads well on
+ * Android for navigation).
+ *
+ * Accessibility: a tappable row with no interactive [trailing] is merged into a single focus target; when
+ * [trailing] holds its own control (e.g. a toggle) the row is left unmerged so that control stays
+ * focusable. A row with an interactive [trailing] is therefore usually left non-clickable (tap the control).
+ * When [enabled] is false the row is inert: not clickable, not swipeable, and its swipe/long-press custom
+ * accessibility actions are withdrawn.
+ *
+ * [showDivider] draws a bottom hairline (for standalone rows); inside a [NativeListSection] leave it off —
+ * the section draws the separators between rows for you.
+ */
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 public fun NativeListItem(
@@ -108,24 +110,25 @@ public fun NativeListItem(
     Column(modifier.fillMaxWidth()) {
         // Gesture-only affordances (swipe, long-press) are invisible to screen readers, so expose them as
         // explicit custom accessibility actions. Long-press only when the caller named it via onLongClickLabel.
-        val sa = swipeAction
-        val olc = onLongClick
+        // A disabled row exposes none of them (and isn't swipeable below) so "disabled" is truly inert.
+        val sa = if (enabled) swipeAction else null
+        val olc = if (enabled) onLongClick else null
         val a11yActions = buildList {
             if (sa != null) add(CustomAccessibilityAction(sa.label) { sa.onAction(); true })
             if (olc != null && onLongClickLabel != null) add(CustomAccessibilityAction(onLongClickLabel) { olc(); true })
         }
         // Click + accessibility live on ONE node (the row). Merge children into a single focus target for a
         // plain navigational/long-press/swipe row, but NOT when `trailing` holds its own interactive control.
-        val merge = (onClick != null || onLongClick != null || a11yActions.isNotEmpty()) && trailing == null
+        val merge = (onClick != null || olc != null || a11yActions.isNotEmpty()) && trailing == null
         var row = Modifier.fillMaxWidth()
-        if (onClick != null || onLongClick != null) {
+        if (enabled && (onClick != null || olc != null)) {
             row = row.combinedClickable(
-                enabled = enabled,
+                enabled = true,
                 onClickLabel = onClickLabel,
                 role = Role.Button,
                 onLongClickLabel = onLongClickLabel,
                 onClick = onClick ?: {},
-                onLongClick = onLongClick,
+                onLongClick = olc,
             )
         }
         if (merge || contentDescription != null || a11yActions.isNotEmpty()) {
@@ -181,14 +184,14 @@ public fun NativeListItem(
             }
         }
 
-        if (swipeAction != null) {
+        if (sa != null) {
             // Swipe right-to-left to reveal + fire the action, then snap back (the caller removes the item in
             // onAction if it deletes). Driven by currentValue + reset() — the non-deprecated equivalent of a
-            // veto callback.
+            // veto callback. `sa` is null when the row is disabled, so a disabled row is not swipeable.
             val dismissState = rememberSwipeToDismissBoxState()
             LaunchedEffect(dismissState.currentValue) {
                 if (dismissState.currentValue == SwipeToDismissBoxValue.EndToStart) {
-                    swipeAction.onAction()
+                    sa.onAction()
                     dismissState.reset()
                 }
             }
@@ -199,7 +202,7 @@ public fun NativeListItem(
             SwipeToDismissBox(
                 state = dismissState,
                 enableDismissFromStartToEnd = false,
-                backgroundContent = { SwipeActionBackground(swipeAction, scheme) },
+                backgroundContent = { SwipeActionBackground(sa, scheme) },
             ) {
                 Box(Modifier.fillMaxWidth().background(rowSurface)) { rowUi() }
             }
