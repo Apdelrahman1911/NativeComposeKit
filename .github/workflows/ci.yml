@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  android:
+    name: ABI lock, tests, lint, Android build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Run the shared gate
+        run: >
+          ./gradlew
+          :nativecomposekit:apiCheck
+          :nativecomposekit:testDebugUnitTest
+          :composeApp:testDebugUnitTest
+          :nativecomposekit:lintDebug
+          :composeApp:lintDebug
+          :composeApp:assembleDebug
+
+  ios:
+    name: iOS Kotlin targets + app build
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile both iOS Kotlin targets
+        run: ./gradlew :composeApp:compileKotlinIosSimulatorArm64 :composeApp:compileKotlinIosArm64
+      - name: Build the iOS app (simulator, unsigned)
+        run: |
+          brew install xcodegen
+          cd iosApp
+          xcodegen generate
+          xcodebuild -project iosApp.xcodeproj -scheme iosApp -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            CODE_SIGNING_ALLOWED=NO build
