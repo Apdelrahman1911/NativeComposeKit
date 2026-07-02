@@ -113,13 +113,22 @@ internal actual fun PlatformNativeTextField(
             capitalization = input.capitalization.toCapitalization(),
             autoCorrectEnabled = if (input.secure) false else input.autoCorrect,
         ),
-        keyboardActions = KeyboardActions(
-            onDone = { focus.onSubmit?.invoke() },
-            onGo = { focus.onSubmit?.invoke() },
-            onNext = { focus.onSubmit?.invoke() },
-            onSearch = { focus.onSubmit?.invoke() },
-            onSend = { focus.onSubmit?.invoke() },
-        ),
+        // A non-null handler suppresses Compose's default IME behavior (Done hides the keyboard, Next moves
+        // focus) — so with no onSubmit we keep the defaults, and with one we run it AND the default, matching
+        // iOS where the Done key both fires onSubmit and dismisses the keyboard.
+        keyboardActions = focus.onSubmit.let { onSubmit ->
+            if (onSubmit == null) {
+                KeyboardActions.Default
+            } else {
+                KeyboardActions(
+                    onDone = { onSubmit(); defaultKeyboardAction(ImeAction.Done) },
+                    onGo = { onSubmit(); defaultKeyboardAction(ImeAction.Go) },
+                    onNext = { onSubmit(); defaultKeyboardAction(ImeAction.Next) },
+                    onSearch = { onSubmit(); defaultKeyboardAction(ImeAction.Search) },
+                    onSend = { onSubmit(); defaultKeyboardAction(ImeAction.Send) },
+                )
+            }
+        },
         singleLine = input.singleLine,
         minLines = input.minLines,
         maxLines = input.maxLines,
