@@ -1,5 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
+import androidx.compose.foundation.progressSemantics
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
@@ -66,12 +67,17 @@ private fun IosSpinner(
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
     val sizeFp = remember { InteropSizeFingerprint() }
+    // Display-only: mirrored into Compose semantics (VoiceOver never traverses un-flagged native views),
+    // and overlay-placed like every pinFilling-backed control so scrolling doesn't clip the backing.
+    var m = modifier.remeasureRequester(remeasure)
+    contentDescription?.let { cd -> m = m.semantics { this.contentDescription = cd } }
     UIKitView(
         factory = {
             backing.pinFilling(spinner.also { it.startAnimating() })
             backing
         },
-        modifier = modifier.remeasureRequester(remeasure),
+        modifier = m,
+        properties = scrollSafeInteropProperties(nativeAccessibility = false),
         update = {
             backing.backgroundColor = backingColor
             spinner.color = style.indicator.toUIColor()
@@ -98,13 +104,20 @@ private fun IosProgressBar(
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
     val sizeFp = remember { InteropSizeFingerprint() }
+    // Display-only: mirror the description AND the determinate value into Compose semantics so screen
+    // readers can report progress; overlay-placed like every pinFilling-backed control.
+    var m = modifier
+        .remeasureRequester(remeasure)
+        .progressSemantics(value = progress.coerceIn(0f, 1f))
+    contentDescription?.let { cd -> m = m.semantics { this.contentDescription = cd } }
     UIKitView(
         factory = {
             bar.progressViewStyle = UIProgressViewStyle.UIProgressViewStyleDefault
             backing.pinFilling(bar)
             backing
         },
-        modifier = modifier.remeasureRequester(remeasure),
+        modifier = m,
+        properties = scrollSafeInteropProperties(nativeAccessibility = false),
         update = {
             backing.backgroundColor = backingColor
             bar.progressTintColor = style.indicator.toUIColor()

@@ -6,12 +6,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.text
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.viewinterop.remeasureRequester
 import androidx.compose.ui.viewinterop.rememberUIKitInteropRemeasureRequester
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeInteropTouch
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.UIKit.NSLineBreakByTruncatingTail
@@ -61,9 +66,17 @@ internal actual fun PlatformNativeText(
         }
         val remeasure = rememberUIKitInteropRemeasureRequester()
         val sizeFp = remember { InteropSizeFingerprint() }
+        val layoutDirection = LocalLayoutDirection.current
+        val mirroredText = AnnotatedString(text) // captured before the semantics scope shadows `text`
         UIKitView(
             factory = { label },
-            modifier = modifier.remeasureRequester(remeasure),
+            // The UILabel is display-only, so the interop node stays out of gesture arbitration
+            // (NonInteractive) and mirrors its text into Compose semantics — without the mirror the label
+            // would be INVISIBLE to VoiceOver (the a11y mediator ignores un-flagged native views).
+            modifier = modifier
+                .remeasureRequester(remeasure)
+                .semantics { this.text = mirroredText },
+            properties = NativeInteropTouch.NonInteractive.toInteropProperties(),
             update = { l ->
                 l.text = text
                 l.font = textStyle.toUIFont()
@@ -71,7 +84,8 @@ internal actual fun PlatformNativeText(
                 l.textColor = textStyle.color.toUIColor()
                 l.backgroundColor = surface.toUIColor()
                 l.numberOfLines = if (maxLines == Int.MAX_VALUE) 0L else maxLines.toLong()
-                l.textAlignment = textStyle.textAlign.toNSTextAlignment()
+                l.semanticContentAttribute = layoutDirection.toUISemanticContentAttribute()
+                l.textAlignment = textStyle.textAlign.toNSTextAlignment(layoutDirection)
                 l.lineBreakMode =
                     if (overflow == TextOverflow.Ellipsis) NSLineBreakByTruncatingTail else NSLineBreakByWordWrapping
                 testTag?.let { l.setAccessibilityId(it) }

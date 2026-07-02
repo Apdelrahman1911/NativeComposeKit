@@ -13,12 +13,17 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.NativeInterop
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeKeyboardType
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 import platform.Foundation.setValue
+import androidx.compose.ui.unit.LayoutDirection
 import platform.UIKit.NSLayoutConstraint
 import platform.UIKit.NSTextAlignment
 import platform.UIKit.NSTextAlignmentCenter
+import platform.UIKit.NSTextAlignmentJustified
 import platform.UIKit.NSTextAlignmentLeft
 import platform.UIKit.NSTextAlignmentNatural
 import platform.UIKit.NSTextAlignmentRight
+import platform.UIKit.UISemanticContentAttribute
+import platform.UIKit.UISemanticContentAttributeForceLeftToRight
+import platform.UIKit.UISemanticContentAttributeForceRightToLeft
 import platform.UIKit.UIColor
 import platform.UIKit.UIFont
 import platform.UIKit.UIFontMetrics
@@ -86,11 +91,30 @@ internal fun TextStyle.toUIFont(): UIFont {
     return UIFontMetrics.defaultMetrics.scaledFontForFont(base)
 }
 
-internal fun TextAlign?.toNSTextAlignment(): NSTextAlignment = when (this) {
+/**
+ * Maps a Compose alignment to UIKit, resolving the direction-relative values against the **effective**
+ * Compose [layoutDirection] (which includes a forced `NativeAppearance.setRtl` override — UIKit's own
+ * "natural" only follows the locale). `Start`/null stay `Natural` because interop views also get
+ * [toUISemanticContentAttribute] applied, which makes UIKit's natural alignment follow the same effective
+ * direction; `End` has no natural counterpart, so it resolves to the physical edge.
+ */
+internal fun TextAlign?.toNSTextAlignment(layoutDirection: LayoutDirection): NSTextAlignment = when (this) {
     TextAlign.Center -> NSTextAlignmentCenter
-    TextAlign.Left, TextAlign.Start -> NSTextAlignmentLeft
-    TextAlign.Right, TextAlign.End -> NSTextAlignmentRight
-    else -> NSTextAlignmentNatural
+    TextAlign.Justify -> NSTextAlignmentJustified
+    TextAlign.Left -> NSTextAlignmentLeft
+    TextAlign.Right -> NSTextAlignmentRight
+    TextAlign.End -> if (layoutDirection == LayoutDirection.Rtl) NSTextAlignmentLeft else NSTextAlignmentRight
+    else -> NSTextAlignmentNatural // null and Start: natural, resolved by the forced semantic attribute
+}
+
+/**
+ * The UIKit counterpart of the effective Compose layout direction. Applied to interop views so a forced
+ * app-wide RTL ([NativeAppearance.setRtl]) reaches native controls too — without it, UIKit resolves
+ * direction from the app locale and ignores the Compose-side override.
+ */
+internal fun LayoutDirection.toUISemanticContentAttribute(): UISemanticContentAttribute = when (this) {
+    LayoutDirection.Rtl -> UISemanticContentAttributeForceRightToLeft
+    LayoutDirection.Ltr -> UISemanticContentAttributeForceLeftToRight
 }
 
 internal fun NativeKeyboardType.toUIKeyboardType(): UIKeyboardType = when (this) {
@@ -111,10 +135,20 @@ internal fun NativeKeyboardType.toUIKeyboardType(): UIKeyboardType = when (this)
  * a not-yet-filled cut-out hole — see [LocalNativeInteropPlacement]. Scrolling screens keep cut-out (the default).
  */
 @OptIn(ExperimentalComposeUiApi::class)
-internal fun NativeInteropTouch.toInteropProperties(overlay: Boolean = false): UIKitInteropProperties = when (this) {
-    NativeInteropTouch.Cooperative -> UIKitInteropProperties(interactionMode = UIKitInteropInteractionMode.Cooperative(), placedAsOverlay = overlay)
-    NativeInteropTouch.NonCooperative -> UIKitInteropProperties(interactionMode = UIKitInteropInteractionMode.NonCooperative, placedAsOverlay = overlay)
-    NativeInteropTouch.NonInteractive -> UIKitInteropProperties(interactionMode = null, placedAsOverlay = overlay)
+internal fun NativeInteropTouch.toInteropProperties(
+    overlay: Boolean = false,
+    /**
+     * Expose the native view itself to accessibility services instead of the (empty) Compose semantics of
+     * the interop node. Without one of the two, an interop view is INVISIBLE to VoiceOver — Compose only
+     * traverses the native element when this flag is set. `true` for interactive controls (they carry real
+     * UIKit traits — adjustable sliders, editable fields); display-only views keep `false` and mirror
+     * their content into `Modifier.semantics` instead, per Compose's own guidance.
+     */
+    nativeAccessibility: Boolean = false,
+): UIKitInteropProperties = when (this) {
+    NativeInteropTouch.Cooperative -> UIKitInteropProperties(interactionMode = UIKitInteropInteractionMode.Cooperative(), placedAsOverlay = overlay, isNativeAccessibilityEnabled = nativeAccessibility)
+    NativeInteropTouch.NonCooperative -> UIKitInteropProperties(interactionMode = UIKitInteropInteractionMode.NonCooperative, placedAsOverlay = overlay, isNativeAccessibilityEnabled = nativeAccessibility)
+    NativeInteropTouch.NonInteractive -> UIKitInteropProperties(interactionMode = null, placedAsOverlay = overlay, isNativeAccessibilityEnabled = nativeAccessibility)
 }
 
 /**
@@ -132,8 +166,15 @@ internal fun NativeInteropTouch.toInteropProperties(overlay: Boolean = false): U
  * modifier), and nothing Compose-drawn is meant to paint over a control, so drawing above the canvas is correct.
  */
 @OptIn(ExperimentalComposeUiApi::class)
-internal fun scrollSafeInteropProperties(): UIKitInteropProperties =
-    UIKitInteropProperties(interactionMode = UIKitInteropInteractionMode.Cooperative(), placedAsOverlay = true)
+internal fun scrollSafeInteropProperties(
+    /** See [toInteropProperties]. Defaults to true: the pinFilling-backed leaves are interactive controls. */
+    nativeAccessibility: Boolean = true,
+): UIKitInteropProperties =
+    UIKitInteropProperties(
+        interactionMode = UIKitInteropInteractionMode.Cooperative(),
+        placedAsOverlay = true,
+        isNativeAccessibilityEnabled = nativeAccessibility,
+    )
 
 /**
  * Sets the native `accessibilityIdentifier` (maps from `testTag`, for UI tests) via KVC. We use KVC

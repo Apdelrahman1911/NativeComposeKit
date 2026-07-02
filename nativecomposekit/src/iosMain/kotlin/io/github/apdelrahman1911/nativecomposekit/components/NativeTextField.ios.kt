@@ -313,7 +313,7 @@ private fun SingleLineField(
             backing
         },
         modifier = Modifier.fillMaxWidth().height(hostHeight),
-        properties = touch.toInteropProperties(),
+        properties = touch.toInteropProperties(nativeAccessibility = true),
         update = { _ ->
             backing.backgroundColor = style.colors.container.toUIColor()
             if (field.text != value) field.text = value
@@ -427,7 +427,7 @@ private fun MultilineField(
             backing
         },
         modifier = Modifier.fillMaxWidth().height(minHeight),
-        properties = touch.toInteropProperties(),
+        properties = touch.toInteropProperties(nativeAccessibility = true),
         update = { _ ->
             backing.backgroundColor = style.colors.container.toUIColor()
             textView.backgroundColor = style.colors.container.toUIColor()

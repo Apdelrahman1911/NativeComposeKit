@@ -54,7 +54,7 @@ internal actual fun PlatformNativeIconButton(
         },
         // HIG: ≥44pt touch target. The square icon button fills the host, so clamp its height to ≥44.
         modifier = modifier.height(maxOf(style.height, 44.dp)).remeasureRequester(remeasure),
-        properties = touch.toInteropProperties(overlay = overlay),
+        properties = touch.toInteropProperties(overlay = overlay, nativeAccessibility = true),
         update = { _ ->
             backing.backgroundColor = backingColor
             views.apply(

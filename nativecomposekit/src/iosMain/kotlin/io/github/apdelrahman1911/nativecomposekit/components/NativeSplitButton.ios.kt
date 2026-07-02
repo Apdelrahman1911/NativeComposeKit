@@ -5,10 +5,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.viewinterop.remeasureRequester
 import androidx.compose.ui.viewinterop.rememberUIKitInteropRemeasureRequester
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeInteropTouch
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenu
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedButtonStyle
@@ -26,8 +29,9 @@ import platform.UIKit.accessibilityLabel
 /**
  * iOS NativeSplitButton → two real `UIButton`s (primary + chevron) in a horizontal `UIStackView` inside a
  * theme-colored backing, reusing the shared [NativeButtonViews] scaffold. The outer corners of each
- * segment are rounded via `layer.maskedCorners` (left corners on primary, right corners on chevron) so
- * the pair reads as one rounded control with a hairline divider. The chevron presents the native `UIMenu`.
+ * segment are rounded via `layer.maskedCorners` — resolved against the effective layout direction (the
+ * stack flips under RTL, corner masks don't) — so the pair reads as one rounded control with a hairline
+ * divider. The chevron presents the native `UIMenu`.
  */
 @OptIn(ExperimentalForeignApi::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -56,6 +60,8 @@ internal actual fun PlatformNativeSplitButton(
     val remeasure = rememberUIKitInteropRemeasureRequester()
     // Overlay placement inside a NativeDialog (no cut-out hole → no first-frame black flash); cut-out elsewhere.
     val overlay = LocalNativeInteropPlacement.current == NativeInteropPlacement.Overlay
+    val layoutDirection = LocalLayoutDirection.current
+    val moreLabel = LocalNativeStrings.current.splitButtonMore
 
     val sizeFp = remember { InteropSizeFingerprint() }
 
@@ -63,9 +69,6 @@ internal actual fun PlatformNativeSplitButton(
         factory = {
             primary.build(style.iconSpacing.value.toDouble(), centered = false)
             chevron.build(style.iconSpacing.value.toDouble(), centered = true)
-            // Round only the outer corners of each segment so the pair forms one rounded control.
-            primary.button.layer.maskedCorners = kCALayerMinXMinYCorner or kCALayerMinXMaxYCorner
-            chevron.button.layer.maskedCorners = kCALayerMaxXMinYCorner or kCALayerMaxXMaxYCorner
             // Outer stack defaults (horizontal, fill, fill, spacing 0) are exactly what we want.
             divider.translatesAutoresizingMaskIntoConstraints = false
             outer.addArrangedSubview(primary.button)
@@ -79,10 +82,19 @@ internal actual fun PlatformNativeSplitButton(
         },
         // HIG: ≥44pt touch target (both segments fill the host height).
         modifier = modifier.height(maxOf(style.height, 44.dp)).remeasureRequester(remeasure),
-        properties = touch.toInteropProperties(overlay = overlay),
+        properties = touch.toInteropProperties(overlay = overlay, nativeAccessibility = true),
         update = { _ ->
             backing.backgroundColor = backingColor
             divider.backgroundColor = style.colors.content.copy(alpha = 0.3f).toUIColor()
+            // Round only the OUTER corners of each segment so the pair forms one rounded control. UIStackView
+            // flips arrangement under RTL but layer corner masks don't follow — resolve them against the
+            // effective layout direction (applied in update so a runtime direction flip re-rounds correctly).
+            outer.semanticContentAttribute = layoutDirection.toUISemanticContentAttribute()
+            val startCorners = kCALayerMinXMinYCorner or kCALayerMinXMaxYCorner
+            val endCorners = kCALayerMaxXMinYCorner or kCALayerMaxXMaxYCorner
+            val rtl = layoutDirection == LayoutDirection.Rtl
+            primary.button.layer.maskedCorners = if (rtl) endCorners else startCorners
+            chevron.button.layer.maskedCorners = if (rtl) startCorners else endCorners
             primary.apply(
                 style = style,
                 text = if (loading) "" else text,
@@ -104,6 +116,8 @@ internal actual fun PlatformNativeSplitButton(
                 menu = menu,
             )
             (contentDescription ?: text.takeIf { it.isNotBlank() })?.let { primary.button.accessibilityLabel = it }
+            // The chevron is image-only — without a label VoiceOver announces an unnamed button.
+            chevron.button.accessibilityLabel = moreLabel
             testTag?.let { backing.setAccessibilityId(it) }
             // Size-affecting inputs changed → re-measure, from update, after they're applied (see
             // InteropSizeFingerprint).
