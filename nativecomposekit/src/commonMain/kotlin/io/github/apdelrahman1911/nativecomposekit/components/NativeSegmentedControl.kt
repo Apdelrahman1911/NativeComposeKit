@@ -8,7 +8,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedSegme
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 
 /**
- * Native segmented control — single selection across [options]. Colors/type come from AppTheme;
+ * Native segmented control — single selection across [options]. Colors/type come from NativeKitTheme;
  * renders the most native control per platform — a `UISegmentedControl` on iOS (a pure iOS idiom),
  * a `SingleChoiceSegmentedButtonRow` on Android.
  */

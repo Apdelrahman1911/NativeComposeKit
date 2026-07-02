@@ -6,7 +6,7 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
-import io.github.apdelrahman1911.nativecomposekit.theme.AppTheme
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeKitTheme
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import org.junit.Test
@@ -35,7 +35,7 @@ class FeedbackHostUiTest {
     fun mounted_host_promotes_the_queued_modal_when_the_active_one_resolves() = runComposeUiTest {
         lateinit var controller: NativeFeedbackController
         setContent {
-            AppTheme {
+            NativeKitTheme {
                 controller = rememberNativeFeedbackController()
                 NativeFeedbackHost(controller = controller) {}
             }
@@ -60,7 +60,7 @@ class FeedbackHostUiTest {
     fun alert_without_actions_still_offers_ok() = runComposeUiTest {
         lateinit var controller: NativeFeedbackController
         setContent {
-            AppTheme {
+            NativeKitTheme {
                 controller = rememberNativeFeedbackController()
                 NativeFeedbackHost(controller = controller) {}
             }

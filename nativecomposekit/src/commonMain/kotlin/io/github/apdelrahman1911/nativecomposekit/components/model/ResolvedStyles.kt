@@ -38,7 +38,7 @@ public class NativeButtonColors(
 
 /**
  * Fully resolved button styling handed to the platform renderer. The renderer reads ONLY these
- * values (already pulled from AppTheme) — it hardcodes nothing.
+ * values (already pulled from NativeKitTheme) — it hardcodes nothing.
  */
 @Immutable
 internal data class ResolvedButtonStyle(

@@ -25,7 +25,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedButto
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 
 /**
- * Native button. Defaults (colors, height, padding, radius, text style) come from AppTheme keyed by
+ * Native button. Defaults (colors, height, padding, radius, text style) come from NativeKitTheme keyed by
  * [variant], [size], and [shape]; the override parameters keep it flexible enough for the whole app.
  * Renders the most native control per platform — a Material 3 button on Android, a `UIButton` on iOS.
  *

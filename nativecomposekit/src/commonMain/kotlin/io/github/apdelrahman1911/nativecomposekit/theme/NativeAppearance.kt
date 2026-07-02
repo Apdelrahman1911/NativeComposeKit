@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.LayoutDirection
  * direction tracks the host's locale-derived `LocalLayoutDirection` — so RTL locales (Arabic, Hebrew) lay
  * out correctly with no configuration. Overrides are app-wide and explicit; pass null to return to the system.
  *
- * Wrap every composition root in [NativeAppearanceScope] (instead of `AppTheme` directly) so they all follow
+ * Wrap every composition root in [NativeAppearanceScope] (instead of `NativeKitTheme` directly) so they all follow
  * this state. Use [setDark] to also flip the **native** chrome (iOS window interface style) so the tab/nav
  * bars match the Compose content.
  */
@@ -62,11 +62,11 @@ public object NativeAppearance {
 }
 
 /**
- * The single composition root wrapper: applies [AppTheme] + the layout direction from [NativeAppearance].
+ * The single composition root wrapper: applies [NativeKitTheme] + the layout direction from [NativeAppearance].
  * Use at the top of the catalog `App()` and inside each `ComposeUIViewController` the shell hosts, so they
- * all share one appearance. Mirrors [AppTheme]'s reskin parameters and forwards them, so a host keeps the
+ * all share one appearance. Mirrors [NativeKitTheme]'s reskin parameters and forwards them, so a host keeps the
  * appearance-following behavior AND its own branding, tokens, and localized [strings] without having to
- * call [AppTheme] directly.
+ * call [NativeKitTheme] directly.
  */
 @Composable
 public fun NativeAppearanceScope(
@@ -85,9 +85,9 @@ public fun NativeAppearanceScope(
     // Theme the native host chrome (iOS window background) so it matches this content. Re-runs on every
     // dark flip (system or in-app) since `dark` changes; no-op on Android. Note: this paints the DEFAULT
     // brand background — a host injecting custom colors that also drives a native shell should source the
-    // shell color from its injected scheme (see the AppTheme KDoc).
+    // shell color from its injected scheme (see the NativeKitTheme KDoc).
     LaunchedEffect(dark) { applyNativeShellChrome(dark) }
-    AppTheme(
+    NativeKitTheme(
         darkTheme = dark,
         lightColors = lightColors,
         darkColors = darkColors,

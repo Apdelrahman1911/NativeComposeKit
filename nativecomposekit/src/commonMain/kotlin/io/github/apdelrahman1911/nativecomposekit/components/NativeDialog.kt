@@ -37,7 +37,7 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
  * A general, **custom-content** modal dialog — a themed surface in a Compose `Dialog`, built to fit *your* design
  * system rather than one fixed layout. Every visual is overridable: [icon]/[title]/[actions]/[content] are slots,
  * colors come from [colorsOverride], and shape/elevation/border/padding/alignment are all parameters. Defaults
- * resolve from `AppTheme` and look good out of the box.
+ * resolve from `NativeKitTheme` and look good out of the box.
  *
  * **Kit thesis — intentionally Compose-on-both (documented exception).** A centered custom-content modal has no
  * single native control to delegate to, so this is the kept Compose primitive for *arbitrary* centered content

@@ -7,7 +7,7 @@ import platform.UIKit.UIWindow
 import platform.UIKit.UIWindowLevelNormal
 
 /**
- * The brand background as a plain `UIColor` for [dark] — the single source of truth (Compose `AppTheme`
+ * The brand background as a plain `UIColor` for [dark] — the single source of truth (Compose `NativeKitTheme`
  * background) for a native host that must paint a background itself. The UIKit chrome shell builds a
  * dynamic `UIColor { nativeBackgroundUIColor(dark: $0.userInterfaceStyle == .dark) }` for its root view
  * so the area behind its bars adapts to light/dark automatically.

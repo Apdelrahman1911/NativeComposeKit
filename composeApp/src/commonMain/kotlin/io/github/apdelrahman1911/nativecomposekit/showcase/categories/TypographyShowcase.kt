@@ -28,13 +28,13 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearance
 /**
  * Typography and theme: one text primitive with a four-role type scale, plus the process-wide appearance
  * source that flips dark mode and RTL across every composition at once. NativeText renders the most native
- * label per platform (Compose Text on Android, a UILabel on iOS); AppTheme is where every default — colors,
+ * label per platform (Compose Text on Android, a UILabel on iOS); NativeKitTheme is where every default — colors,
  * type, shapes, tokens — is defined once.
  */
 @Composable
 fun TypographyShowcase() = ShowcaseScreen(
     intro = "One text primitive with a four-role type scale (Display / Title / Body / Label), and the " +
-        "process-wide appearance switch for dark mode and RTL. Every default lives in AppTheme; components " +
+        "process-wide appearance switch for dark mode and RTL. Every default lives in NativeKitTheme; components " +
         "read it rather than hardcoding colors or fonts.",
 ) {
     TypeScaleSection()
@@ -167,7 +167,7 @@ private fun AppearanceSection() {
         )
 
         Note(
-            "AppTheme is the single styling source — colors, the type scale, shapes, and tokens are defined " +
+            "NativeKitTheme is the single styling source — colors, the type scale, shapes, and tokens are defined " +
                 "there once and read through MaterialTheme + NativeTheme.tokens, so nothing hardcodes a hex or " +
                 "a font. setDark also flips the native iOS chrome (window, nav and tab bars) so it matches the " +
                 "Compose content.",

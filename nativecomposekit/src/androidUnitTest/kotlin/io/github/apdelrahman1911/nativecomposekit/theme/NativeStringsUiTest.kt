@@ -13,7 +13,7 @@ import org.robolectric.annotation.Config
 
 /**
  * Guards the i18n contract: kit-rendered strings come from [LocalNativeStrings] (English defaults), and a
- * translated [NativeStrings] passed to [AppTheme] replaces them everywhere.
+ * translated [NativeStrings] passed to [NativeKitTheme] replaces them everywhere.
  */
 @OptIn(ExperimentalTestApi::class)
 @RunWith(RobolectricTestRunner::class)
@@ -23,7 +23,7 @@ class NativeStringsUiTest {
     @Test
     fun kit_strings_default_to_english() = runComposeUiTest {
         setContent {
-            AppTheme {
+            NativeKitTheme {
                 NativeContentState<Unit>(state = NativeLoadState.Error(), onRetry = {}) {}
             }
         }
@@ -34,7 +34,7 @@ class NativeStringsUiTest {
     @Test
     fun apptheme_strings_parameter_localizes_kit_text() = runComposeUiTest {
         setContent {
-            AppTheme(strings = NativeStrings(retry = "Wiederholen", errorStateTitle = "Etwas ging schief")) {
+            NativeKitTheme(strings = NativeStrings(retry = "Wiederholen", errorStateTitle = "Etwas ging schief")) {
                 NativeContentState<Unit>(state = NativeLoadState.Error(), onRetry = {}) {}
             }
         }

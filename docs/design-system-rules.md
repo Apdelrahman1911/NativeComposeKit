@@ -4,9 +4,9 @@ The non-negotiable rules a `Native*` component must follow to belong in the kit.
 changing a core component; [`architecture.md`](architecture.md) covers the wider structure.
 
 ## 1. Theme is the only styling source
-A component reads its defaults from **`AppTheme`** (`MaterialTheme` + `NativeTokens`), resolves a plain
+A component reads its defaults from **`NativeKitTheme`** (`MaterialTheme` + `NativeTokens`), resolves a plain
 `Resolved*Style`, and the platform renderer reads **only** that style. **Nothing is hardcoded in a renderer**;
-there is no token file (`design-tokens.json` is banned) — `AppTheme` is the single source. Per-call overrides
+there is no token file (`design-tokens.json` is banned) — `NativeKitTheme` is the single source. Per-call overrides
 are exposed as typed params, never by reaching around the theme.
 
 ## 2. Surface-adaptation rule (the `LocalNativeSurface` rule)

@@ -8,7 +8,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedToggl
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 
 /**
- * Native on/off toggle. Colors come from AppTheme; renders the most native control per platform —
+ * Native on/off toggle. Colors come from NativeKitTheme; renders the most native control per platform —
  * a Material 3 `Switch` on Android, a real `UISwitch` on iOS. Bound to [checked]; not locked to one
  * use case (enabled state, a11y label, testTag are all overridable).
  *

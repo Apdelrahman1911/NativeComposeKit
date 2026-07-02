@@ -860,12 +860,6 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeTextStyle;
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/theme/AppThemeKt {
-	public static final fun AppTheme (ZLandroidx/compose/material3/ColorScheme;Landroidx/compose/material3/ColorScheme;Landroidx/compose/material3/Typography;Landroidx/compose/material3/Shapes;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStrings;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
-	public static final fun getNativeDarkBackground ()J
-	public static final fun getNativeLightBackground ()J
-}
-
 public final class io/github/apdelrahman1911/nativecomposekit/theme/LocalNativeSurfaceKt {
 	public static final fun getLocalNativeSurface ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
@@ -895,6 +889,12 @@ public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeCapabi
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeCapabilitiesKt {
 	public static final fun getLocalNativeCapabilities ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeKitThemeKt {
+	public static final fun NativeKitTheme (ZLandroidx/compose/material3/ColorScheme;Landroidx/compose/material3/ColorScheme;Landroidx/compose/material3/Typography;Landroidx/compose/material3/Shapes;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeTokens;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors;Lio/github/apdelrahman1911/nativecomposekit/theme/NativeStrings;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun getNativeDarkBackground ()J
+	public static final fun getNativeLightBackground ()J
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/theme/NativeStatusColors {

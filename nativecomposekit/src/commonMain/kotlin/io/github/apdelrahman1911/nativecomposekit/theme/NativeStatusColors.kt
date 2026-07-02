@@ -140,7 +140,7 @@ internal val LightStatusColors: NativeStatusColors = lightNativeStatusColors()
 /** Dark-theme status palette (lighter foregrounds, deep containers — same logic as M3 dark schemes). */
 internal val DarkStatusColors: NativeStatusColors = darkNativeStatusColors()
 
-/** Provided by [AppTheme]; reading it outside an [AppTheme] is a programming error. */
+/** Provided by [NativeKitTheme]; reading it outside an [NativeKitTheme] is a programming error. */
 public val LocalNativeStatusColors: ProvidableCompositionLocal<NativeStatusColors> = staticCompositionLocalOf<NativeStatusColors> {
-    error("NativeStatusColors not provided — wrap your content in AppTheme { … }")
+    error("NativeStatusColors not provided — wrap your content in NativeKitTheme { … }")
 }

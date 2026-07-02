@@ -54,7 +54,7 @@ The controller runs two parallel lanes: a transient lane (toast / snackbar / ban
 
 ### NativeFeedbackHost
 
-Mounts the feedback system once, near the app root inside `AppTheme`. Provides the controller to all descendants and renders the platform-appropriate surfaces over `content`.
+Mounts the feedback system once, near the app root inside `NativeKitTheme`. Provides the controller to all descendants and renders the platform-appropriate surfaces over `content`.
 
 **Android:** draws Compose overlays in a `Box` over the content (Material `SnackbarHost` / `AlertDialog` / `ModalBottomSheet` plus a themed banner/HUD).
 **iOS:** presents real `UIAlertController`s and adds key-window overlays imperatively. It draws no Compose overlay itself; the host emits `content()` plus side effects, resolving per-status styles in composition before handing values to the UIKit layer.

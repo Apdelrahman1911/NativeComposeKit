@@ -13,7 +13,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-// Native seed palette — defined ONCE here (the AppTheme). Components never hardcode these;
+// Native seed palette — defined ONCE here (the NativeKitTheme). Components never hardcode these;
 // they read MaterialTheme.colorScheme + NativeTheme.tokens.
 private val NativeTeal = Color(0xFF0D7C66)
 private val NativeTealLight = Color(0xFF14A88C)
@@ -48,7 +48,7 @@ internal val DarkColors = darkColorScheme(
 /**
  * The brand window/background color per mode — the single source of truth a **native host** (the iOS
  * SwiftUI shell) reads to theme its chrome (window, nav bar, tab bar, safe areas) so it matches the Compose
- * content instead of defaulting to system black/white. Exposed from `AppTheme` so there is no duplicated
+ * content instead of defaulting to system black/white. Exposed from `NativeKitTheme` so there is no duplicated
  * hex in Swift. See `nativeShellBackgroundColor()` / `applyNativeShellChrome()` (iOS).
  */
 public val nativeLightBackground: Color = LightColors.background
@@ -70,12 +70,12 @@ internal val AppShapes = Shapes(
  * **Reskinnable:** every styling input is an optional parameter defaulting to the brand defaults, so a host
  * (or a future consumer of an extracted `:nativecomposekit` module) can reskin the whole kit by passing its own
  * [lightColors]/[darkColors]/[typography]/[shapes]/[tokens]/status colors without forking the kit. The simple
- * call — `AppTheme { … }` — is unchanged. (Note: the top-level [nativeLightBackground]/[nativeDarkBackground]
+ * call — `NativeKitTheme { … }` — is unchanged. (Note: the top-level [nativeLightBackground]/[nativeDarkBackground]
  * the native iOS shell reads still reflect the *default* palette; a host injecting custom colors that also
  * drives a native shell should source the shell color from its injected scheme.)
  */
 @Composable
-public fun AppTheme(
+public fun NativeKitTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     lightColors: ColorScheme = LightColors,
     darkColors: ColorScheme = DarkColors,

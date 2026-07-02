@@ -106,11 +106,11 @@ kotlin {
 ## Usage
 
 Every component is a `Native*` composable from `io.github.apdelrahman1911.nativecomposekit.components`. Wrap
-your UI in `AppTheme` once, then call components directly:
+your UI in `NativeKitTheme` once, then call components directly:
 
 ```kotlin
 import io.github.apdelrahman1911.nativecomposekit.components.*
-import io.github.apdelrahman1911.nativecomposekit.theme.AppTheme
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeKitTheme
 
 @Composable
 fun SignInForm(onSignIn: (String) -> Unit) {
@@ -140,12 +140,12 @@ On Android this renders Material 3 controls; on iOS the button, text, and field 
 
 ## Theming
 
-`AppTheme` is the single source of styling — Material's `ColorScheme`/`Typography`/`Shapes` plus a
+`NativeKitTheme` is the single source of styling — Material's `ColorScheme`/`Typography`/`Shapes` plus a
 small set of design tokens (spacing, radii, status colors). There is no separate token file.
 Components read their defaults from the theme and expose per-call overrides as typed parameters.
 
 ```kotlin
-AppTheme(
+NativeKitTheme(
     darkTheme = isSystemInDarkTheme(),
     // override any slice; defaults cover the common case
     // lightColors = myLightScheme,
@@ -162,7 +162,7 @@ read correctly in light and dark on any background. See
 
 Strings the kit renders on its own (retry buttons, alert fallbacks, accessibility labels) come from a
 localizable table with English defaults — pass a translated `NativeStrings` the same way:
-`AppTheme(strings = NativeStrings(retry = "…", dismiss = "…"))`.
+`NativeKitTheme(strings = NativeStrings(retry = "…", dismiss = "…"))`.
 
 ## Project structure
 
@@ -171,14 +171,14 @@ A typical app using the kit looks like:
 ```
 app/
   commonMain/
-    App.kt              wraps everything in AppTheme
+    App.kt              wraps everything in NativeKitTheme
     screens/            your screens, built from Native* components
   androidMain/          MainActivity → App()
   iosMain/              MainViewController → App()
 iosApp/                 native iOS host (chrome shell + ComposeUIViewController)
 ```
 
-Keep `AppTheme` at the root so every component resolves the same theme. Build screens out of
+Keep `NativeKitTheme` at the root so every component resolves the same theme. Build screens out of
 `Native*` components rather than reaching for raw Material or UIKit — that's what keeps a screen
 native on both platforms from one code path. The `:composeApp` module in this repo is a working
 example.

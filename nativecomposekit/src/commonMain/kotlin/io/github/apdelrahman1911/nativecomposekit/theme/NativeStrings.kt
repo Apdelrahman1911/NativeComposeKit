@@ -7,7 +7,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 /**
  * The user-facing strings the kit renders **on its own** — default labels, accessibility descriptions, and
  * the button titles of kit-provided affordances (retry buttons, alert fallbacks, clear/dismiss icons…).
- * Defaults are English. Localize app-wide by providing a translated instance — via [AppTheme]'s `strings`
+ * Defaults are English. Localize app-wide by providing a translated instance — via [NativeKitTheme]'s `strings`
  * parameter, or directly:
  *
  * ```
@@ -91,15 +91,15 @@ public class NativeStrings(
 
 /**
  * The default (English) strings table — a single shared instance so the default parameter of
- * [AppTheme]/`NativeAppearanceScope` keeps one identity across recompositions (the table holds
+ * [NativeKitTheme]/`NativeAppearanceScope` keeps one identity across recompositions (the table holds
  * lambdas, so identity is its only meaningful equality).
  */
 internal val DefaultNativeStrings: NativeStrings = NativeStrings()
 
 /**
  * The active [NativeStrings] table. Static: a language change replaces the whole table at the root, which
- * is exactly a recompose-everything event. Provided with English defaults; [AppTheme] re-provides it from
+ * is exactly a recompose-everything event. Provided with English defaults; [NativeKitTheme] re-provides it from
  * its `strings` parameter.
  */
 public val LocalNativeStrings: ProvidableCompositionLocal<NativeStrings> =
-    staticCompositionLocalOf { NativeStrings() }
+    staticCompositionLocalOf { DefaultNativeStrings }

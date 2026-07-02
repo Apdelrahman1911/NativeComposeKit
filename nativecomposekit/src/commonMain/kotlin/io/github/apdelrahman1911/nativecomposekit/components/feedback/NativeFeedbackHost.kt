@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 
 /**
- * Mounts the feedback system once, near the app root (inside `AppTheme`). Provides [controller] to all
+ * Mounts the feedback system once, near the app root (inside `NativeKitTheme`). Provides [controller] to all
  * descendants via [LocalNativeFeedbackController] and renders the platform-appropriate surfaces over
  * [content]:
  * - **Android** draws Compose overlays (Material `SnackbarHost`/`AlertDialog`/`ModalBottomSheet` +

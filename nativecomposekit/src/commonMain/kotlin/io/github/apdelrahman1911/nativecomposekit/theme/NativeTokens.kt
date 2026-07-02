@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 
 /**
  * Native design tokens that sit ALONGSIDE MaterialTheme — the things M3 doesn't model directly
- * (per-size control heights, corner radii, the spacing scale, kit elevations). Part of [AppTheme];
+ * (per-size control heights, corner radii, the spacing scale, kit elevations). Part of [NativeKitTheme];
  * read via [NativeTheme.tokens]. Swap by providing a different instance to [LocalNativeTokens].
  *
  * Deliberately **not** a `data class`: fields can then be added in later releases without breaking

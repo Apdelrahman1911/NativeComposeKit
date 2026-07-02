@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
 
 /**
- * Native text. Defaults come from AppTheme's type scale (via [style]); every other parameter is an
+ * Native text. Defaults come from NativeKitTheme's type scale (via [style]); every other parameter is an
  * optional override so it is not locked to a single use case. Renders the most native primitive on
  * each platform — Compose `Text` on Android, a real `UILabel` on iOS.
  *

@@ -8,7 +8,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedSlide
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 
 /**
- * Native slider — a continuous value in [valueRange]. Colors come from AppTheme; renders the most
+ * Native slider — a continuous value in [valueRange]. Colors come from NativeKitTheme; renders the most
  * native control per platform — a Material 3 `Slider` on Android, a real `UISlider` on iOS.
  */
 @Composable
