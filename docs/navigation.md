@@ -1,5 +1,9 @@
 # Navigation — bring your own; the kit renders native chrome
 
+> This page covers the **contract**. For the shell's *layout integration* — the edge-to-edge host, the
+> safe-area/inset plumbing, and how content scrolls under the Liquid Glass tab bar — see
+> [`docs/native-chrome.md`](native-chrome.md).
+
 **NativeComposeKit is not a navigation framework.** It ships UI components and a **nav-agnostic native chrome
 contract** — a real iOS `UINavigationBar`, a Liquid Glass `UITabBar`, and a `UISheetPresentationController` that
 any navigation system can drive. Your app owns its navigation stack outright; the kit never reads, mutates, or
@@ -16,9 +20,11 @@ through a small contract.
 The contract is split so the platform-neutral part lives in `commonMain` — you implement and **unit-test your
 chrome projection in shared code**, and only the one iOS-specific piece lives in `iosMain`:
 
-- **`NativeChromeState(title, canGoBack, selectedTabId, tabs, actions, sheetId)`** *(commonMain)* — an immutable,
-  one-way projection the bars draw. Carries **no** route stack; `sheetId` only tells the shell whether to present a
-  sheet. `NativeChromeTab(id, title, sfSymbol)` / `NativeChromeAction(id, sfSymbol)` describe the tabs + top-bar actions.
+- **`NativeChromeState(title, backTitle, canGoBack, selectedTabId, tabs, actions, sheetId)`** *(commonMain)* — an
+  immutable, one-way projection the bars draw. Carries **no** route stack; `backTitle` is the previous screen's
+  title (UIKit renders it in the native back button where the system shows a label); `sheetId` only tells the
+  shell whether to present a sheet. `NativeChromeTab(id, title, sfSymbol)` / `NativeChromeAction(id, sfSymbol)`
+  describe the tabs + top-bar actions.
 - **`NativeChromeStateSource`** *(commonMain)* — the nav-agnostic core: state out + intents in.
   - `currentState(): NativeChromeState`, `observe(onChange): NativeChromeCancellable` (fires once immediately, then
     on every change).

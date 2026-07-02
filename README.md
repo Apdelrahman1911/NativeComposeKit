@@ -258,6 +258,7 @@ Full reference with every parameter, both renderers, and examples is in
 - [Architecture](docs/architecture.md) — how the shared API resolves to platform renderers
 - [Design-system rules](docs/design-system-rules.md) — what a component must do to belong
 - [Navigation](docs/navigation.md) — bring your own navigation; the kit's nav-agnostic native chrome contract
+- [iOS native chrome](docs/native-chrome.md) — the shell's bars, safe-area/inset contract, and scroll-under-glass
 - [iOS interop notes](docs/interop-notes.md) — UIKit interop limitations and trade-offs
 
 ## Building
