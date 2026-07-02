@@ -1,5 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.theme
 
+import androidx.compose.ui.graphics.Color
 import io.github.apdelrahman1911.nativecomposekit.components.toUIColor
 import platform.UIKit.UIApplication
 import platform.UIKit.UIColor
@@ -7,13 +8,25 @@ import platform.UIKit.UIWindow
 import platform.UIKit.UIWindowLevelNormal
 
 /**
- * The brand background as a plain `UIColor` for [dark] — the single source of truth (Compose `NativeKitTheme`
- * background) for a native host that must paint a background itself. The UIKit chrome shell builds a
- * dynamic `UIColor { nativeBackgroundUIColor(dark: $0.userInterfaceStyle == .dark) }` for its root view
- * so the area behind its bars adapts to light/dark automatically.
+ * The backgrounds [NativeAppearanceScope] registered from its (possibly consumer-injected) color schemes.
+ * Null until the first composition; [nativeBackgroundUIColor] falls back to the default brand palette so
+ * a shell can paint before Compose starts. Main-thread only, like all UIKit interaction here.
+ */
+private var injectedLightBackground: Color? = null
+private var injectedDarkBackground: Color? = null
+
+/**
+ * The theme background as a plain `UIColor` for [dark] — the single source of truth (the Compose
+ * `NativeKitTheme` background, including a consumer-injected palette once [NativeAppearanceScope] has
+ * composed and registered it) for a native host that must paint a background itself. The UIKit chrome
+ * shell builds a dynamic `UIColor { nativeBackgroundUIColor(dark: $0.userInterfaceStyle == .dark) }` for
+ * its root view so the area behind its bars adapts to light/dark automatically.
  */
 public fun nativeBackgroundUIColor(dark: Boolean): UIColor =
-    (if (dark) nativeDarkBackground else nativeLightBackground).toUIColor()
+    (
+        if (dark) injectedDarkBackground ?: nativeDarkBackground
+        else injectedLightBackground ?: nativeLightBackground
+    ).toUIColor()
 
 /**
  * iOS: paint the app's own content windows with the brand background for [dark] so pixels behind the
@@ -29,7 +42,9 @@ public fun nativeBackgroundUIColor(dark: Boolean): UIColor =
  * `UITabBar` styling, and global appearance proxies would leak brand-opaque bars into system controllers
  * (the share sheet, the color picker).
  */
-internal actual fun applyNativeShellChrome(dark: Boolean) {
+internal actual fun applyNativeShellChrome(dark: Boolean, lightBackground: Color, darkBackground: Color) {
+    injectedLightBackground = lightBackground
+    injectedDarkBackground = darkBackground
     val bg = nativeBackgroundUIColor(dark)
     UIApplication.sharedApplication.windows.forEach { w ->
         val window = w as? UIWindow ?: return@forEach

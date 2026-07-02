@@ -1,5 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.theme
 
+import androidx.compose.runtime.Composable
 import platform.UIKit.UIApplication
 import platform.UIKit.UIUserInterfaceStyle
 import platform.UIKit.UIWindow
@@ -17,4 +18,10 @@ internal actual fun applyPlatformColorScheme(dark: Boolean?) {
         null -> UIUserInterfaceStyle.UIUserInterfaceStyleUnspecified // clear the override: follow the system
     }
     UIApplication.sharedApplication.windows.forEach { (it as? UIWindow)?.overrideUserInterfaceStyle = style }
+}
+
+/** No-op on iOS: the window `overrideUserInterfaceStyle` flip above already drives the status bar. */
+@Composable
+internal actual fun PlatformAppearanceSync(dark: Boolean) {
+    // intentionally empty
 }

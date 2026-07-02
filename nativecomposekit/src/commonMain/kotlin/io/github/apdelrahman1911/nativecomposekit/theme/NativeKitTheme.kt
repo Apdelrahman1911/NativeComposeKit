@@ -46,10 +46,10 @@ internal val DarkColors = darkColorScheme(
 )
 
 /**
- * The brand window/background color per mode — the single source of truth a **native host** (the iOS
- * SwiftUI shell) reads to theme its chrome (window, nav bar, tab bar, safe areas) so it matches the Compose
- * content instead of defaulting to system black/white. Exposed from `NativeKitTheme` so there is no duplicated
- * hex in Swift. See `nativeShellBackgroundColor()` / `applyNativeShellChrome()` (iOS).
+ * The **default** brand window/background color per mode — what a native host (the iOS UIKit shell) paints
+ * before Compose has composed, and the fallback when no custom palette is injected. Once
+ * `NativeAppearanceScope` runs, the shell color source (`nativeBackgroundUIColor` on iOS) reflects the
+ * scope's actual (possibly injected) schemes instead. Exposed so there is no duplicated hex in Swift.
  */
 public val nativeLightBackground: Color = LightColors.background
 public val nativeDarkBackground: Color = DarkColors.background
@@ -70,9 +70,9 @@ internal val AppShapes = Shapes(
  * **Reskinnable:** every styling input is an optional parameter defaulting to the brand defaults, so a host
  * (or a future consumer of an extracted `:nativecomposekit` module) can reskin the whole kit by passing its own
  * [lightColors]/[darkColors]/[typography]/[shapes]/[tokens]/status colors without forking the kit. The simple
- * call — `NativeKitTheme { … }` — is unchanged. (Note: the top-level [nativeLightBackground]/[nativeDarkBackground]
- * the native iOS shell reads still reflect the *default* palette; a host injecting custom colors that also
- * drives a native shell should source the shell color from its injected scheme.)
+ * call — `NativeKitTheme { … }` — is unchanged. An injected palette also reaches the **native iOS shell**:
+ * `NativeAppearanceScope` registers both modes' `background` colors, so the window paint and the shell's
+ * dynamic root color (`nativeBackgroundUIColor`) follow the injected scheme, not just the default brand.
  */
 @Composable
 public fun NativeKitTheme(

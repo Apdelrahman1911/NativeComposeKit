@@ -82,11 +82,17 @@ public fun NativeAppearanceScope(
     content: @Composable () -> Unit,
 ) {
     val dark = NativeAppearance.darkOverride ?: isSystemInDarkTheme()
-    // Theme the native host chrome (iOS window background) so it matches this content. Re-runs on every
-    // dark flip (system or in-app) since `dark` changes; no-op on Android. Note: this paints the DEFAULT
-    // brand background — a host injecting custom colors that also drives a native shell should source the
-    // shell color from its injected scheme (see the NativeKitTheme KDoc).
-    LaunchedEffect(dark) { applyNativeShellChrome(dark) }
+    // Theme the native host chrome (iOS window background) so it matches this content — including a
+    // consumer-injected palette: the scope threads the resolved background of BOTH modes through, and the
+    // iOS side registers them so `nativeBackgroundUIColor(dark:)` (which the Swift shell's dynamic root
+    // color reads) follows the injected scheme too. Re-runs on every dark flip (system or in-app);
+    // no-op on Android (Compose owns the whole surface there).
+    LaunchedEffect(dark, lightColors, darkColors) {
+        applyNativeShellChrome(dark, lightColors.background, darkColors.background)
+    }
+    // Keep platform system-bar foregrounds (Android status/navigation-bar icons) legible against the
+    // in-app dark override — the OS keys them to the SYSTEM night mode, not to this scope's state.
+    PlatformAppearanceSync(dark)
     NativeKitTheme(
         darkTheme = dark,
         lightColors = lightColors,
@@ -142,6 +148,19 @@ public fun NativeAppearanceScope(
  * system again). Android: no-op — the Compose side already follows [NativeAppearance.darkOverride]. */
 internal expect fun applyPlatformColorScheme(dark: Boolean?)
 
-/** Themes the native host shell chrome (window, nav bar, tab bar, safe areas) to the brand background for
- * [dark] so it matches the Compose content. iOS implements it; Android is a no-op (Compose owns the chrome). */
-internal expect fun applyNativeShellChrome(dark: Boolean)
+/**
+ * Themes the native host shell chrome (window background, and the color source the UIKit shell reads) for
+ * [dark], using the **resolved theme palette** — [lightBackground]/[darkBackground] come from the scope's
+ * (possibly consumer-injected) color schemes, so a rebranded app tints its native shell too. iOS implements
+ * it; Android is a no-op (Compose owns the chrome).
+ */
+internal expect fun applyNativeShellChrome(dark: Boolean, lightBackground: Color, darkBackground: Color)
+
+/**
+ * Per-platform side effect keeping system chrome foregrounds in sync with the resolved [dark] state.
+ * Android: flips status/navigation-bar icon luminance (the OS otherwise keys it to the system night mode,
+ * so an in-app dark override would leave dark icons on a dark background). iOS: no-op — the window's
+ * `overrideUserInterfaceStyle` (set by [NativeAppearance.setDark]) already drives the status bar.
+ */
+@Composable
+internal expect fun PlatformAppearanceSync(dark: Boolean)
