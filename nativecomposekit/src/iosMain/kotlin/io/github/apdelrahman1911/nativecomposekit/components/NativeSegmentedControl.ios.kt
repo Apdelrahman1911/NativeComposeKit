@@ -1,7 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -62,8 +61,7 @@ internal actual fun PlatformNativeSegmentedControl(
     val backing = remember { UIView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
-    // Re-measure when the segment set changes (it drives width), NOT on every scroll frame (avoids drift).
-    LaunchedEffect(options) { remeasure.requestRemeasure() }
+    val sizeFp = remember { InteropSizeFingerprint() }
 
     UIKitView(
         factory = {
@@ -114,6 +112,9 @@ internal actual fun PlatformNativeSegmentedControl(
             control.enabled = enabled
             control.accessibilityLabel = contentDescription // segment names + selection announced natively
             testTag?.let { control.setAccessibilityId(it) }
+            // The segment titles and their font drive the width → re-measure when they change, from update,
+            // after they're applied (see InteropSizeFingerprint).
+            sizeFp.requestIfChanged(listOf(options, style.textStyle)) { remeasure.requestRemeasure() }
         },
     )
 }

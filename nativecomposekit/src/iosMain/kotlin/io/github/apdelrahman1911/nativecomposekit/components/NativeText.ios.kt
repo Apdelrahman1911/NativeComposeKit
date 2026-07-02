@@ -2,7 +2,6 @@ package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -51,12 +50,17 @@ internal actual fun PlatformNativeText(
     val surface = LocalNativeSurface.current
     if (surface.isSpecified) {
         // Native path: a real UILabel, filled opaquely with the exact surface color so the UIKitView interop
-        // region never reveals the system backdrop.
-        val label = remember { UILabel() }
+        // region never reveals the system backdrop. Seeded with the first text/font so the very first Compose
+        // measure (which precedes the first `update`) already sees real content instead of an empty label.
+        val label = remember {
+            UILabel().apply {
+                this.text = text
+                font = textStyle.toUIFont()
+                numberOfLines = if (maxLines == Int.MAX_VALUE) 0L else maxLines.toLong()
+            }
+        }
         val remeasure = rememberUIKitInteropRemeasureRequester()
-        // Re-measure only when something size-affecting changes (the text, its style, the line count) —
-        // never per-update (see NativeToggle for the scroll-frame rationale).
-        LaunchedEffect(text, textStyle, maxLines) { remeasure.requestRemeasure() }
+        val sizeFp = remember { InteropSizeFingerprint() }
         UIKitView(
             factory = { label },
             modifier = modifier.remeasureRequester(remeasure),
@@ -71,6 +75,9 @@ internal actual fun PlatformNativeText(
                 l.lineBreakMode =
                     if (overflow == TextOverflow.Ellipsis) NSLineBreakByTruncatingTail else NSLineBreakByWordWrapping
                 testTag?.let { l.setAccessibilityId(it) }
+                // Size-affecting inputs changed → re-measure, requested from update so it always lands AFTER
+                // they were applied to the label (see InteropSizeFingerprint).
+                sizeFp.requestIfChanged(listOf(text, textStyle, maxLines)) { remeasure.requestRemeasure() }
             },
         )
     } else {

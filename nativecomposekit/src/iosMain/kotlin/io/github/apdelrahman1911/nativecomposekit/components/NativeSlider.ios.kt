@@ -8,6 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.UIKitView
+import androidx.compose.ui.viewinterop.remeasureRequester
+import androidx.compose.ui.viewinterop.rememberUIKitInteropRemeasureRequester
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedSliderStyle
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -57,13 +59,15 @@ internal actual fun PlatformNativeSlider(
     handler.control = control
     val backing = remember { UIView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
+    val remeasure = rememberUIKitInteropRemeasureRequester()
+    val sizeFp = remember { InteropSizeFingerprint() }
 
     UIKitView(
         factory = {
             backing.pinFilling(control)
             backing
         },
-        modifier = modifier.height(36.dp),
+        modifier = modifier.height(36.dp).remeasureRequester(remeasure),
         properties = scrollSafeInteropProperties(), // overlay placement so the backing isn't clipped on scroll
         update = { _ ->
             backing.backgroundColor = backingColor
@@ -79,6 +83,9 @@ internal actual fun PlatformNativeSlider(
             control.enabled = enabled
             control.accessibilityLabel = contentDescription // UISlider announces its value for free
             testTag?.let { control.setAccessibilityId(it) }
+            // Height is fixed but a wrap-content width measures the slider's fitting size: request one
+            // post-content measure so that width is never the factory-fresh one (see InteropSizeFingerprint).
+            sizeFp.requestIfChanged(Unit) { remeasure.requestRemeasure() }
         },
     )
 }

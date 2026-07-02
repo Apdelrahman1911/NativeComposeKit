@@ -3,7 +3,6 @@ package io.github.apdelrahman1911.nativecomposekit.components
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -66,8 +65,7 @@ private fun IosSpinner(
     val backing = remember { UIView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
-    // Fixed intrinsic size: one initial measure, never per-update (see NativeToggle for the rationale).
-    LaunchedEffect(Unit) { remeasure.requestRemeasure() }
+    val sizeFp = remember { InteropSizeFingerprint() }
     UIKitView(
         factory = {
             backing.pinFilling(spinner.also { it.startAnimating() })
@@ -80,6 +78,8 @@ private fun IosSpinner(
             spinner.startAnimating()
             contentDescription?.let { spinner.accessibilityLabel = it }
             testTag?.let { spinner.setAccessibilityId(it) }
+            // Fixed intrinsic size: measure once, on the first update (see InteropSizeFingerprint).
+            sizeFp.requestIfChanged(Unit) { remeasure.requestRemeasure() }
         },
     )
 }
@@ -97,8 +97,7 @@ private fun IosProgressBar(
     val backing = remember { UIView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
-    // Fixed intrinsic size: one initial measure, never per-update (see NativeToggle for the rationale).
-    LaunchedEffect(Unit) { remeasure.requestRemeasure() }
+    val sizeFp = remember { InteropSizeFingerprint() }
     UIKitView(
         factory = {
             bar.progressViewStyle = UIProgressViewStyle.UIProgressViewStyleDefault
@@ -113,6 +112,8 @@ private fun IosProgressBar(
             bar.setProgress(progress, animated = false)
             contentDescription?.let { bar.accessibilityLabel = it }
             testTag?.let { bar.setAccessibilityId(it) }
+            // Fixed intrinsic size: measure once, on the first update (see InteropSizeFingerprint).
+            sizeFp.requestIfChanged(Unit) { remeasure.requestRemeasure() }
         },
     )
 }

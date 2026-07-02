@@ -1,7 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -58,8 +57,7 @@ internal actual fun PlatformNativePageControl(
     val backing = remember { UIView() }
     val backingColor = interopBackingColor()
     val remeasure = rememberUIKitInteropRemeasureRequester()
-    // Re-measure when the dot count changes (it drives width), NOT on every scroll frame (avoids drift).
-    LaunchedEffect(pageCount) { remeasure.requestRemeasure() }
+    val sizeFp = remember { InteropSizeFingerprint() }
 
     UIKitView(
         factory = {
@@ -78,6 +76,9 @@ internal actual fun PlatformNativePageControl(
             control.userInteractionEnabled = onCurrentPageChange != null
             contentDescription?.let { control.accessibilityLabel = it }
             testTag?.let { control.setAccessibilityId(it) }
+            // The dot count drives the width → re-measure when it changes, from update, after it's applied
+            // (see InteropSizeFingerprint).
+            sizeFp.requestIfChanged(pageCount) { remeasure.requestRemeasure() }
         },
     )
 }

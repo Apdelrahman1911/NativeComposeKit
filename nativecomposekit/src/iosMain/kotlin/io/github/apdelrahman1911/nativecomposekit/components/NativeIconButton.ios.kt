@@ -2,7 +2,6 @@ package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -45,9 +44,7 @@ internal actual fun PlatformNativeIconButton(
     // Overlay placement inside a NativeDialog (no cut-out hole → no first-frame black flash); cut-out elsewhere.
     val overlay = LocalNativeInteropPlacement.current == NativeInteropPlacement.Overlay
 
-    // Re-measure only when something size-affecting changes — never per-update (see NativeToggle for the
-    // scroll-frame rationale).
-    LaunchedEffect(icon.sfSymbolName, style) { remeasure.requestRemeasure() }
+    val sizeFp = remember { InteropSizeFingerprint() }
 
     UIKitView(
         factory = {
@@ -72,6 +69,9 @@ internal actual fun PlatformNativeIconButton(
             )
             (contentDescription ?: icon.contentDescription)?.let { views.button.accessibilityLabel = it }
             testTag?.let { views.button.setAccessibilityId(it) }
+            // Size-affecting inputs changed → re-measure, from update, after they're applied (see
+            // InteropSizeFingerprint).
+            sizeFp.requestIfChanged(listOf(icon.sfSymbolName, style)) { remeasure.requestRemeasure() }
         },
     )
 }

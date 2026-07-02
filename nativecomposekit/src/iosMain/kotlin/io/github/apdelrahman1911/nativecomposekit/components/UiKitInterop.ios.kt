@@ -136,13 +136,6 @@ internal fun scrollSafeInteropProperties(): UIKitInteropProperties =
     UIKitInteropProperties(interactionMode = UIKitInteropInteractionMode.Cooperative(), placedAsOverlay = true)
 
 /**
- * Pins [child] to fill this view via Auto Layout and adds it as a subview. Used to place a native
- * control inside an opaque, theme-colored backing: the control keeps its rounded/native shape, and
- * its transparent pixels reveal the backing (the theme surface) instead of the interop host
- * backdrop — which would otherwise read as a white/black box in dark mode. Because the child is
- * pinned on all edges, the backing's Auto Layout fitting size also tracks the child's intrinsic size.
- */
-/**
  * Sets the native `accessibilityIdentifier` (maps from `testTag`, for UI tests) via KVC. We use KVC
  * because casting a view to the bridged `UIAccessibilityIdentificationProtocol` compiles but throws a
  * `TypeCastException` at runtime in Kotlin/Native (the protocol conformance isn't visible to the cast).
@@ -151,7 +144,17 @@ internal fun UIView.setAccessibilityId(id: String) {
     setValue(id, forKey = "accessibilityIdentifier")
 }
 
+/**
+ * Pins [child] to fill this view via Auto Layout and adds it as a subview. Used to place a native
+ * control inside an opaque, theme-colored backing: the control keeps its rounded/native shape, and
+ * its transparent pixels reveal the backing (the theme surface) instead of the interop host
+ * backdrop — which would otherwise read as a white/black box in dark mode. Because the child is
+ * pinned on all edges, the backing's Auto Layout fitting size also tracks the child's intrinsic size.
+ * Idempotent: a `UIKitView` factory re-runs when its interop properties change, so re-pinning the
+ * same remembered child must not stack duplicate constraints.
+ */
 internal fun UIView.pinFilling(child: UIView) {
+    if (child.superview == this) return
     child.translatesAutoresizingMaskIntoConstraints = false
     addSubview(child)
     NSLayoutConstraint.activateConstraints(

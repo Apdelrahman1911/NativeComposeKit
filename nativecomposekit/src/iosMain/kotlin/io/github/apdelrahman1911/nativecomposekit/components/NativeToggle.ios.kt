@@ -1,7 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -60,10 +59,7 @@ internal actual fun PlatformNativeToggle(
     // Backing matches the published surface (so it doesn't show a box on a card/page) and is CLEAR on
     // Liquid Glass (so the switch capsule floats on the material instead of sitting on a solid rectangle).
     val backingColor = interopBackingColor()
-    // Re-measure only ONCE (size is fixed) — NOT on every update. The update block re-fires on every scroll
-    // frame (bounds change), and requesting a remeasure there forced a per-frame interop re-layout that
-    // desynced the native view from the scroll (the "drift"/"cut"). One initial measure is enough here.
-    LaunchedEffect(Unit) { remeasure.requestRemeasure() }
+    val sizeFp = remember { InteropSizeFingerprint() }
 
     UIKitView(
         factory = {
@@ -85,6 +81,9 @@ internal actual fun PlatformNativeToggle(
             control.userInteractionEnabled = enabled && onCheckedChange != null
             contentDescription?.let { control.accessibilityLabel = it }
             testTag?.let { control.setAccessibilityId(it) }
+            // Fixed intrinsic size: measure once, on the first update — never per update, which re-fires on
+            // every scroll frame and would desync the interop layout (see InteropSizeFingerprint).
+            sizeFp.requestIfChanged(Unit) { remeasure.requestRemeasure() }
         },
     )
 }

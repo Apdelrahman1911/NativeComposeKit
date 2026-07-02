@@ -1,7 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -81,7 +80,7 @@ internal actual fun PlatformNativeSearchBar(
     val backing = remember { UIView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
-    LaunchedEffect(Unit) { remeasure.requestRemeasure() } // measure once; NOT per scroll frame (avoids drift)
+    val sizeFp = remember { InteropSizeFingerprint() }
 
     UIKitView(
         factory = {
@@ -105,6 +104,8 @@ internal actual fun PlatformNativeSearchBar(
                 else UIUserInterfaceStyle.UIUserInterfaceStyleLight
             contentDescription?.let { control.accessibilityLabel = it }
             testTag?.let { control.setAccessibilityId(it) }
+            // Fixed intrinsic size: measure once, on the first update (see InteropSizeFingerprint).
+            sizeFp.requestIfChanged(Unit) { remeasure.requestRemeasure() }
         },
     )
 }

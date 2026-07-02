@@ -1,7 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -67,8 +66,7 @@ internal actual fun PlatformNativeDatePicker(
     val backing = remember { UIView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
-    // Re-measure when the shown date changes (compact picker width tracks it), NOT per scroll frame (drift).
-    LaunchedEffect(selectedMillis) { remeasure.requestRemeasure() }
+    val sizeFp = remember { InteropSizeFingerprint() }
 
     UIKitView(
         factory = {
@@ -92,6 +90,9 @@ internal actual fun PlatformNativeDatePicker(
             control.enabled = enabled
             contentDescription?.let { control.accessibilityLabel = it }
             testTag?.let { control.setAccessibilityId(it) }
+            // The compact picker's width tracks the shown date → re-measure when it changes, from update,
+            // after it's applied (see InteropSizeFingerprint).
+            sizeFp.requestIfChanged(selectedMillis) { remeasure.requestRemeasure() }
         },
     )
 }

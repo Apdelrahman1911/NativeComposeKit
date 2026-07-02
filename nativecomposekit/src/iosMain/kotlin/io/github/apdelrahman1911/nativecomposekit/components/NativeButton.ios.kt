@@ -3,7 +3,6 @@ package io.github.apdelrahman1911.nativecomposekit.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -63,11 +62,7 @@ internal actual fun PlatformNativeButton(
 
     // Trailing glyph is an explicit trailing icon, or the auto chevron for a menu button.
     val trailGlyph = trailingIcon?.sfSymbolName ?: if (menu != null) "chevron.down" else null
-    // Re-measure only when something SIZE-affecting changes — never in `update`, which re-fires on every
-    // scroll frame (bounds change) and would force a per-frame interop re-layout (the "drift"/"cut" bug).
-    LaunchedEffect(text, loading, leadingIcon?.sfSymbolName, trailGlyph, style, fullWidth) {
-        remeasure.requestRemeasure()
-    }
+    val sizeFp = remember { InteropSizeFingerprint() }
 
     UIKitView(
         factory = {
@@ -108,6 +103,11 @@ internal actual fun PlatformNativeButton(
                 ?: leadingIcon?.contentDescription ?: trailingIcon?.contentDescription)
                 ?.let { views.button.accessibilityLabel = it }
             testTag?.let { views.button.setAccessibilityId(it) }
+            // Size-affecting inputs changed → re-measure, requested from update so it always lands AFTER
+            // they were applied (see InteropSizeFingerprint).
+            sizeFp.requestIfChanged(listOf(text, loading, leadingIcon?.sfSymbolName, trailGlyph, style, fullWidth)) {
+                remeasure.requestRemeasure()
+            }
         },
     )
 }
