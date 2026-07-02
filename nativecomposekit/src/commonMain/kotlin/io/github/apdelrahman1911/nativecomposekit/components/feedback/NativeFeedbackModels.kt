@@ -14,10 +14,15 @@ public enum class NativeFeedbackStatus { Info, Success, Warning, Error }
 public enum class NativeFeedbackPosition { Top, Bottom }
 
 /**
- * How long a transient stays before auto-dismissing.
- * - [Short] ≈ 2 s, [Long] ≈ 3.5 s.
- * - [Indefinite]: no timer — stays until dismissed by the user (close button / action) or by code
- *   ([NativeFeedbackController.dismiss]/[NativeFeedbackController.dismissCurrent]). Banners default to this.
+ * How long a transient stays before auto-dismissing. Each surface maps it to its platform-idiomatic timing
+ * (the lane always advances in step with what is actually shown):
+ * - **Toast HUD / banner** (kit-drawn, both platforms): [Short] ≈ 2 s, [Long] ≈ 3.5 s; [Indefinite] = no
+ *   timer — stays until dismissed by the user (close button / action) or by code
+ *   ([NativeFeedbackController.dismiss]/[NativeFeedbackController.dismissCurrent]). Banners default to it.
+ * - **Android system toast** (`android.useSystemToast`): the OS offers exactly two lengths — [Short] → SHORT
+ *   (~2 s), [Long] → LONG (~3.5 s), and [Indefinite] **degrades to LONG** (the OS can't hold a toast).
+ * - **Android snackbar**: Material timings — [Short] → ~4 s, [Long] → ~10 s, [Indefinite] → held (Material
+ *   `SnackbarDuration`s; a snackbar with an action defaults to [Indefinite]).
  */
 public enum class NativeFeedbackDuration { Short, Long, Indefinite }
 

@@ -85,7 +85,9 @@ internal actual fun PlatformFeedbackHost(
         // ---- Transient lane (one at a time) ----
         when (val t = controller.activeTransient) {
             is ToastRecord -> ToastHud(t, controller, onSystemToast = { msg ->
-                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                // The system Toast has exactly two lengths; map Short → SHORT and everything else → LONG.
+                val length = if (t.duration == NativeFeedbackDuration.Short) Toast.LENGTH_SHORT else Toast.LENGTH_LONG
+                Toast.makeText(context, msg, length).show()
             })
             is BannerRecord -> FeedbackBanner(t, controller)
             is SnackbarRecord, null -> Unit // snackbar is rendered by the SnackbarHost below
@@ -157,7 +159,9 @@ private fun ToastHud(
     if (record.useSystemToast) {
         LaunchedEffect(record.id) {
             onSystemToast(record.message)
-            delay(record.duration.toMillisOrNull() ?: 2_000L)
+            // The OS toast cannot be held on screen: Indefinite degrades to the system LONG (~3.5 s), and the
+            // lane advances in step with what the user actually sees (2 s / 3.5 s, matching SHORT/LONG).
+            delay(record.duration.toMillisOrNull() ?: 3_500L)
             controller.onTransientTimeout(record.id)
         }
         return

@@ -1,5 +1,6 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -70,6 +71,9 @@ internal actual fun PlatformNativeTextField(
         }
     }
 
+    // Honor the resolved minimum field height (token-driven; a caller's tokens override was silently ignored).
+    m = m.defaultMinSize(minHeight = style.minHeight)
+
     val c = style.colors
     OutlinedTextField(
         value = value,
@@ -94,10 +98,20 @@ internal actual fun PlatformNativeTextField(
         supportingText = (errorText ?: helperText)?.let { s -> { Text(s) } },
         visualTransformation = if (input.secure) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = KeyboardOptions(
-            keyboardType = input.keyboardType.toKeyboardType(),
+            // A secure field must use a password keyboard type: it disables IME learning/suggestions, which a
+            // plain visual transformation does NOT (the keyboard would happily learn the password). Matches
+            // iOS, where isSecureTextEntry disables QuickType. Autocorrect is likewise forced off.
+            keyboardType = if (input.secure) {
+                when (input.keyboardType) {
+                    NativeKeyboardType.Number, NativeKeyboardType.Decimal -> KeyboardType.NumberPassword
+                    else -> KeyboardType.Password
+                }
+            } else {
+                input.keyboardType.toKeyboardType()
+            },
             imeAction = input.imeAction.toImeAction(),
             capitalization = input.capitalization.toCapitalization(),
-            autoCorrectEnabled = input.autoCorrect,
+            autoCorrectEnabled = if (input.secure) false else input.autoCorrect,
         ),
         keyboardActions = KeyboardActions(
             onDone = { focus.onSubmit?.invoke() },
@@ -124,6 +138,8 @@ internal actual fun PlatformNativeTextField(
             errorLabelColor = c.error,
             focusedPlaceholderColor = c.placeholder,
             unfocusedPlaceholderColor = c.placeholder,
+            focusedSupportingTextColor = c.helper,
+            unfocusedSupportingTextColor = c.helper,
             errorSupportingTextColor = c.error,
         ),
     )

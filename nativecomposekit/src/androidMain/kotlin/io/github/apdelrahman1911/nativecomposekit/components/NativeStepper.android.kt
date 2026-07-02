@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,10 +41,14 @@ internal actual fun PlatformNativeStepper(
     val m = if (testTag != null) modifier.testTag(testTag) else modifier
     val strings = LocalNativeStrings.current
     val name = contentDescription // capture to avoid shadowing the SemanticsPropertyReceiver property
+    // The resolved style's tint is the -/+ control color (mirrors the primary-tinted iOS UIStepper); it was
+    // previously dropped, leaving Material's default secondaryContainer colors regardless of the theme.
+    val buttonColors = IconButtonDefaults.filledTonalIconButtonColors(contentColor = style.tint)
     Row(modifier = m, verticalAlignment = Alignment.CenterVertically) {
         FilledTonalIconButton(
             onClick = { onValueChange((value - step).coerceAtLeast(min)) },
             enabled = enabled && value > min,
+            colors = buttonColors,
         ) {
             Icon(Icons.Default.Remove, contentDescription = strings.stepperDecrement)
         }
@@ -64,6 +69,7 @@ internal actual fun PlatformNativeStepper(
         FilledTonalIconButton(
             onClick = { onValueChange((value + step).coerceAtMost(max)) },
             enabled = enabled && value < max,
+            colors = buttonColors,
         ) {
             Icon(Icons.Default.Add, contentDescription = strings.stepperIncrement)
         }

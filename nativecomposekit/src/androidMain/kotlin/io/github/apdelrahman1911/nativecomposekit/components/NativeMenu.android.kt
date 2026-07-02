@@ -6,6 +6,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenu
@@ -28,19 +29,26 @@ internal fun NativeMenuDropdown(expanded: Boolean, onDismiss: () -> Unit, menu: 
             val iconVector = item.icon?.androidImageVector
             val iconCd = item.icon?.contentDescription
             DropdownMenuItem(
-                text = { Text(item.title, color = tint) },
+                // Colors flow through the item's content color (NOT per-slot overrides) so DISABLED rows get
+                // Material's dimmed treatment — a hardcoded tint rendered disabled items at full color.
+                text = { Text(item.title) },
+                colors = MenuDefaults.itemColors(
+                    textColor = tint,
+                    leadingIconColor = tint,
+                    trailingIconColor = tint,
+                ),
                 onClick = {
                     onDismiss()
                     item.onSelect()
                 },
                 enabled = item.enabled,
                 leadingIcon = if (iconVector != null) {
-                    { Icon(iconVector, contentDescription = iconCd, tint = tint) }
+                    { Icon(iconVector, contentDescription = iconCd) }
                 } else {
                     null
                 },
                 trailingIcon = if (item.selected) {
-                    { Icon(Icons.Default.Check, contentDescription = LocalNativeStrings.current.menuSelected, tint = tint) }
+                    { Icon(Icons.Default.Check, contentDescription = LocalNativeStrings.current.menuSelected) }
                 } else {
                     null
                 },

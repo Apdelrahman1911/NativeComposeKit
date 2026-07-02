@@ -66,6 +66,12 @@ public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChrom
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeMenu_androidKt {
+	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativeMenu_androidKt;
+	public fun <init> ()V
+	public final fun getLambda$-1987149733$nativecomposekit_release ()Lkotlin/jvm/functions/Function2;
+}
+
 public final class io/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativePaginationKt {
 	public static final field INSTANCE Lio/github/apdelrahman1911/nativecomposekit/components/ComposableSingletons$NativePaginationKt;
 	public fun <init> ()V
