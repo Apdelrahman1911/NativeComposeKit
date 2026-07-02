@@ -11,28 +11,28 @@ A text button with optional leading and trailing icons, an optional loading stat
 
 **Use it when**
 - You need a standard labeled action button.
-- You want a pull-down menu trigger (set `menu`); a chevron is appended automatically.
+- You want a pull-down menu trigger (set `menu`); a chevron is appended automatically and the tap only opens the menu.
 
 **Avoid it when**
 - The control is icon-only — use `NativeIconButton`.
-- You need one main action plus a related menu — use `NativeSplitButton` (an iOS menu button suppresses the tap action, so `onClick` may not fire).
+- You need one main action plus a related menu — use `NativeSplitButton` (a menu-bearing button's tap only opens the menu; `onClick` is not called).
 
 **Parameters**
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | `text` | `String` | — | Button label. |
-| `onClick` | `() -> Unit` | — | Tap handler. With a `menu`, also fires on Android tap; may not fire on iOS, where presenting the menu suppresses the tap action. |
+| `onClick` | `() -> Unit` | — | Tap handler. Not called when a `menu` is set — a menu button's tap only opens the menu (the same rule on both platforms). |
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
 | `variant` | `NativeButtonVariant` | `NativeButtonVariant.Primary` | Visual variant: `Primary`, `Secondary`, `Tertiary`, `Outline`, `Destructive`. |
 | `size` | `NativeButtonSize` | `NativeButtonSize.Medium` | `Small`, `Medium`, or `Large`. Drives height, padding, and text style from theme tokens. |
 | `shape` | `NativeButtonShape` | `NativeButtonShape.Rounded` | `Rounded` (theme corner radius) or `Pill` (capsule, radius = height / 2). |
 | `enabled` | `Boolean` | `true` | When false the button is not interactive and uses themed disabled tones. |
-| `loading` | `Boolean` | `false` | Shows a centered spinner; label and icons are hidden while loading. |
+| `loading` | `Boolean` | `false` | Shows a centered spinner; label and icons are hidden while loading. The accessible name stays the `text` (or `contentDescription`), so screen readers keep announcing the button. |
 | `fullWidth` | `Boolean` | `false` | Stretches the button to fill the available width. |
 | `leadingIcon` | `NativeIcon?` | `null` | Icon before the label. May be set together with `trailingIcon`. |
 | `trailingIcon` | `NativeIcon?` | `null` | Icon after the label. May be set together with `leadingIcon`. |
-| `menu` | `NativeMenu?` | `null` | When non-null, tapping opens a pull-down menu and a chevron is appended. |
+| `menu` | `NativeMenu?` | `null` | When non-null, tapping only opens the pull-down menu (`onClick` is not called) and a chevron is appended. |
 | `contentPadding` | `PaddingValues?` | `null` | Overrides the size-derived content padding. |
 | `cornerRadius` | `Dp?` | `null` | Explicit corner radius. Wins over `shape`. |
 | `colorsOverride` | `NativeButtonColors?` | `null` | Overrides the variant's resolved colors. |
@@ -70,7 +70,7 @@ An icon-only button — a square or circular tap target with no label. Circular 
 
 **Use it when**
 - A glyph alone is clear (toolbar actions, an overflow "…" button).
-- You need a compact menu trigger; set `menu` and the menu opens on tap with no extra chevron.
+- You need a compact menu trigger; set `menu` and the tap only opens the menu, with no extra chevron.
 
 **Avoid it when**
 - The action needs a visible label — use `NativeButton`.
@@ -86,8 +86,8 @@ An icon-only button — a square or circular tap target with no label. Circular 
 | `variant` | `NativeButtonVariant` | `NativeButtonVariant.Tertiary` | Visual variant. |
 | `size` | `NativeButtonSize` | `NativeButtonSize.Medium` | `Small`, `Medium`, or `Large`. Drives the side length. |
 | `enabled` | `Boolean` | `true` | When false the button is not interactive and uses themed disabled tones. |
-| `loading` | `Boolean` | `false` | Shows a centered spinner; the icon is hidden while loading. |
-| `menu` | `NativeMenu?` | `null` | When non-null, tapping opens a pull-down menu. No chevron is added. |
+| `loading` | `Boolean` | `false` | Shows a centered spinner; the icon is hidden while loading. The accessible name lives on the button node, so it survives the swap. |
+| `menu` | `NativeMenu?` | `null` | When non-null, tapping only opens the pull-down menu (`onClick` is not called). No chevron is added. |
 | `cornerRadius` | `Dp?` | `null` | Explicit corner radius. Default is circular (radius = side / 2). |
 | `colorsOverride` | `NativeButtonColors?` | `null` | Overrides the variant's resolved colors. |
 | `touch` | `NativeInteropTouch` | `NativeInteropTouch.Cooperative` | iOS scroll-vs-tap interop strategy. No-op on Android. |
@@ -105,7 +105,7 @@ NativeIconButton(
 
 **Notes**
 - `contentDescription` is required, not optional.
-- The host is clamped to a 44pt minimum on iOS (44 is its natural size).
+- Small keeps its true compact circle (36pt/36dp) on both platforms: iOS centers it inside a ≥44pt hit host, Android reserves a ≥48dp touch target around it — the visual stays compact, the target stays HIG/Material-sized.
 - `touch` is a documented no-op on Android.
 
 ### NativeSplitButton
@@ -133,7 +133,7 @@ A primary action segment plus a chevron segment that opens a menu. Tapping the l
 | `variant` | `NativeButtonVariant` | `NativeButtonVariant.Primary` | Visual variant shared by both segments. |
 | `size` | `NativeButtonSize` | `NativeButtonSize.Medium` | `Small`, `Medium`, or `Large`. |
 | `enabled` | `Boolean` | `true` | When false neither segment is interactive; uses themed disabled tones. |
-| `loading` | `Boolean` | `false` | Shows a centered spinner; label and icon are hidden while loading. |
+| `loading` | `Boolean` | `false` | Shows a centered spinner; label and icon are hidden while loading. The accessible name stays the `text` (or `contentDescription`). |
 | `leadingIcon` | `NativeIcon?` | `null` | Icon before the label on the primary segment. |
 | `cornerRadius` | `Dp?` | `null` | Explicit outer corner radius. Defaults to the theme corner radius. |
 | `colorsOverride` | `NativeButtonColors?` | `null` | Overrides the variant's resolved colors. |

@@ -14,13 +14,14 @@ import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
-import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
@@ -45,8 +46,9 @@ public enum class NativeChipStyle { Assist, Filter, Input, Suggestion }
  * slot to silently drop. The label is single-line and ellipsized.
  *
  * Chips are **interactive** by Material convention (they show a ripple and announce as a button); for a
- * purely static label, render styled text instead. [onTrailingClick] adds a ≥48dp remove target that
- * announces as "Remove".
+ * purely static label, render styled text instead. [onTrailingClick] adds a compact remove target that
+ * announces as "Remove"; the remove is also exposed as a chip-level custom accessibility action, so
+ * screen-reader users trigger it from the chip itself rather than hunting the small glyph.
  *
  * `NativeChip("Action", style = Filter, selected = isOn, onClick = { isOn = !isOn })`
  */
@@ -65,6 +67,7 @@ public fun NativeChip(
     contentDescription: String? = null,
     testTag: String? = null,
 ) {
+    val strings = LocalNativeStrings.current
     val leadingSlot: (@Composable () -> Unit)? = if (leadingIcon != null) {
         { Icon(leadingIcon, contentDescription = null, modifier = Modifier.size(18.dp)) }
     } else {
@@ -76,11 +79,13 @@ public fun NativeChip(
         trailingIcon == null -> null
         onTrailing != null -> {
             {
-                // ≥48dp, labeled remove target around the 18dp glyph (the glyph alone is below the a11y min).
+                // A compact remove target: a ≥48dp box inside the ~32dp chip would inflate the chip or
+                // overflow it, so the glyph gets a modest 24dp box; screen readers reach the remove
+                // through the chip-level custom accessibility action below instead of this small target.
                 Box(
                     modifier = Modifier
-                        .minimumInteractiveComponentSize()
-                        .clickable(onClickLabel = LocalNativeStrings.current.chipRemove, role = Role.Button, onClick = onTrailing),
+                        .size(24.dp)
+                        .clickable(enabled = enabled, onClickLabel = strings.chipRemove, role = Role.Button, onClick = onTrailing),
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(trailingIcon, contentDescription = null, modifier = Modifier.size(18.dp))
@@ -95,6 +100,14 @@ public fun NativeChip(
     var m = modifier
     testTag?.let { m = m.testTag(it) }
     contentDescription?.let { cd -> m = m.semantics { this.contentDescription = cd } }
+    if (trailingIcon != null && onTrailing != null && enabled) {
+        // The compact remove glyph is below the a11y touch minimum — expose the remove on the chip node
+        // itself so screen readers can trigger it without the small target. Gated like the tap target:
+        // a disabled chip offers no remove.
+        m = m.semantics {
+            customActions = listOf(CustomAccessibilityAction(strings.chipRemove) { onTrailing(); true })
+        }
+    }
 
     val text: @Composable () -> Unit = { Text(label, maxLines = 1, overflow = TextOverflow.Ellipsis) }
     // Material's default chip border is `outlineVariant` (a faint divider tone) which vanishes on a

@@ -78,6 +78,30 @@ internal actual fun PlatformNativeSplitButton(
                 listOf(divider.widthAnchor.constraintEqualToConstant(1.0)),
             )
             backing.pinFilling(outer)
+            // Seed the same content the first update will apply: the first Compose measure runs BEFORE
+            // the first update (interop updates land at frame-present time), so factory-fresh empty
+            // segments would measure 0×0 and can flash blank for a frame. update stays the idempotent
+            // source of truth for every later change.
+            primary.apply(
+                style = style,
+                text = if (loading) "" else text,
+                showLabel = true,
+                enabled = enabled,
+                loading = loading,
+                leadName = leadingIcon?.sfSymbolName,
+                trailName = null,
+                menu = null,
+            )
+            chevron.apply(
+                style = style,
+                text = "",
+                showLabel = false,
+                enabled = enabled && !loading,
+                loading = false,
+                leadName = "chevron.down",
+                trailName = null,
+                menu = menu,
+            )
             backing
         },
         // HIG: ≥44pt touch target (both segments fill the host height).
@@ -124,6 +148,12 @@ internal actual fun PlatformNativeSplitButton(
             sizeFp.requestIfChanged(listOf(text, loading, leadingIcon?.sfSymbolName, style)) {
                 remeasure.requestRemeasure()
             }
+        },
+        // The released segments must stop dispatching into their tap/press handlers once the node has
+        // left the composition for good.
+        onRelease = {
+            primary.detach()
+            chevron.detach()
         },
     )
 }

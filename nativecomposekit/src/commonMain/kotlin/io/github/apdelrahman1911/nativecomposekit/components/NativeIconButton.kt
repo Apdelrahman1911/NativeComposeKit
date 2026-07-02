@@ -18,7 +18,8 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
  * Icon-only brand button — a square/circular tap target with no label. Defaults to the [variant]'s theme
  * colors keyed by [size]; circular by default (override with [cornerRadius]). Renders the most native
  * control per platform — a Material 3 icon button on Android, a `UIButton` on iOS. Attach a [menu] to
- * present a native pull-down on tap (e.g. an overflow "…" button).
+ * present a native pull-down on tap (e.g. an overflow "…" button) — the tap then **only** opens the
+ * menu; [onClick] is not called (the same rule on both platforms).
  *
  * [contentDescription] is **required** — an icon-only control has no visible label, so an accessible name
  * is mandatory (VoiceOver/TalkBack would otherwise announce an unnamed button). It maps to the button's

@@ -16,6 +16,8 @@ internal actual fun PlatformNativeSlider(
     modifier: Modifier,
     min: Float,
     max: Float,
+    steps: Int,
+    onValueChangeFinished: (() -> Unit)?,
     enabled: Boolean,
     style: ResolvedSliderStyle,
     contentDescription: String?,
@@ -32,6 +34,8 @@ internal actual fun PlatformNativeSlider(
         modifier = m,
         enabled = enabled,
         valueRange = min..max,
+        steps = steps,
+        onValueChangeFinished = onValueChangeFinished,
         colors = SliderDefaults.colors(
             thumbColor = style.thumbColor,
             activeTrackColor = style.activeTrackColor,

@@ -19,6 +19,7 @@ import platform.UIKit.UIActivityIndicatorView
 import platform.UIKit.UIActivityIndicatorViewStyleMedium
 import platform.UIKit.UIButton
 import platform.UIKit.UIColor
+import platform.UIKit.UIControlEventAllEvents
 import platform.UIKit.UIControlEventTouchCancel
 import platform.UIKit.UIControlEventTouchDown
 import platform.UIKit.UIControlEventTouchUpInside
@@ -124,6 +125,7 @@ internal class NativeButtonViews {
     private val dimmer = ButtonPressDimmer()
     private var leadingConstraint: NSLayoutConstraint? = null
     private var trailingConstraint: NSLayoutConstraint? = null
+    private var compactHeightConstraint: NSLayoutConstraint? = null
     private var built = false
 
     /**
@@ -187,6 +189,46 @@ internal class NativeButtonViews {
     }
 
     /**
+     * Mounts the button into [host] centered at [heightPt] instead of filling it: the ≥44pt interop
+     * host keeps the HIG touch target (via [MinHitButton]'s expanded hit test) while the button renders
+     * its true compact height. [fillWidth] pins the button to the host's horizontal edges (labeled
+     * buttons — the label drives the host's fitting width); when false the button also centers on X
+     * (icon-only buttons, kept square by [build]'s width == height constraint). The height constraint
+     * is retained so [apply] can track a runtime `style.height` change instead of leaving the constant
+     * baked at factory time. Idempotent: a `UIKitView` factory re-runs when its interop properties
+     * change, so re-mounting the same button must not stack duplicate constraints.
+     */
+    fun mountCompactCentered(host: UIView, heightPt: Double, minHitPt: Double, fillWidth: Boolean) {
+        if (button.superview == host) return
+        button.translatesAutoresizingMaskIntoConstraints = false
+        host.addSubview(button)
+        val height = button.heightAnchor.constraintEqualToConstant(heightPt)
+        compactHeightConstraint = height
+        val constraints = mutableListOf(
+            button.centerYAnchor.constraintEqualToAnchor(host.centerYAnchor),
+            height,
+        )
+        if (fillWidth) {
+            constraints += button.leadingAnchor.constraintEqualToAnchor(host.leadingAnchor)
+            constraints += button.trailingAnchor.constraintEqualToAnchor(host.trailingAnchor)
+        } else {
+            constraints += button.centerXAnchor.constraintEqualToAnchor(host.centerXAnchor)
+            button.minHitWidth = minHitPt
+        }
+        NSLayoutConstraint.activateConstraints(constraints)
+        button.minHitHeight = minHitPt
+    }
+
+    /**
+     * Detaches every press/tap target-action registered by [build]. Call from `UIKitView.onRelease`
+     * (the node has left the composition for good) so the released native button no longer dispatches
+     * into the handler objects.
+     */
+    fun detach() {
+        button.removeTarget(null, null, UIControlEventAllEvents)
+    }
+
+    /**
      * Re-theme and set state. [showLabel] is false for icon-only buttons. [leadName]/[trailName] are SF
      * Symbol names (null = hidden). When [menu] is non-null the button presents it as its primary action.
      */
@@ -215,6 +257,13 @@ internal class NativeButtonViews {
 
         leadingConstraint?.setConstant(style.insets.start.value.toDouble())
         trailingConstraint?.setConstant(style.insets.end.value.toDouble())
+        // A compact mount (see mountCompactCentered) pins the visual height with a constraint created at
+        // factory time — track the resolved height here so a runtime style change never leaves a stale
+        // native height.
+        compactHeightConstraint?.let { c ->
+            val h = style.height.value.toDouble()
+            if (c.constant != h) c.setConstant(h)
+        }
 
         label.text = text
         label.font = style.textStyle.toUIFont()
@@ -246,7 +295,9 @@ internal class NativeButtonViews {
                 builtMenu = buildUIMenu(menu) { index -> currentMenu?.items?.getOrNull(index)?.onSelect?.invoke() }
             }
             if (button.menu !== builtMenu) button.menu = builtMenu
-            button.showsMenuAsPrimaryAction = true
+            // An EMPTY menu builds to nil — treat it as no menu at all so the tap stays a normal
+            // action (matching Android, where an empty menu never opens and onClick fires).
+            button.showsMenuAsPrimaryAction = builtMenu != null
         } else {
             currentMenu = null
             builtMenu = null

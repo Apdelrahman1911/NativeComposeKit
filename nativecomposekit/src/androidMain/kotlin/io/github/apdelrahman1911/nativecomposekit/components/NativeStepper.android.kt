@@ -46,7 +46,7 @@ internal actual fun PlatformNativeStepper(
     val buttonColors = IconButtonDefaults.filledTonalIconButtonColors(contentColor = style.tint)
     Row(modifier = m, verticalAlignment = Alignment.CenterVertically) {
         FilledTonalIconButton(
-            onClick = { onValueChange((value - step).coerceAtLeast(min)) },
+            onClick = { onValueChange(stepperNextValue(value, -step, min, max)) },
             enabled = enabled && value > min,
             colors = buttonColors,
         ) {
@@ -67,7 +67,7 @@ internal actual fun PlatformNativeStepper(
             style = MaterialTheme.typography.titleMedium,
         )
         FilledTonalIconButton(
-            onClick = { onValueChange((value + step).coerceAtMost(max)) },
+            onClick = { onValueChange(stepperNextValue(value, step, min, max)) },
             enabled = enabled && value < max,
             colors = buttonColors,
         ) {

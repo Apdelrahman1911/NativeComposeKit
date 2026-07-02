@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -39,6 +40,8 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeInteropTouch
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenu
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedButtonStyle
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 
 @Composable
 internal actual fun PlatformNativeSplitButton(
@@ -63,7 +66,10 @@ internal actual fun PlatformNativeSplitButton(
 
     var m = modifier.heightIn(min = style.height)
     if (testTag != null) m = m.testTag(testTag)
-    val cd = contentDescription
+    // While loading, the primary label is replaced by a spinner, so without an explicit
+    // contentDescription the control would lose its accessible name mid-operation — keep announcing
+    // it by its text (iOS keeps its label the same way).
+    val cd = contentDescription ?: if (loading) text.takeIf { it.isNotEmpty() } else null
     if (cd != null) m = m.semantics { this.contentDescription = cd }
 
     val primaryPad = PaddingValues(
@@ -72,8 +78,12 @@ internal actual fun PlatformNativeSplitButton(
         end = style.insets.end,
         bottom = style.insets.bottom,
     )
-    val chevronPad = PaddingValues(horizontal = style.insets.top, vertical = style.insets.top)
+    // The chevron segment is deliberately compact: an explicit small token padding (not derived from
+    // the label insets) and a neutralized Material min-width — M3 buttons default to a 58dp minimum,
+    // which would stretch a glyph-only segment; a non-zero incoming min constraint disables it.
+    val chevronPad = PaddingValues(NativeTheme.tokens.spacingSm)
     val segMod = Modifier.heightIn(min = style.height)
+    val chevronMod = segMod.widthIn(min = 1.dp)
 
     Row(modifier = m, verticalAlignment = Alignment.CenterVertically) {
         SplitSegment(style, startShape, onPrimaryClick, isEnabled, primaryPad, segMod) {
@@ -95,10 +105,10 @@ internal actual fun PlatformNativeSplitButton(
                 .background(c.content.copy(alpha = 0.3f)),
         )
         Box {
-            SplitSegment(style, endShape, { expanded = true }, isEnabled, chevronPad, segMod) {
+            SplitSegment(style, endShape, { expanded = true }, isEnabled, chevronPad, chevronMod) {
                 Icon(
                     Icons.Filled.KeyboardArrowDown,
-                    contentDescription = io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings.current.splitButtonMore,
+                    contentDescription = LocalNativeStrings.current.splitButtonMore,
                     modifier = Modifier.size(20.dp),
                 )
             }

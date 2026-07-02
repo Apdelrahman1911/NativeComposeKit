@@ -15,7 +15,6 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.NativeInterop
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenu
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedButtonStyle
 import kotlinx.cinterop.ExperimentalForeignApi
-import platform.UIKit.NSLayoutConstraint
 import platform.UIKit.UIView
 import platform.UIKit.accessibilityLabel
 
@@ -43,9 +42,10 @@ internal actual fun PlatformNativeButton(
     testTag: String?,
 ) {
     val views = remember { NativeButtonViews() }
-    // onClick fires on tap; for a menu button the menu still opens (showsMenuAsPrimaryAction). Note iOS
-    // suppresses the tap action while presenting the menu, so onClick may not fire for menu buttons there.
-    views.tap.onClick = onClick
+    // Menu-tap rule (same on Android): a menu button's tap only presents the menu
+    // (showsMenuAsPrimaryAction); onClick is reserved for menu-less buttons. Wiring that structurally
+    // beats relying on iOS suppressing the tap action while presenting.
+    views.tap.onClick = if (menu != null) ({}) else onClick
 
     val backing = remember { UIView() }
     val remeasure = rememberUIKitInteropRemeasureRequester()
@@ -68,21 +68,29 @@ internal actual fun PlatformNativeButton(
         factory = {
             views.build(style.iconSpacing.value.toDouble())
             if (compact) {
-                val b = views.button
-                b.translatesAutoresizingMaskIntoConstraints = false
-                backing.addSubview(b)
-                NSLayoutConstraint.activateConstraints(
-                    listOf(
-                        b.leadingAnchor.constraintEqualToAnchor(backing.leadingAnchor),
-                        b.trailingAnchor.constraintEqualToAnchor(backing.trailingAnchor),
-                        b.centerYAnchor.constraintEqualToAnchor(backing.centerYAnchor),
-                        b.heightAnchor.constraintEqualToConstant(style.height.value.toDouble()),
-                    ),
+                views.mountCompactCentered(
+                    host = backing,
+                    heightPt = style.height.value.toDouble(),
+                    minHitPt = minTouch.value.toDouble(),
+                    fillWidth = true,
                 )
-                b.minHitHeight = minTouch.value.toDouble()
             } else {
                 backing.pinFilling(views.button)
             }
+            // Seed the same content the first update will apply: the first Compose measure runs BEFORE
+            // the first update (interop updates land at frame-present time), so a factory-fresh empty
+            // button would measure 0×0 and can flash blank for a frame (aborted Metal frames widen the
+            // window). update stays the idempotent source of truth for every later change.
+            views.apply(
+                style = style,
+                text = if (loading) "" else text,
+                showLabel = true,
+                enabled = enabled,
+                loading = loading,
+                leadName = leadingIcon?.sfSymbolName,
+                trailName = trailGlyph,
+                menu = menu,
+            )
             backing
         },
         modifier = m.remeasureRequester(remeasure),
@@ -109,5 +117,8 @@ internal actual fun PlatformNativeButton(
                 remeasure.requestRemeasure()
             }
         },
+        // The released button must stop dispatching into the tap/press handlers once the node has left
+        // the composition for good.
+        onRelease = { views.detach() },
     )
 }

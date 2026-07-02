@@ -18,6 +18,8 @@ import platform.UIKit.UIUserInterfaceStyle
 import platform.UIKit.UIView
 import platform.UIKit.accessibilityLabel
 import platform.darwin.NSObject
+import platform.darwin.dispatch_async
+import platform.darwin.dispatch_get_main_queue
 import platform.objc.sel_registerName
 
 @OptIn(BetaInteropApi::class)
@@ -25,14 +27,33 @@ private class SwitchHandler : NSObject() {
     var onChange: (Boolean) -> Unit = {}
     var control: UISwitch? = null
 
+    /** The value most recently applied by composition — the truth a rejected change snaps back to. */
+    var lastComposed: Boolean = false
+
     @ObjCAction
-    fun valueChanged() = onChange(control?.on ?: false)
+    fun valueChanged() {
+        onChange(control?.on ?: false)
+        // Controlled-rejection re-assert: the UISwitch self-mutates on a tap even when the consumer
+        // ignores the change (state kept as-is), and a rejected change produces no recomposition to
+        // correct it — the switch would sit flipped against the composed state forever. On the next
+        // main-queue tick, snap back to the last composed value: an accepted change recomposes and
+        // re-applies the new value within a frame (the animated set makes that window invisible); a
+        // rejected one visibly springs back.
+        dispatch_async(dispatch_get_main_queue()) {
+            val c = control ?: return@dispatch_async
+            if (c.on != lastComposed) c.setOn(lastComposed, animated = true)
+        }
+    }
 }
 
 /**
  * iOS NativeToggle → a real `UISwitch` (the native green pill) pinned inside a theme-colored backing
  * so its rounded shape blends in dark mode. The on-track color comes from [style]; the thumb stays
  * the native white.
+ *
+ * The host keeps the `UISwitch`'s native intrinsic size (~51×31pt) — smaller than the 44pt touch
+ * minimum by design: per Apple's own Settings pattern, the surrounding **row** supplies the ≥44pt hit
+ * area (the caller's layout concern), and stretching the control itself would distort it.
  */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalForeignApi::class)
 @Composable
@@ -74,6 +95,7 @@ internal actual fun PlatformNativeToggle(
                 if (style.surface.luminance() < 0.5f) UIUserInterfaceStyle.UIUserInterfaceStyleDark
                 else UIUserInterfaceStyle.UIUserInterfaceStyleLight
             control.onTintColor = style.trackOnColor.toUIColor()
+            handler.lastComposed = checked // the composed truth the rejection re-assert snaps back to
             if (control.on != checked) control.setOn(checked, animated = false)
             control.enabled = enabled
             // null callback = read-only: keep the switch full-color but non-interactive (vs `enabled = false`,
@@ -84,6 +106,12 @@ internal actual fun PlatformNativeToggle(
             // Fixed intrinsic size: measure once, on the first update — never per update, which re-fires on
             // every scroll frame and would desync the interop layout (see InteropSizeFingerprint).
             sizeFp.requestIfChanged(Unit) { remeasure.requestRemeasure() }
+        },
+        // The released switch must stop dispatching into the handler once the node has left the
+        // composition for good.
+        onRelease = {
+            control.removeTarget(handler, sel_registerName("valueChanged"), UIControlEventValueChanged)
+            handler.control = null
         },
     )
 }

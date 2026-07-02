@@ -47,6 +47,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.NativeSegmentedCont
 import io.github.apdelrahman1911.nativecomposekit.components.NativeSelectionStyle
 import io.github.apdelrahman1911.nativecomposekit.components.NativeSkeleton
 import io.github.apdelrahman1911.nativecomposekit.components.NativeSlider
+import io.github.apdelrahman1911.nativecomposekit.components.NativeSplitButton
 import io.github.apdelrahman1911.nativecomposekit.components.NativeStepper
 import io.github.apdelrahman1911.nativecomposekit.components.NativeSwipeAction
 import io.github.apdelrahman1911.nativecomposekit.components.NativeText
@@ -54,6 +55,8 @@ import io.github.apdelrahman1911.nativecomposekit.components.NativeToggle
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackStatus
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeInlineStatus
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenu
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenuItem
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
 
 /**
@@ -228,6 +231,21 @@ fun ComponentMatrixScreen() {
                 NativeButton("Action", onClick = {})
                 NativeIconButton(NativeIcon(Icons.Default.Add, sfSymbolName = "plus"), onClick = {}, contentDescription = "Add")
             }
+        }
+
+        Demo("Split button") {
+            // The only interop-backed control of the button family with its own layout (two segments +
+            // divider) — it must keep its backing/rounding on both surfaces like its siblings.
+            NativeSplitButton(
+                text = "Save",
+                onPrimaryClick = {},
+                menu = NativeMenu(
+                    items = listOf(
+                        NativeMenuItem("Save as draft", onSelect = {}),
+                        NativeMenuItem("Save a copy", onSelect = {}),
+                    ),
+                ),
+            )
         }
 
         Demo("Empty state") {

@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
@@ -43,7 +44,8 @@ public enum class NativeSelectionStyle { Radio, Checkmark }
  *
  * [NativeSelectionStyle.Radio] is the Material/Android dot idiom. Selection uses `==`, so [T] must have a stable
  * `equals` (a data class, enum, or primitive — not identity types like lambdas). [selected] = null is a valid
- * "nothing selected yet" state.
+ * "nothing selected yet" state. [contentDescription] names the group as a whole for screen readers (each
+ * row keeps its own label).
  *
  * `NativeRadioGroup(qualities, selected = quality, onSelectedChange = { quality = it }, label = { it.name })`
  */
@@ -56,11 +58,14 @@ public fun <T> NativeRadioGroup(
     label: (T) -> String = { it.toString() },
     enabled: Boolean = true,
     style: NativeSelectionStyle = NativeSelectionStyle.Radio,
+    contentDescription: String? = null,
     testTag: String? = null,
 ) {
     val scheme = MaterialTheme.colorScheme
     var m = modifier.fillMaxWidth().selectableGroup()
     testTag?.let { m = m.testTag(it) }
+    // Names the group as a whole; each option row stays its own selectable node (a merge boundary).
+    contentDescription?.let { cd -> m = m.semantics { this.contentDescription = cd } }
 
     Column(m) {
         options.forEach { option ->

@@ -20,7 +20,7 @@ An on/off switch bound to a boolean.
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | `checked` | `Boolean` | — | Current on/off state. |
-| `onCheckedChange` | `((Boolean) -> Unit)?` | `null` | Toggle callback. `null` makes it a read-only display toggle (full color, no interaction). |
+| `onCheckedChange` | `((Boolean) -> Unit)?` | — | Toggle callback (required). Pass `null` explicitly for a read-only display toggle (full color, no interaction). |
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
 | `enabled` | `Boolean` | `true` | When `false`, the control is dimmed and non-interactive. |
 | `contentDescription` | `String?` | `null` | Accessibility label. |
@@ -33,7 +33,7 @@ var notify by remember { mutableStateOf(true) }
 NativeToggle(checked = notify, onCheckedChange = { notify = it })
 ```
 
-**Notes** — Colors come from the active theme; track-on uses `primary`, the thumb uses `onPrimary`. The iOS control reads its light/dark appearance from the surface it sits on (`LocalNativeSurface`), not the page. It is a fixed-size native control, so no width constraint is required.
+**Notes** — Colors come from the active theme; track-on uses `primary`, the thumb uses `onPrimary`. The iOS control reads its light/dark appearance from the surface it sits on (`LocalNativeSurface`), not the page. It is a fixed-size native control, so no width constraint is required — and it keeps its native intrinsic size (~31pt tall on iOS), so give the surrounding row a ≥44pt/48dp height for a comfortable target, the way Apple's own Settings rows do.
 
 ### NativeCheckbox
 
@@ -67,7 +67,7 @@ var download by remember { mutableStateOf(false) }
 NativeCheckbox(checked = download, onCheckedChange = { download = it }, label = "Download chapter")
 ```
 
-**Notes** — Kept cross-platform as a documented exception: iOS has no native checkbox, so this is a branded Compose control themed by `MaterialTheme` on both platforms. With a `label`, the row is one merged `Role.Checkbox` node, at least 48dp tall, with the label as its accessible name; the inner checkbox is decorative so there is a single tap target.
+**Notes** — Kept cross-platform as a documented exception: iOS has no native checkbox, so this is a branded Compose control themed by `MaterialTheme` on both platforms. With a `label`, the row is one merged `Role.Checkbox` node, at least 48dp tall, with the label as its accessible name; the inner checkbox is decorative so there is a single tap target. A read-only labeled row (`onCheckedChange = null`) still announces its checked/unchecked state to screen readers.
 
 ### NativeRadioGroup
 
@@ -94,6 +94,7 @@ A single-select group over a list of options of any type `T`.
 | `label` | `(T) -> String` | `{ it.toString() }` | Maps an option to its display string. |
 | `enabled` | `Boolean` | `true` | When `false`, the group is dimmed and non-interactive. |
 | `style` | `NativeSelectionStyle` | `NativeSelectionStyle.Radio` | `Radio` (leading dot, Android idiom) or `Checkmark` (trailing check on the selected row, iOS idiom). |
+| `contentDescription` | `String?` | `null` | Accessibility label for the group as a whole; each row keeps its own label. |
 | `testTag` | `String?` | `null` | Test identifier. |
 
 **Example**
@@ -147,7 +148,7 @@ NativeSegmentedControl(
 )
 ```
 
-**Notes** — The iOS control is content-sized and does not expose a reliable intrinsic width through interop, so with no width constraint it collapses to about zero width and becomes invisible. Always give it a width — `Modifier.fillMaxWidth()` is the usual choice. The iOS control reads its light/dark appearance from the surrounding surface.
+**Notes** — The iOS control is seeded with its segments before the first Compose measure, so it renders at its content size from the first frame. Still, give it a width — `Modifier.fillMaxWidth()` is the usual choice — for stable layout when option labels or Dynamic Type change the content size at runtime. The iOS control reads its light/dark appearance from the surrounding surface.
 
 ### NativeSlider
 
@@ -169,7 +170,9 @@ A continuous value within a float range.
 | `value` | `Float` | — | Current value. |
 | `onValueChange` | `(Float) -> Unit` | — | Value-change callback. |
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
-| `valueRange` | `ClosedFloatingPointRange<Float>` | `0f..1f` | Allowed range. |
+| `valueRange` | `ClosedFloatingPointRange<Float>` | `0f..1f` | Allowed range. Must not be inverted (`start <= endInclusive`) — both platforms fail fast with the same message. |
+| `steps` | `Int` | `0` | When > 0, the slider is discrete: emitted values snap to the `steps + 2` evenly spaced stops (`steps` values strictly between the endpoints, plus both endpoints — Material's convention, applied on iOS too). `0` is continuous. Must not be negative. |
+| `onValueChangeFinished` | `(() -> Unit)?` | `null` | Fires once when the drag gesture ends (Android: Material's end callback; iOS: touch-up/cancel). Commit expensive work here instead of per drag frame. |
 | `enabled` | `Boolean` | `true` | When `false`, the control is dimmed and non-interactive. |
 | `contentDescription` | `String?` | `null` | Accessibility label. |
 | `testTag` | `String?` | `null` | Test identifier. |
@@ -179,9 +182,18 @@ A continuous value within a float range.
 ```kotlin
 var volume by remember { mutableStateOf(0.5f) }
 NativeSlider(value = volume, onValueChange = { volume = it })
+
+var zoom by remember { mutableStateOf(1f) }
+NativeSlider(
+    value = zoom,
+    onValueChange = { zoom = it },
+    valueRange = 1f..5f,
+    steps = 3,                                  // discrete stops at 1, 2, 3, 4, 5
+    onValueChangeFinished = { persistZoom(zoom) },
+)
 ```
 
-**Notes** — The active track and thumb use `primary`; the inactive track uses `surfaceVariant`. The iOS control reads its light/dark appearance from the surrounding surface.
+**Notes** — The active track and thumb use `primary`; the inactive track derives from the surface the slider sits on (nudged toward `onSurface`), so the remaining track stays visible inside a Filled card. The iOS control reads its light/dark appearance from the surrounding surface. The control keeps its native intrinsic height (~34pt on iOS); give the surrounding row a ≥44pt/48dp height for a comfortable target.
 
 ### NativeStepper
 
@@ -203,9 +215,9 @@ An integer adjusted up or down by a fixed step within bounds.
 | `value` | `Int` | — | Current value. |
 | `onValueChange` | `(Int) -> Unit` | — | Value-change callback. |
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
-| `min` | `Int` | `0` | Lower bound. |
+| `min` | `Int` | `0` | Lower bound. Must be `<= max` — both platforms fail fast with the same message. |
 | `max` | `Int` | `100` | Upper bound. |
-| `step` | `Int` | `1` | Increment per tap. |
+| `step` | `Int` | `1` | Increment per tap. Must be `> 0` — both platforms fail fast with the same message. A partial last step clamps onto the bound. |
 | `enabled` | `Boolean` | `true` | When `false`, the control is dimmed and non-interactive. |
 | `contentDescription` | `String?` | `null` | Accessibility label. |
 | `testTag` | `String?` | `null` | Test identifier. |
@@ -217,7 +229,7 @@ var count by remember { mutableStateOf(1) }
 NativeStepper(value = count, onValueChange = { count = it }, min = 1, max = 10)
 ```
 
-**Notes** — The tint uses `primary`. It is a fixed-size native control, so no width constraint is required. The iOS control reads its light/dark appearance from the surrounding surface.
+**Notes** — The tint uses `primary`. It is a fixed-size native control, so no width constraint is required — and it keeps its native intrinsic size (~32pt tall on iOS), so give the surrounding row a ≥44pt/48dp height for a comfortable target. The iOS control reads its light/dark appearance from the surrounding surface.
 
 ### NativeRating
 

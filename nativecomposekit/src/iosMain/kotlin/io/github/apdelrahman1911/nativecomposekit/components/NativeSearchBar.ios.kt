@@ -108,5 +108,8 @@ internal actual fun PlatformNativeSearchBar(
             // Fixed intrinsic size: measure once, on the first update (see InteropSizeFingerprint).
             sizeFp.requestIfChanged(Unit) { remeasure.requestRemeasure() }
         },
+        // Detach the delegate when the node leaves for good — the released bar must not message a
+        // collected Kotlin object if UIKit keeps it alive for a removal frame.
+        onRelease = { control.delegate = null },
     )
 }

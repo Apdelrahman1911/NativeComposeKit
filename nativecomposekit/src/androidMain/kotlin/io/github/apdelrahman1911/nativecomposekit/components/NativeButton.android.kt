@@ -66,7 +66,10 @@ internal actual fun PlatformNativeButton(
     var m = modifier.heightIn(min = style.height)
     if (fullWidth) m = m.fillMaxWidth()
     if (testTag != null) m = m.testTag(testTag)
-    val cd = contentDescription
+    // While loading, the label composable is replaced by a spinner, so without an explicit
+    // contentDescription the node would lose its accessible name mid-operation — keep announcing the
+    // button by its text (iOS keeps its label the same way).
+    val cd = contentDescription ?: if (loading) text.takeIf { it.isNotEmpty() } else null
     if (cd != null) m = m.semantics { this.contentDescription = cd }
 
     // Trailing icon, or the auto chevron when this is a menu button.
@@ -95,8 +98,12 @@ internal actual fun PlatformNativeButton(
     }
 
     val isEnabled = enabled && !loading
-    // onClick fires on tap; if a menu is attached it also opens.
-    val click: () -> Unit = { onClick(); if (menu != null) expanded = true }
+    // A menu button's tap only presents the menu — onClick is reserved for menu-less buttons (matches
+    // iOS, where showsMenuAsPrimaryAction suppresses the tap action while presenting).
+    // An empty menu is treated as NO menu (parity with iOS, where a nil UIMenu installs no
+    // menu interaction): the tap stays a plain onClick instead of opening an empty surface.
+    val hasMenu = menu != null && menu.items.isNotEmpty()
+    val click: () -> Unit = if (hasMenu) ({ expanded = true }) else onClick
 
     Box {
         when (style.variant) {

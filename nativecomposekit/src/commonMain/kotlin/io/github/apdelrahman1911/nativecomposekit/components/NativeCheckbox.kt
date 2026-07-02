@@ -15,7 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.toggleableState
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 
@@ -28,7 +32,8 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
  *
  * With a [label] the whole row is the toggle target — a single merged `Role.Checkbox` node, ≥48dp tall —
  * and the [label] becomes its accessible name unless a [contentDescription] override is given. Pass
- * `onCheckedChange = null` for a read-only checkbox.
+ * `onCheckedChange = null` for a read-only checkbox — the labeled row still announces its
+ * checked/unchecked state to screen readers.
  */
 @Composable
 public fun NativeCheckbox(
@@ -51,7 +56,13 @@ public fun NativeCheckbox(
         val toggle = if (onCheckedChange != null) {
             m.toggleable(value = checked, enabled = enabled, role = Role.Checkbox, onValueChange = onCheckedChange)
         } else {
-            m
+            // Read-only rows have no toggleable() to expose state — declare it manually so screen
+            // readers still announce checked/unchecked (and disabled) instead of a bare text row.
+            m.semantics {
+                toggleableState = ToggleableState(checked)
+                role = Role.Checkbox
+                if (!enabled) disabled()
+            }
         }
         Row(
             modifier = toggle

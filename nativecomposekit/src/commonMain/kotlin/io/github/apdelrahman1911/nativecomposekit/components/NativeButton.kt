@@ -31,8 +31,9 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
  *
  * Supply [leadingIcon] and/or [trailingIcon] together — both render in their true positions. Attach a
  * [menu] to turn the button into a pull-down menu trigger: tapping opens the menu (native `UIMenu` /
- * Material `DropdownMenu`) and a chevron is appended automatically. For a button that performs an action
- * *and* offers a menu, use `NativeSplitButton`.
+ * Material `DropdownMenu`) and a chevron is appended automatically. A menu button's tap **only**
+ * presents the menu — [onClick] is not called (the same rule on both platforms). For a button that
+ * performs an action *and* offers a menu, use `NativeSplitButton`.
  */
 @Composable
 public fun NativeButton(
