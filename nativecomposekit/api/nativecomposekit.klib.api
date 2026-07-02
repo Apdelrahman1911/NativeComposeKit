@@ -5,7 +5,7 @@
 // - Show manifest properties: true
 // - Show declarations: true
 
-// Library unique name: <NativeComposeKit:nativecomposekit>
+// Library unique name: <io.github.apdelrahman1911:nativecomposekit>
 final enum class io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole : kotlin/Enum<io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole> { // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole|null[0]
     enum entry Cancel // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole.Cancel|null[0]
     enum entry Default // io.github.apdelrahman1911.nativecomposekit.components.feedback/NativeAlertActionRole.Default|null[0]
