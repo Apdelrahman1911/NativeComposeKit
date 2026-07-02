@@ -22,6 +22,7 @@ import io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeTab
 import io.github.apdelrahman1911.nativecomposekit.components.NativeImeLog
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackHost
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearanceScope
+import kotlin.native.Platform
 import platform.UIKit.UIViewController
 
 /**
@@ -30,9 +31,11 @@ import platform.UIKit.UIViewController
  * Kept as a self-contained fallback; the production shell is [createNativeNavRoot] (native chrome over the same
  * renderer).
  */
+@OptIn(kotlin.experimental.ExperimentalNativeApi::class)
 fun MainViewController(): UIViewController {
-    NativeNavLog.enabled = true
-    NativeImeLog.enabled = true
+    // Demo diagnostics — debug binaries only, never in release.
+    NativeNavLog.enabled = Platform.isDebugBinary
+    NativeImeLog.enabled = Platform.isDebugBinary
     configureCoilImageLoader()
     return ComposeUIViewController { App() }
 }
@@ -53,9 +56,11 @@ class NativeNavRoot(
  * One navigator (source of truth) feeds both the content view controller and the chrome source; a real consumer
  * would swap this reference navigator for its own and adapt it into the same [NativeChromeSource] contract.
  */
+@OptIn(kotlin.experimental.ExperimentalNativeApi::class)
 fun createNativeNavRoot(): NativeNavRoot {
-    NativeNavLog.enabled = true // demo: trace navigation (Xcode console tag "NCK-Nav")
-    NativeImeLog.enabled = true // demo: trace keyboard-frame inset (Xcode console tag "NCK-Kbd")
+    // Demo diagnostics (nav tracing "NCK-Nav", keyboard-inset tracing "NCK-Kbd") — debug binaries only.
+    NativeNavLog.enabled = Platform.isDebugBinary
+    NativeImeLog.enabled = Platform.isDebugBinary
     configureCoilImageLoader() // app-level image loader (Coil + Ktor/Darwin); the kit stays dependency-free
 
     val navigator = createNativeNavigator(

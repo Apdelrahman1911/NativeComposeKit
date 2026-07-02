@@ -142,9 +142,39 @@ final class NativeShellViewController: UIViewController, UITabBarDelegate, UINav
     /// Present / dismiss the sheet natively, mirroring the navigator's sheet STATE only. The content is Compose
     /// (supplied by the bridge); presentation + the interactive swipe-to-dismiss are native; the navigator owns
     /// the state. No stack is involved.
+    ///
+    /// UIKit silently DROPS a `present` issued while another presentation/dismissal is in flight (e.g. tap "+",
+    /// swipe the sheet away, tap "+" again within the dismiss animation). Presenting optimistically there used
+    /// to strand `presentedSheet` pointing at nothing and wedge the feature until relaunch — so this defers and
+    /// re-syncs against the CURRENT chrome state once the transition (or attach-to-window) settles.
     private func syncSheet(_ sheetId: String?) {
         if sheetId != nil {
-            guard presentedSheet == nil, let sheet = root.chrome.sheetViewController() else { return }
+            guard presentedSheet == nil else { return }
+            if let inFlight = presentedViewController {
+                // Only wait out our own dismissal; a foreign stable modal is not ours to fight.
+                guard inFlight.isBeingDismissed else { return }
+                if let coordinator = inFlight.transitionCoordinator {
+                    coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+                        guard let self else { return }
+                        self.syncSheet(self.root.chrome.currentState().sheetId)
+                    }
+                } else {
+                    DispatchQueue.main.async { [weak self] in
+                        guard let self else { return }
+                        self.syncSheet(self.root.chrome.currentState().sheetId)
+                    }
+                }
+                return
+            }
+            // A present before the shell is in a window (launch-state sheet) is also dropped by UIKit.
+            guard viewIfLoaded?.window != nil else {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    self.syncSheet(self.root.chrome.currentState().sheetId)
+                }
+                return
+            }
+            guard let sheet = root.chrome.sheetViewController() else { return }
             sheet.modalPresentationStyle = .pageSheet
             sheet.view.backgroundColor = .clear
             if let spc = sheet.sheetPresentationController {

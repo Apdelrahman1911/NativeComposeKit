@@ -10,7 +10,8 @@ import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeNavLog
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        NativeNavLog.enabled = true // demo: trace navigation (logcat tag "NCK-Nav") to diagnose stack issues
+        // Demo diagnostics (navigation tracing, logcat tag "NCK-Nav") — debug builds only, never in release.
+        NativeNavLog.enabled = BuildConfig.DEBUG
         configureCoilImageLoader() // app-level image loader (Coil + Ktor/OkHttp); the kit stays dependency-free
         enableEdgeToEdge()
         setContent { App() }

@@ -95,6 +95,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true // BuildConfig.DEBUG gates the demo diagnostics (nav/keyboard tracing) to debug builds
     }
 
     testOptions {
