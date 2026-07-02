@@ -98,9 +98,10 @@ public fun NativeRating(
 /** Glyph state of a single star (pure, unit-testable — drives the icon/tint in [NativeRating]). */
 internal enum class StarFill { Full, Half, Empty }
 
-/** Clamps [rating] to `0..max`, mapping NaN to 0 (so a bad input never throws or over-fills). */
+/** Clamps [rating] to `0..max`, mapping NaN to 0 (so a bad input never throws or over-fills). A negative
+ *  [max] is treated as 0 so `coerceIn` never sees an inverted range. */
 internal fun clampRating(rating: Float, max: Int): Float =
-    if (rating.isNaN()) 0f else rating.coerceIn(0f, max.toFloat())
+    if (rating.isNaN()) 0f else rating.coerceIn(0f, max.coerceAtLeast(0).toFloat())
 
 /**
  * Which glyph the 0-based star [index] shows for a clamped [rating]. A [Half][StarFill.Half] is **display-only**

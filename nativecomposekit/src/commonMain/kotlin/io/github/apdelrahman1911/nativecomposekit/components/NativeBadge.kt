@@ -43,7 +43,9 @@ public fun NativeBadge(
         contentDescription?.let { cd -> m = m.semantics { this.contentDescription = cd } }
         Badge(modifier = m, containerColor = container, contentColor = onContainer)
     } else {
-        val display = if (count > maxCount) "$maxCount+" else count.toString()
+        // Guard maxCount ≥ 1 so a zero/negative cap can't render "0+"/"-5+".
+        val cap = maxCount.coerceAtLeast(1)
+        val display = if (count > cap) "$cap+" else count.toString()
         val cd = contentDescription ?: display
         var m = modifier.semantics { this.contentDescription = cd }
         testTag?.let { m = m.testTag(it) }

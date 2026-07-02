@@ -14,6 +14,13 @@ class NativeRatingLogicTest {
     }
 
     @Test
+    fun negative_max_does_not_throw_and_clamps_to_zero() {
+        // A bad `max` must not invert coerceIn's range.
+        assertEquals(0f, clampRating(3f, -1))
+        assertEquals(0f, clampRating(0f, -5))
+    }
+
+    @Test
     fun display_rating_fills_whole_stars_and_a_half() {
         // rating 4.5 (display): stars 1..4 full, star 5 half.
         assertEquals(StarFill.Full, starFill(index = 0, rating = 4.5f, allowHalf = true, interactive = false))

@@ -62,10 +62,10 @@ public fun NativeOtpField(
     BasicTextField(
         value = value,
         onValueChange = { raw ->
-            val filtered = raw.filter { it.isDigit() }.take(length)
+            val filtered = filterOtpInput(raw, length)
             if (filtered != value) {
                 onValueChange(filtered)
-                if (filtered.length == length) onFilled?.invoke(filtered)
+                if (length > 0 && filtered.length == length) onFilled?.invoke(filtered)
             }
         },
         enabled = enabled,
@@ -108,6 +108,13 @@ public fun NativeOtpField(
         },
     )
 }
+
+/**
+ * Keeps only digits from [raw] and caps at [length] code entries. A non-positive [length] yields the empty
+ * string (so `take` never throws). Pure + internal so it is unit-tested directly.
+ */
+internal fun filterOtpInput(raw: String, length: Int): String =
+    raw.filter { it.isDigit() }.take(length.coerceAtLeast(0))
 
 /** Small helper to keep the cell modifier readable (clip + background + border in one rounded shape). */
 private fun Modifier.clipBackgroundBorder(

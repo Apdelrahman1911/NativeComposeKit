@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeCharacterLimit
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeCharacterLimitBehavior
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeFieldColors
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeFieldFocus
@@ -66,15 +67,7 @@ public fun NativeTextField(
     // Character limit applied here so both platforms behave identically. Enforce hard-caps (paste
     // trimmed); WarnOnly passes input through so the caller can surface a counter/error itself.
     val limit = input.characterLimit
-    val guardedOnValueChange: (String) -> Unit = { s ->
-        val capped =
-            if (limit != null && limit.behavior == NativeCharacterLimitBehavior.Enforce && s.length > limit.max) {
-                s.take(limit.max)
-            } else {
-                s
-            }
-        onValueChange(capped)
-    }
+    val guardedOnValueChange: (String) -> Unit = { s -> onValueChange(applyCharacterLimit(s, limit)) }
 
     // Keyboard avoidance: the native interop input isn't tracked by Compose's automatic bring-into-view
     // (that only follows Compose focus), so when the field gains focus we scroll it into view ourselves —
@@ -116,6 +109,20 @@ public fun NativeTextField(
         testTag = testTag,
         ios = ios,
     )
+}
+
+/**
+ * Applies a [NativeCharacterLimit] to [text] identically on both platforms. `Enforce` hard-caps at a
+ * code-point boundary (so a paste never splits a surrogate pair); `WarnOnly` (or no limit) passes through.
+ * A non-positive [NativeCharacterLimit.max] caps to empty. Pure + internal so it is unit-tested directly.
+ */
+internal fun applyCharacterLimit(text: String, limit: NativeCharacterLimit?): String {
+    if (limit == null || limit.behavior != NativeCharacterLimitBehavior.Enforce) return text
+    val max = limit.max.coerceAtLeast(0)
+    if (text.length <= max) return text
+    // Don't cut through a surrogate pair: if `max` lands between the high and low surrogate, drop both.
+    val end = if (max > 0 && text[max - 1].isHighSurrogate()) max - 1 else max
+    return text.substring(0, end)
 }
 
 @Composable
