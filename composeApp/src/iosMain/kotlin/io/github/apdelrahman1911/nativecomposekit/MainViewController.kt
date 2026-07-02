@@ -97,8 +97,12 @@ fun createNativeNavRoot(): NativeNavRoot {
             NativeChromeTab(AppTab.Settings.id, "Settings", "gearshape"),
         ),
         actionsForTab = { tabId ->
-            // The Library tab's "+" presents the debug glass-interop stress test as a native sheet.
-            if (tabId == AppTab.Library.id) listOf(NativeChromeAction("glass-interop", "plus")) else emptyList()
+            // Debug builds only: the Library "+" presents the glass-interop stress test as a native sheet.
+            if (tabId == AppTab.Library.id && io.github.apdelrahman1911.nativecomposekit.app.AppDevTools.enabled) {
+                listOf(NativeChromeAction("glass-interop", "plus"))
+            } else {
+                emptyList()
+            }
         },
         onAction = { id -> if (id == "glass-interop") navigator.presentSheet(AppRoute.GlassInteropTest) },
     )

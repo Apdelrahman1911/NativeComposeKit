@@ -65,7 +65,7 @@ fun SurfacesShowcase() = ShowcaseScreen(
         ExampleLabel("Elevated")
         NativeCard(variant = NativeCardVariant.Elevated, modifier = Modifier.fillMaxWidth()) {
             NativeText("Elevated", style = NativeTextStyle.Title)
-            NativeText("Page surface raised with a 2dp shadow.", style = NativeTextStyle.Body)
+            NativeText("Raised container tone with a soft shadow.", style = NativeTextStyle.Body)
         }
 
         ExampleLabel("Outlined")
