@@ -55,7 +55,7 @@ public fun NativeEmptyState(
         if (icon != null) {
             Icon(icon, contentDescription = null, tint = scheme.onSurfaceVariant, modifier = Modifier.size(48.dp))
         }
-        Text(title, style = type.titleMedium, color = scheme.onSurface, textAlign = TextAlign.Center)
+        Text(title, style = type.titleMedium, color = scheme.onSurface, textAlign = TextAlign.Center, modifier = Modifier.nativeHeading())
         if (message != null) {
             Text(message, style = type.bodyMedium, color = scheme.onSurfaceVariant, textAlign = TextAlign.Center)
         }

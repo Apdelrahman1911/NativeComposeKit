@@ -76,11 +76,13 @@ public fun NativeListSection(
                 text = header,
                 style = type.labelMedium,
                 color = scheme.onSurfaceVariant,
-                modifier = Modifier.padding(
-                    start = NativeTheme.tokens.spacingMd,
-                    end = NativeTheme.tokens.spacingMd,
-                    bottom = NativeTheme.tokens.spacingXs,
-                ),
+                modifier = Modifier
+                    .padding(
+                        start = NativeTheme.tokens.spacingMd,
+                        end = NativeTheme.tokens.spacingMd,
+                        bottom = NativeTheme.tokens.spacingXs,
+                    )
+                    .nativeHeading(), // screen readers can jump between sections
             )
         }
         when (style) {
