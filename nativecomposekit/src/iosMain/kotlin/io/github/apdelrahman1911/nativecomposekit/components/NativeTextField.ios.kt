@@ -60,6 +60,7 @@ import platform.UIKit.UIReturnKeyType
 import platform.UIKit.UITextAutocapitalizationType
 import platform.UIKit.UITextAutocorrectionType
 import platform.UIKit.UITextBorderStyle
+import platform.UIKit.UITextContentTypeCreditCardNumber
 import platform.UIKit.UITextContentTypeEmailAddress
 import platform.UIKit.UITextContentTypeFullStreetAddress
 import platform.UIKit.UITextContentTypeName
@@ -125,6 +126,7 @@ private fun NativeTextContentType.toUITextContentType(): String? = when (this) {
     NativeTextContentType.TelephoneNumber -> UITextContentTypeTelephoneNumber
     NativeTextContentType.PostalCode -> UITextContentTypePostalCode
     NativeTextContentType.FullStreetAddress -> UITextContentTypeFullStreetAddress
+    NativeTextContentType.CreditCardNumber -> UITextContentTypeCreditCardNumber
 }
 
 private fun NativeClearButtonMode.toViewMode(): UITextFieldViewMode = when (this) {

@@ -160,6 +160,7 @@ private fun NativeKeyboardType.toKeyboardType(): KeyboardType = when (this) {
     NativeKeyboardType.Number -> KeyboardType.Number
     NativeKeyboardType.Phone -> KeyboardType.Phone
     NativeKeyboardType.Decimal -> KeyboardType.Decimal
+    NativeKeyboardType.Url -> KeyboardType.Uri
 }
 
 private fun NativeImeAction.toImeAction(): ImeAction = when (this) {
@@ -190,4 +191,5 @@ private fun NativeTextContentType.toAutofillContentType(): ContentType = when (t
     NativeTextContentType.TelephoneNumber -> ContentType.PhoneNumber
     NativeTextContentType.PostalCode -> ContentType.PostalCode
     NativeTextContentType.FullStreetAddress -> ContentType.PostalAddress
+    NativeTextContentType.CreditCardNumber -> ContentType.CreditCardNumber
 }

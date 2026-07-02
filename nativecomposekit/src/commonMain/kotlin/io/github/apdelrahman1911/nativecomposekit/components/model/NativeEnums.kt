@@ -24,7 +24,7 @@ public enum class NativeMenuItemRole { Normal, Destructive }
 public enum class NativeTextStyle { Display, Title, Body, Label }
 
 /** Keyboard hint for NativeTextField — maps to KeyboardType (Android) / UIKeyboardType (iOS). */
-public enum class NativeKeyboardType { Text, Email, Number, Phone, Decimal }
+public enum class NativeKeyboardType { Text, Email, Number, Phone, Decimal, Url }
 
 /** Keyboard action/return key — maps to ImeAction (Android) / UIReturnKeyType (iOS). */
 public enum class NativeImeAction { Default, Done, Go, Next, Search, Send }
@@ -58,7 +58,8 @@ public enum class NativeKeyboardAccessoryStyle { FullWidthBar, Toolbar }
  * (`Modifier.semantics { contentType = … }` → `androidx.compose.ui.autofill.ContentType`).
  */
 public enum class NativeTextContentType {
-    Name, EmailAddress, Username, Password, NewPassword, OneTimeCode, TelephoneNumber, PostalCode, FullStreetAddress
+    Name, EmailAddress, Username, Password, NewPassword, OneTimeCode, TelephoneNumber, PostalCode, FullStreetAddress,
+    CreditCardNumber,
 }
 
 /**

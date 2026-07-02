@@ -38,12 +38,12 @@ A switcher that renders the right UI for a `NativeLoadState`: a spinner while lo
 ```kotlin
 NativeContentState(state = uiState, onRetry = ::reload) { items ->
     LazyColumn {
-        items(items) { item -> NativeListItem(title = item.name) }
+        items(items) { item -> NativeListItem(headline = item.name) }
     }
 }
 ```
 
-**Notes** — `NativeLoadState<T>` is a sealed interface with `Loading`, `Empty`, `Error(message: String?)`, and `Content<T>(value: T)`. It is Compose-free so view-models can drive it without a UI dependency. The retry button only appears when `onRetry` is provided. `content` is rendered directly and owns its own layout; the loading, empty, and error visuals are centered with `fillMaxSize`. The default error state passes `emptyIcon` through as its icon.
+**Notes** — `NativeLoadState<T>` is a sealed interface with `Loading`, `Empty`, `Error(message: String?, cause: Throwable?)`, and `Content<T>(value: T)`. It is Compose-free so view-models can drive it without a UI dependency (`cause` is for logging — never rendered). The retry button only appears when `onRetry` is provided. `content` is rendered directly and owns its own layout; the loading, empty, and error visuals are centered with `fillMaxSize`. Failures use `errorIcon`, falling back to `emptyIcon` when unset. Branch changes cross-fade by default (`animate = true`) and hard-cut automatically under the OS reduce-motion setting.
 
 ### NativeSkeleton
 
@@ -66,6 +66,7 @@ A loading-placeholder block with an animated shimmer sweep, for grids, list rows
 | `modifier` | `Modifier` | `Modifier` | Sizes the block. The caller supplies the size. |
 | `shape` | `Shape?` | `null` | Clip shape; defaults to a small rounded corner from the theme tokens. |
 | `shimmer` | `Boolean` | `!LocalNativeCapabilities.current.isReduceMotionEnabled` | Whether the sweep animates. |
+| `testTag` | `String?` | `null` | Test tag on the block. |
 
 **Example**
 
@@ -135,6 +136,9 @@ A pull-to-refresh container: wrap vertically-scrollable content; a downward over
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | `isRefreshing` | `Boolean` | — | Whether the refresh spinner is shown. The caller owns this flag. |
+| `indicatorColor` | `Color` | `Unspecified` | Spinner color (theme `primary` by default). |
+| `indicatorContainerColor` | `Color` | `Unspecified` | Spinner bubble color. |
+| `testTag` | `String?` | `null` | Test tag on the container. |
 | `onRefresh` | `() -> Unit` | — | Fired on a downward overscroll at the top. |
 | `modifier` | `Modifier` | `Modifier` | Applied to the box. |
 | `content` | `@Composable BoxScope.() -> Unit` | — | The scrollable content. |
@@ -143,7 +147,7 @@ A pull-to-refresh container: wrap vertically-scrollable content; a downward over
 
 ```kotlin
 NativePullRefresh(isRefreshing = loading, onRefresh = ::reload) {
-    LazyColumn { items(rows) { row -> NativeListItem(title = row.title) } }
+    LazyColumn { items(rows) { row -> NativeListItem(headline = row.title) } }
 }
 ```
 

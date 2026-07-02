@@ -41,6 +41,7 @@ import platform.UIKit.UIKeyboardTypeEmailAddress
 import platform.UIKit.UIKeyboardTypeNumberPad
 import platform.UIKit.UIApplication
 import platform.UIKit.UIKeyboardTypePhonePad
+import platform.UIKit.UIKeyboardTypeURL
 import platform.UIKit.UIView
 import platform.UIKit.UIViewController
 import platform.UIKit.UIWindow
@@ -139,6 +140,7 @@ internal fun NativeKeyboardType.toUIKeyboardType(): UIKeyboardType = when (this)
     NativeKeyboardType.Number -> UIKeyboardTypeNumberPad
     NativeKeyboardType.Phone -> UIKeyboardTypePhonePad
     NativeKeyboardType.Decimal -> UIKeyboardTypeDecimalPad
+    NativeKeyboardType.Url -> UIKeyboardTypeURL
 }
 
 /**
@@ -175,7 +177,9 @@ internal fun NativeInteropTouch.toInteropProperties(
  * composite **above** the Compose layer rather than through a punched cut-out hole. With the default cut-out
  * (`placedAsOverlay = false`) the hole lags the Compose layer by a frame while scrolling, so the backing's
  * leading/top edge is momentarily clipped — the reported "the switch / stepper background gets cut when I
- * scroll." An overlay has no hole to fall out of sync, so the control scrolls cleanly. [Cooperative] keeps the
+ * scroll." An overlay has no hole to clip through; it is not scroll-aware either, so it can lag/drift
+ * slightly during an active fling and snaps back at rest — the accepted trade (docs/interop-notes.md):
+ * subtle drift beats a visible clip for these leaf controls. [Cooperative] keeps the
  * scroll-vs-tap arbitration (Compose may claim a vertical drag; taps and short drags still reach the control).
  *
  * Safe for leaf controls: each backing is sized to the control's own bounds (`pinFilling` + the `UIKitView`

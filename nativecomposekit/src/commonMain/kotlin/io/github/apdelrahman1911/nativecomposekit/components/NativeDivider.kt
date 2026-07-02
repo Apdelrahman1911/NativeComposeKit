@@ -7,10 +7,10 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.github.apdelrahman1911.nativecomposekit.components.internal.dividerColor
 import io.github.apdelrahman1911.nativecomposekit.components.internal.resolveSurfaceFill
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 
@@ -41,10 +41,10 @@ public fun NativeDivider(
     // Surface-adaptive default (rule 2, docs/design-system-rules.md): the M3 `outlineVariant` hairline equals
     // `surfaceVariant` in the baseline DARK scheme, so it vanishes inside a Filled card. Blending the published
     // surface toward `onSurface` reads the same on the page and stays visible on any container in both modes.
-    val lineColor = color ?: run {
-        val surface = resolveSurfaceFill(LocalNativeSurface.current, MaterialTheme.colorScheme.surface)
-        lerp(surface, MaterialTheme.colorScheme.onSurface, 0.12f)
-    }
+    val lineColor = color ?: dividerColor(
+        surface = resolveSurfaceFill(LocalNativeSurface.current, MaterialTheme.colorScheme.surface),
+        onSurface = MaterialTheme.colorScheme.onSurface,
+    )
     var m = modifier
     testTag?.let { m = m.testTag(it) }
     when (orientation) {

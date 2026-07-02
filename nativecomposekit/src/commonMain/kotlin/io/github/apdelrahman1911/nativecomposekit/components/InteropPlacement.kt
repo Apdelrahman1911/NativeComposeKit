@@ -14,10 +14,15 @@ internal enum class NativeInteropPlacement { Cutout, Overlay }
  * next presented frame — so for the first frame(s) the hole reveals the dialog's host backdrop (black in dark
  * mode), the reported "black flash" behind dialog buttons. Overlay placement punches NO hole: the native view
  * simply composites above the opaque, Compose-drawn dialog card once inserted, so the card's own pixels show in
- * the meantime and there is no flash. Dialogs don't scroll, so overlay's only downside (it is not scroll-aware,
- * so it can drift during an active scroll) does not apply.
+ * the meantime and there is no flash.
  *
- * Default [Cutout] everywhere else — cut-out is the correct placement for controls inside a Compose scroll.
+ * Placement trade in a SCROLL (see docs/interop-notes.md): a cut-out hole lags the Compose layer by a frame
+ * and momentarily CLIPS the control's edge while scrolling; an overlay never clips but is not scroll-aware,
+ * so it can lag/drift slightly during an active fling and snaps back at rest. The kit's chosen defaults:
+ * the pinFilling-backed leaf controls use overlay (`scrollSafeInteropProperties` — the accepted subtle
+ * drift beats the visible clip), while text/fields/buttons default here to [Cutout]. This local exists for
+ * containers, like the dialog, whose situation inverts the trade.
+ *
  * iOS-only effect; the Android renderers ignore it.
  */
 internal val LocalNativeInteropPlacement = staticCompositionLocalOf { NativeInteropPlacement.Cutout }

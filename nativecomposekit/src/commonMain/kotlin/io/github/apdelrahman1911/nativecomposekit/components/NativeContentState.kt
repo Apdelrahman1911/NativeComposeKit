@@ -1,5 +1,11 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -7,6 +13,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeCapabilities
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 
 /**
@@ -55,6 +62,9 @@ public sealed interface NativeLoadState<out T> {
  * instead of a spinner). [content] is rendered directly (it owns its own layout); the placeholder states are
  * centered in the available space.
  *
+ * State changes cross-fade by default ([animate]; disabled automatically under the OS reduce-motion
+ * setting). [errorIcon] gives failures their own glyph (falls back to [emptyIcon]).
+ *
  * `NativeContentState(state, onRetry = ::reload) { items -> LazyColumn { items(items) { … } } }`
  */
 @Composable
@@ -65,38 +75,55 @@ public fun <T> NativeContentState(
     emptyTitle: String = LocalNativeStrings.current.emptyStateTitle,
     emptyMessage: String? = null,
     emptyIcon: ImageVector? = null,
+    errorIcon: ImageVector? = null,
     errorTitle: String = LocalNativeStrings.current.errorStateTitle,
     retryLabel: String = LocalNativeStrings.current.retry,
+    animate: Boolean = true,
     loadingContent: (@Composable () -> Unit)? = null,
     emptyContent: (@Composable () -> Unit)? = null,
     errorContent: (@Composable (NativeLoadState.Error) -> Unit)? = null,
     content: @Composable (T) -> Unit,
 ) {
-    when (state) {
-        is NativeLoadState.Content -> Box(modifier) { content(state.value) }
-        NativeLoadState.Loading -> Centered(modifier) {
-            if (loadingContent != null) loadingContent() else NativeProgressIndicator(contentDescription = LocalNativeStrings.current.loading)
-        }
-        NativeLoadState.Empty -> Centered(modifier) {
-            if (emptyContent != null) emptyContent() else NativeEmptyState(title = emptyTitle, message = emptyMessage, icon = emptyIcon)
-        }
-        is NativeLoadState.Error -> Centered(modifier) {
-            if (errorContent != null) {
-                errorContent(state)
-            } else {
-                NativeEmptyState(
-                    title = errorTitle,
-                    message = state.message,
-                    icon = emptyIcon,
-                    actionLabel = if (onRetry != null) retryLabel else null,
-                    onAction = onRetry,
-                )
+    // Cross-fade BETWEEN branches only (keyed on the state's class, not its value) so a content update
+    // doesn't re-fade; hard-cut under the OS reduce-motion preference or animate = false.
+    val reduceMotion = LocalNativeCapabilities.current.isReduceMotionEnabled
+    AnimatedContent(
+        targetState = state,
+        modifier = modifier,
+        transitionSpec = {
+            if (animate && !reduceMotion) fadeIn() togetherWith fadeOut()
+            else EnterTransition.None togetherWith ExitTransition.None
+        },
+        contentKey = { it::class },
+    ) { target ->
+        when (target) {
+            is NativeLoadState.Content -> Box { content(target.value) }
+            NativeLoadState.Loading -> Centered {
+                if (loadingContent != null) loadingContent() else NativeProgressIndicator(contentDescription = LocalNativeStrings.current.loading)
+            }
+            NativeLoadState.Empty -> Centered {
+                if (emptyContent != null) emptyContent() else NativeEmptyState(title = emptyTitle, message = emptyMessage, icon = emptyIcon)
+            }
+            is NativeLoadState.Error -> Centered {
+                if (errorContent != null) {
+                    errorContent(target)
+                } else {
+                    NativeEmptyState(
+                        title = errorTitle,
+                        message = target.message,
+                        // A failure glyph should not silently reuse the "no results" glyph — [errorIcon]
+                        // wins, falling back to [emptyIcon] to preserve existing callers.
+                        icon = errorIcon ?: emptyIcon,
+                        actionLabel = if (onRetry != null) retryLabel else null,
+                        onAction = onRetry,
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-private fun Centered(modifier: Modifier, content: @Composable () -> Unit) {
-    Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) { content() }
+private fun Centered(content: @Composable () -> Unit) {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { content() }
 }

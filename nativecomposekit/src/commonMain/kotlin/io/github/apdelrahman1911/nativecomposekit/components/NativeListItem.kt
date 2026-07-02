@@ -15,11 +15,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
@@ -35,6 +37,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -68,9 +71,17 @@ public class NativeSwipeAction(
  *
  * Accessibility: a tappable row with no interactive [trailing] is merged into a single focus target; when
  * [trailing] holds its own control (e.g. a toggle) the row is left unmerged so that control stays
- * focusable. A row with an interactive [trailing] is therefore usually left non-clickable (tap the control).
- * When [enabled] is false the row is inert: not clickable, not swipeable, and its swipe/long-press custom
- * accessibility actions are withdrawn.
+ * focusable — pass `trailingIsInteractive = false` for a decorative trailing (a [NativeBadge], a value
+ * chip) so the row still merges. A row with an interactive [trailing] is therefore usually left
+ * non-clickable (tap the control). When [enabled] is false the row keeps its click semantics in a
+ * **disabled** state (screen readers announce it), while the swipe and custom accessibility actions are
+ * withdrawn entirely.
+ *
+ * Text colors inherit `LocalContentColor` (like [NativeText]), so rows inside a [NativeCard] with a custom
+ * `contentColor` stay readable; on a plain surface they resolve to the standard `onSurface`/variant roles.
+ *
+ * [selected] marks the row as the current single-choice (a trailing checkmark — the iOS idiom — unless a
+ * [trailing]/[trailingText] occupies the slot, plus `selected` semantics for screen readers).
  *
  * [showDivider] draws a bottom hairline (for standalone rows); inside a [NativeListSection] leave it off —
  * the section draws the separators between rows for you.
@@ -90,9 +101,11 @@ public fun NativeListItem(
     onLongClick: (() -> Unit)? = null,
     onLongClickLabel: String? = null,
     enabled: Boolean = true,
+    selected: Boolean = false,
     showChevron: Boolean = onClick != null,
     showDivider: Boolean = false,
     swipeAction: NativeSwipeAction? = null,
+    trailingIsInteractive: Boolean = true,
     minHeight: Dp = 56.dp,
     contentPadding: PaddingValues? = null,
     contentDescription: String? = null,
@@ -100,8 +113,14 @@ public fun NativeListItem(
 ) {
     val scheme = MaterialTheme.colorScheme
     val type = MaterialTheme.typography
-    val headlineColor = if (enabled) scheme.onSurface else scheme.onSurface.copy(alpha = 0.38f)
-    val secondaryColor = if (enabled) scheme.onSurfaceVariant else scheme.onSurfaceVariant.copy(alpha = 0.38f)
+    // Inherit the surrounding content color (a NativeCard with contentColor = X provides it); on the
+    // default surface the local IS onSurface, so the classic roles apply unchanged.
+    val contentBase = LocalContentColor.current
+    val onDefaultSurface = contentBase == scheme.onSurface
+    val headlineColor = (if (onDefaultSurface) scheme.onSurface else contentBase)
+        .let { if (enabled) it else it.copy(alpha = 0.38f) }
+    val secondaryColor = (if (onDefaultSurface) scheme.onSurfaceVariant else contentBase.copy(alpha = 0.72f))
+        .let { if (enabled) it else it.copy(alpha = 0.38f) }
     val pad = contentPadding ?: PaddingValues(
         horizontal = NativeTheme.tokens.spacingMd,
         vertical = NativeTheme.tokens.spacingSm + NativeTheme.tokens.spacingXs,
@@ -118,12 +137,16 @@ public fun NativeListItem(
             if (olc != null && onLongClickLabel != null) add(CustomAccessibilityAction(onLongClickLabel) { olc(); true })
         }
         // Click + accessibility live on ONE node (the row). Merge children into a single focus target for a
-        // plain navigational/long-press/swipe row, but NOT when `trailing` holds its own interactive control.
-        val merge = (onClick != null || olc != null || a11yActions.isNotEmpty()) && trailing == null
+        // plain navigational/long-press/swipe row, but NOT when `trailing` holds its own interactive control
+        // (the caller says so via trailingIsInteractive; a decorative trailing keeps the row merged).
+        val merge = (onClick != null || olc != null || a11yActions.isNotEmpty()) &&
+            (trailing == null || !trailingIsInteractive)
         var row = Modifier.fillMaxWidth()
-        if (enabled && (onClick != null || olc != null)) {
+        if (onClick != null || onLongClick != null) {
+            // The clickable stays present when disabled (enabled = false) so screen readers announce the
+            // row AS disabled instead of hearing plain text — omitting it entirely hid the state.
             row = row.combinedClickable(
-                enabled = true,
+                enabled = enabled,
                 onClickLabel = onClickLabel,
                 role = Role.Button,
                 onLongClickLabel = onLongClickLabel,
@@ -131,10 +154,11 @@ public fun NativeListItem(
                 onLongClick = olc,
             )
         }
-        if (merge || contentDescription != null || a11yActions.isNotEmpty()) {
+        if (merge || contentDescription != null || a11yActions.isNotEmpty() || selected) {
             row = row.semantics(mergeDescendants = merge) {
                 if (contentDescription != null) this.contentDescription = contentDescription
                 if (a11yActions.isNotEmpty()) this.customActions = a11yActions
+                if (selected) this.selected = true
             }
         }
         testTag?.let { row = row.testTag(it) }
@@ -172,6 +196,15 @@ public fun NativeListItem(
                 }
                 if (trailing != null) {
                     Box(contentAlignment = Alignment.Center) { trailing() }
+                }
+                if (selected && trailing == null && trailingText == null) {
+                    // Single-select checkmark (the iOS settings idiom); announced via `selected` semantics.
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = if (enabled) scheme.primary else scheme.primary.copy(alpha = 0.38f),
+                        modifier = Modifier.size(20.dp),
+                    )
                 }
                 if (showChevron) {
                     Icon(

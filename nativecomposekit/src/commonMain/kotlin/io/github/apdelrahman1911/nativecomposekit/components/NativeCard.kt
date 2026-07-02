@@ -2,7 +2,8 @@ package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,7 +29,8 @@ import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 /**
  * Card surface style.
  * - [Filled]: a soft tonal surface (`surfaceVariant`) — the default content container.
- * - [Elevated]: the page surface raised with a shadow — use to lift a card off a busy background.
+ * - [Elevated]: a slightly raised container tone (`surfaceContainerLow`) with a shadow — visibly
+ *   lifted off the page in light AND dark mode.
  * - [Outlined]: the page surface with a hairline outline — quietest separation, no shadow.
  */
 public enum class NativeCardVariant { Filled, Elevated, Outlined }
@@ -38,17 +40,21 @@ public enum class NativeCardVariant { Filled, Elevated, Outlined }
  * settings. **Compose-drawn on both platforms** (a card isn't a native leaf control on iOS; it's a styled
  * view either way — so this is a branded Compose component, not UIKit interop). Colors/shape/elevation
  * come from the theme; pass [onClick] to make the whole card a button (Material ripple, clipped to the
- * shape). Content inherits the resolved content color via `LocalContentColor`. [enabled] gates a tappable
+ * shape), and [onLongClick] (with an [onLongClickLabel] for screen readers) for context actions on
+ * cells. Content inherits the resolved content color via `LocalContentColor`. [enabled] gates a tappable
  * card (dims content + drops elevation when false); it is a no-op for a card with no [onClick].
  *
  * Simple: `NativeCard { Text("Hi") }`. Tappable cover cell: `NativeCard(variant = Elevated, onClick = …) { … }`.
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 public fun NativeCard(
     modifier: Modifier = Modifier,
     variant: NativeCardVariant = NativeCardVariant.Filled,
     onClick: (() -> Unit)? = null,
     onClickLabel: String? = null,
+    onLongClick: (() -> Unit)? = null,
+    onLongClickLabel: String? = null,
     enabled: Boolean = true,
     cornerRadius: Dp? = null,
     contentPadding: PaddingValues? = null,
@@ -70,7 +76,10 @@ public fun NativeCard(
             container = scheme.surfaceVariant; fg = scheme.onSurfaceVariant; elevation = 0.dp; outline = null
         }
         NativeCardVariant.Elevated -> {
-            container = scheme.surface; fg = scheme.onSurface; elevation = NativeTheme.tokens.elevationRaised; outline = null
+            // surfaceContainerLow, not surface: the default M3 palettes keep surface == background, so a
+            // surface-filled "elevated" card is pixel-identical to the page and its only separation is a
+            // 2dp shadow — near-invisible in dark mode. The container role stays distinct in both modes.
+            container = scheme.surfaceContainerLow; fg = scheme.onSurface; elevation = NativeTheme.tokens.elevationRaised; outline = null
         }
         NativeCardVariant.Outlined -> {
             container = scheme.surface; fg = scheme.onSurface; elevation = 0.dp; outline = scheme.outlineVariant
@@ -88,11 +97,23 @@ public fun NativeCard(
     if (resolvedElevation > 0.dp) box = box.shadow(resolvedElevation, shape)
     box = box.clip(shape).background(resolvedContainer)
     if (outline != null) box = box.border(1.dp, outline, shape)
-    if (onClick != null) {
-        box = box.clickable(enabled = enabled, onClickLabel = onClickLabel, role = Role.Button, onClick = onClick)
+    if (onClick != null || onLongClick != null) {
+        box = box.combinedClickable(
+            enabled = enabled,
+            onClickLabel = onClickLabel,
+            role = Role.Button,
+            onLongClickLabel = onLongClickLabel,
+            onLongClick = onLongClick,
+            onClick = onClick ?: {},
+        )
     }
     testTag?.let { box = box.testTag(it) }
     contentDescription?.let { cd -> box = box.semantics { this.contentDescription = cd } }
+
+    // A translucent container must NOT be published as the surface: iOS NativeText fills its UILabel
+    // backing with the published color, and a see-through fill re-exposes the interop backdrop box.
+    // Content on a translucent card visually sits on whatever is BEHIND the card, so pass that through.
+    val publishedSurface = if (resolvedContainer.alpha == 1f) resolvedContainer else LocalNativeSurface.current
 
     Column(modifier = box.padding(pad)) {
         val columnScope = this
@@ -100,7 +121,7 @@ public fun NativeCard(
         // label backing with the real color it sits on — otherwise the interop host backdrop shows as a box.
         CompositionLocalProvider(
             LocalContentColor provides resolvedContent,
-            LocalNativeSurface provides resolvedContainer,
+            LocalNativeSurface provides publishedSurface,
         ) {
             columnScope.content()
         }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
@@ -53,6 +54,10 @@ public fun NativeListSection(
     contentDescription: String? = null,
     testTag: String? = null,
 ) {
+    // NOTE: rows are matched POSITIONALLY across recompositions — right for a static settings section.
+    // For a section over a changing collection (delete/insert/reorder), use the keyed items overload so
+    // per-row remembered state (a swipe reveal mid-animation, focus) moves WITH its item instead of
+    // bleeding into the neighbor that slides into the same position.
     val scheme = MaterialTheme.colorScheme
     val type = MaterialTheme.typography
 
@@ -109,4 +114,44 @@ public fun NativeListSection(
             )
         }
     }
+}
+
+/**
+ * Keyed overload for sections over a **changing collection** (delete/insert/reorder). Each row composes
+ * inside `key(key(item))`, so per-row remembered state — a swipe reveal mid-animation, focus, text
+ * selection — moves with its item instead of being inherited positionally by whichever item slides into
+ * the removed row's slot. Prefer this whenever [items] can change; the positional overload is for static
+ * sections.
+ *
+ * ```
+ * NativeListSection(items = people, key = { it.id }) { person ->
+ *     NativeListItem(person.name, swipeAction = NativeSwipeAction("Delete", { remove(person) }))
+ * }
+ * ```
+ */
+@Composable
+public fun <T> NativeListSection(
+    items: List<T>,
+    key: (T) -> Any,
+    modifier: Modifier = Modifier,
+    header: String? = null,
+    footer: String? = null,
+    style: NativeListSectionStyle = NativeListSectionStyle.Grouped,
+    showDividers: Boolean = true,
+    dividerInset: Dp = NativeTheme.tokens.spacingMd,
+    contentDescription: String? = null,
+    testTag: String? = null,
+    row: @Composable (T) -> Unit,
+) {
+    NativeListSection(
+        rows = items.map { item -> { key(key(item)) { row(item) } } },
+        modifier = modifier,
+        header = header,
+        footer = footer,
+        style = style,
+        showDividers = showDividers,
+        dividerInset = dividerInset,
+        contentDescription = contentDescription,
+        testTag = testTag,
+    )
 }

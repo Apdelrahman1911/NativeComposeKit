@@ -2,6 +2,7 @@ package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
@@ -20,6 +21,9 @@ import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
  * surface-relative fills and the native-control light/dark probe adapt to the page the content sits on (the
  * kit's surface-adaptation rule) — exactly as [NativeCard] does for its children.
  *
+ * There is deliberately no `snackbarHost` slot: transient feedback goes through the kit's
+ * `NativeFeedbackController`/host lanes, which already render themed snackbars/banners app-wide.
+ *
  * `NativeScaffold(topBar = { NativeTopBar("Settings") }) { inner -> Column(Modifier.padding(inner)) { … } }`
  */
 @Composable
@@ -28,6 +32,7 @@ public fun NativeScaffold(
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
+    floatingActionButtonPosition: FabPosition = FabPosition.End,
     containerColor: Color? = null,
     contentColor: Color? = null,
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
@@ -40,6 +45,7 @@ public fun NativeScaffold(
         topBar = topBar,
         bottomBar = bottomBar,
         floatingActionButton = floatingActionButton,
+        floatingActionButtonPosition = floatingActionButtonPosition,
         containerColor = container,
         contentColor = contentColor ?: scheme.onBackground,
         contentWindowInsets = contentWindowInsets,
