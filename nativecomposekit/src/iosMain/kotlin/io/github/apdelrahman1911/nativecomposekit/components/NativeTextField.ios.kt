@@ -18,6 +18,7 @@ import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.platform.LocalDensity
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeCapitalization
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeCharacterLimit
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeClearButtonMode
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeFieldColors
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeFieldFocus
@@ -142,8 +143,19 @@ private class FieldEvents : NSObject() {
     var onSubmit: () -> Unit = {}
     var onTrailingClick: (() -> Unit)? = null
     var field: UITextField? = null
+    var characterLimit: NativeCharacterLimit? = null
 
-    @ObjCAction fun editingChanged() = onChange(field?.text ?: "")
+    @ObjCAction fun editingChanged() {
+        val f = field ?: return
+        val raw = f.text ?: ""
+        val limited = applyCharacterLimit(raw, characterLimit)
+        // Trim the NATIVE text too, not just the value handed to state: when the caller echoes back the
+        // same capped string, nothing recomposes, so `update` never re-runs to heal the display — the
+        // field would keep showing the over-limit characters. Never touch in-flight IME composition
+        // (markedTextRange), or multi-stage input (Japanese, pinyin) breaks mid-word.
+        if (limited != raw && f.markedTextRange == null) f.text = limited
+        onChange(if (f.markedTextRange == null) limited else raw)
+    }
     @ObjCAction fun editingBegan() = onFocus(true)
     @ObjCAction fun editingEnded() = onFocus(false)
     @ObjCAction fun submitted() = onSubmit()
@@ -162,9 +174,14 @@ private class TextViewEvents : NSObject(), UITextViewDelegateProtocol {
     var onFocus: (Boolean) -> Unit = {}
     var placeholderLabel: UILabel? = null
     var editor: UITextView? = null
+    var characterLimit: NativeCharacterLimit? = null
 
     override fun textViewDidChange(textView: UITextView) {
-        val text = textView.text
+        val raw = textView.text
+        val limited = applyCharacterLimit(raw, characterLimit)
+        // Same native-trim rule as the single-line field (see FieldEvents.editingChanged).
+        if (limited != raw && textView.markedTextRange == null) textView.text = limited
+        val text = if (textView.markedTextRange == null) limited else raw
         onChange(text)
         placeholderLabel?.setHidden(text.isNotEmpty())
     }
@@ -265,8 +282,18 @@ private fun SingleLineField(
     events.onFocus = { f -> focused = f; focus.onFocusChanged?.invoke(f) }
     events.onSubmit = { focus.onSubmit?.invoke() }
     events.onTrailingClick = onTrailingIconClick
+    events.characterLimit = input.characterLimit
     // Resolve the accessory button title in composition (localized default) for the update closure below.
     val doneText = ios.keyboardAccessory.doneText ?: LocalNativeStrings.current.done
+    // Built per (accessory, title, colors) so a theme flip or strings change replaces the bar — a
+    // build-once accessory kept the first theme's opaque colors and Done title for the field's lifetime.
+    val accessoryView = remember(ios.keyboardAccessory, doneText, style.colors) {
+        if (ios.keyboardAccessory.doneButton) {
+            makeAccessory(ios.keyboardAccessory, doneText, style.colors, events, sel_registerName("doneTapped"))
+        } else {
+            null
+        }
+    }
 
     val field = remember {
         UITextField().apply {
@@ -335,6 +362,8 @@ private fun SingleLineField(
             field.secureTextEntry = input.secure
             field.enabled = enabled
             field.userInteractionEnabled = enabled && !readOnly
+            // Disabled fields must LOOK disabled: `enabled = false` alone doesn't dim custom-colored text.
+            field.alpha = if (enabled) 1.0 else 0.38
             field.keyboardType = input.keyboardType.toUIKeyboardType()
             field.returnKeyType = input.imeAction.toReturnKeyType()
             field.autocapitalizationType = input.capitalization.toAutocapitalization()
@@ -358,19 +387,7 @@ private fun SingleLineField(
             field.clearButtonMode =
                 if (trailName != null) UITextFieldViewMode.UITextFieldViewModeNever else ios.clearButton.toViewMode()
 
-            if (ios.keyboardAccessory.doneButton) {
-                if (field.inputAccessoryView == null) {
-                    field.inputAccessoryView = makeAccessory(
-                        ios.keyboardAccessory,
-                        doneText,
-                        style.colors,
-                        events,
-                        sel_registerName("doneTapped"),
-                    )
-                }
-            } else {
-                field.inputAccessoryView = null
-            }
+            if (field.inputAccessoryView !== accessoryView) field.inputAccessoryView = accessoryView
 
             field.accessibilityLabel = accessibilityLabel
             testTag?.let { field.setAccessibilityId(it) }
@@ -400,6 +417,7 @@ private fun MultilineField(
     val events = remember { TextViewEvents() }
     events.onChange = onValueChange
     events.onFocus = { f -> focused = f; focus.onFocusChanged?.invoke(f) }
+    events.characterLimit = input.characterLimit
 
     val placeholderLabel = remember { UILabel() }
     val textView = remember {
@@ -413,9 +431,23 @@ private fun MultilineField(
     val backing = remember { UIView() }
     // Resolve the accessory button title in composition (localized default) for the update closure below.
     val doneText = ios.keyboardAccessory.doneText ?: LocalNativeStrings.current.done
+    // A multiline UITextView's Return key inserts a newline (no built-in dismiss), so the Done accessory is
+    // ON by default — but an explicit `doneButton = false` is caller intent and is honored (no accessory).
+    // Rebuilt per (accessory, title, colors) so theme flips don't leave a stale-colored bar.
+    val accessoryView = remember(ios.keyboardAccessory, doneText, style.colors) {
+        if (ios.keyboardAccessory.doneButton) {
+            makeAccessory(ios.keyboardAccessory, doneText, style.colors, events, sel_registerName("doneTapped"))
+        } else {
+            null
+        }
+    }
 
-    // Dynamic Type: scale the fixed host with the preferred content size so scaled glyphs don't clip.
-    val minHeight = style.minHeight * 2 * maxOf(1f, LocalDensity.current.fontScale) // ~two lines tall
+    // Height honors the caller's minLines (the visible-lines contract Android already keeps): the native
+    // font's line height is Dynamic-Type-scaled already, so no extra fontScale factor. Content beyond
+    // minLines scrolls inside the editor (the iOS box does not auto-grow; documented divergence).
+    val lineHeightPoints = style.textStyle.toUIFont().lineHeight
+    val computedHeight = (lineHeightPoints * input.minLines.coerceAtLeast(1) + 2 * V_PADDING).toFloat().dp
+    val minHeight = maxOf(style.minHeight, computedHeight)
 
     UIKitView(
         factory = {
@@ -437,7 +469,11 @@ private fun MultilineField(
             textView.textColor = style.colors.text.toUIColor()
             textView.tintColor = style.colors.cursor.toUIColor()
             textView.setEditable(enabled && !readOnly)
+            // Disabled dims (readOnly stays full-strength: it is still readable/selectable content).
+            textView.alpha = if (enabled) 1.0 else 0.38
+            textView.secureTextEntry = input.secure // parity: Android masks multiline secure input too
             textView.keyboardType = input.keyboardType.toUIKeyboardType()
+            textView.keyboardAppearance = ios.keyboardAppearance.toKeyboardAppearance()
             textView.autocapitalizationType = input.capitalization.toAutocapitalization()
             textView.autocorrectionType = autocorrection(input.autoCorrect)
             textView.textContentType = contentType?.toUITextContentType()
@@ -457,25 +493,7 @@ private fun MultilineField(
             placeholderLabel.setHidden(textView.text.isNotEmpty())
             placeholderLabel.setFrame(CGRectMake(H_PADDING + 5.0, V_PADDING, 220.0, 22.0))
 
-            // A multiline UITextView's Return key inserts a newline, so — unlike the single-line field, which
-            // dismisses on Return — it has no built-in way to close the keyboard. Always give it a Done accessory
-            // so the keyboard can be dismissed (no per-call opt-in needed).
-            if (textView.inputAccessoryView == null) {
-                textView.inputAccessoryView = if (ios.keyboardAccessory.doneButton) {
-                    // Explicit opt-in keeps the caller's chosen style.
-                    makeAccessory(ios.keyboardAccessory, doneText, style.colors, events, sel_registerName("doneTapped"))
-                } else {
-                    // Default: a standard UIToolbar. The OS reports a toolbar accessory as part of the keyboard
-                    // frame, so Compose's ime inset includes its height and it sits above the content instead of
-                    // covering it (a plain custom bar isn't always measured into that frame).
-                    makeDoneToolbar(
-                        doneText,
-                        style.colors.focusedBorder.toUIColor(),
-                        events,
-                        sel_registerName("doneTapped"),
-                    )
-                }
-            }
+            if (textView.inputAccessoryView !== accessoryView) textView.inputAccessoryView = accessoryView
 
             textView.accessibilityLabel = accessibilityLabel
             testTag?.let { textView.setAccessibilityId(it) }

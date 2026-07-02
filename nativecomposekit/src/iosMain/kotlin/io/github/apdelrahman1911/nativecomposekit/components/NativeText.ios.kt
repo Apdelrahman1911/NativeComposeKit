@@ -68,6 +68,7 @@ internal actual fun PlatformNativeText(
         val sizeFp = remember { InteropSizeFingerprint() }
         val layoutDirection = LocalLayoutDirection.current
         val mirroredText = AnnotatedString(text) // captured before the semantics scope shadows `text`
+        DynamicTypeRemeasureEffect(remeasure) // live text-size changes rescale glyphs; re-measure the host
         UIKitView(
             factory = { label },
             // The UILabel is display-only, so the interop node stays out of gesture arbitration

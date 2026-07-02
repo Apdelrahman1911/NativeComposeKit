@@ -25,15 +25,25 @@ import androidx.compose.ui.semantics.semantics
  * scrollable root / background so a tap outside any field hides the keyboard (the common iOS/Android idiom).
  * `@Composable` because it reads the focus manager from composition.
  *
+ * Works for the kit's **native iOS fields** too: clearing Compose focus alone cannot resign a
+ * `UITextField`/`UITextView` first responder (their focus lives in UIKit, outside Compose's focus system),
+ * so the tap additionally ends editing on the key window there.
+ *
  * `Column(Modifier.fillMaxSize().nativeDismissKeyboardOnTap()) { NativeTextField(...) }`
  */
 @Composable
 public fun Modifier.nativeDismissKeyboardOnTap(): Modifier {
     val focusManager = LocalFocusManager.current
     return this.pointerInput(Unit) {
-        detectTapGestures(onTap = { focusManager.clearFocus() })
+        detectTapGestures(onTap = {
+            focusManager.clearFocus()
+            platformEndEditing()
+        })
     }
 }
+
+/** iOS: resign the native first responder (kit fields are UIKit-focused). Android: no-op (Compose owns focus). */
+internal expect fun platformEndEditing()
 
 /**
  * Marks this node as a **heading** for screen-reader heading/rotor navigation (VoiceOver, TalkBack). Apply to

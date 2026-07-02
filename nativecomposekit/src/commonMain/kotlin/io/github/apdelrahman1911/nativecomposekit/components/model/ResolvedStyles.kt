@@ -164,9 +164,11 @@ internal data class ResolvedFieldStyle(
 )
 
 /**
- * Each [surface] below is the page color the control sits on (from the theme). iOS paints it behind
- * the native control so the rounded/transparent native widget doesn't reveal the interop host
- * backdrop (a white/black box in dark mode). Android ignores [surface].
+ * Each [surface] below is the color of the surface the control actually sits on — the published
+ * `LocalNativeSurface` (a page, a `NativeCard`, a custom container), with the theme background only as
+ * the fallback (`resolveSurfaceFill`). iOS paints it behind the native control so the rounded/transparent
+ * native widget doesn't reveal the interop host backdrop (a white/black box in dark mode). Android
+ * ignores [surface].
  */
 
 /** Resolved toggle/switch styling. */
@@ -234,6 +236,46 @@ internal data class ResolvedProgressStyle(
     val indicator: Color, // the moving/filled part (UIProgressView progressTint / spinner color)
     val track: Color,     // the unfilled track (linear only on iOS)
 )
+
+/**
+ * Caller-override colors for [io.github.apdelrahman1911.nativecomposekit.components.NativeSearchBar] —
+ * the same override pattern as [NativeFieldColors]. `Unspecified` fields keep the theme default.
+ * Compares by value; not a `data class` so fields can be added binary-compatibly.
+ */
+@Immutable
+public class NativeSearchBarColors(
+    public val text: Color = Color.Unspecified,
+    public val placeholder: Color = Color.Unspecified,
+    /** Field container fill — Android-only (iOS uses the native search-field appearance). */
+    public val container: Color = Color.Unspecified,
+    /** Magnifier / clear / Cancel / cursor tint. */
+    public val tint: Color = Color.Unspecified,
+) {
+    /** Returns a copy with the given colors replaced. */
+    public fun copy(
+        text: Color = this.text,
+        placeholder: Color = this.placeholder,
+        container: Color = this.container,
+        tint: Color = this.tint,
+    ): NativeSearchBarColors = NativeSearchBarColors(text, placeholder, container, tint)
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NativeSearchBarColors) return false
+        return text == other.text &&
+            placeholder == other.placeholder &&
+            container == other.container &&
+            tint == other.tint
+    }
+
+    override fun hashCode(): Int {
+        var result = text.hashCode()
+        result = 31 * result + placeholder.hashCode()
+        result = 31 * result + container.hashCode()
+        result = 31 * result + tint.hashCode()
+        return result
+    }
+}
 
 /** Resolved search-field styling (iOS `UISearchBar`, Android Material search-styled field). */
 @Immutable

@@ -2,21 +2,16 @@ package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import io.github.apdelrahman1911.nativecomposekit.components.internal.resolveSurfaceFill
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeSearchBarColors
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeSearchBarIosOptions
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedSearchStyle
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
-
-/** iOS-only [NativeSearchBar] knobs. Each is a documented no-op on Android. */
-@Immutable
-public data class NativeSearchBarIosOptions(
-    /** Shows the native `UISearchBar` Cancel button. Android uses the trailing clear affordance instead. */
-    val showCancelButton: Boolean = false,
-)
 
 /**
  * An inline search field — browse/search screens. Renders the most native control per platform: on **iOS**
@@ -30,6 +25,9 @@ public data class NativeSearchBarIosOptions(
  * [ios] = [NativeSearchBarIosOptions]; they are documented no-ops on Android (which uses the trailing clear
  * affordance instead).
  *
+ * [colorsOverride] restyles the field (text/placeholder/container/tint) without forking; unset fields
+ * keep the theme defaults.
+ *
  * `NativeSearchBar(query, onValueChange = { query = it }, onSearch = { run(query) })`
  */
 @Composable
@@ -41,16 +39,17 @@ public fun NativeSearchBar(
     onSearch: (() -> Unit)? = null,
     onCancel: (() -> Unit)? = null,
     enabled: Boolean = true,
+    colorsOverride: NativeSearchBarColors? = null,
     contentDescription: String? = null,
     testTag: String? = null,
     ios: NativeSearchBarIosOptions = NativeSearchBarIosOptions(),
 ) {
     val scheme = MaterialTheme.colorScheme
     val style = ResolvedSearchStyle(
-        text = scheme.onSurface,
-        placeholder = scheme.onSurfaceVariant,
-        container = scheme.surfaceVariant,
-        tint = scheme.onSurfaceVariant,
+        text = (colorsOverride?.text ?: Color.Unspecified).takeOrElse { scheme.onSurface },
+        placeholder = (colorsOverride?.placeholder ?: Color.Unspecified).takeOrElse { scheme.onSurfaceVariant },
+        container = (colorsOverride?.container ?: Color.Unspecified).takeOrElse { scheme.surfaceVariant },
+        tint = (colorsOverride?.tint ?: Color.Unspecified).takeOrElse { scheme.onSurfaceVariant },
         cornerRadius = NativeTheme.tokens.cornerMedium,
         textStyle = MaterialTheme.typography.bodyLarge,
         // Drive the iOS control's light/dark from the surface it actually sits on (card/page/glass), not the page.

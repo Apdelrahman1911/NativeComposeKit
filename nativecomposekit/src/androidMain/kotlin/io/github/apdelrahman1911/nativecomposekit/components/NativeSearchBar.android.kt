@@ -14,6 +14,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -40,6 +41,7 @@ internal actual fun PlatformNativeSearchBar(
     contentDescription: String?,
     testTag: String?,
 ) {
+    val keyboard = LocalSoftwareKeyboardController.current
     var m = modifier
     testTag?.let { m = m.testTag(it) }
     contentDescription?.let { cd -> m = m.semantics { this.contentDescription = cd } }
@@ -62,7 +64,9 @@ internal actual fun PlatformNativeSearchBar(
         },
         shape = RoundedCornerShape(style.cornerRadius),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(onSearch = { onSearch?.invoke() }),
+        // Hide the keyboard on Search like iOS resigns first responder — Compose's default for
+        // ImeAction.Search is a no-op, which would leave the keyboard covering the results.
+        keyboardActions = KeyboardActions(onSearch = { onSearch?.invoke(); keyboard?.hide() }),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = style.container,
             unfocusedContainerColor = style.container,

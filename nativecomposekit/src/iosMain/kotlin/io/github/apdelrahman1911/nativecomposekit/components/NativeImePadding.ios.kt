@@ -70,9 +70,17 @@ public actual fun Modifier.nativeImePadding(minBottom: Dp): Modifier {
                 0.0
             }
             // While the keyboard is up, the reported end frame oscillates a few points as the
-            // suggestions/QuickType bar toggles. Hold the largest extent seen so the inset stays stable
-            // (no per-frame relayout) and drop to zero only when the keyboard actually leaves the screen.
-            bottomPoints = if (computed <= 0.0) 0.0 else max(bottomPoints, computed)
+            // suggestions/QuickType bar toggles — hold the largest extent seen against those SMALL dips so
+            // the inset stays stable (no per-frame relayout). A LARGE decrease is a real keyboard change
+            // (rotation, hardware-keyboard assistant bar, floating-dock transitions) and must be honored,
+            // or the old bigger inset leaves a dead gap above the keyboard until full dismissal.
+            val quickTypeSlack = 60.0
+            bottomPoints = when {
+                computed <= 0.0 -> 0.0
+                computed >= bottomPoints -> computed
+                bottomPoints - computed > quickTypeSlack -> computed // genuine shrink, not a QuickType dip
+                else -> bottomPoints
+            }
             if (NativeImeLog.enabled) {
                 println("NCK-Kbd: frameEnd present=${frameValue != null} computed=${computed}pt inset=${bottomPoints}pt")
             }

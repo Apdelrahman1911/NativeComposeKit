@@ -20,13 +20,30 @@ internal fun skeletonColors(container: Color, onSurface: Color): Pair<Color, Col
     lerp(container, onSurface, 0.10f) to lerp(container, onSurface, 0.20f)
 
 /**
- * The opaque fill for content that sits on a surface: the [published] surface when known (`isSpecified`), else
+ * The fill for content that sits on a surface: the [published] surface when known (`isSpecified`), else
  * [fallback]. Used for the `NativeListItem` swipe foreground (must be opaque or the reveal shows at rest) and the
- * outlined `NativeInlineStatus` interior (matches the surface it's embedded in). The result is always a concrete,
- * opaque color — never `Color.Unspecified`.
+ * outlined `NativeInlineStatus` interior (matches the surface it's embedded in). The result is always a
+ * **specified** color — never `Color.Unspecified` (its opacity is whatever the published surface carries).
  */
 internal fun resolveSurfaceFill(published: Color, fallback: Color): Color =
     if (published.isSpecified) published else fallback
+
+/**
+ * The slider's remaining-track tone for a slider sitting on [container] — nudged toward [onSurface] so the
+ * unfilled track stays visible on any surface, including a Filled card whose container is itself
+ * `surfaceVariant` (a fixed `surfaceVariant` track would vanish there). Stronger than the skeleton nudge:
+ * a thin track needs more contrast than a block.
+ */
+internal fun sliderInactiveTrackColor(container: Color, onSurface: Color): Color =
+    lerp(container, onSurface, 0.24f)
+
+/**
+ * The hairline divider tone on [surface] — the surface nudged toward [onSurface] just enough to read as a
+ * separator on the page, a Filled card, or any custom surface (a fixed `outlineVariant` disappears on
+ * `surfaceVariant`).
+ */
+internal fun dividerColor(surface: Color, onSurface: Color): Color =
+    lerp(surface, onSurface, 0.12f)
 
 /**
  * Chip border tone — the M3 `outline` boundary role (visible on any surface, unlike the default faint

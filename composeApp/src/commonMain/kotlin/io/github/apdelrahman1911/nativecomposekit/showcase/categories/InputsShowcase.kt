@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.components.NativeButton
 import io.github.apdelrahman1911.nativecomposekit.components.NativeOtpField
 import io.github.apdelrahman1911.nativecomposekit.components.NativeSearchBar
-import io.github.apdelrahman1911.nativecomposekit.components.NativeSearchBarIosOptions
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeSearchBarIosOptions
 import io.github.apdelrahman1911.nativecomposekit.components.NativeText
 import io.github.apdelrahman1911.nativecomposekit.components.NativeTextField
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.LocalNativeFeedbackController

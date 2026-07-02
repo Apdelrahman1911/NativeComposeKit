@@ -97,6 +97,7 @@ internal actual fun PlatformNativeSearchBar(
             // Dynamic Type: the search field honors the user's text size (scaled brand font + live re-scale).
             control.searchTextField.font = style.textStyle.toUIFont()
             control.searchTextField.adjustsFontForContentSizeCategory = true
+            control.searchTextField.textColor = style.text.toUIColor() // themed text, matching Android
             control.setShowsCancelButton(showCancelButton, animated = false)
             control.userInteractionEnabled = enabled
             control.overrideUserInterfaceStyle =

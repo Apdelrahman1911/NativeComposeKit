@@ -3,6 +3,8 @@ package io.github.apdelrahman1911.nativecomposekit.components
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import io.github.apdelrahman1911.nativecomposekit.components.internal.chipBorderColor
+import io.github.apdelrahman1911.nativecomposekit.components.internal.dividerColor
+import io.github.apdelrahman1911.nativecomposekit.components.internal.sliderInactiveTrackColor
 import io.github.apdelrahman1911.nativecomposekit.components.internal.resolveSurfaceFill
 import io.github.apdelrahman1911.nativecomposekit.components.internal.skeletonColors
 import kotlin.test.Test
@@ -54,5 +56,23 @@ class SurfaceColorsTest {
     @Test
     fun chip_border_dims_when_disabled() {
         assertEquals(Color.Red.copy(alpha = 0.38f), chipBorderColor(Color.Red, enabled = false))
+    }
+
+    @Test
+    fun slider_inactive_track_differs_from_any_container_it_sits_on() {
+        val onSurface = Color(0xFF1D1B20)
+        val page = Color(0xFFFEF7FF)
+        val filledCard = Color(0xFFE7E0EC) // surfaceVariant — where a fixed surfaceVariant track vanishes
+        assertTrue(sliderInactiveTrackColor(page, onSurface) != page)
+        assertTrue(sliderInactiveTrackColor(filledCard, onSurface) != filledCard)
+    }
+
+    @Test
+    fun divider_tone_differs_from_any_surface_it_sits_on() {
+        val onSurface = Color(0xFFE6E0E9)
+        val page = Color(0xFF141218)
+        val filledCard = Color(0xFF49454F)
+        assertTrue(dividerColor(page, onSurface) != page)
+        assertTrue(dividerColor(filledCard, onSurface) != filledCard)
     }
 }

@@ -1,5 +1,13 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.viewinterop.UIKitInteropRemeasureRequester
+import platform.Foundation.NSNotificationCenter
+import platform.Foundation.NSOperationQueue
+import platform.UIKit.UIContentSizeCategoryDidChangeNotification
+
 /**
  * Tracks the last size-affecting fingerprint a `UIKitView.update` block applied, so the interop host is
  * re-measured exactly when that fingerprint changes — requested from `update` itself, never from an effect.
@@ -26,4 +34,25 @@ internal class InteropSizeFingerprint {
     }
 
     private object Unset
+}
+
+/**
+ * Re-measures a **content-sized** interop node when the user changes the Dynamic Type text size
+ * mid-session. `adjustsFontForContentSizeCategory` re-renders the native glyphs live, but nothing in the
+ * size fingerprint changes (text/style are the same values), so the interop host would keep its stale
+ * measured size and clip the rescaled content until an unrelated recomposition. Safe against the
+ * measure-before-first-update race: the notification only ever fires long after the first update.
+ */
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+internal fun DynamicTypeRemeasureEffect(remeasure: UIKitInteropRemeasureRequester) {
+    DisposableEffect(remeasure) {
+        val center = NSNotificationCenter.defaultCenter
+        val observer = center.addObserverForName(
+            name = UIContentSizeCategoryDidChangeNotification,
+            `object` = null,
+            queue = NSOperationQueue.mainQueue,
+        ) { _ -> remeasure.requestRemeasure() }
+        onDispose { center.removeObserver(observer) }
+    }
 }

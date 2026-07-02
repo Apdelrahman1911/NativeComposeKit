@@ -28,9 +28,12 @@ import platform.UIKit.UIColor
 import platform.UIKit.UIFont
 import platform.UIKit.UIFontMetrics
 import platform.UIKit.UIFontWeightBold
+import platform.UIKit.UIFontWeightLight
 import platform.UIKit.UIFontWeightMedium
 import platform.UIKit.UIFontWeightRegular
 import platform.UIKit.UIFontWeightSemibold
+import platform.UIKit.UIFontWeightThin
+import platform.UIKit.UIFontWeightUltraLight
 import platform.UIKit.UIKeyboardType
 import platform.UIKit.UIKeyboardTypeDecimalPad
 import platform.UIKit.UIKeyboardTypeDefault
@@ -60,7 +63,12 @@ internal fun Color.toUIColor(): UIColor = UIColor(
     alpha = alpha.toDouble(),
 )
 
-/** Decomposes a [UIColor] (e.g. a `UIColorWell.selectedColor`) back into a Compose [Color]. */
+/**
+ * Decomposes a [UIColor] (e.g. a `UIColorWell.selectedColor`) back into a Compose [Color]. Components are
+ * **clamped to 0..1**: on wide-gamut (Display P3) devices the system picker returns colors whose
+ * extended-sRGB components fall outside that range, and Compose's sRGB `Color(Float…)` constructor throws
+ * on them — an unclamped round-trip crashed mid-pick on vivid colors.
+ */
 @OptIn(ExperimentalForeignApi::class)
 internal fun UIColor.toComposeColor(): Color = memScoped {
     val r = alloc<CGFloatVar>()
@@ -68,11 +76,19 @@ internal fun UIColor.toComposeColor(): Color = memScoped {
     val b = alloc<CGFloatVar>()
     val a = alloc<CGFloatVar>()
     getRed(r.ptr, green = g.ptr, blue = b.ptr, alpha = a.ptr)
-    Color(red = r.value.toFloat(), green = g.value.toFloat(), blue = b.value.toFloat(), alpha = a.value.toFloat())
+    Color(
+        red = r.value.toFloat().coerceIn(0f, 1f),
+        green = g.value.toFloat().coerceIn(0f, 1f),
+        blue = b.value.toFloat().coerceIn(0f, 1f),
+        alpha = a.value.toFloat().coerceIn(0f, 1f),
+    )
 }
 
 private fun FontWeight?.toUIFontWeight(): Double = when ((this ?: FontWeight.Normal).weight) {
-    in Int.MIN_VALUE..499 -> UIFontWeightRegular
+    in Int.MIN_VALUE..149 -> UIFontWeightUltraLight
+    in 150..249 -> UIFontWeightThin
+    in 250..349 -> UIFontWeightLight
+    in 350..499 -> UIFontWeightRegular
     in 500..599 -> UIFontWeightMedium
     in 600..699 -> UIFontWeightSemibold
     else -> UIFontWeightBold

@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.error
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -57,7 +58,12 @@ public fun NativeOtpField(
     var m = modifier
     testTag?.let { m = m.testTag(it) }
     val cd = contentDescription ?: LocalNativeStrings.current.otpDescription(length)
-    m = m.semantics { this.contentDescription = cd }
+    val errorAnnouncement = LocalNativeStrings.current.statusError
+    m = m.semantics {
+        this.contentDescription = cd
+        // Screen readers must hear the rejected-code state, not just see the red border.
+        if (isError) error(errorAnnouncement)
+    }
 
     BasicTextField(
         value = value,
@@ -110,11 +116,14 @@ public fun NativeOtpField(
 }
 
 /**
- * Keeps only digits from [raw] and caps at [length] code entries. A non-positive [length] yields the empty
- * string (so `take` never throws). Pure + internal so it is unit-tested directly.
+ * Keeps only **ASCII** digits from [raw] and caps at [length] code entries. ASCII-only on purpose:
+ * locale numeric keyboards can emit Arabic-Indic/Devanagari digits, which `Char.isDigit()` accepts but a
+ * server comparing against `"123456"` rejects — the cells would look filled while the code silently fails.
+ * A non-positive [length] yields the empty string (so `take` never throws). Pure + internal so it is
+ * unit-tested directly.
  */
 internal fun filterOtpInput(raw: String, length: Int): String =
-    raw.filter { it.isDigit() }.take(length.coerceAtLeast(0))
+    raw.filter { it in '0'..'9' }.take(length.coerceAtLeast(0))
 
 /** Small helper to keep the cell modifier readable (clip + background + border in one rounded shape). */
 private fun Modifier.clipBackgroundBorder(

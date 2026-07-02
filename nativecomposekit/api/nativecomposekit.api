@@ -342,22 +342,8 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeS
 	public static final fun NativeScaffold-Pz9yvRs (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/graphics/Color;Landroidx/compose/ui/graphics/Color;Landroidx/compose/foundation/layout/WindowInsets;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 
-public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarIosOptions {
-	public static final field $stable I
-	public fun <init> ()V
-	public fun <init> (Z)V
-	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Z
-	public final fun copy (Z)Lio/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarIosOptions;
-	public static synthetic fun copy$default (Lio/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarIosOptions;ZILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarIosOptions;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getShowCancelButton ()Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarKt {
-	public static final fun NativeSearchBar (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;ZLjava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/NativeSearchBarIosOptions;Landroidx/compose/runtime/Composer;II)V
+	public static final fun NativeSearchBar (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;ZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeSearchBarColors;Ljava/lang/String;Ljava/lang/String;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeSearchBarIosOptions;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSegmentedControlKt {
@@ -821,6 +807,30 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;
 	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenuItemRole;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeSearchBarColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy-jRlVdoo (JJJJ)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeSearchBarColors;
+	public static synthetic fun copy-jRlVdoo$default (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeSearchBarColors;JJJJILjava/lang/Object;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeSearchBarColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContainer-0d7_KjU ()J
+	public final fun getPlaceholder-0d7_KjU ()J
+	public final fun getText-0d7_KjU ()J
+	public final fun getTint-0d7_KjU ()J
+	public fun hashCode ()I
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeSearchBarIosOptions {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getShowCancelButton ()Z
+	public fun hashCode ()I
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeTextContentType : java/lang/Enum {

@@ -29,12 +29,17 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performImeAction
+import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeFeedbackStatus
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeInlineStatus
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeDialogColors
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextContentType
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeFieldFocus
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeFieldInput
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeImeAction
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearanceScope
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeCapabilities
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeCapabilities
@@ -537,5 +542,44 @@ class ComponentRenderUiTest {
         }
         onNodeWithTag("focus-a").assertIsDisplayed()
         onNodeWithTag("focus-b").assertIsDisplayed()
+    }
+
+    /**
+     * Regression guard for the restored Android IME defaults: a field WITH an onSubmit must run the
+     * callback on its IME action, and a field WITHOUT one must still accept the action (the kit passes
+     * KeyboardActions.Default — a custom empty handler would suppress the platform behavior and, before
+     * the fix, Done stopped hiding the keyboard and Next stopped moving focus).
+     */
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun text_field_ime_action_runs_the_submit_callback_and_defaults_stay_wired() = runComposeUiTest {
+        var submitted = 0
+        setContent {
+            NativeAppearanceScope {
+                Column {
+                    NativeTextField(
+                        value = "abc",
+                        onValueChange = {},
+                        input = NativeFieldInput(imeAction = NativeImeAction.Done),
+                        focus = NativeFieldFocus(onSubmit = { submitted++ }),
+                        testTag = "field-with-submit",
+                    )
+                    NativeTextField(
+                        value = "",
+                        onValueChange = {},
+                        input = NativeFieldInput(imeAction = NativeImeAction.Done),
+                        testTag = "field-default",
+                    )
+                }
+            }
+        }
+        onNodeWithTag("field-with-submit").performClick()
+        onNodeWithTag("field-with-submit").performImeAction()
+        assertEquals(1, submitted)
+
+        // No onSubmit: the action must still be performable (Default keeps the platform handler).
+        onNodeWithTag("field-default").performClick()
+        onNodeWithTag("field-default").performImeAction()
+        assertEquals(1, submitted)
     }
 }
