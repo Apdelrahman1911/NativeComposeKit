@@ -19,13 +19,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
@@ -44,6 +49,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -87,10 +93,10 @@ internal actual fun PlatformFeedbackHost(
 
         // ---- Transient lane (one at a time) ----
         when (val t = controller.activeTransient) {
-            is ToastRecord -> ToastHud(t, controller, onSystemToast = { msg ->
+            is ToastRecord -> ToastHud(t, controller, showSystemToast = { msg ->
                 // The system Toast has exactly two lengths; map Short → SHORT and everything else → LONG.
                 val length = if (t.duration == NativeFeedbackDuration.Short) Toast.LENGTH_SHORT else Toast.LENGTH_LONG
-                Toast.makeText(context, msg, length).show()
+                Toast.makeText(context, msg, length).also { it.show() }
             })
             is BannerRecord -> FeedbackBanner(t, controller)
             is SnackbarRecord, null -> Unit // snackbar is rendered by the SnackbarHost below
@@ -104,7 +110,7 @@ internal actual fun PlatformFeedbackHost(
         val snackKey = shownSnack?.id
         SnackbarHost(
             hostState = snackbarHostState,
-            modifier = Modifier.align(Alignment.BottomCenter).navigationBarsPadding(),
+            modifier = Modifier.align(Alignment.BottomCenter).windowInsetsPadding(bottomTransientInsets()),
         ) { data ->
             val bar = @Composable {
                 Snackbar(
@@ -155,16 +161,28 @@ internal actual fun PlatformFeedbackHost(
     }
 }
 
+/**
+ * Insets a bottom-pinned transient must clear: the union keeps it above BOTH the navigation bar and the
+ * keyboard (nav-bar padding alone would leave it hidden behind an open IME).
+ */
+@Composable
+private fun bottomTransientInsets(): WindowInsets = WindowInsets.navigationBars.union(WindowInsets.ime)
+
 /** Native-themed HUD pill (default) or the real system [Toast] (opt-in). */
 @Composable
 private fun ToastHud(
     record: ToastRecord,
     controller: NativeFeedbackController,
-    onSystemToast: (String) -> Unit,
+    showSystemToast: (String) -> Toast,
 ) {
     if (record.useSystemToast) {
+        // Keep the shown Toast and retract it when the record leaves the lane early (dismissed by code or
+        // replaced) — otherwise the OS keeps rendering it while the controller already shows the next one.
+        DisposableEffect(record.id) {
+            val toast = showSystemToast(record.message)
+            onDispose { toast.cancel() }
+        }
         LaunchedEffect(record.id) {
-            onSystemToast(record.message)
             // The OS toast cannot be held on screen: Indefinite degrades to the system LONG (~3.5 s), and the
             // lane advances in step with what the user actually sees (2 s / 3.5 s, matching SHORT/LONG).
             delay(record.duration.toMillisOrNull() ?: 3_500L)
@@ -178,7 +196,7 @@ private fun ToastHud(
     Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = align) {
         Row(
             modifier = Modifier
-                .let { if (record.position == NativeFeedbackPosition.Top) it.statusBarsPadding() else it.navigationBarsPadding() }
+                .let { if (record.position == NativeFeedbackPosition.Top) it.statusBarsPadding() else it.windowInsetsPadding(bottomTransientInsets()) }
                 .widthIn(max = 480.dp)
                 .clip(RoundedCornerShape(style.cornerRadius))
                 .background(style.background)
@@ -209,7 +227,7 @@ private fun FeedbackBanner(record: BannerRecord, controller: NativeFeedbackContr
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .let { if (record.position == NativeFeedbackPosition.Top) it.statusBarsPadding() else it.navigationBarsPadding() }
+                .let { if (record.position == NativeFeedbackPosition.Top) it.statusBarsPadding() else it.windowInsetsPadding(bottomTransientInsets()) }
                 .padding(NativeTheme.tokens.spacingSm)
                 .clip(RoundedCornerShape(style.cornerRadius))
                 .background(style.background)
@@ -228,7 +246,9 @@ private fun FeedbackBanner(record: BannerRecord, controller: NativeFeedbackContr
                     Text(
                         text = record.actionLabel,
                         style = style.textStyle.copy(fontWeight = FontWeight.SemiBold, color = style.iconTint),
+                        // ≥48dp target around the text (matches NativeInlineStatus's inline action).
                         modifier = Modifier.padding(top = 4.dp)
+                            .minimumInteractiveComponentSize()
                             .clickable(role = Role.Button, onClickLabel = record.actionLabel) {
                                 controller.onTransientAction(record.id)
                             },
@@ -326,16 +346,17 @@ private fun FeedbackAlert(record: AlertRecord, controller: NativeFeedbackControl
                     Text(ok, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
                 }
             } else {
-                Row(horizontalArrangement = Arrangement.spacedBy(NativeTheme.tokens.spacingXs)) {
-                    others.forEach { action ->
-                        TextButton(onClick = { controller.onModalResult(record.id, action.onClick) }) {
-                            Text(
-                                action.label,
-                                color = if (action.role == NativeAlertActionRole.Destructive) MaterialTheme.colorScheme.error
-                                else MaterialTheme.colorScheme.primary,
-                                fontWeight = FontWeight.SemiBold,
-                            )
-                        }
+                // Each button is emitted DIRECTLY into the slot: M3 lays the slot's children out in a
+                // wrapping flow row, so three-plus actions or long labels break onto new lines. A nested Row
+                // would be a single (unwrappable) flow child that clips its overflowing buttons.
+                others.forEach { action ->
+                    TextButton(onClick = { controller.onModalResult(record.id, action.onClick) }) {
+                        Text(
+                            action.label,
+                            color = if (action.role == NativeAlertActionRole.Destructive) MaterialTheme.colorScheme.error
+                            else MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold,
+                        )
                     }
                 }
             }
@@ -363,6 +384,9 @@ private fun FeedbackSheet(
     ModalBottomSheet(
         onDismissRequest = { controller.dismissCurrentModal() },
         sheetState = sheetState,
+        // The content applies its own navigationBarsPadding below; zero the sheet's default
+        // contentWindowInsets so the nav-bar inset isn't applied twice (a doubled bottom gap).
+        contentWindowInsets = { WindowInsets(0) },
     ) {
         Column(
             modifier = Modifier
@@ -388,7 +412,8 @@ private fun FeedbackSheet(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { choose(action.onClick) }
+                        // Role + label so TalkBack announces the row as an actionable button, not plain text.
+                        .clickable(role = Role.Button, onClickLabel = action.label) { choose(action.onClick) }
                         .padding(horizontal = NativeTheme.tokens.spacingLg, vertical = NativeTheme.tokens.spacingMd),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(NativeTheme.tokens.spacingMd),

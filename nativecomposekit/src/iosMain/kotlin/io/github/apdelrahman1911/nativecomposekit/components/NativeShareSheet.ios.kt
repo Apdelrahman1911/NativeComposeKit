@@ -22,6 +22,8 @@ internal actual fun rememberPlatformShare(): (NativeShareContent) -> Unit = reme
             content.url?.let { u -> NSURL.URLWithString(u)?.let { add(it) } }
         }
         val presenter = topmostUIViewController()
+        // Empty content is a documented no-op (mirrored on Android): UIActivityViewController asserts on an
+        // empty activityItems list, and a blank share sheet helps no one.
         if (items.isNotEmpty() && presenter != null) {
             val avc = UIActivityViewController(activityItems = items, applicationActivities = null)
             // iPad presents the share sheet as a popover, which asserts without a source anchor. Anchor it

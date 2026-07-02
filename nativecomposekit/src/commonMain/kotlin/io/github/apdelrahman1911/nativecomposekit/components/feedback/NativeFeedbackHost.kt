@@ -14,6 +14,10 @@ import androidx.compose.runtime.CompositionLocalProvider
  *
  * Post messages from anywhere below via `LocalNativeFeedbackController.current` (or the [controller] you
  * passed in).
+ *
+ * Mount **exactly one** host per controller: each mounted host renders the controller's state, so a second
+ * one would present every message twice. Constructing the controller yourself (ViewModel/DI) is supported —
+ * see [NativeFeedbackController]'s constructor contract.
  */
 @Composable
 public fun NativeFeedbackHost(

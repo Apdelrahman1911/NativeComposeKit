@@ -48,6 +48,8 @@ NativeSheet(
 - The iOS host view controller is transparent so the sheet's native material (Liquid Glass) shows through behind the content; only light/dark is matched.
 - The theme is captured at present time. A theme change while the sheet is open is not re-applied. Android keeps full context in-composition.
 - `detents` containing `Medium` enables the partially-expanded state on Android; otherwise the sheet only goes full.
+- A `Medium`-only detent list caps the sheet at half height on iOS, but on Android the user can still drag it to full — Material 3 has no partial-only mode, so `Medium`-only is a size hint there. An accepted platform divergence.
+- Toggling `visible` back to `true` while the hide animation is still running re-shows the sheet in place (the interrupted hide is settled back to expanded) instead of leaving it stranded partially hidden.
 
 ### NativePopover
 
@@ -71,7 +73,8 @@ A transient popover that floats a small surface near an `anchor`, shown while `v
 | `visible` | `Boolean` | — | Popover is shown while this is true. |
 | `onDismissRequest` | `() -> Unit` | — | Fires on an outside tap. |
 | `modifier` | `Modifier` | `Modifier` | Applies to the popover surface. |
-| `alignment` | `Alignment` | `Alignment.BottomCenter` | Positions the Compose popover relative to the anchor. On the iPad native path it is a hint; UIKit picks the arrow direction. |
+| `alignment` | `Alignment` | `Alignment.BottomCenter` | Preferred edge and gravity relative to the anchor: the vertical half picks the side (Bottom/Center → below, Top → above; flipped automatically when it doesn't fit on screen), the horizontal half the gravity over the anchor (start/center/end, clamped into the window). On the iPad native path it is a hint; UIKit picks the arrow direction. |
+| `preferredSize` | `DpSize` | `DpSize(300.dp, 320.dp)` | Preferred content size of the iPad native popover (its `preferredContentSize`; content scrolls if larger). iPad-native only — the compact iPhone / Android Compose panel sizes to its content. |
 | `testTag` | `String?` | `null` | Test tag for the surface. |
 | `anchor` | `(@Composable () -> Unit)?` | `null` | Optional trigger rendered inline in layout; the popover points at it. |
 | `content` | `@Composable () -> Unit` | — | Popover body. |
@@ -90,9 +93,10 @@ NativePopover(
 ```
 
 **Notes**
-- The `anchor` slot is additive and backward-compatible. With `anchor = null`, iOS presents centered and Android positions by `alignment`.
+- The `anchor` slot is additive and backward-compatible. With `anchor = null`, the iPad native path presents centered; the Compose path positions relative to the empty anchor slot's location in layout.
+- The Compose popover no longer overlaps its anchor: it is placed below (or above for a Top alignment), flips to the other side at screen edges, and clamps horizontally into the window.
 - The iPhone / Android Compose path is pure Compose with no `UIKitView` interop, so there is no backdrop artifact. The card draws with brand surface, elevation, corner, spacing, and typography and adapts to light and dark.
-- On the iPad native path the iOS content runs in a separate transparent composition with the parent theme re-provided, mirroring `NativeSheet`. If no anchor or presenter resolves, it falls back to a centered presentation rather than crashing.
+- On the iPad native path the iOS content runs in a separate transparent composition with the parent theme, tokens, status colors, strings, and capabilities re-provided, mirroring `NativeSheet`. If no anchor or presenter resolves, it falls back to a centered presentation rather than crashing. An initially-visible popover waits for the anchor's first layout before presenting, so it anchors to the trigger instead of falling back to center.
 
 ### NativeDialog
 
@@ -129,7 +133,7 @@ A modal dialog for custom centered content, built to fit *your* design system ra
 | `actions` | `(@Composable RowScope.() -> Unit)?` | `null` | Trailing, end-aligned button row; omit for an informational dialog. |
 | `content` | `@Composable ColumnScope.() -> Unit` | — | Dialog body. |
 
-A convenience overload takes `title: String?` (rendered in the title slot with the dialog's title color) in place of the `icon` / `title` slots — for the common text-title case.
+A convenience overload takes `title: String?` (rendered in the title slot with the dialog's title color) in place of the `icon` / `title` slots — for the common text-title case. That overload also announces its `title` as the accessibility pane title; when `title` is null it falls back to `strings.dialogPaneTitle`, which is what the slot overload always announces.
 
 **Example**
 
@@ -160,6 +164,7 @@ NativeDialog(
 **Notes**
 - Kept Compose-on-both: a centered custom-content modal has no single native control to delegate to, so it is the intended primitive for arbitrary centered content. The native *fixed* alert is `NativeFeedbackController.alert`.
 - On iOS a `Dialog` mounts a fresh native scene. To avoid a first-frame backdrop flash, the body composes with `LocalNativeSurface = Color.Unspecified` (so `NativeText` takes its Compose-`Text` path, no interop region) and the dialog provides `LocalNativeInteropPlacement = Overlay` (so native controls such as `NativeButton` actions composite above the opaque surface with no cut-out hole). All component types work normally inside.
+- Accessibility: the dialog surface carries `paneTitle` semantics, so screen readers announce the dialog when it opens. The String-title overload announces its `title` (falling back to `strings.dialogPaneTitle` when `title` is null); the slot overload always announces `strings.dialogPaneTitle` (a slot is opaque to semantics).
 
 ### NativeShareSheet
 
@@ -183,7 +188,7 @@ The system share UI, presented imperatively through a `NativeShare` handle obtai
 | `NativeShare.share` | `(text: String? = null, url: String? = null) -> Unit` | — | Presents the share sheet with the given text and/or URL. |
 | `NativeShare.share` | `(content: NativeShareContent) -> Unit` | — | Presents the share sheet with a prepared `NativeShareContent`. |
 
-`NativeShareContent` is a data class:
+`NativeShareContent` compares by value:
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
@@ -198,5 +203,6 @@ NativeButton("Share", onClick = { share.share(text = title, url = link) })
 ```
 
 **Notes**
+- Empty content (`text == null && url == null`) is a no-op on both platforms: neither the Android chooser nor the iOS sheet is presented.
 - On Android the text and URL are joined with a newline into the `EXTRA_TEXT` body. The chooser is launched with `FLAG_ACTIVITY_NEW_TASK`, which is safe from a non-Activity context.
 - On iOS the sheet presents only when there is at least one item and a presenter resolves. On iPad it is anchored to the center of the presenter via KVC with no arrow, since the popover presentation otherwise asserts without a source anchor.

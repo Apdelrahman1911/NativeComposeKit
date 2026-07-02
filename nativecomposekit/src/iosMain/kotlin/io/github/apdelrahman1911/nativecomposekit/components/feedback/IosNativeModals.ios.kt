@@ -34,21 +34,39 @@ import platform.UIKit.UIControlStateNormal
 import platform.UIKit.UIFont
 import platform.UIKit.UIGestureRecognizer
 import platform.UIKit.UIGestureRecognizerDelegateProtocol
+import platform.UIKit.UIImage
+import platform.UIKit.UIImageView
 import platform.UIKit.UILabel
 import platform.UIKit.UIPresentationController
 import platform.UIKit.UITapGestureRecognizer
 import platform.UIKit.UITouch
 import platform.UIKit.UIView
+import platform.UIKit.UIViewContentMode
 import platform.UIKit.UIViewController
 import platform.UIKit.accessibilityViewIsModal
 import platform.UIKit.presentationController
 import platform.darwin.NSObject
+import platform.darwin.dispatch_async
+import platform.darwin.dispatch_get_main_queue
 import platform.objc.sel_registerName
+
+/**
+ * True while a native modal's code-driven `dismissViewControllerAnimated` is in flight on this main-queue
+ * tick. UIKit rejects a present issued while its presenter is still mid-dismissal, so the NEXT present
+ * consumes this flag and defers itself by one tick (`dispatch_async`). Main-thread only, like everything
+ * else in this file.
+ */
+private var nativeModalCodeDismissInFlight = false
 
 /**
  * Presents the modal [record], returning a dismisser the host runs on dispose. Native by default (real
  * `UIAlertController`); the branded custom overlay when the record opted in. [primary]/[error]/
  * [cancelColor] are theme colors (resolved in composition) used by the branded button styling.
+ *
+ * If a previous native modal was just dismissed **by code** (not by tapping an action), the present is
+ * deferred to the next main-queue tick so UIKit never sees a present-during-dismiss (which it drops,
+ * leaving the lane's active record invisible). The returned dismisser stays valid either way: it cancels a
+ * still-pending present, or tears down the presented modal.
  */
 @OptIn(ExperimentalForeignApi::class)
 internal fun presentModal(
@@ -64,28 +82,54 @@ internal fun presentModal(
         is AlertRecord -> record.iosPresentation == NativePresentation.Branded
         is SheetRecord -> record.iosPresentation == NativePresentation.Branded
     }
-    return if (branded) {
-        presentBrandedModal(record, cardStyle, primary, error, cancelColor, strings, controller)
-    } else {
-        presentNativeModal(record, strings, controller)
+    val present: () -> (() -> Unit) = {
+        if (branded) {
+            presentBrandedModal(record, cardStyle, primary, error, cancelColor, strings, controller)
+        } else {
+            presentNativeModal(record, strings, controller)
+        }
+    }
+    if (!nativeModalCodeDismissInFlight) return present()
+    nativeModalCodeDismissInFlight = false
+    var cancelled = false
+    var dismisser: (() -> Unit)? = null
+    dispatch_async(dispatch_get_main_queue()) {
+        if (!cancelled) dismisser = present()
+    }
+    return {
+        cancelled = true
+        dismisser?.invoke()
     }
 }
 
-/** The topmost presented view controller to present from (walks the presentation chain). */
+/**
+ * The topmost presented view controller to present from (walks the presentation chain). The walk stops
+ * below any controller that is animating out — presenting from (or on top of) a `beingDismissed` VC is the
+ * present-during-dismiss UIKit rejects — so the presenter is always the stable controller underneath.
+ */
 @OptIn(ExperimentalForeignApi::class)
 internal fun topmostViewController(): UIViewController? {
     val window = feedbackKeyWindow() ?: return null
     var vc: UIViewController? = window.rootViewController
     while (true) {
         val presented = vc?.presentedViewController ?: break
+        if (presented.beingDismissed) break
         vc = presented
     }
     return vc
 }
 
-private fun ModalRecord.actionItems(): List<Triple<String, NativeAlertActionRole, () -> Unit>> = when (this) {
-    is AlertRecord -> actions.map { Triple(it.label, it.role, it.onClick) }
-    is SheetRecord -> actions.map { Triple(it.label, it.role, it.onClick) }
+/** One resolved action row: label/role/handler, plus the Branded path's optional leading SF Symbol. */
+private class ModalActionItem(
+    val label: String,
+    val role: NativeAlertActionRole,
+    val sfSymbol: String?,
+    val onClick: () -> Unit,
+)
+
+private fun ModalRecord.actionItems(): List<ModalActionItem> = when (this) {
+    is AlertRecord -> actions.map { ModalActionItem(it.label, it.role, sfSymbol = null, it.onClick) }
+    is SheetRecord -> actions.map { ModalActionItem(it.label, it.role, it.icon?.sfSymbolName, it.onClick) }
 }
 
 private fun NativeAlertActionRole.toUIAlertActionStyle(): UIAlertActionStyle = when (this) {
@@ -124,16 +168,16 @@ private fun presentNativeModal(
     var handled = false
 
     val items = record.actionItems()
-    items.forEach { (label, role, action) ->
+    items.forEach { item ->
         alert.addAction(
-            UIAlertAction.actionWithTitle(label, role.toUIAlertActionStyle(), handler = { _ ->
+            UIAlertAction.actionWithTitle(item.label, item.role.toUIAlertActionStyle(), handler = { _ ->
                 handled = true
-                controller.onModalResult(record.id, action)
+                controller.onModalResult(record.id, item.onClick)
             }),
         )
     }
     // Guarantee the modal is always resolvable.
-    val hasCancel = items.any { it.second == NativeAlertActionRole.Cancel }
+    val hasCancel = items.any { it.role == NativeAlertActionRole.Cancel }
     if (isSheet && !hasCancel) {
         alert.addAction(
             UIAlertAction.actionWithTitle(strings.alertCancel, UIAlertActionStyleCancel, handler = { _ ->
@@ -168,9 +212,21 @@ private fun presentNativeModal(
         // the delegate of an alert (`.alert` style) presentation controller, and a `.alert` can't be
         // interactively dismissed anyway (it requires a button), so it never needs this.
         if (isSheet) alert.presentationController?.delegate = dismissDelegate
+    } else {
+        // No presenter resolves (no window/root yet): the modal can never be shown, so deliver its cancel
+        // right away and let the lane advance — otherwise the record stays active forever with nothing on
+        // screen to resolve it. `handled` makes this exactly-once: the dispose-time dismisser below must
+        // not touch the never-presented alert.
+        handled = true
+        controller.onModalResult(record.id, record.onCancel)
     }
     return {
-        if (!handled) alert.dismissViewControllerAnimated(true, null)
+        if (!handled) {
+            // Dismissed by code (dismiss()/clearAll()), not by a chosen action: flag the in-flight teardown
+            // so the next queued present defers past it (see presentModal).
+            nativeModalCodeDismissInFlight = true
+            alert.dismissViewControllerAnimated(true, null)
+        }
         retained.clear() // release the (weakly-held) presentation delegate at end of life
     }
 }
@@ -223,13 +279,24 @@ private fun presentBrandedModal(
     strings: NativeStrings,
     controller: NativeFeedbackController,
 ): () -> Unit {
-    val window = feedbackKeyWindow() ?: return {}
+    val window = feedbackKeyWindow()
+    if (window == null) {
+        // No window to attach to: deliver the cancel immediately so the modal lane advances — a silently
+        // skipped overlay would otherwise hold the lane forever. (The controller's id guard keeps this
+        // exactly-once against any later stale dismiss.)
+        controller.onModalResult(record.id, record.onCancel)
+        return {}
+    }
     val retained = mutableListOf<Any>()
     val isSheet = record is SheetRecord
 
     val dim = UIView()
     dim.backgroundColor = UIColor(white = 0.0, alpha = 0.4)
     dim.alpha = 0.0
+    // VoiceOver honors accessibilityViewIsModal only by excluding the flagged view's SIBLINGS. The dim
+    // scrim is the window subview whose siblings are the app content, so the trap goes here — on the card
+    // (an only child) the flag excludes nothing and focus escapes into the background UI.
+    dim.accessibilityViewIsModal = true
     window.pinFilling(dim)
 
     val card = UIView()
@@ -237,7 +304,6 @@ private fun presentBrandedModal(
     card.layer.cornerRadius = 16.0
     card.clipsToBounds = true
     card.translatesAutoresizingMaskIntoConstraints = false
-    card.accessibilityViewIsModal = true // trap VoiceOver inside the overlay while it's up
     dim.addSubview(card)
 
     // Tap the dimmed area to cancel — only for sheets (matching native action-sheet behavior; alerts
@@ -274,24 +340,48 @@ private fun presentBrandedModal(
     record.message?.let { views += brandedLabel(it, style.textStyle.toUIFont(), style.content.toUIColor()) }
 
     val items = record.actionItems().toMutableList()
-    if (isSheet && items.none { it.second == NativeAlertActionRole.Cancel }) {
-        items += Triple(strings.alertCancel, NativeAlertActionRole.Cancel, record.onCancel ?: {})
+    if (isSheet && items.none { it.role == NativeAlertActionRole.Cancel }) {
+        items += ModalActionItem(strings.alertCancel, NativeAlertActionRole.Cancel, sfSymbol = null, record.onCancel ?: {})
     }
     if (!isSheet && items.isEmpty()) {
-        items += Triple<String, NativeAlertActionRole, () -> Unit>(strings.alertOk, NativeAlertActionRole.Default, {})
+        items += ModalActionItem(strings.alertOk, NativeAlertActionRole.Default, sfSymbol = null, {})
     }
-    items.forEach { (label, role, action) ->
-        val color = when (role) {
+    items.forEach { item ->
+        val color = when (item.role) {
             NativeAlertActionRole.Destructive -> error
             NativeAlertActionRole.Cancel -> cancelColor
             NativeAlertActionRole.Default -> primary
         }
         val button = UIButton()
-        button.setTitle(label, forState = UIControlStateNormal)
+        button.setTitle(item.label, forState = UIControlStateNormal)
         button.setTitleColor(color, forState = UIControlStateNormal)
         button.titleLabel?.font = UIFont.boldSystemFontOfSize(16.0)
         button.translatesAutoresizingMaskIntoConstraints = false
-        val handler = ButtonTapHandler().apply { onClick = { controller.onModalResult(record.id, action) } }
+        // Leading SF Symbol glyph (the Branded half of NativeConfirmationAction.icon's contract; the Native
+        // system alert has no public action-image API). Hung off the title label so the centered title
+        // keeps its position; tinted with the row's text color, so destructive rows stay red. Decorative
+        // for VoiceOver — the button title already carries the label.
+        item.sfSymbol?.let { symbol ->
+            val glyphImage = UIImage.systemImageNamed(symbol)
+            val titleLabel = button.titleLabel
+            if (glyphImage != null && titleLabel != null) {
+                val glyph = UIImageView()
+                glyph.image = glyphImage
+                glyph.tintColor = color
+                glyph.contentMode = UIViewContentMode.UIViewContentModeScaleAspectFit
+                glyph.translatesAutoresizingMaskIntoConstraints = false
+                button.addSubview(glyph)
+                NSLayoutConstraint.activateConstraints(
+                    listOf(
+                        glyph.centerYAnchor.constraintEqualToAnchor(button.centerYAnchor),
+                        glyph.trailingAnchor.constraintEqualToAnchor(titleLabel.leadingAnchor, -8.0),
+                        glyph.widthAnchor.constraintEqualToConstant(20.0),
+                        glyph.heightAnchor.constraintEqualToConstant(20.0),
+                    ),
+                )
+            }
+        }
+        val handler = ButtonTapHandler().apply { onClick = { controller.onModalResult(record.id, item.onClick) } }
         button.addTarget(handler, sel_registerName("handleTap"), UIControlEventTouchUpInside)
         retained += handler
         views += button

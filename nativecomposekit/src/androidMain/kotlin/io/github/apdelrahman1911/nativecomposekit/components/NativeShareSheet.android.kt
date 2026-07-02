@@ -9,7 +9,10 @@ import androidx.compose.ui.platform.LocalContext
 internal actual fun rememberPlatformShare(): (NativeShareContent) -> Unit {
     val context = LocalContext.current
     return remember(context) {
-        { content ->
+        share@{ content ->
+            // Empty content is a documented no-op (iOS parity): there is nothing to hand the chooser, and an
+            // empty ACTION_SEND would still open a fully blank share UI.
+            if (content.text == null && content.url == null) return@share
             val body = listOfNotNull(content.text, content.url).joinToString("\n")
             val send = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"

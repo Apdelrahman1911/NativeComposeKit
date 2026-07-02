@@ -32,7 +32,14 @@ internal actual fun PlatformNativeSheet(
     var rendered by remember { mutableStateOf(visible) }
     LaunchedEffect(visible) {
         if (visible) {
-            rendered = true
+            if (rendered) {
+                // visible flipped back to true while a hide() from the false branch was still animating:
+                // that hide was cancelled by this effect restart, leaving the sheet composed but partially
+                // swiped down — show() settles it back to expanded (a no-op if it never started hiding).
+                state.show()
+            } else {
+                rendered = true
+            }
         } else if (rendered) {
             state.hide()
             rendered = false

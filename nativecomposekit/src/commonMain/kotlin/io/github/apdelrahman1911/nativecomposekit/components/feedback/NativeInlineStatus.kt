@@ -54,7 +54,8 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
  * @param filled `true` = soft tonal surface (status container color); `false` = outlined on the page surface.
  * @param icon a plain Compose [ImageVector] overriding the default status glyph (Compose-drawn — no SF-Symbol
  *   slot to drop); [showIcon] hides it entirely.
- * @param actionLabel/[onAction] an optional inline text action; [onDismiss] adds a trailing close button.
+ * @param actionLabel/[onAction] an optional inline text action, shown only when **both** are set; [onDismiss]
+ *   adds a trailing close button.
  */
 @Composable
 public fun NativeInlineStatus(
@@ -73,6 +74,13 @@ public fun NativeInlineStatus(
 ) {
     val style = resolveFeedbackStyle(status, filled)
     val shape = RoundedCornerShape(style.cornerRadius)
+    val strings = LocalNativeStrings.current
+    val statusName = when (status) {
+        NativeFeedbackStatus.Success -> strings.statusSuccess
+        NativeFeedbackStatus.Warning -> strings.statusWarning
+        NativeFeedbackStatus.Info -> strings.statusInfo
+        NativeFeedbackStatus.Error -> strings.statusError
+    }
 
     // Outlined sits *in* the layout, so its interior should match the surface it's embedded in (page or card)
     // — use the published LocalNativeSurface, falling back to the resolved surface. Filled keeps its tonal
@@ -84,9 +92,13 @@ public fun NativeInlineStatus(
     // Announce the status to screen readers when it appears/changes: errors interrupt (Assertive),
     // everything else is queued (Polite). Merge descendants so the live region carries the title/message
     // text (a bare live region with no text announces nothing); the action/dismiss stay separate nodes.
+    // The default description leads with the spoken status name — color alone can't convey severity to a
+    // screen-reader user. An explicit [contentDescription] replaces the whole description untouched.
+    val mergedDescription = contentDescription
+        ?: (listOf(statusName) + listOfNotNull(title, text)).joinToString(". ")
     box = box.semantics(mergeDescendants = true) {
         liveRegion = if (status == NativeFeedbackStatus.Error) LiveRegionMode.Assertive else LiveRegionMode.Polite
-        if (contentDescription != null) this.contentDescription = contentDescription
+        this.contentDescription = mergedDescription
     }
 
     Row(
@@ -119,13 +131,15 @@ public fun NativeInlineStatus(
                 Text(
                     text = actionLabel,
                     style = style.textStyle.copy(fontWeight = FontWeight.SemiBold, color = style.iconTint),
+                    // ≥48dp target around the text (the label alone is well below the a11y minimum).
                     modifier = Modifier.padding(top = 4.dp)
+                        .minimumInteractiveComponentSize()
                         .clickable(role = Role.Button, onClickLabel = actionLabel, onClick = onAction),
                 )
             }
         }
         if (onDismiss != null) {
-            val dismissLabel = LocalNativeStrings.current.dismiss
+            val dismissLabel = strings.dismiss
             // ≥48dp labeled target around the 20dp glyph (the glyph alone is below the a11y minimum).
             Box(
                 modifier = Modifier

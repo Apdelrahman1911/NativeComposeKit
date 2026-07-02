@@ -4,6 +4,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.ButtonTapHandler
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedFeedbackStyle
 import io.github.apdelrahman1911.nativecomposekit.components.toUIColor
 import io.github.apdelrahman1911.nativecomposekit.components.toUIFont
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeStrings
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCAction
@@ -34,6 +35,8 @@ import platform.UIKit.UIPanGestureRecognizer
 import platform.UIKit.UIView
 import platform.UIKit.UIViewContentMode
 import platform.UIKit.UIWindow
+import platform.UIKit.accessibilityLabel
+import platform.UIKit.keyboardLayoutGuide
 import platform.darwin.NSObject
 import platform.objc.sel_registerName
 
@@ -125,17 +128,27 @@ private class PanDismissHandler(
 
 /**
  * Builds and presents the key-window overlay for a transient [record], themed by [style], and wires its
- * timer/buttons back to [controller]. Returns a handle whose [IosOverlayHandle.dismiss] the host calls on
- * dispose. Visual teardown always happens via dispose → dismiss; the timer/buttons only notify the
- * controller (which then clears state and triggers the dispose).
+ * timer/buttons back to [controller]. [strings] localizes the kit-rendered affordances (the close button's
+ * accessibility label) — resolved by the composable host, since composition locals aren't readable here.
+ * Returns a handle whose [IosOverlayHandle.dismiss] the host calls on dispose. Visual teardown always
+ * happens via dispose → dismiss; the timer/buttons only notify the controller (which then clears state and
+ * triggers the dispose).
  */
 @OptIn(ExperimentalForeignApi::class)
 internal fun presentTransient(
     record: TransientRecord,
     style: ResolvedFeedbackStyle,
+    strings: NativeStrings,
     controller: NativeFeedbackController,
 ): IosOverlayHandle? {
-    val window = feedbackKeyWindow() ?: return null
+    val window = feedbackKeyWindow()
+    if (window == null) {
+        // Nothing to attach to (posted before the key window exists / while backgrounded). Resolve the
+        // record through the same completion path its timer would use — with no view and no timer it would
+        // otherwise stay active forever, wedging every later transient behind it.
+        controller.onTransientTimeout(record.id)
+        return null
+    }
     val retained = mutableListOf<Any>()
 
     val container: UIView
@@ -162,6 +175,7 @@ internal fun presentTransient(
                 message = record.message,
                 actionLabel = record.actionLabel,
                 dismissible = record.dismissible,
+                dismissLabel = strings.dismiss,
                 retained = retained,
                 onAction = { controller.onTransientAction(record.id) },
                 onClose = { controller.dismiss(record.id) },
@@ -259,6 +273,11 @@ private fun fbTextButton(title: String, color: UIColor): UIButton {
     b.setTitleColor(color, forState = UIControlStateNormal)
     b.titleLabel?.font = UIFont.boldSystemFontOfSize(15.0)
     b.translatesAutoresizingMaskIntoConstraints = false
+    // A bare text button's intrinsic height (~20pt) is far below the 44pt HIG touch minimum; the title stays
+    // centered, so the extra height is pure hit area.
+    NSLayoutConstraint.activateConstraints(
+        listOf(b.heightAnchor.constraintGreaterThanOrEqualToConstant(44.0)),
+    )
     return b
 }
 
@@ -323,6 +342,7 @@ private fun buildBanner(
     message: String,
     actionLabel: String?,
     dismissible: Boolean,
+    dismissLabel: String,
     retained: MutableList<Any>,
     onAction: () -> Unit,
     onClose: () -> Unit,
@@ -338,6 +358,8 @@ private fun buildBanner(
         b.setImage(UIImage.systemImageNamed("xmark"), forState = UIControlStateNormal)
         b.tintColor = content
         b.translatesAutoresizingMaskIntoConstraints = false
+        // The image-only button has no title for VoiceOver to speak — label it with the localized dismiss.
+        b.accessibilityLabel = dismissLabel
         val handler = ButtonTapHandler().apply { onClick = onClose }
         b.addTarget(handler, sel_registerName("handleTap"), UIControlEventTouchUpInside)
         retained += handler
@@ -369,12 +391,19 @@ private fun buildBanner(
     )
     val textLeading: NSLayoutXAxisAnchor = icon.trailingAnchor
     val textTrailing: NSLayoutXAxisAnchor = close?.leadingAnchor ?: card.trailingAnchor
-    val textTrailingConst = if (close != null) -10.0 else -16.0
+    // The 44pt close button carries ~10pt of empty hit area inside each edge, so the text can run right up
+    // to its leading edge and still keep the same visual gap to the glyph.
+    val textTrailingConst = if (close != null) 0.0 else -16.0
     close?.let {
-        cs += it.trailingAnchor.constraintEqualToAnchor(card.trailingAnchor, -12.0)
-        cs += it.topAnchor.constraintEqualToAnchor(card.topAnchor, 12.0)
-        cs += it.widthAnchor.constraintEqualToConstant(24.0)
-        cs += it.heightAnchor.constraintEqualToConstant(24.0)
+        // ≥44pt touch target (HIG minimum) around the unchanged ~24pt glyph box: the button grows by 10pt
+        // per side and the edge constants shrink by the same 10pt, keeping the glyph's visual spot.
+        cs += it.trailingAnchor.constraintEqualToAnchor(card.trailingAnchor, -2.0)
+        cs += it.topAnchor.constraintEqualToAnchor(card.topAnchor, 2.0)
+        cs += it.widthAnchor.constraintEqualToConstant(44.0)
+        cs += it.heightAnchor.constraintEqualToConstant(44.0)
+        // The card clips to bounds, so a one-line banner must grow to keep the whole target tappable
+        // (labels stretch a few points — soft hugging — rather than the hit area being clipped away).
+        cs += it.bottomAnchor.constraintLessThanOrEqualToAnchor(card.bottomAnchor, -2.0)
     }
 
     var top: NSLayoutYAxisAnchor = card.topAnchor
@@ -407,8 +436,10 @@ private fun pinOverlay(
         container.centerXAnchor.constraintEqualToAnchor(window.centerXAnchor),
     )
     if (fullWidth) {
-        cs += container.leadingAnchor.constraintEqualToAnchor(window.leadingAnchor, 12.0)
-        cs += container.trailingAnchor.constraintEqualToAnchor(window.trailingAnchor, -12.0)
+        // Safe-area sides, not window edges: on notched devices in landscape the window edges sit under
+        // the sensor housing / home-indicator corners and would clip the banner's leading icon or close.
+        cs += container.leadingAnchor.constraintEqualToAnchor(guide.leadingAnchor, 12.0)
+        cs += container.trailingAnchor.constraintEqualToAnchor(guide.trailingAnchor, -12.0)
     } else {
         cs += container.leadingAnchor.constraintGreaterThanOrEqualToAnchor(window.leadingAnchor, 16.0)
         cs += container.trailingAnchor.constraintLessThanOrEqualToAnchor(window.trailingAnchor, -16.0)
@@ -416,7 +447,11 @@ private fun pinOverlay(
     }
     when (position) {
         NativeFeedbackPosition.Top -> cs += container.topAnchor.constraintEqualToAnchor(guide.topAnchor, 12.0)
-        NativeFeedbackPosition.Bottom -> cs += container.bottomAnchor.constraintEqualToAnchor(guide.bottomAnchor, -24.0)
+        NativeFeedbackPosition.Bottom ->
+            // The keyboard layout guide (iOS 15+ deployment target) tracks the keyboard's top and collapses
+            // to the safe-area bottom when it's offscreen — so a bottom transient rides above an open
+            // keyboard instead of being covered by it, and sits exactly where it used to otherwise.
+            cs += container.bottomAnchor.constraintEqualToAnchor(window.keyboardLayoutGuide.topAnchor, -24.0)
     }
     NSLayoutConstraint.activateConstraints(cs)
 }

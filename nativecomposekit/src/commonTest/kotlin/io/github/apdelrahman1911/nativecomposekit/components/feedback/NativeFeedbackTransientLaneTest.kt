@@ -78,6 +78,28 @@ class NativeFeedbackTransientLaneTest {
     }
 
     @Test
+    fun dropIfShowing_on_an_empty_lane_still_posts() {
+        // DropIfShowing only de-dupes against a live lane — with nothing active or queued it must behave
+        // exactly like Enqueue, not swallow the message.
+        val c = controller()
+        val id = c.toast("solo", queue = NativeQueueBehavior.DropIfShowing)
+        assertEquals(id, c.activeTransient?.id)
+    }
+
+    @Test
+    fun snackbar_with_an_action_defaults_to_indefinite_duration() {
+        // The documented rule: an action needs time to be tapped, so an action-bearing snackbar is held
+        // until resolved unless the caller picks a duration explicitly; an actionless one stays Short.
+        val c = controller()
+        val withAction = c.snackbar("deleted", actionLabel = "Undo", onAction = {})
+        assertEquals(NativeFeedbackDuration.Indefinite, (c.activeTransient as SnackbarRecord).duration)
+        c.onTransientTimeout(withAction)
+
+        c.snackbar("plain")
+        assertEquals(NativeFeedbackDuration.Short, (c.activeTransient as SnackbarRecord).duration)
+    }
+
+    @Test
     fun stale_timeout_and_action_ids_are_ignored() {
         val c = controller()
         var dismissed = 0

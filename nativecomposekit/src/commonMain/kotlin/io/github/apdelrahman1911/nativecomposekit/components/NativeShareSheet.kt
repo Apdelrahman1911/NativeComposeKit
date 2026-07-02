@@ -22,7 +22,8 @@ public class NativeShareContent(
 /**
  * Imperative share entry point obtained via [rememberNativeShare]; call [share] from a click lambda.
  * Sharing is a one-shot action (HIG: a system activity/share sheet), so this is a handle you invoke, not a
- * placed composable — mirroring `NativeFeedbackController`.
+ * placed composable — mirroring `NativeFeedbackController`. Empty content (no text **and** no url) is a
+ * no-op on both platforms: nothing is presented.
  */
 public class NativeShare internal constructor(private val present: (NativeShareContent) -> Unit) {
     public fun share(text: String? = null, url: String? = null): Unit = present(NativeShareContent(text, url))

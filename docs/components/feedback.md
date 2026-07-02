@@ -50,6 +50,8 @@ NativeProgressIndicator(
 
 `NativeFeedbackController` holds the queue state and exposes plain (non-`@Composable`) post methods callable from any click lambda. Each returns a `Long` id you can pass to `dismiss(id)`. Mount it once near the app root with `NativeFeedbackHost { content }`; descendants post through `LocalNativeFeedbackController.current`.
 
+**Ownership.** The constructor is public, so the controller can live wherever your architecture wants it: `rememberNativeFeedbackController()` for composition-scoped ownership, or construct `NativeFeedbackController()` yourself in a ViewModel, DI graph, or app-scoped singleton and pass it to the host. The contract either way: main thread only (its queues are plain snapshot state), create once and keep the instance, and mount **exactly one** `NativeFeedbackHost` for it — a second host would present every message twice.
+
 The controller runs two parallel lanes: a transient lane (toast / snackbar / banner — one at a time, FIFO) and a modal lane (alert / confirmation sheet) that overlays a transient. It owns no coroutines or timers; visible timing belongs to the platform host (Android `Snackbar`/`delay`, iOS `NSTimer`), so a message is never timed twice. The controller stores only a `NativeFeedbackStatus`, never resolved colors.
 
 ### NativeFeedbackHost
@@ -80,6 +82,12 @@ NativeFeedbackHost(feedback) {
     AppContent()
 }
 
+// Or own it outside the composition (ViewModel / DI) and hand it to the host:
+class AppViewModel : ViewModel() {
+    val feedback = NativeFeedbackController()
+}
+NativeFeedbackHost(viewModel.feedback) { AppContent() }
+
 // Anywhere below:
 val feedback = LocalNativeFeedbackController.current
 feedback.toast("Saved")
@@ -87,8 +95,10 @@ feedback.toast("Saved")
 
 **Notes**
 - `LocalNativeFeedbackController.current` throws if read outside a `NativeFeedbackHost`.
-- `rememberNativeFeedbackController()` remembers a controller across recompositions; pass the same instance to the host if you need to post from outside the composition.
+- `rememberNativeFeedbackController()` remembers a controller across recompositions; a directly-constructed controller works the same, as long as exactly one host renders it (see Ownership above).
 - Composition locals (including `LocalNativeFeedbackController`) are not resolvable inside the native iOS overlays; pass a captured reference into action lambdas rather than reading the local there.
+- Bottom-positioned transients stay above the keyboard: Android pads by the union of the navigation-bar and IME insets; iOS anchors the overlay to the window's keyboard layout guide.
+- If a message is posted when nothing can show it (no iOS key window / no presenter — e.g. very early in launch), it resolves immediately through its dismiss/cancel path so the lane never stalls behind an invisible record.
 
 ### toast
 
@@ -124,7 +134,7 @@ feedback.toast("Copied to clipboard", status = NativeFeedbackStatus.Success)
 
 **Notes**
 - The toast HUD is not swipe-dismissable on either platform.
-- The system `Toast` (`android.useSystemToast = true`) renders even outside the app but is unstyleable on Android 12+ and ignores the brand theme and dark mode.
+- The system `Toast` (`android.useSystemToast = true`) renders even outside the app but is unstyleable on Android 12+ and ignores the brand theme and dark mode. Dismissing or replacing the record through the controller also cancels the OS toast, so what is on screen never outlives the lane.
 
 ### snackbar
 
@@ -210,6 +220,7 @@ feedback.banner(
 **Notes**
 - An `Indefinite` banner holds the single transient slot until dismissed, so later transients queue behind it.
 - `swipeToDismiss` is independent of `dismissible`. A banner that only code can dismiss sets both `dismissible = false` and `swipeToDismiss = false`.
+- The action and close affordances meet the platform minimum touch target (≥48 dp on Android, ≥44 pt on iOS — the glyph stays small; the hit area grows), and the close button is announced with the localized `strings.dismiss`.
 
 ### alert
 
@@ -250,6 +261,7 @@ feedback.alert(
 - A `NativeAlertAction.onClick` runs after the alert dismisses.
 - At most one `Cancel`-role action per alert. `Destructive` renders red (iOS `UIAlertActionStyleDestructive` / Material error).
 - iOS chrome intentionally differs from Android — each follows its own platform convention.
+- On Android the non-cancel buttons flow-wrap in the dialog's action area, so three or more actions (or long labels) break onto new lines instead of clipping.
 
 ### confirmationSheet
 
@@ -288,7 +300,7 @@ feedback.confirmationSheet(
 ```
 
 **Notes**
-- `NativeConfirmationAction.icon` uses `NativeIcon.androidImageVector` on Android and `NativeIcon.sfSymbolName` on iOS.
+- `NativeConfirmationAction.icon` renders as a leading glyph on Android (`NativeIcon.androidImageVector`) and in the iOS **Branded** presentation (`NativeIcon.sfSymbolName`, tinted with the row's text color — destructive rows stay red). The iOS **Native** system sheet has no public action-image API and drops the icon.
 - On iPad the native action sheet is anchored to the centre of the presenter's view via KVC (`popoverPresentationController` is not a static member in this Kotlin/Native UIKit version); on iPhone the popover controller is `nil`, so the anchoring is a no-op and behavior is unchanged.
 
 ### NativeInlineStatus
@@ -315,8 +327,8 @@ An inline status message that lives in the layout flow (field validation, an emp
 | `icon` | `ImageVector?` | `null` | A Compose vector overriding the default status glyph. |
 | `showIcon` | `Boolean` | `true` | Hides the leading icon entirely when `false`. |
 | `filled` | `Boolean` | `true` | `true` = soft tonal container fill; `false` = outlined on the page surface. |
-| `actionLabel` | `String?` | `null` | Optional inline text action. |
-| `onAction` | `(() -> Unit)?` | `null` | Called when the inline action is tapped (shown only when `actionLabel` is set). |
+| `actionLabel` | `String?` | `null` | Label of the optional inline text action. The action renders only when **both** `actionLabel` and `onAction` are set. |
+| `onAction` | `(() -> Unit)?` | `null` | Called when the inline action is tapped (the action renders only when both `actionLabel` and `onAction` are set). |
 | `onDismiss` | `(() -> Unit)?` | `null` | Adds a trailing close button that calls this. |
 | `contentDescription` | `String?` | `null` | Accessibility label for the container. |
 | `testTag` | `String?` | `null` | Test tag. |
@@ -332,6 +344,8 @@ NativeInlineStatus(
 
 **Notes**
 - The status is announced to screen readers when it appears or changes: `Error` interrupts (Assertive), other statuses are queued (Polite).
+- The default merged accessibility description leads with the localized status name (`strings.statusSuccess` / `statusWarning` / `statusInfo` / `statusError`), so severity is not conveyed by color alone. An explicit `contentDescription` replaces the whole description untouched.
+- The inline action and the close button meet the ≥48 dp minimum touch target (the visible text/glyph stays small; the hit area grows).
 - `icon` takes a plain Compose `ImageVector` (there is no SF-Symbol slot); it is Compose-drawn on both platforms.
 - The outlined variant (`filled = false`) matches the surface it is embedded in (page or card) via `LocalNativeSurface`.
 
@@ -364,3 +378,7 @@ Besides the post methods, `NativeFeedbackController` exposes:
 | `dismissCurrent()` | Dismiss whatever transient is showing now (e.g. an indefinite banner) and advance the queue. |
 | `dismissCurrentModal()` | Dismiss the current modal as a cancel (runs its `onCancel`) and advance the modal queue. |
 | `clearAll()` | Hard reset — clears both lanes immediately without invoking callbacks. |
+
+### Known limitations
+
+- **iOS: a transient can draw above a native modal.** The toast/snackbar/banner overlays attach to the key window, while a `Native`-presentation alert/sheet is a `UIAlertController` presented into the same window — whichever appeared last stacks on top. A toast posted while a native alert is up therefore renders above the alert. The kit does not reorder window subviews to correct this (see the interop notes on why non-normal windows and presentation containers are never touched); if the overlap matters, post the transient after the modal resolves (e.g. from the action's callback), or use the `Branded` modal presentation, which lives in the same overlay layer.

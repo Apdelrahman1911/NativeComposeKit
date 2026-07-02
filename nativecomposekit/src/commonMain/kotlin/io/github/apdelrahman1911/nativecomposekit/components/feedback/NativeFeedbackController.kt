@@ -91,10 +91,10 @@ internal fun NativeFeedbackDuration.toMillisOrNull(): Long? = when (this) {
 // endregion
 
 /**
- * Imperative entry point for posting feedback. Held above the UI (created by
- * [rememberNativeFeedbackController] and exposed via [LocalNativeFeedbackController] by
- * [NativeFeedbackHost]). Methods are **plain functions** — callable from any click lambda — and return a
- * `Long` id you can pass to [dismiss].
+ * Imperative entry point for posting feedback. Held above the UI — created by
+ * [rememberNativeFeedbackController], or constructed directly for ViewModel/DI ownership — and exposed via
+ * [LocalNativeFeedbackController] by [NativeFeedbackHost]. Methods are **plain functions** — callable from
+ * any click lambda — and return a `Long` id you can pass to [dismiss].
  *
  * It is a synchronous **queue state machine** and nothing more: it owns no coroutines, no timers, and no
  * Material state. The visible timing of each surface is owned by the platform host (Android
@@ -111,7 +111,16 @@ internal fun NativeFeedbackDuration.toMillisOrNull(): Long? = when (this) {
  * *after* the lane has advanced, so a callback may post or dismiss again without corrupting the queue.
  */
 @Stable
-public class NativeFeedbackController internal constructor() {
+public class NativeFeedbackController
+/**
+ * Creates a controller you own — for a ViewModel, DI graph, or app-scoped singleton (the
+ * composition-scoped alternative is [rememberNativeFeedbackController]). The contract:
+ * - **Main thread only**: construct and call it on the UI thread (its queues are plain snapshot state).
+ * - **Create once** per feedback scope and keep the instance — a fresh controller would start with empty
+ *   lanes, silently dropping anything queued on the old one.
+ * - **Exactly one mounted [NativeFeedbackHost]** renders it; a second host would present every message twice.
+ */
+public constructor() {
 
     private var idCounter = 1L
     private fun newId(): Long = idCounter++

@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 /** Sheet sizes. [Medium] ≈ half screen, [Large] ≈ full. iOS maps these to `UISheetPresentationController`
- * detents; Android to a partially- vs fully-expanded `ModalBottomSheet`. */
+ * detents; Android to a partially- vs fully-expanded `ModalBottomSheet`. A [Medium]-only list caps the sheet
+ * on iOS, but on Android the user can still drag it to full height — Material 3 has no partial-only mode, an
+ * accepted platform divergence. */
 public enum class NativeSheetDetent { Medium, Large }
 
 /**

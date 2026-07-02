@@ -67,4 +67,58 @@ class NativeFeedbackControllerTest {
         c.onModalResult(b, null)
         assertNull(c.activeModal)
     }
+
+    @Test
+    fun dismiss_by_id_of_the_active_modal_cancels_it_and_promotes_the_queued_one() {
+        val c = controller()
+        var cancelled = 0
+        val first = c.alert(title = "first", actions = listOf(NativeAlertAction("OK")), onCancel = { cancelled++ })
+        val second = c.alert(title = "second", actions = listOf(NativeAlertAction("OK")))
+        c.dismiss(first) // the active modal: treated as a cancel, not a silent queue removal
+        assertEquals(1, cancelled)
+        assertEquals(second, c.activeModal?.id)
+    }
+
+    @Test
+    fun post_from_onCancel_is_accepted_and_promoted() {
+        // The lane advances BEFORE onCancel runs, so a modal chained from inside the callback must land in a
+        // settled lane — either promoted immediately (empty queue) or queued in order.
+        val c = controller()
+        var chained = -1L
+        c.alert(
+            title = "first",
+            actions = listOf(NativeAlertAction("OK")),
+            onCancel = { chained = c.alert(title = "chained", actions = listOf(NativeAlertAction("OK"))) },
+        )
+        c.dismissCurrentModal()
+        assertEquals(chained, c.activeModal?.id)
+        c.onModalResult(chained, null)
+        assertNull(c.activeModal)
+    }
+
+    @Test
+    fun post_from_a_modal_result_callback_is_accepted_and_promoted() {
+        val c = controller()
+        var chained = -1L
+        val id = c.alert(actions = listOf(NativeAlertAction("OK")))
+        c.onModalResult(id) {
+            chained = c.confirmationSheet(actions = listOf(NativeConfirmationAction("Go")))
+        }
+        assertEquals(chained, c.activeModal?.id)
+    }
+
+    @Test
+    fun modal_and_transient_lanes_are_independent() {
+        val c = controller()
+        val toastId = c.toast("busy")
+        val alertId = c.alert(actions = listOf(NativeAlertAction("OK")))
+        // One active record in EACH lane at the same time — a modal overlays a transient, never replaces it.
+        assertEquals(toastId, c.activeTransient?.id)
+        assertEquals(alertId, c.activeModal?.id)
+        c.onModalResult(alertId, null)
+        assertNull(c.activeModal)
+        assertEquals(toastId, c.activeTransient?.id) // resolving one lane leaves the other untouched
+        c.onTransientTimeout(toastId)
+        assertNull(c.activeTransient)
+    }
 }

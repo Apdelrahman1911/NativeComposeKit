@@ -25,11 +25,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeDialogColors
+import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeSurface
 import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
 
@@ -48,6 +51,10 @@ import io.github.apdelrahman1911.nativecomposekit.theme.NativeTheme
  * Shown while it is in composition; [onDismissRequest] fires on scrim tap / back (gated by
  * [dismissOnClickOutside]/[dismissOnBackPress], or supply your own [properties]). [actions] is a trailing,
  * end-aligned button row (omit for an informational dialog).
+ *
+ * **Accessibility:** the surface carries dialog-pane semantics (`paneTitle`), so screen readers announce the
+ * dialog when it opens. This slot overload announces the localized `strings.dialogPaneTitle` (the [title]
+ * slot is opaque to semantics); the String-title overload announces its actual title.
  *
  * **iOS note:** a `Dialog` mounts a fresh native scene; on its first frame a cut-out `UIKitView` interop region
  * would reveal the system backdrop (a black box in dark mode) until the native view is inserted. Two levers avoid
@@ -76,6 +83,47 @@ public fun NativeDialog(
     actions: (@Composable RowScope.() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
+    // The slot title is opaque to semantics, so the pane announcement uses the generic localized fallback
+    // (the String-title overload passes its real title instead).
+    NativeDialogImpl(
+        paneTitle = LocalNativeStrings.current.dialogPaneTitle,
+        onDismissRequest = onDismissRequest,
+        modifier = modifier,
+        icon = icon,
+        title = title,
+        dismissOnBackPress = dismissOnBackPress,
+        dismissOnClickOutside = dismissOnClickOutside,
+        colorsOverride = colorsOverride,
+        cornerRadius = cornerRadius,
+        elevation = elevation,
+        contentPadding = contentPadding,
+        horizontalAlignment = horizontalAlignment,
+        properties = properties,
+        testTag = testTag,
+        actions = actions,
+        content = content,
+    )
+}
+
+@Composable
+private fun NativeDialogImpl(
+    paneTitle: String,
+    onDismissRequest: () -> Unit,
+    modifier: Modifier,
+    icon: (@Composable () -> Unit)?,
+    title: (@Composable () -> Unit)?,
+    dismissOnBackPress: Boolean,
+    dismissOnClickOutside: Boolean,
+    colorsOverride: NativeDialogColors?,
+    cornerRadius: Dp?,
+    elevation: Dp?,
+    contentPadding: PaddingValues?,
+    horizontalAlignment: Alignment.Horizontal,
+    properties: DialogProperties?,
+    testTag: String?,
+    actions: (@Composable RowScope.() -> Unit)?,
+    content: @Composable ColumnScope.() -> Unit,
+) {
     val scheme = MaterialTheme.colorScheme
     val colors = colorsOverride ?: NativeDialogColors(
         container = scheme.surface,
@@ -100,6 +148,11 @@ public fun NativeDialog(
         CompositionLocalProvider(LocalNativeInteropPlacement provides NativeInteropPlacement.Overlay) {
             var surface: Modifier = modifier.fillMaxWidth()
             if (resolvedElevation > 0.dp) surface = surface.shadow(resolvedElevation, shape)
+            // Pane semantics: screen readers announce the dialog by name when focus moves into it — a
+            // `Dialog` window otherwise opens silently. (Local val: a bare `paneTitle` inside the semantics
+            // lambda would resolve to the receiver's property, not the parameter.)
+            val resolvedPaneTitle = paneTitle
+            surface = surface.semantics { this.paneTitle = resolvedPaneTitle }
             surface = surface.clip(shape).background(colors.container)
             if (colors.border.isSpecified) surface = surface.border(1.dp, colors.border, shape)
             testTag?.let { surface = surface.testTag(it) }
@@ -138,7 +191,8 @@ public fun NativeDialog(
 
 /**
  * Convenience overload with a plain-text [title] (rendered in the title slot with the dialog's title color). Use
- * the slot-based [NativeDialog] above when you need a custom title (icon+text, styled, etc.).
+ * the slot-based [NativeDialog] above when you need a custom title (icon+text, styled, etc.). The [title] is
+ * also announced as the dialog's accessibility pane title (`strings.dialogPaneTitle` when null).
  *
  * `NativeDialog(title = "Delete file?", onDismissRequest = { open = false }, actions = { … }) { NativeText("This can't be undone.") }`
  */
@@ -161,9 +215,12 @@ public fun NativeDialog(
 ) {
     val titleSlot: (@Composable () -> Unit)? =
         title?.let { text -> @Composable { Text(text, style = MaterialTheme.typography.titleLarge) } }
-    NativeDialog(
+    NativeDialogImpl(
+        // The plain-text title doubles as the announced pane title; the localized fallback covers null.
+        paneTitle = title ?: LocalNativeStrings.current.dialogPaneTitle,
         onDismissRequest = onDismissRequest,
         modifier = modifier,
+        icon = null,
         title = titleSlot,
         dismissOnBackPress = dismissOnBackPress,
         dismissOnClickOutside = dismissOnClickOutside,

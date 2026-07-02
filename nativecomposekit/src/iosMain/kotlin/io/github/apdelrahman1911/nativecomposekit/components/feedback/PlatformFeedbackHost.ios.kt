@@ -21,12 +21,16 @@ internal actual fun PlatformFeedbackHost(
 ) {
     content()
 
+    // Localized kit-rendered labels (fallback action titles, the close button's accessibility label) —
+    // read here, in composition, and handed to the imperative UIKit layer.
+    val strings = LocalNativeStrings.current
+
     // Transient lane (toast HUD / snackbar / banner) — key-window overlay.
     val transient = controller.activeTransient
     if (transient != null) {
         val style = resolveFeedbackStyle(transient.status, filled = true)
         DisposableEffect(transient.id) {
-            val handle = presentTransient(transient, style, controller)
+            val handle = presentTransient(transient, style, strings, controller)
             onDispose { handle?.dismiss() }
         }
     }
@@ -38,7 +42,6 @@ internal actual fun PlatformFeedbackHost(
         val primary = MaterialTheme.colorScheme.primary.toUIColor()
         val error = MaterialTheme.colorScheme.error.toUIColor()
         val cancelColor = MaterialTheme.colorScheme.onSurfaceVariant.toUIColor()
-        val strings = LocalNativeStrings.current // localized fallback action titles ("OK"/"Cancel")
         DisposableEffect(modal.id) {
             val dismiss = presentModal(modal, cardStyle, primary, error, cancelColor, strings, controller)
             onDispose { dismiss() }
