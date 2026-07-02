@@ -178,7 +178,11 @@ app/
 iosApp/                 native iOS host (chrome shell + ComposeUIViewController)
 ```
 
-Keep `NativeKitTheme` at the root so every component resolves the same theme. Build screens out of
+Keep `NativeKitTheme` at the root so every component resolves the same theme. Apps that use the app-wide
+appearance switching or the native iOS shell should wrap each composition root in **`NativeAppearanceScope`**
+instead of calling `NativeKitTheme` directly — the scope forwards every theming parameter AND drives the
+process-wide dark/RTL overrides, the reduce-motion capability, and the iOS window/shell background
+(`NativeAppearance.setDark` has no effect on compositions outside the scope). Build screens out of
 `Native*` components rather than reaching for raw Material or UIKit — that's what keeps a screen
 native on both platforms from one code path. The `:composeApp` module in this repo is a working
 example.
@@ -243,13 +247,15 @@ Full reference with every parameter, both renderers, and examples is in
   [`NativeSlider`](docs/components/selection-and-sliders.md),
   [`NativeStepper`](docs/components/selection-and-sliders.md),
   [`NativeRating`](docs/components/selection-and-sliders.md)
-- **Pickers** — [`NativeDatePicker`](docs/components/pickers.md),
+- **Pickers & pagination** — [`NativeDatePicker`](docs/components/pickers.md),
   [`NativeColorWell`](docs/components/pickers.md),
-  [`NativePageControl`](docs/components/pickers.md)
+  [`NativePageControl`](docs/components/pickers.md),
+  [`NativePager`](docs/components/pickers.md),
+  [load-more helpers (`NativeLoadMoreEffect`, `nativePaginationFooter`)](docs/components/pickers.md)
 - **Overlays** — [`NativeSheet`](docs/components/overlays.md),
   [`NativePopover`](docs/components/overlays.md),
   [`NativeDialog`](docs/components/overlays.md),
-  [`NativeShareSheet`](docs/components/overlays.md)
+  [`rememberNativeShare`](docs/components/overlays.md)
 - **Feedback & progress** — [`NativeProgressIndicator`](docs/components/feedback.md), alert /
   confirmation sheet / snackbar / toast / banner / inline status ([`feedback`](docs/components/feedback.md))
 - **Layout** — [`NativeCard`](docs/components/layout.md),
@@ -263,7 +269,8 @@ Full reference with every parameter, both renderers, and examples is in
   [`NativeBadge`](docs/components/display-and-state.md),
   [`NativeAvatar`](docs/components/display-and-state.md),
   [`NativeChip`](docs/components/display-and-state.md)
-- **Accessibility & focus** — [`nativeDismissKeyboardOnTap`, `nativeHeading`, `nativeAutoFocus`, focus handles / order / group](docs/components/accessibility.md)
+- **Accessibility & focus** — [`nativeDismissKeyboardOnTap`, `nativeHeading`, `nativeAutoFocus`, focus handles / order / group](docs/components/accessibility.md),
+  [`nativeImePadding`](docs/components/text-and-input.md)
 
 ## Documentation
 

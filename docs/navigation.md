@@ -21,7 +21,7 @@ through a small contract.
 The contract is split so the platform-neutral part lives in `commonMain` — you implement and **unit-test your
 chrome projection in shared code**, and only the one iOS-specific piece lives in `iosMain`:
 
-- **`NativeChromeState(title, backTitle, canGoBack, selectedTabId, tabs, actions, sheetId)`** *(commonMain)* — an
+- **`NativeChromeState(title, canGoBack, selectedTabId, tabs, actions, sheetId, backTitle)`** *(commonMain)* — an
   immutable, one-way projection the bars draw. Carries **no** route stack; `backTitle` is the previous screen's
   title (UIKit renders it in the native back button where the system shows a label); `sheetId` only tells the
   shell whether to present a sheet. `NativeChromeTab(id, title, sfSymbol)` / `NativeChromeAction(id, sfSymbol)`
@@ -130,7 +130,7 @@ writes the equivalent `NativeChromeSource` adapter.
 
 **Android** — `NativeNavHost(navigator, graph, tabs, title, actions)`: the selected tab's top route in an
 `AnimatedContent` (push/pop slide by stack delta), a Material `TopAppBar` (back when depth > 1 → `pop()`), a
-`NavigationBar` → `selectTab`, and a `ModalBottomSheet` for `state.sheet`. System/predictive back → `pop()`.
+`NavigationBar` → `selectTab` (a re-tap of the selected tab pops it to root), and a `ModalBottomSheet` for `state.sheet`. System back (gesture/button) → `pop()`.
 
 **iOS** — Compose owns the stack in **one** `ComposeUIViewController` rendering `NativeNavContent(renderSheet = false)`.
 A Swift shell (`iosApp/iosApp/Native/NativeNavShell.swift`) renders the real native `UINavigationBar` + Liquid

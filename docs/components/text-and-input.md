@@ -22,7 +22,7 @@ A text label. Defaults come from the theme type scale via `style`; every other p
 | `text` | `String` | — | The string to display. |
 | `modifier` | `Modifier` | `Modifier` | Layout modifier. |
 | `style` | `NativeTextStyle` | `NativeTextStyle.Body` | Type-scale role: `Display`, `Title`, `Body`, `Label`. |
-| `color` | `Color` | `Color.Unspecified` | Text color. Unspecified falls back to `onSurface`. |
+| `color` | `Color` | `Color.Unspecified` | Text color. Unspecified inherits the surrounding `LocalContentColor` (a `NativeCard` with a custom `contentColor` tints its text), falling back to `onSurface`. |
 | `fontWeight` | `FontWeight?` | `null` | Overrides the weight from the style. |
 | `align` | `TextAlign?` | `null` | Text alignment. |
 | `maxLines` | `Int` | `Int.MAX_VALUE` | Maximum line count. |
@@ -76,15 +76,19 @@ A single-line or multiline text input with optional label, placeholder, helper, 
 | `input` | `NativeFieldInput` | `NativeFieldInput()` | Grouped input options: keyboard type, IME action, secure, line count, capitalization, autocorrect, character limit. |
 | `focus` | `NativeFieldFocus` | `NativeFieldFocus()` | Focus and submit callbacks: `onFocusChanged`, `onSubmit`. |
 | `contentType` | `NativeTextContentType?` | `null` | Cross-platform autofill hint, wired on both platforms. |
-| `colors` | `NativeFieldColors?` | `null` | Color overrides. `null` uses theme colors. |
+| `colorsOverride` | `NativeFieldColors?` | `null` | Color overrides. `null` uses theme colors. |
 | `cornerRadius` | `Dp?` | `null` | Corner radius. `null` uses the theme small corner. |
-| `textStyle` | `TextStyle?` | `null` | Text style merged over the resolved body style. |
+| `textStyleOverride` | `TextStyle?` | `null` | Text style merged over the resolved body style. |
 | `touch` | `NativeInteropTouch` | `NativeInteropTouch.Cooperative` | iOS interop touch strategy inside scrolls. |
 | `contentDescription` | `String?` | `null` | Accessibility description. |
 | `testTag` | `String?` | `null` | Test tag (`accessibilityIdentifier` on iOS). |
 | `ios` | `NativeTextFieldIosOptions` | `NativeTextFieldIosOptions()` | iOS-only options: `clearButton`, `keyboardAppearance`, `keyboardAccessory`. No-op on Android. |
 
 `NativeFieldInput` fields and their defaults: `keyboardType = NativeKeyboardType.Text`, `imeAction = NativeImeAction.Default`, `secure = false`, `singleLine = true`, `minLines = 1`, `maxLines = if (singleLine) 1 else Int.MAX_VALUE`, `capitalization = NativeCapitalization.Sentences`, `autoCorrect = true`, `characterLimit = null`.
+Invalid line counts fail fast: `minLines` must be ≥ 1 and ≤ `maxLines`. On iOS the multiline editor is a
+fixed-height box sized to `minLines` (content beyond it scrolls inside the editor — it does not auto-grow
+the way the Android field grows toward `maxLines`), and the multiline layout has no leading/trailing icon
+slots (single-line only there; Android renders icons in both).
 
 `NativeTextFieldIosOptions` fields and their defaults: `clearButton = NativeClearButtonMode.Never`, `keyboardAppearance = NativeKeyboardAppearance.Default`, `keyboardAccessory = NativeKeyboardAccessory()`.
 
@@ -107,7 +111,7 @@ NativeTextField(
 - Multiline (`input.singleLine = false`) swaps the iOS native view to `UITextView`, which has no built-in placeholder or clear button. The placeholder is rendered as a themed overlay and the clear button is omitted in multiline mode.
 - The clear button (`ios.clearButton`) is a real `UITextField` affordance on iOS. Android has no native equivalent; add one with `trailingIcon` + `onTrailingIconClick` (works on both platforms). A leading `ios.clearButton` is suppressed when a `trailingIcon` is set, since they share the right slot.
 - `ios.keyboardAppearance` and `ios.keyboardAccessory` are iOS-only and are no-ops on Android. The Done accessory dismisses the keyboard and, for single-line fields, fires `focus.onSubmit`.
-- Character limit behavior is identical on both platforms (enforced in shared code): `Enforce` hard-caps input (typing past the max is rejected, paste is trimmed); `WarnOnly` lets the value exceed the max and leaves it to the caller to surface a counter or error.
+- Character limit behavior is identical on both platforms: `Enforce` hard-caps input (typing past the max is rejected, paste is trimmed — the iOS renderer trims the native text in the change handler so the display can never outrun the state; in-flight IME composition is never cut). `WarnOnly` lets the value exceed the max and leaves it to the caller to surface a counter or error.
 - Keyboard avoidance: a focused field scrolls to stay above the keyboard. The host scroll container must apply the kit's `Modifier.nativeImePadding(minBottom = …)`; the component supplies the bring-into-view. On Android it delegates to Compose's IME inset; on iOS it tracks the real keyboard frame in window coordinates (correct under the edge-to-edge chrome shell, and zero for a floating iPad keyboard).
 - Single-line fields scale their host height with the Dynamic Type font scale (`style.minHeight × fontScale`, multiline ×2), so large accessibility text sizes grow the field instead of clipping.
 

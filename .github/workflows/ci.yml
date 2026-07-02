@@ -27,7 +27,8 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Run the shared gate
         # Note: on Linux the binary-compatibility-validator can only verify the JVM .api dump — the
-        # Apple klib halves are validated by the macOS job below.
+        # Apple klib halves are validated by the macOS job below. assembleRelease keeps the release
+        # variant (minify config, lintVital) honest — debug-only CI let release breakage land unseen.
         run: >
           ./gradlew
           :nativecomposekit:apiCheck
@@ -36,6 +37,7 @@ jobs:
           :nativecomposekit:lintDebug
           :composeApp:lintDebug
           :composeApp:assembleDebug
+          :composeApp:assembleRelease
 
   ios:
     name: iOS Kotlin targets + app build
@@ -62,18 +64,23 @@ jobs:
       - name: Compile iOS targets and verify the full multiplatform ABI lock
         # apiCheck here validates the klib dumps too — the Linux job can't compile Apple targets, so
         # its klib half is inert; this is the run that actually locks the iOS-facing API.
+        # linkDebugFrameworkIosArm64 links the DEVICE-arch framework: xcodebuild below only links the
+        # simulator slice, so export-list/linker breakage for real iPhones was previously invisible.
         run: >
           ./gradlew
           :composeApp:compileKotlinIosSimulatorArm64
           :composeApp:compileKotlinIosArm64
+          :composeApp:linkDebugFrameworkIosArm64
           :nativecomposekit:apiCheck
-      - name: Run the kit's shared tests on the iOS simulator target
-        run: ./gradlew :nativecomposekit:iosSimulatorArm64Test
+      - name: Run the shared tests on the iOS simulator target
+        # Both modules: the kit's tests AND the sample's navigator/chrome/data tests run as real
+        # Kotlin/Native code here (the Linux job runs them on the JVM only).
+        run: ./gradlew :nativecomposekit:iosSimulatorArm64Test :composeApp:iosSimulatorArm64Test
       - name: Smoke-publish the full multiplatform artifact set
         run: ./gradlew :nativecomposekit:publishToMavenLocal
       - name: Build the iOS app (simulator, unsigned)
         run: |
-          brew install xcodegen
+          command -v xcodegen >/dev/null || brew install xcodegen
           cd iosApp
           xcodegen generate
           DEVICE=$(xcrun simctl list devices available --json | jq -r '[.devices[] | .[] | select(.isAvailable and (.name | startswith("iPhone")))][0].name // empty')

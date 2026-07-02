@@ -14,7 +14,7 @@ iOS-specific interop behavior is in [`interop-notes.md`](../interop-notes.md).
 - [Buttons](buttons.md) — `NativeButton`, `NativeIconButton`, `NativeSplitButton`, `NativeMenu`
 - [Selection & sliders](selection-and-sliders.md) — `NativeToggle`, `NativeCheckbox`, `NativeRadioGroup`, `NativeSegmentedControl`, `NativeSlider`, `NativeStepper`, `NativeRating`
 - [Pickers & pagination](pickers.md) — `NativeDatePicker`, `NativeColorWell`, `NativePageControl`, `NativePager`, load-more helpers
-- [Overlays](overlays.md) — `NativeSheet`, `NativePopover`, `NativeDialog`, `NativeShareSheet`
+- [Overlays](overlays.md) — `NativeSheet`, `NativePopover`, `NativeDialog`, `rememberNativeShare`
 - [Feedback & progress](feedback.md) — `NativeProgressIndicator`, alert / confirmation sheet / snackbar / toast / banner / inline status
 - [Layout](layout.md) — `NativeCard`, `NativeScaffold`, `NativeTopBar`, `NativeListSection`, `NativeListItem`, `NativeDivider`
 - [Display & state](display-and-state.md) — `NativeContentState`, `NativeSkeleton`, `NativeEmptyState`, `NativePullRefresh`, `NativeBadge`, `NativeAvatar`, `NativeChip`
@@ -57,7 +57,7 @@ iOS-specific interop behavior is in [`interop-notes.md`](../interop-notes.md).
 | `NativeScaffold` | [Layout](layout.md) |
 | `NativeSearchBar` | [Text & input](text-and-input.md) |
 | `NativeSegmentedControl` | [Selection & sliders](selection-and-sliders.md) |
-| `NativeShareSheet` | [Overlays](overlays.md) |
+| `rememberNativeShare` / `NativeShareContent` | [Overlays](overlays.md) |
 | `NativeSheet` | [Overlays](overlays.md) |
 | `NativeSkeleton` | [Display & state](display-and-state.md) |
 | `NativeSlider` | [Selection & sliders](selection-and-sliders.md) |
@@ -75,5 +75,7 @@ iOS-specific interop behavior is in [`interop-notes.md`](../interop-notes.md).
 | `nativeFocusTarget` | [Accessibility & focus](accessibility.md) |
 | `nativeHeading` | [Accessibility & focus](accessibility.md) |
 | `nativeImePadding` | [Text & input](text-and-input.md) |
+| `NativeButtonColors` / `NativeFieldColors` / `NativeSearchBarColors` | [Buttons](buttons.md), [Text & input](text-and-input.md) |
+| `NativeSwipeAction` | [Layout](layout.md) |
 | `nativePaginationFooter` | [Pickers](pickers.md) |
 | `rememberNativeFocusHandle` | [Accessibility & focus](accessibility.md) |

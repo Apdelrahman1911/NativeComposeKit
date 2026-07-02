@@ -107,7 +107,10 @@ bar.
 
 ## The chrome projection the bars render
 
-The shell draws whatever `NativeChromeState` says — all seven fields:
+The shell draws whatever `NativeChromeState` says — all seven fields, reconciled on every emission (tabs
+included: titles/sets are rebuilt when they change, so localized or conditional tabs never drift). One
+sheet at a time: to switch sheets, emit `sheetId = null` first, then the new id (the reference shell also
+handles a direct A→B change by dismissing then re-presenting).
 `title`, `backTitle` (the previous screen's title, which UIKit renders in the native back button),
 `canGoBack`, `selectedTabId`, `tabs`, `actions`, `sheetId`. Bar taps go back as intents
 (`backRequested()` / `tabSelected` / `actionTapped` / `dismissSheet`); the shell never owns or mutates a

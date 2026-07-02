@@ -60,6 +60,14 @@ material surfaces, native `UILabel` on solid) — and that exception is document
   `UINavigationBar`/`UITabBar` chrome — see `docs/native-chrome.md`), not Compose content.
 - **Time / datetime picker** → `NativeDatePicker` is date-only v1; a follow-up if needed.
 
+### Native typography boundary (iOS solid-surface text)
+
+On iOS solid surfaces, `NativeText` renders a real `UILabel` with a **system font built from the resolved
+`TextStyle`'s size + weight** (Dynamic-Type-scaled). Custom `fontFamily`, `lineHeight`, `letterSpacing`,
+and italic from an injected typography are **not** carried onto that native label (they render fully on
+Android and on the Compose glass path). Weights map across the full 100–900 range. If exact typographic
+fidelity on iOS matters more than native rendering, keep those texts on Compose-drawn surfaces.
+
 ## Open / deferred
 - **iOS-26 Liquid Glass refraction vs the opaque `pinFilling` backing** on toggle/slider/segmented/search/
   datepicker — the opaque backing blocks the material's refraction; needs visual tuning on an iOS 26 device

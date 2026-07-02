@@ -62,3 +62,12 @@ Upstream: [CMP-10400](https://youtrack.jetbrains.com/issue/CMP-10400). Related: 
   stacking interop controls in an ad-hoc scrolling container.
 - Give content-sized interop controls an explicit width — see the usage notes in the
   [README](../README.md#usage-notes) and the component reference.
+
+## Deferred: Liquid Glass refraction vs the opaque `pinFilling` backing
+
+The pinFilling-backed leaf controls (toggle / slider / segmented / search / date picker / color well)
+sit on an **opaque, surface-colored backing** so their transparent pixels never reveal the interop host
+backdrop. On an iOS 26 device that opacity also blocks the Liquid Glass **refraction** under the control
+when the control sits on a material surface. Deferred pending visual tuning on real iOS 26 hardware:
+candidate directions are a translucent/material backing, or gating the backing on solid surfaces only
+(`LocalNativeSurface` already distinguishes them). Referenced from `docs/design-system-rules.md` §Open.

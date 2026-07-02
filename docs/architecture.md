@@ -40,9 +40,10 @@ We do **not** pick "UIKit vs SwiftUI" globally. Responsibilities are split by ti
 - **Shared = content + logic** (Tier 2): screens, forms, state, and the `Native*` component APIs.
 - **Native per platform = chrome (Tier 1) and leaf controls (Tier 3).**
 
-**The trade we consciously accept:** navigation/chrome is **native per platform, not shared** — only
-*content* is shared. This is required for genuine native feel (real native bars, tab bars, sheets, search,
-Liquid Glass) and is the correct trade for this product.
+**The trade we consciously accept:** the **chrome** is native per platform (real native bars, tab bars,
+sheets, Liquid Glass) while **navigation and content are shared** — Compose/Kotlin owns the one and only
+stack, and the native chrome is a dumb projection of it (see §7). This is required for genuine native feel
+and is the correct trade for this product.
 
 ### Liquid Glass — precise wording
 Compose may approximate some glass-like visuals in its own custom content, but it **cannot own real
@@ -291,9 +292,9 @@ Do not touch yet: Android Material actuals (stable), the theme token system (sta
 
 | Check | How |
 |---|---|
-| Visual parity, light, dark, stable-state regression | **Automated** (simulator screenshot workflow) |
-| `testTag` → `accessibilityIdentifier` present | **Automated** (small XCUITest / assertion) |
-| Core interactions (toggle flips, slider min↔max, field type+submit) | **Automated** (a few XCUITests by id) |
+| Visual parity, light, dark, stable-state regression | **Automated (target)** — simulator screenshot workflow; CI today builds + runs unit/Robolectric/K-N tests |
+| `testTag` → `accessibilityIdentifier` present | **Automated (target)** (small XCUITest / assertion) |
+| Core interactions (toggle flips, slider min↔max, field type+submit) | **Automated (target)** (a few XCUITests by id) |
 | Memory leaks (esp. SwiftUI-hosted) | **Semi-automated** (Instruments / `XCTMemoryMetric`) |
 | RTL/Arabic, Dynamic Type, VoiceOver, keyboard/focus/IME, scroll-touch in scroll, reduced motion | **Manual checklist** (per component) |
 | Real-device matrix, performance in long forms | **Release QA** |
@@ -307,11 +308,12 @@ checklist shipped in the docs.
 ## 10. Decisions log / non-goals
 
 - **Stay UIKit for low-level controls; SwiftUI only by exception** (Charts / glass-only).
-- **Move app shell / navigation / presentations to native** (SwiftUI on iOS, Material on Android).
-- **Shell/navigation is native per platform; only content is shared.**
+- **Chrome shells are native per platform; navigation stays Kotlin-owned** — the shells project state
+  and forward intents (superseded the early "move navigation to native" direction, which produced the
+  dual-ownership bugs §7 exists to prevent).
 - **Rich component APIs via typed options + `ios`/`android` blocks**, not minimal APIs and not raw
   view-mutation from shared code.
-- **Navigation core is library-agnostic; Nav3 is the default Android adapter, not the core.**
+- **The kit owns no navigation core** — bring your own navigation and adapt it to `NativeChromeStateSource` (the sample's `NativeNavigator` is reference wiring, not published API).
 - **No premature modularization** — packages now, Gradle modules when a second renderer exists.
 - Non-goal (for now): a full SwiftUI rewrite of the basic controls (adds a bridge + hosting overhead
   for no visual gain and *less* theming control on several controls).

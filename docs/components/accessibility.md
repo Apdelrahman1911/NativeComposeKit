@@ -7,7 +7,7 @@ Modifier extensions for focus, soft-keyboard dismissal, and screen-reader naviga
 A `Modifier` extension that clears focus when the element is tapped, which hides the soft keyboard.
 
 **Android:** Compose `pointerInput` + `detectTapGestures`; the tap calls `LocalFocusManager.clearFocus()`, which hides the IME.
-**iOS:** same Compose code path; clearing focus resigns the first responder and dismisses the keyboard.
+**iOS:** the tap clears Compose focus AND ends editing on the key window — the kit's native `UITextField`/`UITextView` inputs keep their focus in UIKit, so `endEditing` is what actually resigns them.
 
 **Use it when**
 - A form screen should hide the keyboard when the user taps outside any field (the common iOS/Android idiom).
@@ -94,9 +94,24 @@ A `NativeFocusHandle` moves focus to (or releases it from) a target element impe
 **Example**
 
 ```kotlin
-val next = rememberNativeFocusHandle()
-NativeTextField(email, { email = it }, focus = NativeFieldFocus(onSubmit = { next.requestFocus() }))
-NativeTextField(pw, { pw = it }, modifier = Modifier.nativeFocusTarget(next))
+// Imperative focus from any callback — e.g. a button that jumps to a field.
+val notes = rememberNativeFocusHandle()
+NativeButton("Add a note", onClick = { notes.requestFocus() })
+NativeTextField(note, { note = it }, modifier = Modifier.nativeFocusTarget(notes))
+```
+
+For an IME **Next** chain, don't wire `onSubmit` to `requestFocus()` — the kit runs your handler AND the
+platform's default action, so focus would move twice (and a Done action would then hide the keyboard).
+Set `imeAction = NativeImeAction.Next` and declare the order instead:
+
+```kotlin
+val pwHandle = rememberNativeFocusHandle()
+NativeTextField(
+    email, { email = it },
+    input = NativeFieldInput(imeAction = NativeImeAction.Next),
+    modifier = Modifier.nativeFocusOrder(next = pwHandle),
+)
+NativeTextField(pw, { pw = it }, modifier = Modifier.nativeFocusTarget(pwHandle))
 ```
 
 ### nativeFocusOrder
