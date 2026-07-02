@@ -66,13 +66,8 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
-        // Compose UI tests on the JVM via Robolectric (no emulator) — test-only, never shipped.
-        @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-        androidUnitTest.dependencies {
-            implementation(compose.uiTest)
-            implementation(libs.robolectric)
-            implementation(libs.junit)
-        }
+        // The sample's tests are plain JVM logic tests (navigator, chrome projection, data) — no Compose
+        // UI test / Robolectric here; that harness lives in :nativecomposekit where the render tests are.
     }
 }
 
@@ -104,10 +99,4 @@ android {
             isReturnDefaultValues = true
         }
     }
-}
-
-dependencies {
-    // Merges the empty ComponentActivity + manifest that Compose UI tests host into (debug variant = what the
-    // Robolectric unit tests use). Test-only; never in a release build.
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

@@ -4,7 +4,8 @@ import io.github.apdelrahman1911.nativecomposekit.app.navigation.NativeRoute
 
 /**
  * The app's navigation destinations. The library never knows these cases — it only uses [NativeRoute.id]. The id
- * encodes any arguments (e.g. the chapter) so a route round-trips through the SwiftUI `[String]` path.
+ * encodes any arguments (e.g. the chapter), so a route survives being projected to the native chrome as a
+ * plain string id and mapped back.
  */
 sealed interface AppRoute : NativeRoute {
     /** Root of the Library tab. */

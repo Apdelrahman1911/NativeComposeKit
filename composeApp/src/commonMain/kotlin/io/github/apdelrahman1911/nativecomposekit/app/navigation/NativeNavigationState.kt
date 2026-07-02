@@ -40,10 +40,4 @@ class NativeNavigationState internal constructor(
     fun top(): NativeRoute = currentStack().last()
 
     internal fun tabById(id: String): NativeTab? = tabs.firstOrNull { it.id == id }
-
-    /** Resolve a route id back to its live route instance (searches every stack + the sheet). */
-    internal fun routeById(id: String): NativeRoute? {
-        stacks.values.forEach { stack -> stack.firstOrNull { it.id == id }?.let { return it } }
-        return sheet?.takeIf { it.id == id }
-    }
 }
