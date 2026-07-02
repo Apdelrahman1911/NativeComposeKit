@@ -13,7 +13,15 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.binary.compatibility.validator)
+    `maven-publish`
 }
+
+// Published coordinates: io.github.apdelrahman1911:nativecomposekit:<version>. These also make Gradle
+// composite-build substitution work (`includeBuild(...)` in a consumer maps this module onto the same
+// coordinates), and `publishToMavenLocal` produces a consumable artifact set today; Maven Central signing
+// and upload are layered on top of this later without changing consumers.
+group = "io.github.apdelrahman1911"
+version = "0.1.0"
 
 // ABI lock: the public surface is dumped to nativecomposekit/api/*.api (JVM) + *.klib.api (native), and `apiCheck`
 // (wired into `check`) fails the build if the public API changes without an intentional `:nativecomposekit:apiDump`.
@@ -31,6 +39,9 @@ kotlin {
     explicitApi()
 
     androidTarget {
+        // Publish the release variant of the Android target (required for the android artifact to be
+        // included in the multiplatform publication).
+        publishLibraryVariants("release")
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
@@ -100,4 +111,36 @@ android {
 dependencies {
     // The empty ComponentActivity + manifest the Robolectric Compose UI tests host into (debug variant).
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+// POM metadata on every publication (the KMP plugin creates one per target + the root module).
+publishing {
+    publications.withType<MavenPublication>().configureEach {
+        pom {
+            name.set("NativeComposeKit")
+            description.set(
+                "Compose Multiplatform UI kit: one shared component API, rendered with Material 3 on " +
+                    "Android and real UIKit controls on iOS.",
+            )
+            url.set("https://github.com/Apdelrahman1911/NativeComposeKit")
+            licenses {
+                license {
+                    name.set("The Apache License, Version 2.0")
+                    url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                }
+            }
+            developers {
+                developer {
+                    id.set("Apdelrahman1911")
+                    name.set("Apdelrahman1911")
+                    url.set("https://github.com/Apdelrahman1911")
+                }
+            }
+            scm {
+                url.set("https://github.com/Apdelrahman1911/NativeComposeKit")
+                connection.set("scm:git:https://github.com/Apdelrahman1911/NativeComposeKit.git")
+                developerConnection.set("scm:git:https://github.com/Apdelrahman1911/NativeComposeKit.git")
+            }
+        }
+    }
 }

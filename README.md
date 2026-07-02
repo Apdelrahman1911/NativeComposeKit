@@ -68,24 +68,36 @@ iosApp        thin SwiftUI host that loads the shared Compose UI
 
 ## Setup
 
-NativeComposeKit isn't on Maven Central yet (see [development notes](#development-notes)). For now,
-consume `:nativecomposekit` as a source module.
+The library publishes as `io.github.apdelrahman1911:nativecomposekit`. It isn't on Maven Central yet
+(see [development notes](#development-notes)), so consume it one of two ways today:
 
-Clone it next to your project and pull the module into your `settings.gradle.kts`:
+**A — composite build** (clone next to your project; Gradle substitutes the coordinates with the local
+module automatically):
 
 ```kotlin
 // settings.gradle.kts
-includeBuild("../NativeComposeKit") // or vendor :nativecomposekit into your own tree
+includeBuild("../NativeComposeKit")
 ```
 
-Then depend on it from a Compose Multiplatform module:
+**B — local Maven repository:**
+
+```bash
+cd NativeComposeKit && ./gradlew :nativecomposekit:publishToMavenLocal
+```
+
+```kotlin
+// settings.gradle.kts
+dependencyResolutionManagement { repositories { mavenLocal(); google(); mavenCentral() } }
+```
+
+Either way, the dependency line is the same:
 
 ```kotlin
 // build.gradle.kts (commonMain)
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.apdelrahman1911.nativecomposekit:nativecomposekit") // coordinates TBD; see development notes
+            implementation("io.github.apdelrahman1911:nativecomposekit:0.1.0")
         }
     }
 }
@@ -306,8 +318,9 @@ Contributions are welcome. Before opening a pull request:
   namespace is `io.github.apdelrahman1911.nativecomposekit.kit`, and the public components use the
   `Native*` prefix. The Gradle module is still named `:nativecomposekit` — an internal build name, not the
   published group, so there's no need to churn it.
-- **Publishing.** Maven Central coordinates aren't set up yet; that's the next step toward consuming
-  the kit as a normal dependency. The dependency line above is illustrative until then.
+- **Publishing.** Coordinates (`io.github.apdelrahman1911:nativecomposekit`) and POM metadata are set up;
+  `publishToMavenLocal` and composite builds work today. Maven Central itself (signing + upload) is the
+  remaining step.
 
 ## License
 
