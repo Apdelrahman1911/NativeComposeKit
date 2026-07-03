@@ -229,10 +229,38 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
 
     // MARK: - UIKit → Kotlin (intents only, never stack writes)
 
-    /// The single ratification point. `didShow` fires when a navigation transition SETTLES: after our own
-    /// animated apply (mirror == expected → no-op), after a CANCELLED interactive pop (UIKit restored the
-    /// stack → mirror == expected → no-op — Kotlin never learns the gesture existed), and after a user-
-    /// committed pop (strict prefix → ratify the entry the user landed on). Anything else re-asserts.
+    /// EARLY ratification — at the moment the pop's outcome is DECIDED, not when its animation settles.
+    /// A back-button/menu pop cannot be cancelled once started, so it ratifies right here; the interactive
+    /// swipe ratifies the instant the finger lifts with a commit (the coordinator's interaction-end callback
+    /// — a cancelled swipe still reports nothing, so Kotlin never learns it existed). Waiting for `didShow`
+    /// instead left a ~350ms window where the revealed screen was already tappable while the navigator still
+    /// held the popped route on top — a fast re-entry tap then died in the idempotent-push guard as
+    /// "already on top". `popTo` is idempotent and `expectedEntries` moves with the ratification, so the
+    /// `didShow` backstop below stays a no-op for the same pop.
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        guard !isApplying else { return } // our own animated applies invoke willShow synchronously
+        guard let tabId = navsByTab.first(where: { $0.value === navigationController })?.key,
+              let expected = expectedEntries[tabId] else { return }
+        // UIKit has already removed the popping entry from `viewControllers` by willShow time.
+        let actual = navigationController.viewControllers.compactMap { ($0 as? RouteHostController)?.entryId }
+        guard actual.count < expected.count, Array(expected.prefix(actual.count)) == actual, let top = actual.last else { return }
+
+        if let coordinator = navigationController.transitionCoordinator, coordinator.isInteractive {
+            coordinator.notifyWhenInteractionChanges { [weak self] context in
+                guard let self, !context.isCancelled else { return } // cancelled swipe: silence, mirror restores itself
+                self.expectedEntries[tabId] = actual
+                self.root.chrome.backCommitted(tabId: tabId, entryId: top)
+            }
+        } else {
+            expectedEntries[tabId] = actual
+            root.chrome.backCommitted(tabId: tabId, entryId: top)
+        }
+    }
+
+    /// The settle-time backstop. After early ratification (or our own animated apply, or a CANCELLED
+    /// interactive pop — UIKit restored the stack) the mirror equals `expectedEntries` → no-op. A
+    /// strict-prefix mismatch here means a pop somehow reached settle unratified — ratify it now
+    /// (idempotent). Anything else re-asserts the projection.
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         guard !isApplying else { return }
         guard let tabId = navsByTab.first(where: { $0.value === navigationController })?.key,
