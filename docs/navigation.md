@@ -1,53 +1,89 @@
 # Navigation — bring your own; the kit renders native chrome
 
-> This page covers the **contract**. For the shell's *layout integration* — the edge-to-edge host, the
-> safe-area/inset plumbing, and how content scrolls under the Liquid Glass tab bar — see
+> This page covers the **contract and the ownership model**. For the shell's *layout integration* — the
+> edge-to-edge host and how content scrolls under the Liquid Glass tab bar — see
 > [`docs/native-chrome.md`](native-chrome.md).
 
 **NativeComposeKit is not a navigation framework.** It ships UI components and a **nav-agnostic native chrome
-contract** — a real iOS `UINavigationBar`, a Liquid Glass `UITabBar`, and a `UISheetPresentationController` that
-any navigation system can drive. Your app owns its navigation stack outright; the kit never reads, mutates, or
-mirrors it.
+contract** — a real iOS `UITabBarController`, per-tab `UINavigationController`s, and a
+`UISheetPresentationController` that any navigation system can drive. Your app owns its navigation stack
+outright; the kit never owns one.
 
-This is deliberate. The kit originally tried to co-own the stack across Swift and Kotlin, and that dual ownership
-was the root cause of a push/pop loop on iOS (a native stack container fighting the Kotlin stack — any
-`NavigationStack`/`UINavigationController` reconciling against it just relocated the loop). The fix made
-**Compose the single owner**; once that was true, the kit no longer needed
-to own navigation at all. What remains valuable — and stays in the library — is the *native chrome*, exposed
-through a small contract.
+## The ownership model: a ratified projection
+
+This design is deliberate, and its history matters. The kit originally tried to **co-own** the stack across
+Swift and Kotlin — a native stack container reconciling two-way against the Kotlin stack — and that dual
+ownership caused a push/pop loop on iOS (spurious native callbacks were written back into Kotlin as
+navigation; every guard just relocated the loop). The fix made **Kotlin the single owner** and reduced native
+chrome to a one-way projection onto bare bars. That was loop-proof but had one visible cost: a bare
+`UINavigationBar` has no seekable transition, so during the interactive back swipe the bar could only snap at
+the end instead of tracking the finger.
+
+The current shell keeps single ownership and fixes the swipe by upgrading the projection from *bare bars* to
+*real containers*, under a strict protocol — a **ratified projection**:
+
+1. **Kotlin owns the stack.** Per-tab stacks live in your navigation state (the sample's `NativeNavigator`).
+   The native side holds a **mirror**: one `UINavigationController` per tab, one view controller per stack
+   entry, written ONLY by the shell's reconciler, always *from* Kotlin state.
+2. **UIKit owns the visual transition.** The system's interactive pop runs **speculatively on the mirror** —
+   that is what makes the bar title, back button, and content all track the finger, with the authentic
+   parallax, dim, and cancel-bounce.
+3. **Commit is ratified; cancel is silence.** While the finger is down, Kotlin is untouched. If the user
+   cancels, UIKit restores the mirror — Kotlin never learns the gesture existed. If the user commits, the
+   shell reports **one idempotent, tab-scoped intent**: `backCommitted(tabId, entryId)` — "the user landed on
+   this entry" — which your navigation ratifies (the sample maps it to `NativeNavigator.popTo`). The
+   resulting state emission re-syncs the mirror to a no-op.
+4. **Pops are the only UIKit-initiated change, and they are intents, not stack writes.** Any other divergence
+   of the mirror (grew, reordered) is resolved by re-asserting the projection. Tab selection is
+   projection-first: the shell reports the tap and returns `false` — UIKit never switches itself.
+
+Why this cannot recreate the old loop: the mirror **never** writes stack state into Kotlin (the old
+`reconcileStack` direction is gone); the ratifying intent is idempotent and target-based, so a duplicate or
+stale report converges instead of compounding; applying Kotlin state produces no intents (the settle-check
+compares against what was applied); and the reconciler is **level-triggered** — every sync reads the current
+state fresh and converges the mirror to it, so no queued stale snapshot can ever be applied. There are no
+timing heuristics anywhere.
+
+Two structural rules keep the mirror legal by construction:
+
+- **One view controller per stack entry, never shared.** Route ids are unique per stack (the sample's
+  navigator enforces this), and the same id on two different tabs still gets two controllers. The historical
+  `UINavigationController` corruption came from hosting one shared content controller.
+- **Route content must not register Compose back handlers** (`BackHandler` / `PredictiveBackHandler`) or host
+  its own navigation renderer (`NavDisplay`) when rendered inside the native shell. Compose Multiplatform's
+  edge-gesture recognizers arm only when a handler registers — and when armed they are designed to defeat
+  every other recognizer, including UIKit's interactive pop. In the native shell, the platform owns back.
 
 ## The contract (library — `io.github.apdelrahman1911.nativecomposekit.chrome`)
 
-The contract is split so the platform-neutral part lives in `commonMain` — you implement and **unit-test your
-chrome projection in shared code**, and only the one iOS-specific piece lives in `iosMain`:
+Split so the platform-neutral part lives in `commonMain` — you implement and **unit-test your chrome
+projection in shared code** — and only the iOS-specific pieces live in `iosMain`:
 
-- **`NativeChromeState(title, canGoBack, selectedTabId, tabs, actions, sheetId, backTitle)`** *(commonMain)* — an
-  immutable, one-way projection the bars draw. Carries **no** route stack; `backTitle` is the previous screen's
-  title (UIKit renders it in the native back button where the system shows a label); `sheetId` only tells the
-  shell whether to present a sheet. `NativeChromeTab(id, title, sfSymbol)` / `NativeChromeAction(id, sfSymbol)`
-  describe the tabs + top-bar actions.
+- **`NativeChromeState(title, canGoBack, selectedTabId, tabs, actions, sheetId, backTitle, backStacksByTab)`**
+  *(commonMain)* — an immutable projection. `backStacksByTab` (tabId → root-first `NativeChromeEntry(id,
+  title)` list) is what a **stack-rendering** shell renders — one native screen per entry; it is still display
+  data, not a navigable stack. Flat shells (a bare title bar) can ignore it and use `title`/`backTitle`.
+  `NativeChromeTab(id, title, sfSymbol)` / `NativeChromeAction(id, sfSymbol)` describe tabs + top-bar actions;
+  `sheetId` only says whether a sheet should be up.
 - **`NativeChromeStateSource`** *(commonMain)* — the nav-agnostic core: state out + intents in.
-  - `currentState(): NativeChromeState`, `observe(onChange): NativeChromeCancellable` (fires once immediately, then
-    on every change).
-  - `backRequested()`, `tabSelected(tabId)`, `actionTapped(actionId)`, `dismissSheet()` — turn a bar tap into your
-    own navigation intent.
-- **`NativeChromeSource : NativeChromeStateSource`** *(iosMain)* — adds the one genuinely-iOS member,
-  `sheetViewController(): UIViewController?` (the Compose content for the current sheet, or null). This is the type
-  the iOS chrome shell consumes.
-- **`nativeSheetHostViewController(content)`** *(iosMain)* — builds a transparent, fully-scoped Compose host for a
-  native `UISheetPresentationController` (so the Liquid Glass material shows through). Presentation stays the shell's job.
-
-Any implementation must be a **dumb projection**: it may read your navigation state and emit intents, but it must
-never expose or mutate a stack. Your navigation library stays the single source of truth.
+  - `currentState(): NativeChromeState`, `observe(onChange): NativeChromeCancellable` (fires once immediately,
+    then on every change).
+  - Intents: `backRequested()` (a flat shell asking permission **before** anything moves),
+    `backCommitted(tabId, entryId)` (a stack shell ratifying a pop the platform **already performed** — must be
+    idempotent; default no-op), `tabSelected(tabId)`, `actionTapped(actionId)`, `dismissSheet()`.
+- **`NativeChromeSource : NativeChromeStateSource`** *(iosMain)* — adds the Compose-content suppliers:
+  `sheetViewController(): UIViewController?` and `contentViewController(entryId): UIViewController?` — a
+  **fresh** host per new entry (the shell owns it for that entry's lifetime; never return a shared one).
+- **`nativeContentHostViewController(content)` / `nativeSheetHostViewController(content)`** *(iosMain)* —
+  standard hosts: opaque + kit-scoped for stack entries; transparent for native sheets (so the Liquid Glass
+  material shows through).
 
 ## Adapt your navigation
 
-Bring any navigation system. The recipe is always the same: implement `NativeChromeStateSource` (shared, testable)
-by projecting your nav's current destination into `NativeChromeState` and forwarding bar taps as your own intents;
-then, on iOS, wrap it as a `NativeChromeSource` by adding the sheet content.
-
-**1. Project + intents (shared code).** Example over a `StateFlow`-based router — deliberately unlike the sample's
-navigator, and unit-tested in `composeApp/src/commonTest/.../app/navigation/example/MiniRouterChromeSourceTest.kt`:
+The recipe: implement `NativeChromeStateSource` in shared code by projecting your nav's state, forward bar
+taps as your own intents, then on iOS add the content suppliers. A `StateFlow`-based example (deliberately
+unlike the sample's navigator, unit-tested in
+`composeApp/src/commonTest/.../app/navigation/example/MiniRouterChromeSourceTest.kt`):
 
 ```kotlin
 class MyChromeSource(
@@ -63,6 +99,9 @@ class MyChromeSource(
             tabs = tabs,
             actions = emptyList(),
             sheetId = s.sheet?.id,
+            backStacksByTab = s.stacksByTab.mapValues { (_, stack) ->
+                stack.map { NativeChromeEntry(it.id, it.title) }
+            },
         )
     }
     // A StateFlow emits its current value on collect, then every change — exactly the observe contract.
@@ -71,77 +110,67 @@ class MyChromeSource(
         return NativeChromeCancellable { job.cancel() }
     }
     override fun backRequested() = router.pop()
+    override fun backCommitted(tabId: String, entryId: String) = router.popTo(tabId, entryId) // idempotent!
     override fun tabSelected(tabId: String) = router.select(tabId)
     override fun actionTapped(actionId: String) = router.onAction(actionId)
     override fun dismissSheet() = router.closeSheet()
 }
 ```
 
-**2. Add the iOS sheet (iOS code).** Expose it as a `NativeChromeSource`, e.g. by delegating the shared core:
+Your `popTo(tabId, entryId)` must be: no-op when `entryId` is already the top (duplicate report), no-op when
+it is absent (stale report — the shell re-syncs), tab-scoped (never touch another tab), and it must pop to
+**exactly** that entry. Get those four properties right and the ratification protocol is safe for any router.
 
-```kotlin
-class MyIosChromeSource(
-    private val base: MyChromeSource,
-    private val sheetContent: (sheetId: String) -> (@Composable () -> Unit)?,
-) : NativeChromeSource, NativeChromeStateSource by base {
-    override fun sheetViewController(): UIViewController? =
-        base.currentState().sheetId?.let(sheetContent)?.let(::nativeSheetHostViewController)
-}
-```
+**Adapter sketches for common libraries** (same idea — project entries, ratify with the library's own pop):
 
-Hand `MyIosChromeSource` to your iOS shell (see `NativeNavShell.swift` + `createNativeNavRoot()` for how the sample
-wires the bars and presents the sheet). Nothing else changes — the same native chrome renders your navigation.
-
-**Adapter sketches for common libraries** (each projects the same six `NativeChromeState` fields):
-
-- **Voyager** — `currentState()` reads `tabNavigator.current` + `navigator.lastItem`/`navigator.size`;
-  `backRequested()` → `navigator.pop()`; `tabSelected(id)` → `tabNavigator.current = tabFor(id)`. Bridge `observe`
-  from a `snapshotFlow { navigator.lastItem }`.
-- **Decompose** — project from the `Value<ChildStack<*, *>>`: `canGoBack = childStack.backStack.isNotEmpty()`,
-  `backRequested()` → `navigation.pop()`. `observe` uses `value.subscribe { … }` and returns the unsubscribe
-  handle as the `NativeChromeCancellable`.
-- **Compose Navigation (`NavController`)** — `observe` collects `navController.currentBackStackEntryFlow`;
-  `canGoBack = navController.previousBackStackEntry != null`; `backRequested()` → `navController.popBackStack()`;
-  `tabSelected(id)` → `navController.navigate(id) { launchSingleTop = true }`.
-
-The `observe` contract (fire once immediately, then on every change) is the only subtlety: most nav libraries
-already expose their state as a `Flow`/observable, so bridge that and be sure to emit the current value first.
+- **Voyager** — entries from `navigator.items`; `backCommitted` → `navigator.popUntil { it.key == entryId }`.
+- **Decompose** — entries from the `ChildStack`; `backCommitted` → `navigation.popTo(index of entryId)`.
+- **Compose Navigation (`NavController`)** — entries from `currentBackStack`; `backCommitted` →
+  `popBackStack(entryId, inclusive = false)`.
 
 ## Reference wiring (sample app — `composeApp/.../app/navigation/`)
 
-The sample ships a small, self-contained navigator so the catalog has something to navigate — **reference wiring,
-not library API.** A real consumer swaps it for its own navigation library (Nav3, Voyager, Decompose, …) and
-writes the equivalent `NativeChromeSource` adapter.
+The sample ships a small, self-contained navigator so the catalog has something to navigate — **reference
+wiring, not library API.** A real consumer swaps it for its own library and writes the equivalent adapter.
 
-- **`NativeNavigator`** (`@Stable`) — the sample's source of truth: `push` / `pop` / `popToRoot` / `selectTab` /
-  `presentSheet` / `dismissSheet` / `replaceStack`, one `SnapshotStateList<NativeRoute>` **per tab** (switching tabs
-  preserves each tab's depth), and `sheet: NativeRoute?`. `snapshot()` / `observe()` give an ObjC-friendly
-  projection that works **without a running composition** (the iOS case). `push` is idempotent at the top (a
-  repeated push of the current route is a no-op — absorbs double taps).
-- **`NativeRoute { val id }` / `NativeTab { val id }`** — the app declares its own sealed route hierarchy; `id` is
-  stable/unique per destination and is the `AnimatedContent` key.
+- **`NativeNavigator`** (`@Stable`) — the sample's source of truth: `push` / `pop` / `popTo(tab, entryId)` /
+  `popToRoot` / `selectTab` / `presentSheet` / `dismissSheet` / `replaceStack`, one
+  `SnapshotStateList<NativeRoute>` **per tab**, and `sheet: NativeRoute?`. `snapshot()` / `observe()` work
+  without a running composition (the iOS case). `push` is idempotent at the top and **fails fast on a
+  duplicate id deeper in the stack** — ids are the entry identity every renderer keys on.
+- **`NativeNavChrome`** — adapts `NativeNavigator` into `NativeChromeSource` (projection, ratification via
+  `popTo`, per-entry content hosts). This is the file to read before writing your own adapter.
 - **`nativeNavGraph { screen<R> { route -> … } }`** — route → `@Composable`, matched by reified route type.
-- **`NativeNavHost` / `NativeNavContent`** — the Compose renderer. `NativeNavHost` wraps `NativeNavContent` in
-  Material chrome (Android); `NativeNavContent` is content-only (the iOS native-chrome shell wraps it instead).
-- **`NativeNavChrome`** — adapts `NativeNavigator` into `NativeChromeSource`. This is the file to read as the
-  reference for writing your own adapter.
+- **`NativeNavHost` / `NativeNavContent`** — the **Compose-canvas** renderer used where the native shell
+  isn't: all of Android, and the iOS pure-Compose fallback (`MainViewController()`).
 
 ## How the two platforms render
 
-**Android** — `NativeNavHost(navigator, graph, tabs, title, actions)`: the selected tab's top route in an
-`AnimatedContent` (push/pop slide by stack delta), a Material `TopAppBar` (back when depth > 1 → `pop()`), a
-`NavigationBar` → `selectTab` (a re-tap of the selected tab pops it to root), and a `ModalBottomSheet` for `state.sheet`. System back (gesture/button) → `pop()`.
+**Android** — `NativeNavHost(navigator, graph, …)`: Material chrome around `NativeNavContent`, which hosts
+the selected tab's stack on **Navigation 3's `NavDisplay`** (`androidx.navigation3` runtime + the
+multiplatform `org.jetbrains.androidx.navigation3` UI — app-level dependencies; the kit stays
+dependency-free). NavDisplay owns transitions, per-entry saveable state, and the **predictive back preview**:
+the manifest opts in with `android:enableOnBackInvokedCallback="true"`, so the system back gesture seeks the
+pop and the previous screen peeks in as you swipe. Transitions are full-width symmetric slides and tab
+switches swap instantly — both are interop-safety requirements on a shared Compose canvas (see
+[`docs/interop-notes.md`](interop-notes.md)).
 
-**iOS** — Compose owns the stack in **one** `ComposeUIViewController` rendering `NativeNavContent(renderSheet = false)`.
-A Swift shell (`iosApp/iosApp/Native/NativeNavShell.swift`) renders the real native `UINavigationBar` + Liquid
-Glass `UITabBar` and presents the native `UISheetPresentationController`, driven **one-way** by the
-`NativeChromeSource` from `createNativeNavRoot()`. The left-edge back-swipe is Compose's
-`androidx.compose.ui.backhandler.BackHandler` → `navigator.pop()`. No SwiftUI/UIKit container owns a second stack.
+**iOS** — the native shell (`iosApp/iosApp/Native/NativeNavShell.swift` + `createNativeNavRoot()`): a real
+`UITabBarController`, one `UINavigationController` per tab, one Compose screen per stack entry, run as the
+ratified projection described above. The interactive back swipe, the bar-item cross-fade under the finger,
+the parallax + dim, tab behavior (instant switch; re-tap pops to root via the navigator) — all of it is
+stock UIKit driving the mirror, ratified into Kotlin only on commit. Because every screen is its own view
+controller, its interop-backed native controls travel **with** it through transitions — the cross-screen
+"ghost" class from the shared-canvas days cannot occur here. The pure-Compose fallback
+(`MainViewController()`) still renders everything in one `ComposeUIViewController` with NavDisplay (and gets
+Compose's own in-canvas predictive back).
 
 ## Tests
 
-- `composeApp/src/commonTest/.../app/navigation/NativeNavigatorTest` covers the reference navigator (per-tab
-  stacks, push/pop/replace/sheet, `observe` delivery, idempotent top-push).
-- `composeApp/src/commonTest/.../app/navigation/example/MiniRouterChromeSourceTest` proves the chrome contract is
-  nav-agnostic: a second, `StateFlow`-based navigator implements `NativeChromeStateSource` and is driven through
-  the interface (projection, intents, `observe`) — entirely in shared code.
+- `composeApp/src/commonTest/.../app/navigation/NativeNavigatorTest` — per-tab stacks, push/pop/replace/sheet,
+  `observe` delivery, idempotent top-push, **unique-id enforcement**, and the `popTo` ratification properties
+  (target truncation, idempotence, absent-id no-op, tab scoping).
+- `composeApp/src/commonTest/.../app/navigation/example/MiniRouterChromeSourceTest` — proves the chrome
+  contract is nav-agnostic: a second, `StateFlow`-based navigator drives it entirely in shared code.
+- The shell's debug builds log a `NCK-Shell: DESYNC` tripwire if any native stack ever diverges from the
+  projection outside a transition — the loud regression alarm for the historical bug class.

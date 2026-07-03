@@ -30,12 +30,21 @@ class NativeNavigator internal constructor(val state: NativeNavigationState) {
      * Push [route] onto the selected tab's stack. Idempotent at the top: pushing the route that is already the
      * top is a no-op. This both forbids an invalid duplicate-of-top stack and absorbs a repeated push of the same
      * screen (e.g. a double tap, or a re-fired click as a screen re-appears) instead of stacking it twice.
+     *
+     * A route id may appear at most **once per stack** (pushing an id that exists deeper is a fail-fast error):
+     * every renderer keys on the id — Navigation 3's `contentKey`, and the iOS shell's one-view-controller-per-
+     * entry mirror — so a duplicate would alias two entries. Give repeatable destinations instance-scoped ids
+     * (`"manga/$mangaId"`), never constant ones.
      */
     fun push(route: NativeRoute) {
         val stack = state.stackFor(state.selectedTab)
         if (stack.lastOrNull()?.id == route.id) {
             NativeNavLog.log { "push ignored (already on top) '${route.id}' sel=${state.selectedTab.id}" }
             return
+        }
+        require(stack.none { it.id == route.id }) {
+            "push('${route.id}'): id already in the selected tab's stack ${stack.map { it.id }} — " +
+                "route ids must be unique per stack (renderers key entries on them)"
         }
         stack.add(route)
         NativeNavLog.log { "push '${route.id}' -> sel=${state.selectedTab.id}  ${stacksDump()}" }
@@ -53,6 +62,33 @@ class NativeNavigator internal constructor(val state: NativeNavigationState) {
         NativeNavLog.log { "pop '${removed.id}' -> sel=${state.selectedTab.id}  ${stacksDump()}" }
         notifyObservers()
         return true
+    }
+
+    /**
+     * Pop [tab]'s stack until [entryId] is the top. This is the **tab-scoped, target-based back intent** for a
+     * renderer that lets the platform commit a user pop before reporting it (the iOS shell's interactive
+     * swipe-back / back button): it names the destination the user visibly landed on instead of a pop count, so
+     * - a duplicate report of the same commit is harmless (already on top → no-op),
+     * - it can never truncate a different tab's stack (it never reads the selected tab), and
+     * - a race with a concurrent Kotlin-driven push resolves deterministically to what the user saw.
+     * An [entryId] not in the stack is a logged no-op — the projection simply re-asserts on its next sync.
+     */
+    fun popTo(tab: NativeTab, entryId: String) {
+        require(state.tabById(tab.id) != null) {
+            "popTo(tab='${tab.id}') is not one of the navigator's tabs: ${state.tabs.map { it.id }}"
+        }
+        val stack = state.stackFor(tab)
+        if (stack.none { it.id == entryId }) {
+            NativeNavLog.log { "popTo ignored (no '$entryId' in '${tab.id}')  ${stacksDump()}" }
+            return
+        }
+        if (stack.last().id == entryId) {
+            NativeNavLog.log { "popTo no-op (already on top) '$entryId' tab=${tab.id}" }
+            return
+        }
+        while (stack.size > 1 && stack.last().id != entryId) stack.removeAt(stack.lastIndex)
+        NativeNavLog.log { "popTo '$entryId' tab=${tab.id}  ${stacksDump()}" }
+        notifyObservers()
     }
 
     /** Pop the selected tab's stack back to its root. */

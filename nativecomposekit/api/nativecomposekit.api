@@ -11,12 +11,22 @@ public abstract interface class io/github/apdelrahman1911/nativecomposekit/chrom
 	public abstract fun cancel ()V
 }
 
+public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeEntry {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+}
+
 public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeState {
 	public static final field $stable I
-	public fun <init> (Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V
+	public synthetic fun <init> (Ljava/lang/String;ZLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getActions ()Ljava/util/List;
+	public final fun getBackStacksByTab ()Ljava/util/Map;
 	public final fun getBackTitle ()Ljava/lang/String;
 	public final fun getCanGoBack ()Z
 	public final fun getSelectedTabId ()Ljava/lang/String;
@@ -28,11 +38,16 @@ public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChrom
 
 public abstract interface class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeStateSource {
 	public abstract fun actionTapped (Ljava/lang/String;)V
+	public fun backCommitted (Ljava/lang/String;Ljava/lang/String;)V
 	public abstract fun backRequested ()V
 	public abstract fun currentState ()Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeState;
 	public abstract fun dismissSheet ()V
 	public abstract fun observe (Lkotlin/jvm/functions/Function1;)Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeCancellable;
 	public abstract fun tabSelected (Ljava/lang/String;)V
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeStateSource$DefaultImpls {
+	public static fun backCommitted (Lio/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeStateSource;Ljava/lang/String;Ljava/lang/String;)V
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/chrome/NativeChromeTab {

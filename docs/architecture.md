@@ -19,9 +19,10 @@ We do **not** pick "UIKit vs SwiftUI" globally. Responsibilities are split by ti
                  iOS                                   Android
  ┌───────────────────────────────────┐   ┌───────────────────────────────────┐
  │ TIER 1 — Native shell (UIKit)      │   │ TIER 1 — Native shell (Material)  │
- │  UINavigationBar / UITabBar        │   │  Scaffold / Nav / TopAppBar        │
- │  (dumb chrome projection)          │   │  ModalBottomSheet / Dialog / Menu  │
- │  UISheetPresentationController     │   │  (Material 3 / Material You)        │
+ │  UITabBarController + per-tab      │   │  Scaffold / Nav / TopAppBar        │
+ │  UINavigationControllers           │   │  ModalBottomSheet / Dialog / Menu  │
+ │  (ratified projection — §7)        │   │  (Material 3 / Material You)        │
+ │  UISheetPresentationController     │   │                                     │
  │  UIAlertController  (Liquid Glass) │   │                                     │
  └───────────────┬───────────────────┘   └───────────────┬───────────────────┘
                  │ hosts per screen                       │ hosts per screen
@@ -40,10 +41,12 @@ We do **not** pick "UIKit vs SwiftUI" globally. Responsibilities are split by ti
 - **Shared = content + logic** (Tier 2): screens, forms, state, and the `Native*` component APIs.
 - **Native per platform = chrome (Tier 1) and leaf controls (Tier 3).**
 
-**The trade we consciously accept:** the **chrome** is native per platform (real native bars, tab bars,
-sheets, Liquid Glass) while **navigation and content are shared** — Compose/Kotlin owns the one and only
-stack, and the native chrome is a dumb projection of it (see §7). This is required for genuine native feel
-and is the correct trade for this product.
+**The trade we consciously accept:** the **chrome** is native per platform (real native containers, bars,
+sheets, Liquid Glass) while **navigation state and content are shared** — Compose/Kotlin owns the one and
+only stack, and the native containers render it as a *ratified projection* (Kotlin state is applied to
+them; a pop the platform's own gesture commits is reported back as an idempotent intent — see §7). This is
+required for genuine native feel — including the finger-tracked interactive back swipe — and is the correct
+trade for this product.
 
 ### Liquid Glass — precise wording
 Compose may approximate some glass-like visuals in its own custom content, but it **cannot own real
@@ -61,9 +64,10 @@ hosted from the SwiftUI app entry — see `docs/native-chrome.md`).
 Everything that is system chrome or a system presentation:
 
 - App shell / `@main App`, scene setup (the one SwiftUI layer — it hosts the UIKit chrome shell).
-- The native chrome shell: a Liquid Glass `UITabBar` (iOS 26) + `UINavigationBar` + toolbar-style actions.
-  (The push/pop stack itself is Compose-owned — these are dumb chrome, not a stack-owning container; see §7
-  and `docs/native-chrome.md` for the layout/inset contract.)
+- The native chrome shell: a `UITabBarController` (Liquid Glass tab bar, iOS 26) + per-tab
+  `UINavigationController`s + toolbar-style actions. (Navigation state stays Compose-owned — the containers
+  render it and UIKit's own interactive pop is ratified back as an intent, never a stack write; see §7 and
+  `docs/native-chrome.md` for the layout/inset contract.)
 - Native search affordances (system search bar + keyboard).
 - `UISheetPresentationController` (detents, grabber), popovers.
 - `UIAlertController` alerts/action sheets, `UIMenu` context menus.
@@ -219,20 +223,24 @@ system; the kit provides a nav-agnostic **native chrome contract** so that navig
 
 ```
 Your navigation system  (app-owned: Nav3 / Voyager / Decompose / a custom navigator)
-    |  project current destination -> NativeChromeState ;  bar taps -> your intents
+    |  project stacks + destination -> NativeChromeState ;  bar taps / committed pops -> your intents
     v
 NativeChromeSource  (kit contract, iOS)  ->  native chrome shell:
-    UINavigationBar + Liquid Glass UITabBar + UISheetPresentationController
+    UITabBarController + per-tab UINavigationControllers + UISheetPresentationController
 ```
 
-- The kit exposes `NativeChromeSource` + `NativeChromeState` + `nativeSheetHostViewController` (package
-  `…chrome`, iOS). An implementation is a **dumb one-way projection**: state out, intents in, never a stack.
-- **Compose is the single stack owner on both platforms.** On iOS the stack lives in one
-  `ComposeUIViewController` (content-only render) and the native bars are dumb chrome over it — there is **no**
-  SwiftUI `NavigationStack` or UIKit `UINavigationController` owning a second stack. That is what avoids the dual
-  ownership that used to cause a push/pop loop (see `docs/navigation.md`).
-- Renderer actions become **your** intents: back / edge-swipe → your "pop"; tab tap → your "select tab"; native
-  sheet dismissal → clear your sheet state.
+- The kit exposes `NativeChromeSource` + `NativeChromeState` (incl. `backStacksByTab`) +
+  `nativeContentHostViewController` / `nativeSheetHostViewController` (package `…chrome`). An implementation
+  is a **ratified projection**: state and per-entry Compose content flow out; user actions come back as
+  intents — including `backCommitted(tabId, entryId)`, the idempotent ratification of a pop UIKit's own
+  interactive swipe/back button already performed. It never exposes or mutates a stack.
+- **Kotlin is the single stack owner on both platforms.** On iOS the native containers hold a *mirror*
+  written only from Kotlin state; UIKit runs the interactive pop speculatively on it (that is what makes the
+  bar + content track the finger) and the only UIKit→Kotlin channel is the pop intent — never a stack write.
+  That inversion is what keeps the historical dual-ownership push/pop loop impossible (see
+  `docs/navigation.md` for the full protocol and its history).
+- Renderer actions become **your** intents: committed edge-swipe/back → your "pop to entry"; tab tap → your
+  "select tab"; native sheet dismissal → clear your sheet state.
 - The sample app ships a lightweight reference navigator (`composeApp/.../app/navigation/`) and its
   `NativeChromeSource` adapter (`NativeNavChrome`) purely so the catalog can navigate — **reference wiring, not
   library API.** Swap it for your own navigation library. See `docs/navigation.md`.
@@ -272,13 +280,16 @@ criteria:
 
 **Phase 3 — Navigation core + adapters** (after the spike proves hosting): `NativeNavigator`, Nav3
 adapter, SwiftUI adapter. Finalize the module split only when a second adapter exists.
-> ✅ **SHIPPED — then narrowed.** iOS navigation is owned entirely by Compose (one `ComposeUIViewController`
-> renders the stack; the native bars are dumb chrome), which removed the dual-ownership push/pop loop. With
-> Compose as the sole owner, the kit no longer needs to own navigation at all: the navigator / host / graph moved
-> into the **sample app** (`composeApp/.../app/navigation/`) as reference wiring, and the **library** keeps only
-> the nav-agnostic `NativeChromeSource` contract + native chrome (a real `UINavigationBar`, a Liquid Glass
-> `UITabBar`, and `UISheetPresentationController`). The old `NativeNavBridge` / SwiftUI `NavigationStack` /
-> `reconcileStack` were removed. Tests: `composeApp/.../app/navigation/NativeNavigatorTest`. See `docs/navigation.md`.
+> ✅ **SHIPPED — narrowed, then upgraded.** iOS navigation ownership moved entirely to Kotlin (removing the
+> dual-ownership push/pop loop), the navigator / host / graph moved into the **sample app**
+> (`composeApp/.../app/navigation/`) as reference wiring, and the **library** keeps only the nav-agnostic
+> `NativeChromeSource` contract. The old `NativeNavBridge` / SwiftUI `NavigationStack` / `reconcileStack`
+> were removed. The chrome then evolved from bare bars (which could only snap on pop) to real containers —
+> `UITabBarController` + per-tab `UINavigationController`s, one Compose screen per entry — run as a
+> **ratified projection**, which is what gives the finger-tracked interactive back swipe (bar + content
+> together) without reintroducing a second stack owner. Android renders through Navigation 3's `NavDisplay`
+> (app-level dependency) with the system predictive-back preview enabled. Tests:
+> `composeApp/.../app/navigation/NativeNavigatorTest`. See `docs/navigation.md`.
 
 **Phase 4 — SwiftUI-interop components as *new* components** (Swift Charts, glass-only): pilot one end
 to end through the bridge (verify memory/lifecycle) before relying on it.

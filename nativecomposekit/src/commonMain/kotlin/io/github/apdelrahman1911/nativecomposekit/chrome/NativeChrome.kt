@@ -37,15 +37,38 @@ public class NativeChromeAction(
 }
 
 /**
- * An immutable projection the native iOS chrome (a `UINavigationBar` + `UITabBar`) renders. It is pure display
- * data — it carries **no** route stack and is never authoritative. [sheetId] only tells the shell whether a sheet
- * should be presented; the sheet's Compose content comes from the iOS `NativeChromeSource.sheetViewController`.
- * The shell treats one sheet at a time: to switch sheets, emit `sheetId = null` first, then the new id.
+ * One back-stack entry as chrome may render it: a stable [id] (unique within its stack — renderers key on it)
+ * and the [title] shown while that entry is on screen. This is still **display data, not a navigable stack**:
+ * a shell may build one screen/bar item per entry and animate between them, but the only way it can change
+ * navigation is the intent methods — it never mutates these lists. Compares by value.
+ */
+@Immutable
+public class NativeChromeEntry(
+    public val id: String,
+    public val title: String,
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NativeChromeEntry) return false
+        return id == other.id && title == other.title
+    }
+
+    override fun hashCode(): Int = id.hashCode() * 31 + title.hashCode()
+}
+
+/**
+ * An immutable projection the native iOS chrome renders. It is pure display data and is never authoritative:
+ * [backStacksByTab] lists each tab's entries so a stack-rendering shell (real `UINavigationController`s) can
+ * build one screen per entry, but they are value snapshots — the only way any shell changes navigation is the
+ * intent methods, and the source of truth stays your navigation system. [sheetId] only tells the shell whether
+ * a sheet should be presented; the sheet's Compose content comes from the iOS
+ * `NativeChromeSource.sheetViewController`. The shell treats one sheet at a time: to switch sheets, emit
+ * `sheetId = null` first, then the new id.
  *
  * Adapters construct this on every navigation change, so it is deliberately **not** a `data class`: fields
- * ([backTitle] was one) can then be appended without breaking compiled adapters. Compares by value so
- * shells can skip no-op emissions. `observe` callbacks may deliver on any thread — marshal to the main
- * thread before touching UIKit.
+ * ([backTitle] and [backStacksByTab] were appended this way) can be added without breaking compiled adapters.
+ * Compares by value so shells can skip no-op emissions. `observe` callbacks may deliver on any thread —
+ * marshal to the main thread before touching UIKit.
  */
 @Immutable
 public class NativeChromeState(
@@ -57,6 +80,14 @@ public class NativeChromeState(
     public val sheetId: String?,
     /** The previous destination's title — shown as the native back-button label. Null at a tab root. */
     public val backTitle: String? = null,
+    /**
+     * Every tab's back stack as chrome-renderable entries (tabId → root-first [NativeChromeEntry]s). Empty for
+     * sources feeding a flat shell (a bare title bar needs only [title]/[backTitle]); a **stack-rendering**
+     * shell (one native screen per entry, e.g. a `UINavigationController` mirror whose interactive pop makes
+     * the bar and content track the finger) requires it. Still one-way display data: the shell renders these
+     * and reports committed user pops via [NativeChromeStateSource.backCommitted] — it never mutates a stack.
+     */
+    public val backStacksByTab: Map<String, List<NativeChromeEntry>> = emptyMap(),
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -67,7 +98,8 @@ public class NativeChromeState(
             tabs == other.tabs &&
             actions == other.actions &&
             sheetId == other.sheetId &&
-            backTitle == other.backTitle
+            backTitle == other.backTitle &&
+            backStacksByTab == other.backStacksByTab
     }
 
     override fun hashCode(): Int {
@@ -78,6 +110,7 @@ public class NativeChromeState(
         result = 31 * result + actions.hashCode()
         result = 31 * result + (sheetId?.hashCode() ?: 0)
         result = 31 * result + (backTitle?.hashCode() ?: 0)
+        result = 31 * result + backStacksByTab.hashCode()
         return result
     }
 }
@@ -93,11 +126,13 @@ public fun interface NativeChromeCancellable {
  * project it here: emit a [NativeChromeState] out (title / back / tabs / actions, and whether a sheet is open) and
  * accept only intents in ([backRequested]/[tabSelected]/[actionTapped]/[dismissSheet]).
  *
- * An implementation must be a **dumb, one-way projection**: it may read your navigation state and turn bar taps
- * into your navigation's own intents, but it must never expose, mutate, or mirror a navigation stack — your
- * navigation system stays the single source of truth. On iOS the chrome shell consumes the fuller
- * `NativeChromeSource` (this, plus the sheet's Compose content); a consumer typically implements this base in
- * shared code and supplies the one iOS-specific piece there. The kit itself owns no navigation.
+ * An implementation must be a **ratified projection**: it may read your navigation state (including projecting
+ * your stacks as display entries) and turn user actions into your navigation's own intents — but it never
+ * exposes a mutable stack, and nothing on the native side ever writes one back. Even [backCommitted], the one
+ * intent describing something the platform already did, is a request your navigation ratifies idempotently;
+ * your navigation system stays the single source of truth. On iOS the chrome shell consumes the fuller
+ * `NativeChromeSource` (this, plus the per-entry and sheet Compose content); a consumer typically implements
+ * this base in shared code and supplies the iOS-specific pieces there. The kit itself owns no navigation.
  */
 public interface NativeChromeStateSource {
     /** The current chrome to display, computed fresh from your live navigation state. */
@@ -108,6 +143,17 @@ public interface NativeChromeStateSource {
 
     /** The back affordance was tapped — perform your navigation's "back". */
     public fun backRequested()
+
+    /**
+     * The shell **committed** a user pop on [tabId] and landed on [entryId] — ratify it: make that tab's stack
+     * end at [entryId]. Only stack-rendering shells call this (a platform pop the user already watched finish,
+     * e.g. `UINavigationController`'s interactive swipe/back button, is reported after the fact — unlike
+     * [backRequested], which asks *permission* before anything moves). Implementations MUST be idempotent
+     * (already there → no-op; unknown [entryId] → no-op) so a duplicate or stale report converges instead of
+     * corrupting; they must never treat it as a stack write. The default no-op suits sources that only ever
+     * feed flat shells — override it if your chrome projects [NativeChromeState.backStacksByTab].
+     */
+    public fun backCommitted(tabId: String, entryId: String) {}
 
     /** The tab with [tabId] was tapped. */
     public fun tabSelected(tabId: String)

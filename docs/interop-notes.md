@@ -72,7 +72,7 @@ when the control sits on a material surface. Deferred pending visual tuning on r
 candidate directions are a translucent/material backing, or gating the backing on solid surfaces only
 (`LocalNativeSurface` already distinguishes them). Referenced from `docs/design-system-rules.md` §Open.
 
-## Interop views do not animate with Compose transitions
+## Interop views do not animate with Compose transitions (shared-canvas rule)
 
 A `UIKitView`-backed control is a real UIView composited beside the Compose canvas (cut-out) or above it
 (overlay). Compose enter/exit transitions animate **Compose pixels only** — a `graphicsLayer` alpha/fade on
@@ -80,8 +80,19 @@ an ancestor never reaches the native view, so during an animated content change 
 native controls stay fully opaque until the transition finishes and the outgoing composition is disposed
 (seen as: the Library tab's `UISegmentedControl` floating over the incoming screen during an animated tab
 switch). Slides are tolerable (interop views track node position, with the documented one-frame lag);
-fades/scales are not. Rule: a container that animates BETWEEN contents which may hold interop-backed
-controls must swap instantly (the sample's tab switches do — also the native `UITabBarController`
-convention) or slide, never fade. `NativeContentState`'s cross-fade is acceptable because its loading/
-empty/error placeholders are Compose-drawn; if your `content` holds interop controls, they will snap
-rather than fade.
+fades/scales are not.
+
+**Scope: this bites wherever multiple screens share ONE Compose canvas** — Android's `NativeNavHost`
+(NavDisplay inside the Material shell) and the iOS pure-Compose fallback (`MainViewController()`), plus any
+in-screen container like `NativeContentState`. The rule there: a container that animates BETWEEN contents
+which may hold interop-backed controls must **swap instantly** (the sample's tab switches do — also the
+native `UITabBarController` convention) or use **full-width symmetric slides** (the sample's push/pop — the
+incoming edge abuts the outgoing edge, so the previous screen's controls are never over the other screen);
+never fade or parallax. `NativeContentState`'s cross-fade is acceptable because its loading/empty/error
+placeholders are Compose-drawn; if your `content` holds interop controls, they will snap rather than fade.
+
+**The iOS native shell is exempt — structurally.** There every stack entry is its own `UIViewController`
+(see [`docs/navigation.md`](navigation.md)), and a screen's interop views live inside that controller's own
+view hierarchy, so UIKit's transitions move them **with** their screen — the authentic parallax + dim of the
+interactive pop is safe, and the cross-screen "floating control" class cannot occur between screens. The
+in-screen guidance (fades inside one screen's content) still applies.

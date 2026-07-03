@@ -63,7 +63,7 @@ Compose artifacts — no third-party runtime dependencies.
 ```
 :nativecomposekit     the UI kit (published surface; ABI-locked with binary-compatibility-validator)
 :composeApp   the sample catalog app that exercises every component on both platforms
-iosApp        native iOS host: the UIKit chrome shell (UINavigationBar + UITabBar) in a SwiftUI app entry
+iosApp        native iOS host: the UIKit chrome shell (UITabBarController + per-tab UINavigationControllers) in a SwiftUI app entry
 ```
 
 ## Setup

@@ -150,4 +150,52 @@ class NativeNavigatorTest {
         assertTrue(failed.exceptionOrNull() is IllegalArgumentException)
         assertEquals(TestTab.A, nav.state.selectedTab) // untouched
     }
+
+    @Test
+    fun push_rejects_a_duplicate_deeper_in_the_stack() {
+        // Route ids must stay unique per stack — every renderer keys entries on them (Navigation 3's
+        // contentKey, the iOS shell's per-entry view controllers). Duplicate-of-top stays a benign no-op;
+        // a duplicate DEEPER in the stack is a programming error and fails fast with state untouched.
+        val nav = navigator()
+        nav.push(TestRoute("a-1"))
+        nav.push(TestRoute("a-2"))
+        val failed = runCatching { nav.push(TestRoute("a-1")) }
+        assertTrue(failed.exceptionOrNull() is IllegalArgumentException)
+        assertEquals(listOf("a-root", "a-1", "a-2"), nav.state.currentStack().map { it.id })
+    }
+
+    @Test
+    fun popTo_truncates_to_the_target_entry() {
+        // The iOS shell reports a committed user pop as the entry the user LANDED ON (not a count) — a
+        // long-press back-menu jump or a mid-gesture race must truncate to exactly that entry.
+        val nav = navigator()
+        nav.push(TestRoute("a-1")); nav.push(TestRoute("a-2")); nav.push(TestRoute("a-3"))
+        nav.popTo(TestTab.A, "a-1")
+        assertEquals(listOf("a-root", "a-1"), nav.state.currentStack().map { it.id })
+    }
+
+    @Test
+    fun popTo_is_idempotent_and_ignores_absent_entries() {
+        val nav = navigator()
+        nav.push(TestRoute("a-1"))
+        val seen = mutableListOf<NativeNavSnapshot>()
+        nav.observe { seen.add(it) } // 1 initial emission
+        nav.popTo(TestTab.A, "a-1")      // already on top → no-op, no emission (a duplicate didShow report)
+        nav.popTo(TestTab.A, "ghost")    // not in the stack → no-op, no emission (projection re-asserts instead)
+        assertEquals(1, seen.size)
+        assertEquals(listOf("a-root", "a-1"), nav.state.currentStack().map { it.id })
+    }
+
+    @Test
+    fun popTo_is_tab_scoped_and_never_reads_the_selected_tab() {
+        // A pop committing on tab A's renderer while the user has switched to tab B must truncate A, not B.
+        val nav = navigator()
+        nav.push(TestRoute("a-1")); nav.push(TestRoute("a-2"))
+        nav.selectTab(TestTab.B)
+        nav.push(TestRoute("b-1"))
+        nav.popTo(TestTab.A, "a-root")
+        assertEquals(TestTab.B, nav.state.selectedTab)                       // selection untouched
+        assertEquals(listOf("b-root", "b-1"), nav.state.currentStack().map { it.id }) // B untouched
+        assertEquals(listOf("a-root"), nav.state.stackFor(TestTab.A).map { it.id })   // A truncated
+    }
 }

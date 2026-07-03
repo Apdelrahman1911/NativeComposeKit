@@ -1,28 +1,37 @@
-# The iOS native-chrome shell — bars, insets, and scroll-under-glass
+# The iOS native-chrome shell — containers, insets, and scroll-under-glass
 
-How the reference iOS shell lays out a real `UINavigationBar` (top), a Liquid Glass `UITabBar` (bottom),
-and the Compose content between/behind them — and the exact inset contract your screens must follow so
-content scrolls **under** the glass tab bar instead of being clipped by it. `docs/navigation.md` covers the
-nav-agnostic chrome *contract* (state out / intents in); this page covers the *layout integration* you can't
-reconstruct from the contract alone. Reference implementation: `iosApp/iosApp/Native/NativeNavShell.swift` +
-`composeApp/src/iosMain/…/MainViewController.kt` + `composeApp/src/commonMain/…/app/NativeContentInsets.kt`.
+How the reference iOS shell hosts Compose screens inside **real navigation containers** — a
+`UITabBarController`, one `UINavigationController` per tab, one view controller per stack entry — and the
+inset contract your screens follow so content scrolls **under** the Liquid Glass tab bar instead of being
+clipped by it. `docs/navigation.md` covers the chrome *contract and the ownership protocol* (state out /
+intents in / ratified pops); this page covers the *layout integration*. Reference implementation:
+`iosApp/iosApp/Native/NativeNavShell.swift` + `composeApp/src/iosMain/…/app/navigation/NativeNavChrome.ios.kt`
++ `composeApp/src/commonMain/…/app/NativeContentInsets.kt`.
 
 ## The shape
 
 ```
-UIWindow (SwiftUI host: NativeNavShell(root:).ignoresSafeArea())   ← edge-to-edge, ALL regions
-└─ NativeShellViewController
-   ├─ content (ComposeUIViewController)   z-order: BOTTOM — fills from below the nav bar to the
-   │                                      very bottom of the screen, BEHIND the tab bar
-   ├─ UINavigationBar                     pinned to the top safe-area edge; content starts below it
-   └─ UITabBar                            pinned to the screen bottom; OVERLAYS the content
+UIWindow (SwiftUI host: NativeNavShell(root:).ignoresSafeArea())    ← edge-to-edge, ALL regions
+└─ NativeShellViewController : UITabBarController                   ← real Liquid Glass UITabBar
+   ├─ UINavigationController (tab "catalog")                        ← real bar, real interactive pop
+   │  ├─ RouteHostController(entry "catalog")                       ← one VC per stack entry
+   │  │  └─ ComposeUIViewController                                 ← that entry's screen
+   │  └─ RouteHostController(entry "showcase/buttons") …
+   ├─ UINavigationController (tab "library") …
+   └─ UINavigationController (tab "settings") …
 ```
 
-- **Top bar:** content is constrained *below* it (`content.top = navBar.bottom`). A compact inline title;
-  no scroll-under at the top.
-- **Bottom bar:** content is constrained *past* it (`content.bottom = view.bottom`). The tab bar sits on top
-  of the content in the z-order, so scrolled content passes behind the glass and refracts through it.
-  Screens then reserve just enough bottom padding that the *resting* end of the content clears the bar.
+Each `RouteHostController` sets **`edgesForExtendedLayout = [.bottom]`**:
+
+- **Top bar:** the container lays the screen out *below* the navigation bar (compact inline title; content
+  is not designed to scroll under the top bar).
+- **Bottom bar:** the screen extends *behind* the tab bar, and UIKit reports the overlap as the view
+  controller's bottom **safe-area inset** — scrolled content passes behind the glass and refracts through
+  it, and screens reserve just enough bottom padding that the *resting* end of the content clears the bar.
+
+That one line replaces the previous shell's hand-plumbed geometry (manual bar constraints +
+`viewDidLayoutSubviews` recomputing `additionalSafeAreaInsets`): real containers publish every inset
+themselves, including through trait changes and rotations.
 
 ## The three layers of the inset contract
 
@@ -33,48 +42,40 @@ UIWindow (SwiftUI host: NativeNavShell(root:).ignoresSafeArea())   ← edge-to-e
 NativeNavShell(root: root).ignoresSafeArea()
 ```
 
-`.ignoresSafeArea(.keyboard)` (the common template default) is **not** enough: SwiftUI then insets the whole
-shell to the top/bottom safe areas, the hosted Compose content lays out below the bars, and — the confusing
-part — `additionalSafeAreaInsets` on the child controller appears to do nothing. Only the Compose *background*
-fills behind the bars; the content clips. Ignore all regions and the shell owns the full screen. (The keyboard
-region stays ignored too — keyboard avoidance is Compose's job, below.)
+`.ignoresSafeArea(.keyboard)` (the common template default) is **not** enough: SwiftUI would inset the whole
+shell below the status bar and above the home indicator, and nothing can extend behind the bars. Ignore all
+regions and the shell owns the full screen. (The keyboard region stays ignored too — keyboard avoidance is
+Compose's job, below.)
 
-**2. The shell converts the tab bar's overhang into a safe-area inset on the content controller.**
+**2. UIKit provides the bottom inset — nothing to compute.**
 
-```swift
-// NativeNavShell.swift — viewDidLayoutSubviews
-let bottom = max(0, tabBar.frame.height - view.safeAreaInsets.bottom)
-content.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
-```
+With `edgesForExtendedLayout = [.bottom]`, the tab-bar overlap arrives as the host controller's bottom
+safe-area inset and flows into Compose as `WindowInsets.safeDrawing`. There is no shell code to keep in sync.
 
-The tab bar's frame already extends into the home-indicator region, and the content controller inherits that
-system inset — so subtract `view.safeAreaInsets.bottom` or the inset is double-counted. (The nav bar needs no
-inset: content is constrained below it.) `additionalSafeAreaInsets` flows into Compose as
-`WindowInsets.safeDrawing`.
-
-**3. The Compose host publishes the inset; every scrollable screen consumes it.**
+**3. The per-entry Compose host publishes the inset; every scrollable screen consumes it.**
 
 ```kotlin
-// MainViewController.kt — inside the content ComposeUIViewController
-val bottomInset = WindowInsets.safeDrawing.asPaddingValues().calculateBottomPadding()
-CompositionLocalProvider(LocalNativeContentBottomInset provides bottomInset) { … }
+// NativeNavChrome.ios.kt — contentViewController(entryId), the host for ONE stack entry
+nativeContentHostViewController {
+    val bottomInset = WindowInsets.safeDrawing.asPaddingValues().calculateBottomPadding()
+    CompositionLocalProvider(LocalNativeContentBottomInset provides bottomInset) {
+        graph.Content(route)
+    }
+}
 ```
 
 `LocalNativeContentBottomInset` lives in the **sample app** (`app/NativeContentInsets.kt`), not the library
-— the shell is a reference implementation, and the local is one line to copy. (The nav bar needs no matching
-top inset: the content view controller is constrained below it, so only the overlaying tab bar's height is
-published.) It defaults to `0.dp`, which is also the correct Android value: the Material `NativeNavHost`
-reserves space for its `NavigationBar` through Scaffold padding, so shared screens read the local and stay
-correct on both platforms without a platform check.
+— the shell is a reference implementation, and the local is one line to copy. It defaults to `0.dp`, which
+is also the correct Android value: the Material `NativeNavHost` reserves space for its `NavigationBar`
+through Scaffold padding, so shared screens read the local and stay correct on both platforms without a
+platform check.
 
 ## What a screen does with the inset
 
 The inset must land **inside each scroll container** (extending the scrollable content), never as outer
-padding — outer padding would shrink the viewport and re-introduce the clip. One top-level pad can't do this;
-each screen applies it where its scroll lives.
+padding — outer padding would shrink the viewport and re-introduce the clip.
 
-- **Scrolling screen that hosts text fields** — fold it into the keyboard padding
-  (`ShowcaseUi.kt`):
+- **Scrolling screen that hosts text fields** — fold it into the keyboard padding (`ShowcaseUi.kt`):
 
   ```kotlin
   Column(
@@ -105,29 +106,27 @@ each screen applies it where its scroll lives.
 Missing the inset on one screen has exactly one symptom: that screen's last rows rest hidden behind the tab
 bar.
 
-## The chrome projection the bars render
+## The chrome projection the containers render
 
-The shell draws whatever `NativeChromeState` says — all seven fields, reconciled on every emission (tabs
-included: titles/sets are rebuilt when they change, so localized or conditional tabs never drift). One
-sheet at a time: to switch sheets, emit `sheetId = null` first, then the new id (the reference shell also
-handles a direct A→B change by dismissing then re-presenting).
-`title`, `backTitle` (the previous screen's title, which UIKit renders in the native back button),
-`canGoBack`, `selectedTabId`, `tabs`, `actions`, `sheetId`. Bar taps go back as intents
-(`backRequested()` / `tabSelected` / `actionTapped` / `dismissSheet`); the shell never owns or mutates a
-navigation stack — that single-ownership rule is what ended the iOS push/pop loop (`docs/navigation.md`).
-Sheets present natively from the shell via `chrome.sheetViewController()` in a
-`UISheetPresentationController`; the navigator owns the sheet state.
+The shell renders whatever `NativeChromeState` says, reconciled level-triggered on every emission:
+`backStacksByTab` becomes the per-tab view-controller stacks (one `RouteHostController` per
+`NativeChromeEntry`, its `navigationItem.title` from the entry — UIKit derives the back button from the
+previous entry), `tabs` the `UITabBarItem`s, `actions` the top entry's right bar items, `sheetId` a native
+`UISheetPresentationController` whose content comes from `chrome.sheetViewController()`. User actions come
+back as intents — including `backCommitted(tabId, entryId)`, the after-the-fact ratification of a pop
+UIKit's own back button / interactive edge swipe already performed. The full protocol, and why it cannot
+recreate the historical dual-ownership loop, is in [`docs/navigation.md`](navigation.md).
 
 ## Pitfalls (each one cost a debugging session)
 
 - **`.ignoresSafeArea(.keyboard)` instead of `.ignoresSafeArea()`** — content silently clips at the bars and
-  no amount of child-controller inset fixes it. The host's safe-area mode is the lever.
-- **Forgetting to subtract `view.safeAreaInsets.bottom`** from the tab-bar height — every screen gets ~34 pt
-  of dead space above the bar.
+  no child-controller inset fixes it. The host's safe-area mode is the lever.
 - **Adding the bottom inset *and* keyboard padding** — they stack, and fields float a bar-height above the
   keyboard. Use `nativeImePadding(minBottom = …)`, which takes the max.
-- **Letting a native container own navigation** — a `UINavigationController`/SwiftUI `NavigationStack`
-  fights the Kotlin stack (history in `docs/navigation.md`). The bare `UINavigationBar` + `UITabBar` here are
-  dumb projections by design.
+- **Sharing one view controller between two stack entries** (or caching hosts by route id across tabs — the
+  same id may live on two tabs) — a `UIViewController` can only sit in one navigation stack; sharing is how
+  native stacks corrupt. One fresh host per entry, per tab.
+- **Registering a Compose `BackHandler` (or hosting `NavDisplay`) inside shell-hosted route content** — CMP's
+  edge recognizer arms and defeats UIKit's interactive pop. In the native shell, the platform owns back.
 - **Testing scroll positions on the simulator** — `rememberScrollState()` is saveable and restores across app
   relaunches, so a relaunched app may not start at the top; that's state restoration, not an inset bug.

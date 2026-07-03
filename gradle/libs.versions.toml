@@ -39,6 +39,10 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 # Matches the version Compose Multiplatform 1.11 ships transitively — declared explicitly where tests
 # use coroutine scopes directly, so an upstream bump can't silently change test behavior.
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.10.2" }
+# JetBrains' multiplatform Navigation 3 — the sample's navigation host. NavDisplay owns the iOS
+# interactive swipe-back (predictive pop) as framework behavior; the kit itself stays nav-agnostic.
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version = "1.1.1" }
+jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version = "1.1.1" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }

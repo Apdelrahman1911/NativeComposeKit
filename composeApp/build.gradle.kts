@@ -42,6 +42,10 @@ kotlin {
             // The design-system kit, extracted to its own module. `api` (not implementation) is required so
             // the iOS framework's `export(project(":nativecomposekit"))` can re-export its public ObjC symbols.
             api(project(":nativecomposekit"))
+            // Navigation 3 renders the sample's Kotlin-owned back stacks (NavDisplay). App-level only:
+            // the kit publishes no navigation and stays dependency-free.
+            implementation(libs.androidx.navigation3.runtime)
+            implementation(libs.jetbrains.navigation3.ui)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
