@@ -95,6 +95,11 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
                 nav.delegate = self
                 nav.navigationBar.prefersLargeTitles = false
                 configureNavBarAppearance(nav.navigationBar)
+                // The transition container backdrop: visible in the gaps while views move. Themed so no
+                // system default (black/grey) can peek through or be sampled mid-transition.
+                nav.view.backgroundColor = UIColor { traits in
+                    NativeShellChromeKt.nativeBackgroundUIColor(dark: traits.userInterfaceStyle == .dark)
+                }
                 return nav
             }()
             nav.tabBarItem = UITabBarItem(title: tab.title, image: UIImage(systemName: tab.sfSymbol), tag: i)
@@ -167,19 +172,24 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
 
     /// Right-bar actions apply to EVERY entry of the selected tab (each `navigationItem` needs its own
     /// item instances): during an interactive pop UIKit cross-fades between the two entries' bar items, so
-    /// the incoming entry's actions must already be correct mid-gesture.
+    /// the incoming entry's actions must already be correct mid-gesture. Items are rebuilt only when the
+    /// actions VALUE changes — replacing a live item resets its glass backing, which then re-renders through
+    /// its dark "not sampled yet" fallback for a frame (the plus-button flash).
     private func applyActions(_ state: NativeChromeState, to hosts: [RouteHostController], tabId: String) {
         guard tabId == state.selectedTabId else { return }
-        actionIdByTag.removeAll()
+        actionIdByTag = Dictionary(uniqueKeysWithValues: state.actions.enumerated().map { ($0, $1.id) })
         for host in hosts {
+            let unchanged = host.appliedActions.count == state.actions.count
+                && zip(host.appliedActions, state.actions).allSatisfy { $0.isEqual($1) }
+            if unchanged { continue }
             host.navigationItem.rightBarButtonItems = state.actions.enumerated().map { (i, action) in
                 let b = UIBarButtonItem(
                     image: UIImage(systemName: action.sfSymbol),
                     style: .plain, target: self, action: #selector(actionTapped(_:)))
                 b.tag = i
-                actionIdByTag[i] = action.id
                 return b
             }
+            host.appliedActions = state.actions
         }
     }
 
@@ -256,9 +266,19 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
 
     // MARK: - Appearance
 
+    /// OPAQUE, theme-colored bars — deliberately not the translucent default material. The bar's material
+    /// samples whatever is composited behind it, and during a navigation transition that is UIKit's dimmed
+    /// transition container: a translucent bar visibly darkens for the duration of every push/pop/interactive
+    /// swipe (full-width grey band over the status+bar strip) and snaps back on settle. Content never scrolls
+    /// under the top bar in this shell (screens are laid out below it), so translucency buys nothing here —
+    /// opaque in the same background color renders identically at rest and stays rock-stable mid-gesture.
     private func configureNavBarAppearance(_ navBar: UINavigationBar) {
         let nav = UINavigationBarAppearance()
-        nav.configureWithDefaultBackground()
+        nav.configureWithOpaqueBackground()
+        nav.backgroundColor = UIColor { traits in
+            NativeShellChromeKt.nativeBackgroundUIColor(dark: traits.userInterfaceStyle == .dark)
+        }
+        nav.shadowColor = .clear // the themed background is seamless with content; no hairline at rest today
         nav.titleTextAttributes = [.foregroundColor: UIColor.label]
         nav.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
         navBar.standardAppearance = nav
@@ -367,6 +387,9 @@ extension NativeShellViewController: UISheetPresentationControllerDelegate {
 /// content-controller design is how `UINavigationController` corrupted itself).
 final class RouteHostController: UIViewController {
     let entryId: String
+    /// Last actions VALUE applied to this entry's `navigationItem` (see `applyActions` — items are only
+    /// rebuilt on change so their glass backings are never reset mid-transition).
+    var appliedActions: [NativeChromeAction] = []
     private let content: UIViewController
 
     init(entryId: String, title: String, content: UIViewController) {
