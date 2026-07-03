@@ -1,8 +1,8 @@
 package io.github.apdelrahman1911.nativecomposekit.app.navigation
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
@@ -43,7 +43,9 @@ data class NativeNavBarItem(val tab: NativeTab, val label: String, val icon: Ima
  *
  * A compact `TopAppBar` sits at the top (with a back arrow once pushed) so the content fills the screen directly
  * beneath it — no tall header eating vertical space. Renders the selected tab's **top** route inside an
- * `AnimatedContent` (push slides forward, pop backward; tab switches cross-fade); system back → [NativeNavigator.pop]; the
+ * `AnimatedContent` (push slides forward, pop backward; tab switches swap instantly — the native tab
+ * convention, and required so iOS overlay-placed native controls never linger over the incoming tab);
+ * system back → [NativeNavigator.pop]; the
  * `NavigationBar` → [NativeNavigator.selectTab]; a non-null [NativeNavigationState.sheet] → `ModalBottomSheet`.
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -148,8 +150,13 @@ fun NativeNavContent(
         modifier = modifier.fillMaxSize(),
         transitionSpec = {
             if (tabChanged) {
-                // Lateral move between sibling tabs: a quick cross-fade, no directional slide.
-                fadeIn() togetherWith fadeOut()
+                // Tab switches swap INSTANTLY — the native convention on both platforms (UIKit's
+                // UITabBarController never animates tab changes), and a hard requirement here: iOS
+                // overlay-placed native controls (e.g. Library's UISegmentedControl) composite ABOVE the
+                // Compose canvas and cannot fade with Compose content, so any animated tab transition
+                // leaves the outgoing tab's native controls floating over the incoming screen until the
+                // transition ends. Instant swap removes the outgoing composition the same frame.
+                EnterTransition.None togetherWith ExitTransition.None
             } else {
                 val enter = slideInHorizontally { w -> if (forward) w else -w }
                 val exit = slideOutHorizontally { w -> if (forward) -w else w }

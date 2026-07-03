@@ -71,3 +71,17 @@ backdrop. On an iOS 26 device that opacity also blocks the Liquid Glass **refrac
 when the control sits on a material surface. Deferred pending visual tuning on real iOS 26 hardware:
 candidate directions are a translucent/material backing, or gating the backing on solid surfaces only
 (`LocalNativeSurface` already distinguishes them). Referenced from `docs/design-system-rules.md` §Open.
+
+## Interop views do not animate with Compose transitions
+
+A `UIKitView`-backed control is a real UIView composited beside the Compose canvas (cut-out) or above it
+(overlay). Compose enter/exit transitions animate **Compose pixels only** — a `graphicsLayer` alpha/fade on
+an ancestor never reaches the native view, so during an animated content change the outgoing content's
+native controls stay fully opaque until the transition finishes and the outgoing composition is disposed
+(seen as: the Library tab's `UISegmentedControl` floating over the incoming screen during an animated tab
+switch). Slides are tolerable (interop views track node position, with the documented one-frame lag);
+fades/scales are not. Rule: a container that animates BETWEEN contents which may hold interop-backed
+controls must swap instantly (the sample's tab switches do — also the native `UITabBarController`
+convention) or slide, never fade. `NativeContentState`'s cross-fade is acceptable because its loading/
+empty/error placeholders are Compose-drawn; if your `content` holds interop controls, they will snap
+rather than fade.

@@ -63,7 +63,9 @@ public sealed interface NativeLoadState<out T> {
  * centered in the available space.
  *
  * State changes cross-fade by default ([animate]; disabled automatically under the OS reduce-motion
- * setting). [errorIcon] gives failures their own glyph (falls back to [emptyIcon]).
+ * setting). [errorIcon] gives failures their own glyph (falls back to [emptyIcon]). Note: iOS
+ * interop-backed controls inside [content] snap rather than fade (native views don't animate with
+ * Compose transitions — see docs/interop-notes.md).
  *
  * `NativeContentState(state, onRetry = ::reload) { items -> LazyColumn { items(items) { … } } }`
  */
