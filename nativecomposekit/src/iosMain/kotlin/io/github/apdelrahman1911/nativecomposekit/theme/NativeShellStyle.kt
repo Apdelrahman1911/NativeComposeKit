@@ -52,10 +52,9 @@ public enum class NativeShellBarBackground {
  * - [titleFont] — the navigation bar's INLINE title font. Null keeps the system font. (Large titles keep
  *   the system large-title font.)
  * - [showsHairline] — restore the bar's bottom hairline (today's bars draw none).
- * - [largeTitles] — master switch for large navigation titles; which screens actually SHOW one is chosen
- *   per entry via `NativeBarConfig.prefersLargeTitle`. NOTE: with Compose content there is no
- *   `UIScrollView` under the bar, so large titles do NOT collapse on scroll — they stay large while such
- *   an entry is on top.
+ *
+ * (Large-title support was evaluated and deliberately NOT shipped — see docs/native-chrome.md
+ * § Deferred: large titles.)
  */
 @Immutable
 public class NativeShellStyle(
@@ -66,10 +65,9 @@ public class NativeShellStyle(
     public val tabItemUnselected: NativeShellColor? = null,
     public val titleFont: UIFont? = null,
     public val showsHairline: Boolean = false,
-    public val largeTitles: Boolean = false,
 ) {
     public companion object {
-        /** Today's exact chrome: opaque themed bars, no hairline, system fonts/tints, compact titles. */
+        /** Today's exact chrome: opaque themed bars, no hairline, system fonts/tints. */
         public val Default: NativeShellStyle = NativeShellStyle()
     }
 }

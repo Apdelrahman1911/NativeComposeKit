@@ -45,18 +45,17 @@ public class NativeChromeAction(
  *
  * - [hidesTopBar] / [hidesTabBar] — hide the navigation/tab bar while this entry is on top (immersive
  *   readers, full-bleed media). Renderers animate the change with their platform's own transition.
- * - [prefersLargeTitle] — opt this entry into a large navigation title where the platform supports it
- *   (the iOS shell; requires the shell style's large-title opt-in). NOTE: with Compose content there is no
- *   `UIScrollView` under the bar, so a large title does NOT collapse on scroll like native UIKit lists —
- *   it stays large while the entry is on top. Platforms without the concept ignore it.
  * - [actions] — this entry's OWN top-bar actions (rendered as native bar button items by the iOS shell),
  *   replacing the tab-scoped actions while the entry is on top. Empty = no per-screen actions.
+ *
+ * (A per-screen large-title opt-in was evaluated and deliberately NOT shipped: UIKit can only animate the
+ * mixed large↔compact bar-height change of an interactive pop over content that underlaps the bar, and the
+ * shell lays screens below it — see docs/native-chrome.md § Deferred: large titles.)
  */
 @Immutable
 public class NativeBarConfig(
     public val hidesTopBar: Boolean = false,
     public val hidesTabBar: Boolean = false,
-    public val prefersLargeTitle: Boolean = false,
     public val actions: List<NativeChromeAction> = emptyList(),
 ) {
     override fun equals(other: Any?): Boolean {
@@ -64,20 +63,18 @@ public class NativeBarConfig(
         if (other !is NativeBarConfig) return false
         return hidesTopBar == other.hidesTopBar &&
             hidesTabBar == other.hidesTabBar &&
-            prefersLargeTitle == other.prefersLargeTitle &&
             actions == other.actions
     }
 
     override fun hashCode(): Int {
         var result = hidesTopBar.hashCode()
         result = 31 * result + hidesTabBar.hashCode()
-        result = 31 * result + prefersLargeTitle.hashCode()
         result = 31 * result + actions.hashCode()
         return result
     }
 
     public companion object {
-        /** Today's behavior: bars visible, compact title, no per-screen actions. */
+        /** Today's behavior: bars visible, no per-screen actions. */
         public val Default: NativeBarConfig = NativeBarConfig()
     }
 }

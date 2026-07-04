@@ -446,7 +446,7 @@ sealed interface <#A: out kotlin/Any?> io.github.apdelrahman1911.nativecomposeki
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig { // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig|null[0]
-    constructor <init>(kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction> = ...) // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig.<init>|<init>(kotlin.Boolean;kotlin.Boolean;kotlin.Boolean;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeAction>){}[0]
+    constructor <init>(kotlin/Boolean = ..., kotlin/Boolean = ..., kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction> = ...) // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig.<init>|<init>(kotlin.Boolean;kotlin.Boolean;kotlin.collections.List<io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeAction>){}[0]
 
     final val actions // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig.actions|{}actions[0]
         final fun <get-actions>(): kotlin.collections/List<io.github.apdelrahman1911.nativecomposekit.chrome/NativeChromeAction> // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig.actions.<get-actions>|<get-actions>(){}[0]
@@ -454,8 +454,6 @@ final class io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig { 
         final fun <get-hidesTabBar>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig.hidesTabBar.<get-hidesTabBar>|<get-hidesTabBar>(){}[0]
     final val hidesTopBar // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig.hidesTopBar|{}hidesTopBar[0]
         final fun <get-hidesTopBar>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig.hidesTopBar.<get-hidesTopBar>|<get-hidesTopBar>(){}[0]
-    final val prefersLargeTitle // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig.prefersLargeTitle|{}prefersLargeTitle[0]
-        final fun <get-prefersLargeTitle>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig.prefersLargeTitle.<get-prefersLargeTitle>|<get-prefersLargeTitle>(){}[0]
 
     final fun equals(kotlin/Any?): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.github.apdelrahman1911.nativecomposekit.chrome/NativeBarConfig.hashCode|hashCode(){}[0]
@@ -871,14 +869,12 @@ final class io.github.apdelrahman1911.nativecomposekit.theme/NativeShellColor { 
 }
 
 final class io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle { // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle|null[0]
-    constructor <init>(io.github.apdelrahman1911.nativecomposekit.theme/NativeShellBarBackground = ..., io.github.apdelrahman1911.nativecomposekit.theme/NativeShellColor? = ..., io.github.apdelrahman1911.nativecomposekit.theme/NativeShellColor? = ..., io.github.apdelrahman1911.nativecomposekit.theme/NativeShellColor? = ..., io.github.apdelrahman1911.nativecomposekit.theme/NativeShellColor? = ..., platform.UIKit/UIFont? = ..., kotlin/Boolean = ..., kotlin/Boolean = ...) // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle.<init>|<init>(io.github.apdelrahman1911.nativecomposekit.theme.NativeShellBarBackground;io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor?;io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor?;io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor?;io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor?;platform.UIKit.UIFont?;kotlin.Boolean;kotlin.Boolean){}[0]
+    constructor <init>(io.github.apdelrahman1911.nativecomposekit.theme/NativeShellBarBackground = ..., io.github.apdelrahman1911.nativecomposekit.theme/NativeShellColor? = ..., io.github.apdelrahman1911.nativecomposekit.theme/NativeShellColor? = ..., io.github.apdelrahman1911.nativecomposekit.theme/NativeShellColor? = ..., io.github.apdelrahman1911.nativecomposekit.theme/NativeShellColor? = ..., platform.UIKit/UIFont? = ..., kotlin/Boolean = ...) // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle.<init>|<init>(io.github.apdelrahman1911.nativecomposekit.theme.NativeShellBarBackground;io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor?;io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor?;io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor?;io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor?;platform.UIKit.UIFont?;kotlin.Boolean){}[0]
 
     final val barBackground // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle.barBackground|{}barBackground[0]
         final fun <get-barBackground>(): io.github.apdelrahman1911.nativecomposekit.theme/NativeShellBarBackground // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle.barBackground.<get-barBackground>|<get-barBackground>(){}[0]
     final val customBarBackground // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle.customBarBackground|{}customBarBackground[0]
         final fun <get-customBarBackground>(): io.github.apdelrahman1911.nativecomposekit.theme/NativeShellColor? // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle.customBarBackground.<get-customBarBackground>|<get-customBarBackground>(){}[0]
-    final val largeTitles // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle.largeTitles|{}largeTitles[0]
-        final fun <get-largeTitles>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle.largeTitles.<get-largeTitles>|<get-largeTitles>(){}[0]
     final val showsHairline // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle.showsHairline|{}showsHairline[0]
         final fun <get-showsHairline>(): kotlin/Boolean // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle.showsHairline.<get-showsHairline>|<get-showsHairline>(){}[0]
     final val tabItemSelected // io.github.apdelrahman1911.nativecomposekit.theme/NativeShellStyle.tabItemSelected|{}tabItemSelected[0]

@@ -28,7 +28,6 @@ class NativeShellStyleTest {
         assertNull(style.tabItemUnselected)
         assertNull(style.titleFont)
         assertFalse(style.showsHairline)
-        assertFalse(style.largeTitles)
         // Resolvers: no tint/tab colors registered; bar background = the theme background.
         assertNull(nativeShellTintUIColor(dark = false))
         assertNull(nativeShellTabItemSelectedUIColor(dark = true))
@@ -47,14 +46,12 @@ class NativeShellStyleTest {
                 barBackground = NativeShellBarBackground.Custom,
                 customBarBackground = NativeShellColor(light = Color.White, dark = Color.Black),
                 tint = NativeShellColor(light = tintLight, dark = tintDark),
-                largeTitles = true,
             ),
         )
         assertEquals(Color.White, nativeShellBarBackgroundUIColor(dark = false).toComposeColor())
         assertEquals(Color.Black, nativeShellBarBackgroundUIColor(dark = true).toComposeColor())
         assertEquals(tintLight, nativeShellTintUIColor(dark = false)?.toComposeColor())
         assertEquals(tintDark, nativeShellTintUIColor(dark = true)?.toComposeColor())
-        assertEquals(true, nativeShellStyle().largeTitles)
     }
 
     @Test

@@ -26,7 +26,11 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextSty
  */
 
 @Composable
-fun SettingsScreen(onOpenComponentMatrix: () -> Unit = {}, onOpenInteropRepro: () -> Unit = {}) {
+fun SettingsScreen(
+    onOpenComponentMatrix: () -> Unit = {},
+    onOpenInteropRepro: () -> Unit = {},
+    onOpenChromeDemo: () -> Unit = {},
+) {
     var notify by remember { mutableStateOf(true) }
     // Fill to the bottom behind the overlaying tab bar; end content clear of it (0 on Android).
     val bottomInset = LocalNativeContentBottomInset.current
@@ -63,6 +67,13 @@ fun SettingsScreen(onOpenComponentMatrix: () -> Unit = {}, onOpenInteropRepro: (
                         "iOS interop repro",
                         supporting = "Raw UIKitView scroll clip/drift, UIMenu drift, Dialog first-frame (iOS-only)",
                         onClick = onOpenInteropRepro,
+                    )
+                },
+                {
+                    NativeListItem(
+                        "Navigation chrome demo",
+                        supporting = "Per-screen NativeBarConfig live (hidden tab bar, per-screen action) + each platform's styling surface",
+                        onClick = onOpenChromeDemo,
                     )
                 },
             ),

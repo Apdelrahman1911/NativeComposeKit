@@ -52,4 +52,13 @@ sealed interface AppRoute : NativeRoute {
     data object InteropRepro : AppRoute {
         override val id = "debug/interop-repro"
     }
+
+    /**
+     * Debug screen: the navigation-chrome customization demo. Its `NativeBarConfig` (see `appBarConfig`)
+     * hides the tab bar while pushed and, on iOS, carries a per-screen bar action; the screen's content
+     * documents each platform's styling surface. Pushed from Settings.
+     */
+    data object ChromeDemo : AppRoute {
+        override val id = "debug/chrome-demo"
+    }
 }

@@ -130,18 +130,24 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
             // Entry ids are unique per STACK, not per app — the same route id may live on two tabs, and each
             // needs its own controller (one UIViewController can never sit in two navigation stacks).
             let hostKey = "\(tabId)|\(entry.id)"
+            let host: RouteHostController
             if let existing = hostsByEntry[hostKey] {
-                existing.navigationItem.title = entry.title
-                target.append(existing)
+                host = existing
             } else {
                 guard let content = root.chrome.contentViewController(entryId: entry.id) else {
                     NSLog("NCK-Shell: no content for entry '%@' (stale projection) — deferring tab '%@'", entry.id, tabId)
                     return
                 }
-                let host = RouteHostController(entryId: entry.id, title: entry.title, content: content)
+                host = RouteHostController(entryId: entry.id, title: entry.title, content: content)
                 hostsByEntry[hostKey] = host
-                target.append(host)
             }
+            // Per-entry chrome must land BEFORE the mutations below: UIKit reads `hidesBottomBarWhenPushed`
+            // AT PUSH TIME (setting it after the push means the tab bar never hides), and navigationItem
+            // changes once a transition has started re-lay the bar mid-animation.
+            host.navigationItem.title = entry.title
+            host.hidesBottomBarWhenPushed = entry.bar.hidesTabBar
+            applyActions(entry, to: host, state: state, tabId: tabId)
+            target.append(host)
         }
 
         let current = nav.viewControllers.compactMap { $0 as? RouteHostController }
@@ -164,13 +170,6 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
         expectedEntries[tabId] = targetIds // in lockstep with the mutation, never from didShow
         isApplying = false
 
-        // Per-entry chrome: this screen's own actions, tab-bar visibility while it is pushed, and its
-        // large-title preference (effective only under the style's `largeTitles` master switch).
-        for (entry, host) in zip(entries, target) {
-            applyActions(entry, to: host, state: state, tabId: tabId)
-            host.hidesBottomBarWhenPushed = entry.bar.hidesTabBar
-            host.navigationItem.largeTitleDisplayMode = entry.bar.prefersLargeTitle ? .always : .never
-        }
         // Top-bar visibility follows the TOP entry. Applied here (at apply/settle time, animated when
         // visible) rather than mid-gesture: a cancelled interactive pop then needs no compensation —
         // no state change, no sync, no bar flicker.
@@ -323,7 +322,6 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
         var titleAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.label]
         if let font = style.titleFont { titleAttributes[.font] = font }
         nav.titleTextAttributes = titleAttributes
-        nav.largeTitleTextAttributes = [.foregroundColor: UIColor.label] // large titles keep the system font
         navBar.standardAppearance = nav
         navBar.compactAppearance = nav
         navBar.scrollEdgeAppearance = nav
@@ -333,8 +331,10 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
                 NativeShellStyleKt.nativeShellTintUIColor(dark: traits.userInterfaceStyle == .dark) ?? .tintColor
             }
         }
-        // Master switch only — WHICH screens show a large title is per entry (largeTitleDisplayMode below).
-        navBar.prefersLargeTitles = style.largeTitles
+        // Compact titles only: large titles need content that UNDERLAPS the bar for UIKit to animate the
+        // mixed large<->compact bar-height change of an interactive pop, and this shell lays screens below
+        // the bar (see docs/native-chrome.md § Deferred: large titles).
+        navBar.prefersLargeTitles = false
     }
 
     private func configureTabBarAppearance() {

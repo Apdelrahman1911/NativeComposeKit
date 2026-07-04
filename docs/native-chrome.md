@@ -130,3 +130,77 @@ recreate the historical dual-ownership loop, is in [`docs/navigation.md`](naviga
   edge recognizer arms and defeats UIKit's interactive pop. In the native shell, the platform owns back.
 - **Testing scroll positions on the simulator** — `rememberScrollState()` is saveable and restores across app
   relaunches, so a relaunched app may not start at the top; that's state restoration, not an inset bug.
+
+## Customizing the chrome
+
+Customization is deliberately split in two, and deliberately **per-platform** — Android stays
+Compose-native, iOS stays UIKit-native, and a consuming app can (and usually should) style them
+differently. Everything defaults to the stock look; all of this is opt-in. The Settings → "Navigation
+chrome demo" screen exercises the whole surface live.
+
+**Per-screen BEHAVIOR — `NativeBarConfig`, shared vocabulary (commonMain).** One lambda per app maps a
+route to its chrome behavior, and both hosts consume it (the Material host through its `barConfig`
+parameter, the iOS shell through `NativeNavChrome(barConfigForRoute = …)` → carried per entry on
+`NativeChromeState.backStacksByTab`):
+
+```kotlin
+fun appBarConfig(route: NativeRoute) = when (route) {
+    is AppRoute.Reader -> NativeBarConfig(hidesTopBar = true, hidesTabBar = true) // immersive
+    is AppRoute.Detail -> NativeBarConfig(
+        actions = listOf(NativeChromeAction("share", "square.and.arrow.up")), // this screen's OWN bar action
+    )
+    else -> NativeBarConfig.Default
+}
+```
+
+Notes: per-screen `actions` are rendered by the iOS shell (a screen without its own falls back to the
+tab-scoped `actionsForTab`, the pre-config behavior); the Android default bars take actions as composable
+slots instead and ignore the list. On iOS, `hidesTabBar` uses `hidesBottomBarWhenPushed` semantics (it
+applies to pushed entries), and bar-visibility changes animate when the transition settles rather than
+tracking the swipe finger — a cancelled gesture therefore never needs compensation.
+
+**Android APPEARANCE — Compose slots + `NativeNavDefaults`.** The Material host's bars are public
+defaults behind slots: omit the slots for today's exact look, call the defaults with parameters to
+restyle, or pass any composable to replace a bar wholesale (the slot state carries the current route,
+title, back intent, tabs, and selection):
+
+```kotlin
+NativeNavHost(
+    navigator, graph, tabs,
+    barConfig = ::appBarConfig,
+    topBar = { state -> NativeNavDefaults.TopBar(state, colors = myColors, centeredTitle = true) },
+    bottomBar = { state -> NativeNavDefaults.NavigationBar(state, containerColor = brand) },
+)
+```
+
+**iOS APPEARANCE — the shell style registry (iosMain).** Register once, before `createNativeNavRoot()`;
+the shell reads it while configuring its `UINavigationBar`/`UITabBar` appearances:
+
+```kotlin
+applyNativeShellStyle(
+    NativeShellStyle(
+        barBackground = NativeShellBarBackground.Custom,          // or Themed (default) / SystemMaterial
+        customBarBackground = NativeShellColor(light, dark),
+        tint = NativeShellColor(light, dark),                     // back chevron, bar buttons, selected tab
+        tabItemSelected = NativeShellColor(light, dark),
+        tabItemUnselected = NativeShellColor(light, dark),
+        titleFont = UIFont.boldSystemFontOfSize(17.0),
+        showsHairline = false,
+    ),
+)
+```
+
+One documented trade-off: `SystemMaterial` re-exposes the mid-transition darkening (the translucent bar
+samples UIKit's dimmed transition container — the reason the default is opaque). Restyling beyond the
+registry (custom bar views, search controllers, …) is a fork of `NativeNavShell.swift` — it is reference
+code, and the ratified-projection contract underneath is the stable boundary.
+
+### Deferred: large titles
+
+A per-screen large-title opt-in was built, verified at rest, and **withdrawn**: UIKit can only animate the
+mixed large↔compact bar-height change of an *interactive pop* over content that UNDERLAPS the navigation
+bar (stock apps put scroll views under it). This shell deliberately lays screens *below* the bar, so during
+a slow swipe-back from a large-title screen UIKit snaps the bar height, drops the outgoing large title, and
+reveals the incoming one through a clipped re-layout — visibly broken. Proper support means top-underlapping
+hosts plus a top content inset consumed by every screen (the same contract the tab bar already has at the
+bottom) — a self-contained follow-up track; the compact-title chrome ships until then.

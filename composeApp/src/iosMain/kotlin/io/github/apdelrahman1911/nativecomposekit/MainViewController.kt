@@ -3,6 +3,8 @@ package io.github.apdelrahman1911.nativecomposekit
 import androidx.compose.ui.window.ComposeUIViewController
 import io.github.apdelrahman1911.nativecomposekit.app.AppRoute
 import io.github.apdelrahman1911.nativecomposekit.app.AppTab
+import io.github.apdelrahman1911.nativecomposekit.app.CHROME_DEMO_ACTION_ID
+import io.github.apdelrahman1911.nativecomposekit.app.appBarConfig
 import io.github.apdelrahman1911.nativecomposekit.app.appNavGraph
 import io.github.apdelrahman1911.nativecomposekit.app.appRootRoute
 import io.github.apdelrahman1911.nativecomposekit.app.appRouteTitle
@@ -15,6 +17,7 @@ import io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeSource
 import io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeTab
 import io.github.apdelrahman1911.nativecomposekit.components.NativeImeLog
 import kotlin.native.Platform
+import kotlinx.coroutines.launch
 import platform.UIKit.UIViewController
 
 /**
@@ -81,8 +84,57 @@ fun createNativeNavRoot(): NativeNavRoot {
                 emptyList()
             }
         },
-        onAction = { id -> if (id == "glass-interop") navigator.presentSheet(AppRoute.GlassInteropTest) },
+        onAction = { id ->
+            when (id) {
+                "glass-interop" -> navigator.presentSheet(AppRoute.GlassInteropTest)
+                CHROME_DEMO_ACTION_ID -> presentChromeDemoAlert()
+            }
+        },
+        barConfigForRoute = ::appBarConfig, // per-screen chrome behavior, shared with the Material host
     )
 
+    // TEMP-VERIFY (removed before commit): chrome-customization battery — styled shell (tint + selected
+    // tab color + large titles enabled) and a scripted ChromeDemo round trip.
+    io.github.apdelrahman1911.nativecomposekit.theme.applyNativeShellStyle(
+        io.github.apdelrahman1911.nativecomposekit.theme.NativeShellStyle(
+            tint = io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor(
+                light = androidx.compose.ui.graphics.Color(0.75f, 0.20f, 0.30f),
+                dark = androidx.compose.ui.graphics.Color(0.95f, 0.45f, 0.55f),
+            ),
+            tabItemSelected = io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor(
+                light = androidx.compose.ui.graphics.Color(0.75f, 0.20f, 0.30f),
+                dark = androidx.compose.ui.graphics.Color(0.95f, 0.45f, 0.55f),
+            ),
+        ),
+    )
+    kotlinx.coroutines.MainScope().launch {
+        kotlinx.coroutines.delay(3000)
+        navigator.selectTab(AppTab.Settings); println("NCK-VERIFY settings selected")
+        kotlinx.coroutines.delay(1600)
+        navigator.push(AppRoute.ChromeDemo); println("NCK-VERIFY chrome demo pushed")
+        kotlinx.coroutines.delay(2600)
+        navigator.pop(); println("NCK-VERIFY popped back")
+        kotlinx.coroutines.delay(1600)
+        println("NCK-VERIFY battery done")
+    }
+
     return NativeNavRoot(chrome = chrome)
+}
+
+/**
+ * The chrome demo's per-screen action: action handlers are plain Kotlin, so the sample does the simplest
+ * native thing — a real `UIAlertController` presented on the topmost controller.
+ */
+private fun presentChromeDemoAlert() {
+    val alert = platform.UIKit.UIAlertController.alertControllerWithTitle(
+        title = "Per-screen action",
+        message = "This bar button belongs to the Chrome demo screen only — it came from its NativeBarConfig, not the tab.",
+        preferredStyle = platform.UIKit.UIAlertControllerStyleAlert,
+    )
+    alert.addAction(
+        platform.UIKit.UIAlertAction.actionWithTitle("Nice", platform.UIKit.UIAlertActionStyleDefault, handler = null),
+    )
+    var vc = platform.UIKit.UIApplication.sharedApplication.keyWindow?.rootViewController
+    while (vc?.presentedViewController != null) vc = vc?.presentedViewController
+    vc?.presentViewController(alert, animated = true, completion = null)
 }

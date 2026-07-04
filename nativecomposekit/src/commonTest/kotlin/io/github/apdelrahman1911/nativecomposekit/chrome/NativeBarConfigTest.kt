@@ -17,7 +17,6 @@ class NativeBarConfigTest {
         val d = NativeBarConfig.Default
         assertEquals(false, d.hidesTopBar)
         assertEquals(false, d.hidesTabBar)
-        assertEquals(false, d.prefersLargeTitle)
         assertTrue(d.actions.isEmpty())
         // A freshly constructed no-arg config is the same value as Default.
         assertEquals(NativeBarConfig(), d)
@@ -34,7 +33,7 @@ class NativeBarConfigTest {
 
         assertNotEquals(a, NativeBarConfig(hidesTopBar = false, actions = listOf(action)))
         assertNotEquals(a, NativeBarConfig(hidesTopBar = true)) // actions differ
-        assertNotEquals(NativeBarConfig(hidesTabBar = true), NativeBarConfig(prefersLargeTitle = true))
+        assertNotEquals(NativeBarConfig(hidesTabBar = true), NativeBarConfig(hidesTopBar = true))
     }
 
     @Test
