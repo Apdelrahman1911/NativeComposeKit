@@ -1,0 +1,142 @@
+name: Release
+
+# The ONLY workflow that can publish. Runs exclusively for the `release` branch:
+#   push to `release`        → verify, then WAIT for manual approval, then publish + tag + GitHub Release
+#   manual workflow_dispatch → same, and only when dispatched from `release` (guarded below)
+# `main` and `testing` can never reach the publish job — ci.yml carries no publish step at all, and every
+# job here is gated on the release ref. The publish job additionally runs inside the `maven-central`
+# GitHub Environment: with a required reviewer configured on that environment, NOTHING uploads until a
+# human approves the pending deployment — an accidental push to `release` stops at the approval gate.
+on:
+  push:
+    branches: [release]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Full verification (no publish)
+    # Belt-and-braces ref guard: the push trigger is already release-only; this also pins manual dispatch.
+    if: github.ref == 'refs/heads/release'
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Cache the Kotlin/Native toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+      - name: Version guard — fail if this version was already released
+        run: |
+          VERSION=$(grep -m1 '^version = ' nativecomposekit/build.gradle.kts | sed 's/version = "\(.*\)"/\1/')
+          echo "Release candidate version: $VERSION"
+          if git ls-remote --tags origin "refs/tags/v$VERSION" | grep -q .; then
+            echo "::error::Tag v$VERSION already exists — bump the version before releasing."; exit 1
+          fi
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' "https://repo1.maven.org/maven2/io/github/apdelrahman1911/nativecomposekit/$VERSION/")
+          if [ "$STATUS" = "200" ]; then
+            echo "::error::io.github.apdelrahman1911:nativecomposekit:$VERSION already exists on Maven Central."; exit 1
+          fi
+          echo "Version $VERSION is unreleased (tag absent, Central returned $STATUS) — proceeding."
+      - name: Build gates, tests, ABI lock, lint
+        run: >
+          ./gradlew
+          :nativecomposekit:apiCheck
+          :nativecomposekit:testDebugUnitTest
+          :composeApp:testDebugUnitTest
+          :nativecomposekit:iosSimulatorArm64Test
+          :nativecomposekit:lintDebug
+          :composeApp:assembleRelease
+      - name: Build the full publication artifact set (unsigned — signing is proven in the protected job)
+        run: ./gradlew :nativecomposekit:publishToMavenLocal
+
+  publish:
+    name: Publish to Maven Central (requires approval)
+    needs: verify
+    if: github.ref == 'refs/heads/release'
+    runs-on: macos-15
+    timeout-minutes: 60
+    # The manual gate + the secrets live on this GitHub Environment. Configure BOTH in
+    # Settings → Environments → maven-central: a Required reviewer (the approval step), and the
+    # environment secrets referenced below. Secrets are exposed ONLY to this approved job.
+    environment: maven-central
+    env:
+      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
+      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSPHRASE }}
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Cache the Kotlin/Native toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+      - name: Re-check the version guard at publish time
+        id: version
+        run: |
+          VERSION=$(grep -m1 '^version = ' nativecomposekit/build.gradle.kts | sed 's/version = "\(.*\)"/\1/')
+          if git ls-remote --tags origin "refs/tags/v$VERSION" | grep -q .; then
+            echo "::error::Tag v$VERSION already exists."; exit 1
+          fi
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' "https://repo1.maven.org/maven2/io/github/apdelrahman1911/nativecomposekit/$VERSION/")
+          if [ "$STATUS" = "200" ]; then
+            echo "::error::Version $VERSION already exists on Maven Central."; exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Publish signed artifacts to the Central Portal and release the deployment
+        # Signs everything in-memory (the build enables signing when the key property is present), uploads
+        # to the Central Portal, waits for validation, then releases. A duplicate version is also rejected
+        # server-side by the Portal, independent of the guard above. Secrets never appear in logs (GitHub
+        # masks them; Gradle receives them only as project properties via the environment).
+        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
+
+  tag-and-release:
+    name: Tag and GitHub Release
+    needs: publish
+    if: github.ref == 'refs/heads/release'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # tag push + GitHub Release creation — granted to this job only
+    env:
+      VERSION: ${{ needs.publish.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tag the released commit (lightweight — carries no author identity)
+        run: |
+          git tag "v$VERSION" "$GITHUB_SHA"
+          git push origin "v$VERSION"
+      - name: Create the GitHub Release from the CHANGELOG section
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          awk -v ver="$VERSION" '
+            $0 ~ "^## \\[" ver "\\]" { flag = 1; next }
+            /^## \[/ { flag = 0 }
+            flag' CHANGELOG.md > release-notes.md
+          if ! [ -s release-notes.md ]; then
+            echo "No CHANGELOG section found for $VERSION — using a pointer instead."
+            echo "See [CHANGELOG.md](https://github.com/${GITHUB_REPOSITORY}/blob/main/CHANGELOG.md)." > release-notes.md
+          fi
+          gh release create "v$VERSION" --title "$VERSION" --notes-file release-notes.md

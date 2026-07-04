@@ -5,7 +5,7 @@ All notable changes to NativeComposeKit are documented here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html) (pre-1.0: minor bumps may contain breaking
 changes; the public surface is ABI-locked per release via binary-compatibility-validator).
 
-## [0.1.0] — Unreleased
+## [0.1.0] — 2026-07-04
 
 First public release.
 

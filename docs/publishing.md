@@ -1,7 +1,20 @@
 # Publishing to Maven Central
 
-The release runbook for `:nativecomposekit`. Repo-side wiring is done; the one-time account/key steps in
-[§2](#2-one-time-setup-account-namespace-key) can only be performed by the project owner.
+The release runbook for `:nativecomposekit`. Publishing happens ONLY through the protected GitHub Actions
+release flow described in [§4](#4-release-flow-github-actions-only) — never from a developer machine.
+
+## Branch model
+
+| Branch | Role | CI behavior |
+|---|---|---|
+| `main` | development | `ci.yml` verification only — can never publish, tag, or create releases |
+| `testing` | integration / pre-release verification | `ci.yml` verification only — same guarantee |
+| `release` | release candidates | `ci.yml` verification **plus** `release.yml`: full verify → **manual approval gate** → signed Maven Central publish → tag `v<version>` → GitHub Release |
+
+The publish step exists solely in `release.yml`, whose every job is pinned to `refs/heads/release`
+(both for the `push` trigger and manual `workflow_dispatch`), and whose publish job runs inside the
+`maven-central` GitHub Environment — with a required reviewer configured there, an accidental push to
+`release` stops at the approval gate before anything is uploaded.
 
 ## Coordinates
 
@@ -27,10 +40,11 @@ io.github.apdelrahman1911 : nativecomposekit : <version>
 - **Signing** is gated on `signingInMemoryKey` being present: `publishToMavenLocal` works unsigned and
   keyless (CI smoke-publishes it on every push); a Central upload signs everything.
 - **Tasks**:
-  - `./gradlew :nativecomposekit:publishToMavenLocal` — full artifact set into `~/.m2` (local verification).
-  - `./gradlew publishToMavenCentral` — signed upload to a Portal deployment that waits for the **Publish**
-    button in the Portal UI (recommended for the first release).
-  - `./gradlew publishAndReleaseToMavenCentral` — same, then releases automatically once validation passes.
+  - `./gradlew :nativecomposekit:publishToMavenLocal` — full artifact set into `~/.m2` (local verification;
+    this is the only publish-shaped task ever run outside the release workflow).
+  - `./gradlew publishAndReleaseToMavenCentral` — signed upload + validation + release. Reserved for the
+    protected `release.yml` publish job (policy: no publishing from developer machines); the manual gate is
+    the GitHub Environment approval, not the Portal UI button.
 
 ## 2. One-time setup (account, namespace, key)
 
@@ -50,17 +64,26 @@ Owner-only steps; nothing here touches the repo.
    gpg --keyserver keyserver.ubuntu.com --send-keys KEY_ID   # publish the PUBLIC key (validation needs it)
    gpg --export-secret-keys --armor KEY_ID > central-signing.asc  # keep PRIVATE; never commit
    ```
-5. **Credentials on the publishing machine** — in `~/.gradle/gradle.properties` (never the repo):
-   ```properties
-   mavenCentralUsername=<token username>
-   mavenCentralPassword=<token password>
-   signingInMemoryKeyId=<KEY_ID, the 8-hex short id>
-   signingInMemoryKeyPassword=<key passphrase>
-   signingInMemoryKey=<contents of central-signing.asc with every newline replaced by \n>
-   ```
-   The `\n`-escaping is a `gradle.properties` limitation; alternatively export the same five values as
-   `ORG_GRADLE_PROJECT_mavenCentralUsername=…` etc. environment variables, where real newlines are fine.
-   Details: [vanniktech plugin docs](https://vanniktech.github.io/gradle-maven-publish-plugin/central/).
+5. **GitHub Environment + secrets** (what the release workflow uses) — in the repo:
+   *Settings → Environments → New environment* named exactly **`maven-central`**, then:
+   - **Protection**: add a *Required reviewer* (yourself). This is the manual approval gate — the publish
+     job cannot start until the pending deployment is approved.
+   - **Environment secrets** (exact names; exposed only to the approved publish job):
+
+     | Secret | Value |
+     |---|---|
+     | `MAVEN_CENTRAL_USERNAME` | the Portal user-token username |
+     | `MAVEN_CENTRAL_PASSWORD` | the Portal user-token password |
+     | `SIGNING_KEY_ID` | the 8-hex short id of the signing key |
+     | `SIGNING_KEY` | the full armored private key (paste `central-signing.asc` as-is — real newlines are fine in Actions secrets) |
+     | `SIGNING_PASSPHRASE` | the key's passphrase |
+
+   The workflow maps these to `ORG_GRADLE_PROJECT_*` Gradle properties; GitHub masks secret values in all
+   logs. For **local artifact verification only** the same five values can live in
+   `~/.gradle/gradle.properties` (`mavenCentralUsername`, `mavenCentralPassword`, `signingInMemoryKeyId`,
+   `signingInMemoryKey` with `\n`-escaped newlines, `signingInMemoryKeyPassword`) — but the Central upload
+   itself is reserved for the Actions flow. Details:
+   [vanniktech plugin docs](https://vanniktech.github.io/gradle-maven-publish-plugin/central/).
 
 ## 3. Verify locally (no upload, no credentials)
 
@@ -75,24 +98,30 @@ CI runs this same task on every push (macOS job, "Smoke-publish the full multipl
 
 Optionally consume it from a scratch project via `mavenLocal()` to prove resolution end to end.
 
-## 4. Release flow (per version)
+## 4. Release flow (GitHub Actions only)
 
-1. Pre-flight: CI green on `main`; `CHANGELOG.md` — set the release date on the version section; README
-   coordinates show the version being released; `./gradlew :nativecomposekit:apiCheck` clean.
-2. Upload: `./gradlew publishToMavenCentral` (signed; requires §2 credentials).
-3. In the Portal → *Deployments*: wait for validation to pass, review the component list, press
-   **Publish**. (Or use `publishAndReleaseToMavenCentral` to skip the button.)
-4. Sync time: minutes to ~1 h until `repo1.maven.org` serves it; search indexing can lag hours.
-5. Tag and record:
+1. Pre-flight on `main`: CI green; `CHANGELOG.md` — release date set on the version section; README
+   dependency line shows the version being released.
+2. Fast-forward the branches: `testing` first if you want a verification-only dry pass, then `release`:
    ```bash
-   git tag v0.1.0 && git push origin v0.1.0
+   git push origin main:release
    ```
-   Then bump `version` in `nativecomposekit/build.gradle.kts` for the next cycle (e.g. `0.2.0`), update
-   README's dependency line, start a new `## [Unreleased]` CHANGELOG section, commit.
+3. `release.yml` runs on the push: the **verify** job re-runs the full gates plus a **version guard**
+   (fails cleanly if `v<version>` is already tagged or `<version>` already exists on Maven Central — and
+   the Portal rejects duplicate uploads server-side as an independent backstop).
+4. The **publish** job then waits in the `maven-central` environment for **manual approval** (Actions run
+   page → *Review deployments* → approve). On approval it signs in-memory, uploads to the Central Portal,
+   waits for validation, and releases the deployment.
+5. On success the workflow **tags `v<version>`** (lightweight, on the released commit) and creates a
+   **GitHub Release** whose notes are that version's `CHANGELOG.md` section.
+6. Sync time: minutes to ~1 h until `repo1.maven.org` serves it; search indexing can lag hours.
+7. Roll over for the next cycle (on `main`): bump `version` in `nativecomposekit/build.gradle.kts`,
+   update README's dependency line, start a new `## [Unreleased]` CHANGELOG section.
+
+A re-run can be triggered without a new commit via *Actions → Release → Run workflow* — **select the
+`release` branch**; every job is ref-guarded and becomes a no-op on any other branch.
 
 ## 5. Later (optional)
 
-- **CI publishing**: move the five §2 values into GitHub Actions secrets (`ORG_GRADLE_PROJECT_*` env) and
-  add a tag-triggered workflow that runs `publishAndReleaseToMavenCentral`.
 - **Snapshots**: the Portal supports `-SNAPSHOT` publishing once enabled for the namespace
   (`central.sonatype.com` → namespace settings); consumers then add the portal snapshots repository.

@@ -1,8 +1,12 @@
 name: CI
 
+# Verification only — this workflow NEVER publishes, tags, or creates releases (its only publish-shaped
+# task is the keyless, unsigned `publishToMavenLocal` smoke below). Branch model: `main` = development,
+# `testing` = verification-only integration branch, `release` = release candidates (release.yml layers the
+# PROTECTED Maven Central publish on top of this same verification).
 on:
   push:
-    branches: [main]
+    branches: [main, testing, release]
   pull_request:
 
 permissions:
@@ -10,8 +14,8 @@ permissions:
 
 concurrency:
   group: ci-${{ github.ref }}
-  # Never cancel an in-flight main build; superseded PR pushes are fair game.
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  # Never cancel an in-flight main/testing/release build; superseded PR pushes are fair game.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   android:
