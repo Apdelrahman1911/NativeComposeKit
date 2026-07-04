@@ -9,12 +9,14 @@ release flow described in [§4](#4-release-flow-github-actions-only) — never f
 |---|---|---|
 | `main` | development | `ci.yml` verification only — can never publish, tag, or create releases |
 | `testing` | integration / pre-release verification | `ci.yml` verification only — same guarantee |
-| `release` | release candidates | `ci.yml` verification **plus** `release.yml`: full verify → **manual approval gate** → signed Maven Central publish → tag `v<version>` → GitHub Release |
+| `release` | release candidates | `ci.yml` + `release.yml` **verification on every push**; publishing requires a separate **manual `workflow_dispatch`** from `release` with the literal confirmation `publish` typed in — then signed Maven Central publish → tag `v<version>` → GitHub Release |
 
-The publish step exists solely in `release.yml`, whose every job is pinned to `refs/heads/release`
-(both for the `push` trigger and manual `workflow_dispatch`), and whose publish job runs inside the
-`maven-central` GitHub Environment — with a required reviewer configured there, an accidental push to
-`release` stops at the approval gate before anything is uploaded.
+The publish step exists solely in `release.yml`. A plain push to `release` can never publish: the publish
+job requires `workflow_dispatch` + the typed confirmation, and every job is pinned to
+`refs/heads/release`. (A GitHub Environment *required-reviewer* gate was the original design, but reviewer
+protection is unavailable for private repositories on the Free plan — the `maven-central` environment is
+still used to scope the secrets and restrict deployments to the `release` branch, and a reviewer rule can
+be layered back on with zero workflow changes if the repo goes public or the plan changes.)
 
 ## Coordinates
 
@@ -66,9 +68,10 @@ Owner-only steps; nothing here touches the repo.
    ```
 5. **GitHub Environment + secrets** (what the release workflow uses) — in the repo:
    *Settings → Environments → New environment* named exactly **`maven-central`**, then:
-   - **Protection**: add a *Required reviewer* (yourself). This is the manual approval gate — the publish
-     job cannot start until the pending deployment is approved.
-   - **Environment secrets** (exact names; exposed only to the approved publish job):
+   - **Deployment branches**: restrict to `release` (custom branch policy). *Required reviewers* would be
+     the stronger gate but is unavailable for private repos on the Free plan — the manual gate is the
+     workflow-dispatch confirmation instead (see §4).
+   - **Environment secrets** (exact names; exposed only to the publish job):
 
      | Secret | Value |
      |---|---|
@@ -106,20 +109,21 @@ Optionally consume it from a scratch project via `mavenLocal()` to prove resolut
    ```bash
    git push origin main:release
    ```
-3. `release.yml` runs on the push: the **verify** job re-runs the full gates plus a **version guard**
-   (fails cleanly if `v<version>` is already tagged or `<version>` already exists on Maven Central — and
-   the Portal rejects duplicate uploads server-side as an independent backstop).
-4. The **publish** job then waits in the `maven-central` environment for **manual approval** (Actions run
-   page → *Review deployments* → approve). On approval it signs in-memory, uploads to the Central Portal,
-   waits for validation, and releases the deployment.
+   The push runs **verification only** (`ci.yml` + `release.yml`'s verify job with its **version guard**,
+   which fails cleanly if `v<version>` is already tagged or `<version>` already exists on Maven Central —
+   the Portal also rejects duplicate uploads server-side as an independent backstop). Nothing publishes.
+3. **The manual gate**: *Actions → Release → Run workflow* → **select the `release` branch** → type
+   `publish` into the confirmation field → run. (CLI:
+   `gh workflow run release.yml --ref release -f confirm=publish`.) Any other branch or any other
+   confirmation text skips the publish job.
+4. The dispatched run re-verifies, re-checks the version guard, then signs in-memory, uploads to the
+   Central Portal, waits for validation, and releases the deployment.
 5. On success the workflow **tags `v<version>`** (lightweight, on the released commit) and creates a
    **GitHub Release** whose notes are that version's `CHANGELOG.md` section.
 6. Sync time: minutes to ~1 h until `repo1.maven.org` serves it; search indexing can lag hours.
 7. Roll over for the next cycle (on `main`): bump `version` in `nativecomposekit/build.gradle.kts`,
-   update README's dependency line, start a new `## [Unreleased]` CHANGELOG section.
-
-A re-run can be triggered without a new commit via *Actions → Release → Run workflow* — **select the
-`release` branch**; every job is ref-guarded and becomes a no-op on any other branch.
+   start a new `## [Unreleased]` CHANGELOG section, and update README's dependency line when the next
+   version ships.
 
 ## 5. Later (optional)
 

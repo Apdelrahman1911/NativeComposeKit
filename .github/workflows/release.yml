@@ -1,16 +1,23 @@
 name: Release
 
-# The ONLY workflow that can publish. Runs exclusively for the `release` branch:
-#   push to `release`        → verify, then WAIT for manual approval, then publish + tag + GitHub Release
-#   manual workflow_dispatch → same, and only when dispatched from `release` (guarded below)
+# The ONLY workflow that can publish. Runs exclusively for the `release` branch, with a MANUAL gate:
+#   push to `release`        → full verification ONLY — the publish job is skipped by construction
+#   manual workflow_dispatch → verification, then publish + tag + GitHub Release — and only when
+#                              dispatched FROM `release` with the literal confirmation input "publish"
 # `main` and `testing` can never reach the publish job — ci.yml carries no publish step at all, and every
-# job here is gated on the release ref. The publish job additionally runs inside the `maven-central`
-# GitHub Environment: with a required reviewer configured on that environment, NOTHING uploads until a
-# human approves the pending deployment — an accidental push to `release` stops at the approval gate.
+# job here is gated on the release ref. The manual-dispatch-plus-typed-confirmation gate is used instead
+# of a GitHub Environment required-reviewer rule because reviewer protection is unavailable for private
+# repositories on the Free plan; the `maven-central` environment still scopes the secrets and restricts
+# deployments to the `release` branch, and a reviewer rule can be layered back on (zero workflow changes)
+# if the repo goes public or the plan changes.
 on:
   push:
     branches: [release]
   workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type 'publish' to release this version to Maven Central"
+        required: true
 
 permissions:
   contents: read
@@ -69,14 +76,15 @@ jobs:
         run: ./gradlew :nativecomposekit:publishToMavenLocal
 
   publish:
-    name: Publish to Maven Central (requires approval)
+    name: Publish to Maven Central (manual dispatch only)
     needs: verify
-    if: github.ref == 'refs/heads/release'
+    # The manual gate: a plain push to `release` can NEVER run this job — it requires a deliberate
+    # workflow_dispatch from the release ref with the literal confirmation "publish" typed in.
+    if: github.ref == 'refs/heads/release' && github.event_name == 'workflow_dispatch' && inputs.confirm == 'publish'
     runs-on: macos-15
     timeout-minutes: 60
-    # The manual gate + the secrets live on this GitHub Environment. Configure BOTH in
-    # Settings → Environments → maven-central: a Required reviewer (the approval step), and the
-    # environment secrets referenced below. Secrets are exposed ONLY to this approved job.
+    # The secrets live on this GitHub Environment (Settings → Environments → maven-central), which also
+    # restricts deployments to the `release` branch. Secrets are exposed ONLY to this job.
     environment: maven-central
     env:
       ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
