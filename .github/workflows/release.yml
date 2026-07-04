@@ -38,6 +38,12 @@ jobs:
         with:
           path: ~/.konan
           key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+      - name: Select the newest Xcode on the image
+        # Same requirement as ci.yml: Compose Multiplatform 1.11 references iOS 26 SDK symbols, so the
+        # simulator-test link needs the newest toolchain the runner ships, not the image default.
+        run: |
+          sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)/Contents/Developer"
+          xcodebuild -version
       - name: Version guard — fail if this version was already released
         run: |
           VERSION=$(grep -m1 '^version = ' nativecomposekit/build.gradle.kts | sed 's/version = "\(.*\)"/\1/')
@@ -92,6 +98,10 @@ jobs:
         with:
           path: ~/.konan
           key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+      - name: Select the newest Xcode on the image
+        run: |
+          sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)/Contents/Developer"
+          xcodebuild -version
       - name: Re-check the version guard at publish time
         id: version
         run: |
