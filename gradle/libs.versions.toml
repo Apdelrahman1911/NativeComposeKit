@@ -34,6 +34,12 @@ junit = "4.13.2"
 # (apiCheck) if the public surface changes without an intentional apiDump.
 binary-compat = "0.16.3"
 
+# Publishing toolchain (build-time only). Dokka v2 (default since 2.1.0, K2 analysis) renders the javadoc
+# jar Maven Central requires; the vanniktech plugin wires the KMP publication set, in-memory GPG signing,
+# and the Central Portal upload (the legacy OSSRH staging path is retired).
+dokka = "2.2.0"
+maven-publish-plugin = "0.37.0"
+
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-compose" }
 # Matches the version Compose Multiplatform 1.11 ships transitively — declared explicitly where tests
@@ -60,3 +66,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compat" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish-plugin" }

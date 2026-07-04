@@ -68,8 +68,22 @@ iosApp        native iOS host: the UIKit chrome shell (UITabBarController + per-
 
 ## Setup
 
-The library publishes as `io.github.apdelrahman1911:nativecomposekit`. It isn't on Maven Central yet
-(see [development notes](#development-notes)), so consume it one of two ways today:
+Releases publish to **Maven Central** as `io.github.apdelrahman1911:nativecomposekit`
+(see [docs/publishing.md](docs/publishing.md) for the release process):
+
+```kotlin
+// build.gradle.kts (commonMain)
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("io.github.apdelrahman1911:nativecomposekit:0.1.0")
+        }
+    }
+}
+```
+
+`mavenCentral()` in your repositories is all that's needed. To work against a local checkout instead
+(unreleased changes), use one of:
 
 **A — composite build** (clone next to your project; Gradle substitutes the coordinates with the local
 module automatically):
@@ -90,18 +104,7 @@ cd NativeComposeKit && ./gradlew :nativecomposekit:publishToMavenLocal
 dependencyResolutionManagement { repositories { mavenLocal(); google(); mavenCentral() } }
 ```
 
-Either way, the dependency line is the same:
-
-```kotlin
-// build.gradle.kts (commonMain)
-kotlin {
-    sourceSets {
-        commonMain.dependencies {
-            implementation("io.github.apdelrahman1911:nativecomposekit:0.1.0")
-        }
-    }
-}
-```
+Both local flavors resolve the same dependency line shown above.
 
 ## Usage
 
@@ -326,9 +329,10 @@ Contributions are welcome. Before opening a pull request:
   namespace is `io.github.apdelrahman1911.nativecomposekit.kit`, and the public components use the
   `Native*` prefix. The Gradle module is still named `:nativecomposekit` — an internal build name, not the
   published group, so there's no need to churn it.
-- **Publishing.** Coordinates (`io.github.apdelrahman1911:nativecomposekit`) and POM metadata are set up;
-  `publishToMavenLocal` and composite builds work today. Maven Central itself (signing + upload) is the
-  remaining step.
+- **Publishing.** Releases go to Maven Central via the Central Portal — coordinates, POM, sources +
+  javadoc (Dokka) jars, gated signing, and the upload tasks are wired; [docs/publishing.md](docs/publishing.md)
+  is the runbook (incl. the owner-side account/GPG steps). Versions are tagged `v<version>` and recorded
+  in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
