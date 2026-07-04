@@ -38,6 +38,14 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     sourceSets {
+        // Compose UI tests for the sample's navigation host on the JVM via Robolectric (no emulator) —
+        // mirrors :nativecomposekit's androidUnitTest setup. Test-only, never shipped.
+        @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+        androidUnitTest.dependencies {
+            implementation(compose.uiTest)
+            implementation(libs.robolectric)
+            implementation(libs.junit)
+        }
         commonMain.dependencies {
             // The design-system kit, extracted to its own module. `api` (not implementation) is required so
             // the iOS framework's `export(project(":nativecomposekit"))` can re-export its public ObjC symbols.
@@ -100,4 +108,15 @@ android {
         buildConfig = true // BuildConfig.DEBUG gates the demo diagnostics (nav/keyboard tracing) to debug builds
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true // Robolectric loads themes/manifest for the Compose UI tests
+            isReturnDefaultValues = true
+        }
+    }
+}
+
+dependencies {
+    // The empty ComponentActivity + manifest the Robolectric Compose UI tests host into (debug variant).
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

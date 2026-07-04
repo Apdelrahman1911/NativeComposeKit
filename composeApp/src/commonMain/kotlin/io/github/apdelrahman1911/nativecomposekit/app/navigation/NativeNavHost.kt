@@ -3,30 +3,19 @@ package io.github.apdelrahman1911.nativecomposekit.app.navigation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.core.tween
-import androidx.compose.runtime.key
-import androidx.navigation3.runtime.NavEntry
-import androidx.navigation3.ui.NavDisplay
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.ui.NavDisplay
+import io.github.apdelrahman1911.nativecomposekit.chrome.NativeBarConfig
 
 /** Push/pop slide duration (predictive-back settle uses it too). */
 private const val NAV_TRANSITION_MS = 320
@@ -41,14 +30,16 @@ data class NativeNavBarItem(val tab: NativeTab, val label: String, val icon: Ima
  * entry — see docs/navigation.md for that shell's ratified-projection protocol). Kotlin owns the stack either
  * way; renderers only report user actions back as intents.
  *
- * A compact `TopAppBar` sits at the top (with a back arrow once pushed) so the content fills the screen directly
- * beneath it — no tall header eating vertical space. Renders the selected tab's **top** route inside an
+ * By default a compact `TopAppBar` sits at the top (with a back arrow once pushed) and a Material
+ * `NavigationBar` at the bottom — both are [NativeNavDefaults] and both are replaceable through the
+ * [topBar]/[bottomBar] slots (restyle by calling the defaults with parameters, or pass any composable);
+ * [barConfig] hides either bar per route (immersive screens). Omitting all three keeps today's exact look.
+ * Renders the selected tab's **top** route inside an
  * `AnimatedContent` (push slides forward, pop backward; tab switches swap instantly — the native tab
  * convention, and required so iOS overlay-placed native controls never linger over the incoming tab);
  * system back → [NativeNavigator.pop]; the
  * `NavigationBar` → [NativeNavigator.selectTab]; a non-null [NativeNavigationState.sheet] → `ModalBottomSheet`.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NativeNavHost(
     navigator: NativeNavigator,
@@ -57,37 +48,46 @@ fun NativeNavHost(
     modifier: Modifier = Modifier,
     title: (NativeRoute) -> String = { "" },
     actions: @Composable RowScope.() -> Unit = {},
+    // Per-screen chrome BEHAVIOR (hide either bar while a route is on top). Shares the kit's
+    // platform-neutral vocabulary with the iOS shell; the Android default bars ignore the
+    // iOS-oriented fields (prefersLargeTitle, actions-as-data) — Compose actions are slots.
+    barConfig: (NativeRoute) -> NativeBarConfig = { NativeBarConfig.Default },
+    // Bar APPEARANCE/STRUCTURE: omit for today's exact Material bars; call the public defaults with
+    // parameters to restyle (NativeNavDefaults.TopBar(it, colors = …, centeredTitle = true)); or pass
+    // any composable to replace a bar outright. Replacing chrome never touches the stack.
+    topBar: @Composable (NativeNavTopBarState) -> Unit = { NativeNavDefaults.TopBar(it) },
+    bottomBar: @Composable (NativeNavBottomBarState) -> Unit = { NativeNavDefaults.NavigationBar(it) },
 ) {
     val state = navigator.state
     val selectedTab = state.selectedTab
     val top = state.currentStack().last()
     val canPop = state.currentStack().size > 1
+    val topConfig = barConfig(top)
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            TopAppBar(
-                title = { Text(title(top)) },
-                navigationIcon = {
-                    if (canPop) {
-                        IconButton(onClick = { navigator.pop() }) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                        }
-                    }
-                },
-                actions = actions,
-            )
+            if (!topConfig.hidesTopBar) {
+                topBar(
+                    NativeNavTopBarState(
+                        route = top,
+                        title = title(top),
+                        canPop = canPop,
+                        onBack = { navigator.pop() },
+                        actions = actions,
+                    ),
+                )
+            }
         },
         bottomBar = {
-            NavigationBar {
-                tabs.forEach { item ->
-                    NavigationBarItem(
-                        selected = item.tab.id == selectedTab.id,
-                        onClick = { navigator.selectTab(item.tab) },
-                        icon = { Icon(item.icon, contentDescription = item.label) },
-                        label = { Text(item.label) },
-                    )
-                }
+            if (!topConfig.hidesTabBar) {
+                bottomBar(
+                    NativeNavBottomBarState(
+                        tabs = tabs,
+                        selectedTabId = selectedTab.id,
+                        onSelectTab = { navigator.selectTab(it) },
+                    ),
+                )
             }
         },
     ) { inner ->
