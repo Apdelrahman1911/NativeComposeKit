@@ -24,8 +24,6 @@ import platform.UIKit.UIUserInterfaceStyle
 import platform.UIKit.UIView
 import platform.UIKit.accessibilityLabel
 import platform.darwin.NSObject
-import platform.darwin.dispatch_async
-import platform.darwin.dispatch_get_main_queue
 import platform.objc.sel_registerName
 
 @OptIn(BetaInteropApi::class)
@@ -40,6 +38,9 @@ private class SliderHandler : NSObject() {
     /** The value most recently applied by composition — the truth a rejected drag glides back to. */
     var lastComposed: Float = 0f
 
+    /** Bumped by every composition update — lets the deferred re-assert see whether composition responded. */
+    var updateGeneration: Long = 0L
+
     @ObjCAction
     fun valueChanged() {
         val raw = control?.value ?: 0f
@@ -50,13 +51,16 @@ private class SliderHandler : NSObject() {
 
     @ObjCAction
     fun touchEnded() {
+        val genAtEvent = updateGeneration
         onFinished?.invoke()
         // Controlled-rejection re-assert, at gesture END only — doing it per value-changed event would
-        // fight the user's drag frame by frame. If the consumer accepted the drag this is a no-op (at
-        // most a sub-frame nudge while the last recomposition lands); if it ignored the changes, the
-        // thumb glides back to the composed value.
-        dispatch_async(dispatch_get_main_queue()) {
-            val c = control ?: return@dispatch_async
+        // fight the user's drag frame by frame. The check runs AFTER the recomposition window and only
+        // acts when composition stayed silent (same pattern and rationale as NativeToggle: a same-tick
+        // re-assert races the accepted change's recomposition and nudges the thumb with a stale value).
+        // If the consumer ignored the drag, the thumb glides back to the composed value.
+        afterRecompositionWindow {
+            val c = control ?: return@afterRecompositionWindow
+            if (updateGeneration != genAtEvent) return@afterRecompositionWindow // composition responded — its update is authoritative
             if (c.value != lastComposed) c.setValue(lastComposed, animated = true)
         }
     }
@@ -103,7 +107,7 @@ internal actual fun PlatformNativeSlider(
         }
     }
     handler.control = control
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
     val sizeFp = remember { InteropSizeFingerprint() }
@@ -116,17 +120,24 @@ internal actual fun PlatformNativeSlider(
         modifier = modifier.height(36.dp).remeasureRequester(remeasure),
         properties = scrollSafeInteropProperties(), // overlay placement so the backing isn't clipped on scroll
         update = { _ ->
-            backing.backgroundColor = backingColor
-            control.overrideUserInterfaceStyle =
+            handler.updateGeneration++ // composition responded — disarms any pending rejection re-assert
+            // Appearance setters rebuild control layers and must not re-fire on the recomposition a drag's
+            // accepted values trigger every frame — assign only on an actual change.
+            if (backing.backgroundColor?.isEqual(backingColor) != true) backing.backgroundColor = backingColor
+            val interfaceStyle =
                 if (style.surface.luminance() < 0.5f) UIUserInterfaceStyle.UIUserInterfaceStyleDark
                 else UIUserInterfaceStyle.UIUserInterfaceStyleLight
-            control.minimumValue = min
-            control.maximumValue = max
+            if (control.overrideUserInterfaceStyle != interfaceStyle) control.overrideUserInterfaceStyle = interfaceStyle
+            if (control.minimumValue != min) control.minimumValue = min
+            if (control.maximumValue != max) control.maximumValue = max
             handler.lastComposed = value // the composed truth the gesture-end re-assert glides back to
             if (control.value != value) control.setValue(value, animated = false)
-            control.minimumTrackTintColor = style.activeTrackColor.toUIColor()
-            control.maximumTrackTintColor = style.inactiveTrackColor.toUIColor()
-            control.thumbTintColor = style.thumbColor.toUIColor()
+            val activeTint = style.activeTrackColor.toUIColor()
+            if (control.minimumTrackTintColor?.isEqual(activeTint) != true) control.minimumTrackTintColor = activeTint
+            val inactiveTint = style.inactiveTrackColor.toUIColor()
+            if (control.maximumTrackTintColor?.isEqual(inactiveTint) != true) control.maximumTrackTintColor = inactiveTint
+            val thumbTint = style.thumbColor.toUIColor()
+            if (control.thumbTintColor?.isEqual(thumbTint) != true) control.thumbTintColor = thumbTint
             control.enabled = enabled
             control.accessibilityLabel = contentDescription // UISlider announces its value for free
             testTag?.let { control.setAccessibilityId(it) }

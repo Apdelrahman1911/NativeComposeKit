@@ -77,7 +77,7 @@ internal actual fun PlatformNativeSearchBar(
     // Pin the search bar inside a backing that matches the published surface so its rounded field doesn't
     // reveal the interop host backdrop on a solid surface — and stays clear on Liquid Glass (same technique
     // as Toggle/Slider/SegmentedControl).
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
     val sizeFp = remember { InteropSizeFingerprint() }

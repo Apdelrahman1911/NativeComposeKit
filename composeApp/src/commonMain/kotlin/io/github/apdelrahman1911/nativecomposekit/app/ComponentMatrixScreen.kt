@@ -162,7 +162,10 @@ fun ComponentMatrixScreen() {
         Demo("Slider + stepper") {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 var v by remember { mutableStateOf(0.4f) }
-                NativeSlider(value = v, onValueChange = { v = it }, contentDescription = "Brightness")
+                // The slider needs an explicit width (it has no intrinsic one) — without it the node
+                // measures 0×0 and the native control never gets a placement (the stray-thumb bug this
+                // screen now regression-covers; the kit hides degenerate-placed interop views).
+                NativeSlider(value = v, onValueChange = { v = it }, modifier = Modifier.fillMaxWidth(), contentDescription = "Brightness")
                 var q by remember { mutableStateOf(2) }
                 NativeStepper(value = q, onValueChange = { q = it }, contentDescription = "Quantity")
             }

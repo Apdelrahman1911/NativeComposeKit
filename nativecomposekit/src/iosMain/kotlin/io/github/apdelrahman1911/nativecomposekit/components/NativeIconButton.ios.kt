@@ -42,7 +42,7 @@ internal actual fun PlatformNativeIconButton(
     // (showsMenuAsPrimaryAction); onClick is reserved for menu-less buttons.
     views.tap.onClick = if (menu != null) ({}) else onClick
 
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
     // Overlay placement inside a NativeDialog (no cut-out hole → no first-frame black flash); cut-out elsewhere.

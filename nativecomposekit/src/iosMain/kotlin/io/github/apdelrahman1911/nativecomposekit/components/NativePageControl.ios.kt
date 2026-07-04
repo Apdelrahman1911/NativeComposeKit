@@ -54,7 +54,7 @@ internal actual fun PlatformNativePageControl(
     // UIPageControl has a transparent region around the dots; without a backing it exposes the host's system
     // backdrop (the black box behind the dots). Pin it in a backing that matches the published surface, and
     // stays clear on Liquid Glass so the dots float on the material.
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     val backingColor = interopBackingColor()
     val remeasure = rememberUIKitInteropRemeasureRequester()
     val sizeFp = remember { InteropSizeFingerprint() }

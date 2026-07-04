@@ -18,8 +18,6 @@ import platform.UIKit.UIUserInterfaceStyle
 import platform.UIKit.UIView
 import platform.UIKit.accessibilityLabel
 import platform.darwin.NSObject
-import platform.darwin.dispatch_async
-import platform.darwin.dispatch_get_main_queue
 import platform.objc.sel_registerName
 
 @OptIn(BetaInteropApi::class)
@@ -30,15 +28,22 @@ private class StepperHandler : NSObject() {
     /** The value most recently applied by composition — the truth a rejected step snaps back to. */
     var lastComposed: Double = 0.0
 
+    /** Bumped by every composition update — lets the deferred re-assert see whether composition responded. */
+    var updateGeneration: Long = 0L
+
     @ObjCAction
     fun valueChanged() {
+        val genAtEvent = updateGeneration
         onChange((control?.value ?: 0.0).toInt())
-        // Controlled-rejection re-assert (same pattern as NativeToggle): the UIStepper self-mutates on
-        // a tap even when the consumer ignores the change, and a rejected change produces no
-        // recomposition to correct it. The UIStepper draws no value, so a transient re-assert has no
-        // visible artifact; at worst a rejected-and-held autorepeat re-counts from the composed value.
-        dispatch_async(dispatch_get_main_queue()) {
-            val c = control ?: return@dispatch_async
+        // Controlled-rejection re-assert (same pattern and rationale as NativeToggle): the UIStepper
+        // self-mutates on a tap even when the consumer ignores the change, and a rejected change produces
+        // no recomposition to correct it. The check runs AFTER the recomposition window and only acts when
+        // composition stayed silent — an accepted step's update is authoritative. The UIStepper draws no
+        // value, so a rejected re-assert has no visible artifact; at worst a rejected-and-held autorepeat
+        // re-counts from the composed value.
+        afterRecompositionWindow {
+            val c = control ?: return@afterRecompositionWindow
+            if (updateGeneration != genAtEvent) return@afterRecompositionWindow // composition responded — its update is authoritative
             if (c.value != lastComposed) c.value = lastComposed
         }
     }
@@ -75,7 +80,7 @@ internal actual fun PlatformNativeStepper(
         }
     }
     handler.control = control
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
     val sizeFp = remember { InteropSizeFingerprint() }
@@ -88,16 +93,21 @@ internal actual fun PlatformNativeStepper(
         modifier = modifier.remeasureRequester(remeasure),
         properties = scrollSafeInteropProperties(), // overlay placement so the backing isn't clipped on scroll
         update = { _ ->
-            backing.backgroundColor = backingColor
-            control.overrideUserInterfaceStyle =
+            handler.updateGeneration++ // composition responded — disarms any pending rejection re-assert
+            // Appearance setters rebuild control layers and must not re-fire on the recomposition an
+            // accepted step triggers — assign only on an actual change.
+            if (backing.backgroundColor?.isEqual(backingColor) != true) backing.backgroundColor = backingColor
+            val interfaceStyle =
                 if (style.surface.luminance() < 0.5f) UIUserInterfaceStyle.UIUserInterfaceStyleDark
                 else UIUserInterfaceStyle.UIUserInterfaceStyleLight
-            control.minimumValue = min.toDouble()
-            control.maximumValue = max.toDouble()
-            control.stepValue = step.toDouble()
+            if (control.overrideUserInterfaceStyle != interfaceStyle) control.overrideUserInterfaceStyle = interfaceStyle
+            if (control.minimumValue != min.toDouble()) control.minimumValue = min.toDouble()
+            if (control.maximumValue != max.toDouble()) control.maximumValue = max.toDouble()
+            if (control.stepValue != step.toDouble()) control.stepValue = step.toDouble()
             handler.lastComposed = value.toDouble() // the composed truth the rejection re-assert snaps back to
             if (control.value != value.toDouble()) control.value = value.toDouble()
-            control.tintColor = style.tint.toUIColor()
+            val tint = style.tint.toUIColor()
+            if (control.tintColor?.isEqual(tint) != true) control.tintColor = tint
             control.enabled = enabled
             control.accessibilityLabel = contentDescription // UIStepper announces its value for free
             testTag?.let { control.setAccessibilityId(it) }

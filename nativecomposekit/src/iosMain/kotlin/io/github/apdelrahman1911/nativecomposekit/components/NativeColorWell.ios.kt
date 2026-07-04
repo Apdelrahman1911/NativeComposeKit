@@ -64,7 +64,7 @@ internal actual fun PlatformNativeColorWell(
     }
     handler.control = control
     // UIColorWell is a circular swatch; without a backing its transparent corners expose the host backdrop.
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
     val sizeFp = remember { InteropSizeFingerprint() }

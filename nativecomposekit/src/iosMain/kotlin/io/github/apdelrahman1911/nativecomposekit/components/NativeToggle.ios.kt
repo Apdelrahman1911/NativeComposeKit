@@ -18,8 +18,6 @@ import platform.UIKit.UIUserInterfaceStyle
 import platform.UIKit.UIView
 import platform.UIKit.accessibilityLabel
 import platform.darwin.NSObject
-import platform.darwin.dispatch_async
-import platform.darwin.dispatch_get_main_queue
 import platform.objc.sel_registerName
 
 @OptIn(BetaInteropApi::class)
@@ -30,17 +28,23 @@ private class SwitchHandler : NSObject() {
     /** The value most recently applied by composition — the truth a rejected change snaps back to. */
     var lastComposed: Boolean = false
 
+    /** Bumped by every composition update — lets the deferred re-assert see whether composition responded. */
+    var updateGeneration: Long = 0L
+
     @ObjCAction
     fun valueChanged() {
+        val genAtEvent = updateGeneration
         onChange(control?.on ?: false)
         // Controlled-rejection re-assert: the UISwitch self-mutates on a tap even when the consumer
         // ignores the change (state kept as-is), and a rejected change produces no recomposition to
-        // correct it — the switch would sit flipped against the composed state forever. On the next
-        // main-queue tick, snap back to the last composed value: an accepted change recomposes and
-        // re-applies the new value within a frame (the animated set makes that window invisible); a
-        // rejected one visibly springs back.
-        dispatch_async(dispatch_get_main_queue()) {
-            val c = control ?: return@dispatch_async
+        // correct it — the switch would sit flipped against the composed state forever. The check runs
+        // AFTER the recomposition window and only acts when composition stayed silent: an ACCEPTED
+        // change recomposes (bumping [updateGeneration]) and needs no correction here — a same-tick
+        // re-assert used to act on the stale composed value and snap the switch backwards mid tap-morph,
+        // corrupting the thumb/track animation. A rejected change visibly springs back instead.
+        afterRecompositionWindow {
+            val c = control ?: return@afterRecompositionWindow
+            if (updateGeneration != genAtEvent) return@afterRecompositionWindow // composition responded — its update is authoritative
             if (c.on != lastComposed) c.setOn(lastComposed, animated = true)
         }
     }
@@ -75,7 +79,7 @@ internal actual fun PlatformNativeToggle(
         }
     }
     handler.control = control
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     val remeasure = rememberUIKitInteropRemeasureRequester()
     // Backing matches the published surface (so it doesn't show a box on a card/page) and is CLEAR on
     // Liquid Glass (so the switch capsule floats on the material instead of sitting on a solid rectangle).
@@ -90,11 +94,16 @@ internal actual fun PlatformNativeToggle(
         modifier = modifier.remeasureRequester(remeasure),
         properties = scrollSafeInteropProperties(), // overlay placement so the backing isn't clipped on scroll
         update = { _ ->
-            backing.backgroundColor = backingColor
-            control.overrideUserInterfaceStyle =
+            handler.updateGeneration++ // composition responded — disarms any pending rejection re-assert
+            // Appearance setters rebuild the switch's layers and must not re-fire on the recomposition an
+            // accepted tap triggers (it lands mid tap-morph) — assign only on an actual change.
+            if (backing.backgroundColor?.isEqual(backingColor) != true) backing.backgroundColor = backingColor
+            val interfaceStyle =
                 if (style.surface.luminance() < 0.5f) UIUserInterfaceStyle.UIUserInterfaceStyleDark
                 else UIUserInterfaceStyle.UIUserInterfaceStyleLight
-            control.onTintColor = style.trackOnColor.toUIColor()
+            if (control.overrideUserInterfaceStyle != interfaceStyle) control.overrideUserInterfaceStyle = interfaceStyle
+            val onTint = style.trackOnColor.toUIColor()
+            if (control.onTintColor?.isEqual(onTint) != true) control.onTintColor = onTint
             handler.lastComposed = checked // the composed truth the rejection re-assert snaps back to
             if (control.on != checked) control.setOn(checked, animated = false)
             control.enabled = enabled

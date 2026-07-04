@@ -100,7 +100,7 @@ internal actual fun PlatformNativeSegmentedControl(
         }
     }
     handler.control = control
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
     val sizeFp = remember { InteropSizeFingerprint() }

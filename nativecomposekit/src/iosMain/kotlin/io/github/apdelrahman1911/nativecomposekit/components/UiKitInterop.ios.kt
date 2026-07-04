@@ -46,6 +46,10 @@ import platform.UIKit.UIView
 import platform.UIKit.UIViewController
 import platform.UIKit.UIWindow
 import platform.CoreGraphics.CGFloatVar
+import platform.darwin.DISPATCH_TIME_NOW
+import platform.darwin.dispatch_after
+import platform.darwin.dispatch_get_main_queue
+import platform.darwin.dispatch_time
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
@@ -206,6 +210,29 @@ internal fun UIView.setAccessibilityId(id: String) {
 }
 
 /**
+ * The backing view every native leaf control is hosted in (created in each renderer, filled via
+ * [pinFilling]). It starts **hidden** and stays hidden while its frame is DEGENERATE (zero area):
+ * Compose only positions an interop view once its node has a real, non-empty placement — a node that
+ * measures to zero (e.g. a slider given no width) leaves the native view parked unpositioned at the
+ * content origin, and iOS 26 glass controls paint their lens OUTSIDE their bounds even at size zero
+ * (a zero-sized `UISlider`'s thumb rendered as a stray accent-colored sliver at the screen's top-left).
+ * Starting hidden also removes any first-frame flash at a default frame before the first placement
+ * lands; the view unhides the moment a real frame arrives, so correctly-sized controls are visible
+ * from their first placed frame.
+ */
+@OptIn(ExperimentalForeignApi::class)
+internal class InteropBackingView : UIView(frame = platform.CoreGraphics.CGRectMake(0.0, 0.0, 0.0, 0.0)) {
+    init {
+        hidden = true // until the first valid placement
+    }
+
+    override fun layoutSubviews() {
+        super.layoutSubviews()
+        hidden = platform.CoreGraphics.CGRectIsEmpty(bounds)
+    }
+}
+
+/**
  * Pins [child] to fill this view via Auto Layout and adds it as a subview. Used to place a native
  * control inside an opaque, theme-colored backing: the control keeps its rounded/native shape, and
  * its transparent pixels reveal the backing (the theme surface) instead of the interop host
@@ -244,6 +271,21 @@ internal fun UIView.pinFilling(child: UIView) {
 internal fun interopBackingColor(): UIColor {
     val surface = LocalNativeSurface.current
     return if (surface.isSpecified) surface.toUIColor() else UIColor.clearColor()
+}
+
+/**
+ * Runs [block] on the main queue after the next recomposition has had time to land (~2 frames + margin).
+ *
+ * The controlled-rejection re-asserts in the toggle/slider/stepper handlers must not race the recomposition
+ * an ACCEPTED change triggers: a plain `dispatch_async` tick reliably runs BEFORE the next Compose frame,
+ * so the re-assert would act on a stale composed value — snapping the control backwards mid-animation and
+ * then being snapped forward again by the late update (the reported mid-tap `UISwitch` thumb/track
+ * ghosting). Callers pair this with an update-generation check: if composition responded inside the window,
+ * its update is authoritative and the re-assert must do nothing. 120ms comfortably covers a dropped frame;
+ * a genuine rejection's spring-back at that delay still reads as an immediate refusal.
+ */
+internal fun afterRecompositionWindow(block: () -> Unit) {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 120_000_000L), dispatch_get_main_queue(), block)
 }
 
 /**

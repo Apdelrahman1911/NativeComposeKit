@@ -63,7 +63,7 @@ private fun IosSpinner(
     testTag: String?,
 ) {
     val spinner = remember { UIActivityIndicatorView(activityIndicatorStyle = UIActivityIndicatorViewStyleLarge) }
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
     val sizeFp = remember { InteropSizeFingerprint() }
@@ -100,7 +100,7 @@ private fun IosProgressBar(
     testTag: String?,
 ) {
     val bar = remember { UIProgressView() }
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
     val sizeFp = remember { InteropSizeFingerprint() }

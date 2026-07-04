@@ -47,7 +47,7 @@ internal actual fun PlatformNativeButton(
     // beats relying on iOS suppressing the tap action while presenting.
     views.tap.onClick = if (menu != null) ({}) else onClick
 
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     val remeasure = rememberUIKitInteropRemeasureRequester()
 
     // HIG: the touch target must be ≥44pt. When the visual height is smaller (Small = 36), host a ≥44pt

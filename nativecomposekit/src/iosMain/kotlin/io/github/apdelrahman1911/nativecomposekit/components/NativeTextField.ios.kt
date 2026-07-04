@@ -307,7 +307,7 @@ private fun SingleLineField(
         }
     }
     events.field = field
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
 
     // The left/right accessory views are built ONCE per icon/style config (remember), not per update — the
     // update block re-fires on every keystroke, and re-allocating a UIImageView/UIButton there churned layout
@@ -430,7 +430,7 @@ private fun MultilineField(
     }
     events.placeholderLabel = placeholderLabel
     events.editor = textView
-    val backing = remember { UIView() }
+    val backing = remember { InteropBackingView() }
     // Resolve the accessory button title in composition (localized default) for the update closure below.
     val doneText = ios.keyboardAccessory.doneText ?: LocalNativeStrings.current.done
     // A multiline UITextView's Return key inserts a newline (no built-in dismiss), so the Done accessory is
