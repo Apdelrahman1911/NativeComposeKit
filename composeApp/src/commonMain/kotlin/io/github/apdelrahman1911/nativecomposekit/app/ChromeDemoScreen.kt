@@ -3,18 +3,12 @@ package io.github.apdelrahman1911.nativecomposekit.app
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import io.github.apdelrahman1911.nativecomposekit.components.NativeCard
-import io.github.apdelrahman1911.nativecomposekit.components.NativeCardVariant
 import io.github.apdelrahman1911.nativecomposekit.components.NativeText
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
 
@@ -96,17 +90,6 @@ fun ChromeDemoScreen() {
                 ),
             )
             """.trimIndent(),
-        )
-    }
-}
-
-@Composable
-private fun CodeCard(code: String) {
-    NativeCard(variant = NativeCardVariant.Filled, modifier = Modifier.fillMaxWidth()) {
-        Text(
-            code,
-            modifier = Modifier.padding(12.dp),
-            style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
         )
     }
 }

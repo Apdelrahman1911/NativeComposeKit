@@ -17,7 +17,6 @@ import io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeSource
 import io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeTab
 import io.github.apdelrahman1911.nativecomposekit.components.NativeImeLog
 import kotlin.native.Platform
-import kotlinx.coroutines.launch
 import platform.UIKit.UIViewController
 
 /**
@@ -92,31 +91,6 @@ fun createNativeNavRoot(): NativeNavRoot {
         },
         barConfigForRoute = ::appBarConfig, // per-screen chrome behavior, shared with the Material host
     )
-
-    // TEMP-VERIFY (removed before commit): chrome-customization battery — styled shell (tint + selected
-    // tab color + large titles enabled) and a scripted ChromeDemo round trip.
-    io.github.apdelrahman1911.nativecomposekit.theme.applyNativeShellStyle(
-        io.github.apdelrahman1911.nativecomposekit.theme.NativeShellStyle(
-            tint = io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor(
-                light = androidx.compose.ui.graphics.Color(0.75f, 0.20f, 0.30f),
-                dark = androidx.compose.ui.graphics.Color(0.95f, 0.45f, 0.55f),
-            ),
-            tabItemSelected = io.github.apdelrahman1911.nativecomposekit.theme.NativeShellColor(
-                light = androidx.compose.ui.graphics.Color(0.75f, 0.20f, 0.30f),
-                dark = androidx.compose.ui.graphics.Color(0.95f, 0.45f, 0.55f),
-            ),
-        ),
-    )
-    kotlinx.coroutines.MainScope().launch {
-        kotlinx.coroutines.delay(3000)
-        navigator.selectTab(AppTab.Settings); println("NCK-VERIFY settings selected")
-        kotlinx.coroutines.delay(1600)
-        navigator.push(AppRoute.ChromeDemo); println("NCK-VERIFY chrome demo pushed")
-        kotlinx.coroutines.delay(2600)
-        navigator.pop(); println("NCK-VERIFY popped back")
-        kotlinx.coroutines.delay(1600)
-        println("NCK-VERIFY battery done")
-    }
 
     return NativeNavRoot(chrome = chrome)
 }

@@ -1,6 +1,7 @@
 package io.github.apdelrahman1911.nativecomposekit.app.navigation
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -65,6 +66,9 @@ object NativeNavDefaults {
         modifier: Modifier = Modifier,
         colors: TopAppBarColors? = null,
         centeredTitle: Boolean = false,
+        // M3 default (status-bar aware) for real host placement; pass WindowInsets(0) when embedding the
+        // bar as an inline preview/exhibit.
+        windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     ) {
         val barColors = colors ?: TopAppBarDefaults.topAppBarColors()
         val navigationIcon: @Composable () -> Unit = {
@@ -80,6 +84,7 @@ object NativeNavDefaults {
                 modifier = modifier,
                 navigationIcon = navigationIcon,
                 actions = state.actions,
+                windowInsets = windowInsets,
                 colors = barColors,
             )
         } else {
@@ -88,6 +93,7 @@ object NativeNavDefaults {
                 modifier = modifier,
                 navigationIcon = navigationIcon,
                 actions = state.actions,
+                windowInsets = windowInsets,
                 colors = barColors,
             )
         }
@@ -104,9 +110,16 @@ object NativeNavDefaults {
         containerColor: Color = NavigationBarDefaults.containerColor,
         contentColor: Color = MaterialTheme.colorScheme.contentColorFor(containerColor),
         itemColors: NavigationBarItemColors? = null,
+        // M3 default (navigation-bar aware) for real host placement; WindowInsets(0) for inline exhibits.
+        windowInsets: WindowInsets = NavigationBarDefaults.windowInsets,
     ) {
         val resolvedItemColors = itemColors ?: NavigationBarItemDefaults.colors()
-        NavigationBar(modifier = modifier, containerColor = containerColor, contentColor = contentColor) {
+        NavigationBar(
+            modifier = modifier,
+            containerColor = containerColor,
+            contentColor = contentColor,
+            windowInsets = windowInsets,
+        ) {
             state.tabs.forEach { item ->
                 NavigationBarItem(
                     selected = item.tab.id == state.selectedTabId,

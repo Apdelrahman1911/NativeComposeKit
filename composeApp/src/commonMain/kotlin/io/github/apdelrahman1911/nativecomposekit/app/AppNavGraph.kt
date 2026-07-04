@@ -35,6 +35,8 @@ fun appRouteTitle(route: NativeRoute): String = when (route) {
     is AppRoute.ComponentMatrix -> "Component matrix"
     is AppRoute.InteropRepro -> "iOS interop repro"
     is AppRoute.ChromeDemo -> "Chrome demo"
+    is AppRoute.ToolbarStyles -> "Toolbar styles"
+    is AppRoute.ImmersiveDemo -> "Immersive"
     else -> ""
 }
 
@@ -52,6 +54,8 @@ fun appBarConfig(route: NativeRoute): NativeBarConfig = when (route) {
         hidesTabBar = true,
         actions = listOf(NativeChromeAction(CHROME_DEMO_ACTION_ID, "sparkles")),
     )
+    // The immersive demo hides BOTH bars — pop via swipe-back / system back / the screen's own button.
+    is AppRoute.ImmersiveDemo -> NativeBarConfig(hidesTopBar = true, hidesTabBar = true)
     else -> NativeBarConfig.Default
 }
 
@@ -75,10 +79,15 @@ fun appNavGraph(navigator: NativeNavigator): NativeNavGraph = nativeNavGraph {
             onOpenComponentMatrix = { navigator.push(AppRoute.ComponentMatrix) },
             onOpenInteropRepro = { navigator.push(AppRoute.InteropRepro) },
             onOpenChromeDemo = { navigator.push(AppRoute.ChromeDemo) },
+            onOpenToolbarStyles = { navigator.push(AppRoute.ToolbarStyles) },
         )
     }
     screen<AppRoute.ComponentMatrix> { ComponentMatrixScreen() }
     screen<AppRoute.ChromeDemo> { ChromeDemoScreen() }
+    screen<AppRoute.ToolbarStyles> {
+        ToolbarStylesScreen(onOpenImmersive = { navigator.push(AppRoute.ImmersiveDemo) })
+    }
+    screen<AppRoute.ImmersiveDemo> { ImmersiveDemoScreen(onBack = { navigator.pop() }) }
     screen<AppRoute.InteropRepro> { InteropReproScreen() }
     screen<AppRoute.CatalogRoot> {
         ShowcaseHomeScreen(onOpenCategory = { key -> navigator.push(AppRoute.Showcase(key)) })

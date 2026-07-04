@@ -30,6 +30,7 @@ fun SettingsScreen(
     onOpenComponentMatrix: () -> Unit = {},
     onOpenInteropRepro: () -> Unit = {},
     onOpenChromeDemo: () -> Unit = {},
+    onOpenToolbarStyles: () -> Unit = {},
 ) {
     var notify by remember { mutableStateOf(true) }
     // Fill to the bottom behind the overlaying tab bar; end content clear of it (0 on Android).
@@ -74,6 +75,13 @@ fun SettingsScreen(
                         "Navigation chrome demo",
                         supporting = "Per-screen NativeBarConfig live (hidden tab bar, per-screen action) + each platform's styling surface",
                         onClick = onOpenChromeDemo,
+                    )
+                },
+                {
+                    NativeListItem(
+                        "Navigation toolbar styles",
+                        supporting = "Catalog of toolbar/tab-bar variants: Material live previews, native iOS bar previews, per-screen demos",
+                        onClick = onOpenToolbarStyles,
                     )
                 },
             ),

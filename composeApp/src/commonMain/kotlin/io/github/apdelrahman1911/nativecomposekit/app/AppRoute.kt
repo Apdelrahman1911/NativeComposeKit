@@ -61,4 +61,14 @@ sealed interface AppRoute : NativeRoute {
     data object ChromeDemo : AppRoute {
         override val id = "debug/chrome-demo"
     }
+
+    /** Debug screen: the toolbar/navigation-bar styles catalog (Material variants live, native iOS bar previews). */
+    data object ToolbarStyles : AppRoute {
+        override val id = "debug/toolbar-styles"
+    }
+
+    /** Debug screen: the immersive per-screen config demo — BOTH bars hidden while on top. */
+    data object ImmersiveDemo : AppRoute {
+        override val id = "debug/immersive-demo"
+    }
 }
