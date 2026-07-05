@@ -22,3 +22,9 @@ iosApp/iosApp.xcodeproj/
 screenshots/
 docs/*.jpeg
 docs/*.jpg
+
+# Local review screenshots (user-provided, never commit)
+p1/
+p2/
+p3/
+p4/
