@@ -2,6 +2,11 @@ package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.findRootCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
@@ -47,12 +52,17 @@ import platform.UIKit.UIView
 import platform.UIKit.UIViewController
 import platform.UIKit.UIWindow
 import platform.CoreGraphics.CGFloatVar
+import platform.CoreGraphics.CGRect
+import platform.CoreGraphics.CGRectMake
 import platform.darwin.DISPATCH_TIME_NOW
 import platform.darwin.dispatch_after
 import platform.darwin.dispatch_get_main_queue
 import platform.darwin.dispatch_time
+import kotlin.math.abs
+import kotlinx.cinterop.CValue
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.alloc
+import kotlinx.cinterop.useContents
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
 import kotlinx.cinterop.value
@@ -232,6 +242,92 @@ internal fun InteropDisposeFailSafe(root: UIView) {
             root.hidden = true
             root.removeFromSuperview()
         }
+    }
+}
+
+/** Point-space rect snapshot for tolerance comparison (frames are UIKit points). */
+private data class InteropRectPt(val x: Double, val y: Double, val w: Double, val h: Double)
+
+@OptIn(ExperimentalForeignApi::class)
+private fun CValue<CGRect>.toPt(): InteropRectPt =
+    useContents { InteropRectPt(origin.x, origin.y, size.width, size.height) }
+
+/** CMP rounds px rects before converting to points, so sub-point noise is expected — 1pt tolerance. */
+private fun InteropRectPt.nearly(o: InteropRectPt): Boolean =
+    abs(x - o.x) <= 1.0 && abs(y - o.y) <= 1.0 && abs(w - o.w) <= 1.0 && abs(h - o.h) <= 1.0
+
+/**
+ * Self-heal for interop POSITIONS — the second half of the transaction-loss hazard
+ * [InteropDisposeFailSafe] documents (that one owns lost REMOVALS). A lost position/frame action leaves
+ * the interop wrapper at a stale frame while CMP's holder cache believes the update was delivered, so it
+ * is never re-sent: the control sits visibly misplaced until some later layout change happens to move
+ * the node. On a 120 Hz device a churn animation (AnimatedVisibility collapse, appearance flip) drops
+ * its LAST settle frame often enough to strand controls mid-screen — reproduced on an iPhone 17 where
+ * the simulator stayed clean.
+ *
+ * Compose itself always knows the truth: `onGloballyPositioned` fires on the Compose side for every
+ * placement regardless of whether the UIKit-side action survived. [onPositioned] records the expected
+ * wrapper frames (the same clipped/unclipped root-coordinates math CMP's holder computes) and — one
+ * coalesced [afterRecompositionWindow] later — compares them against the ACTUAL frames of the two
+ * CMP-owned ancestors (`root.superview` = the unclipped content host, its superview = the clipping
+ * wrapper), correcting both directly when they diverge. The normal path is a no-op comparison; a
+ * correction writes exactly the values CMP's own next scheduled update would write, so the two writers
+ * converge. Checks are generation-free but coalesced: whichever placement is LATEST when the pending
+ * check fires is the one verified, and a placement arriving after a check re-arms a new one, so the
+ * settle frame is always verified. A detached root (disposed node) skips — removal is the fail-safe's job.
+ */
+@OptIn(ExperimentalForeignApi::class)
+internal class InteropPositionHeal(private val root: UIView) {
+    private var generation = 0L
+
+    fun onPositioned(group: CValue<CGRect>, host: CValue<CGRect>) {
+        // TRAILING edge on purpose: every placement supersedes the previous check, so the verification
+        // only ever runs ≥120ms after the LAST placement — i.e. once the node has settled. A check that
+        // acts mid-animation writes frames out of band with the CATransaction that synchronizes interop
+        // frames with the canvas, and visibly fights it (piled/trailing controls) — the settled frame is
+        // the only one that both needs healing (nothing later will re-send it) and is safe to heal.
+        val gen = ++generation
+        afterRecompositionWindow {
+            if (gen != generation) return@afterRecompositionWindow // superseded — a newer placement owns the check
+            val hostView = root.superview ?: return@afterRecompositionWindow
+            val groupView = hostView.superview ?: return@afterRecompositionWindow
+            if (!groupView.frame.toPt().nearly(group.toPt()) || !hostView.frame.toPt().nearly(host.toPt())) {
+                groupView.setFrame(group)
+                hostView.setFrame(host)
+            }
+        }
+    }
+}
+
+/**
+ * The [Modifier] that feeds [InteropPositionHeal] — append to every kit `UIKitView`'s modifier chain
+ * (alongside [InteropDisposeFailSafe]). Mirrors the holder's math: wrapper frame = clipped bounds in
+ * root coordinates; content-host frame = the unclipped rect positioned relative to the clipped one, all
+ * px→pt via density.
+ */
+@OptIn(ExperimentalForeignApi::class)
+@Composable
+internal fun rememberInteropPositionHeal(root: UIView): Modifier {
+    val density = LocalDensity.current.density.toDouble()
+    val heal = remember(root) { InteropPositionHeal(root) }
+    return Modifier.onGloballyPositioned { coords ->
+        val rootCoords = coords.findRootCoordinates()
+        val clipped = rootCoords.localBoundingBoxOf(coords, clipBounds = true)
+        val unclipped = rootCoords.localBoundingBoxOf(coords, clipBounds = false)
+        heal.onPositioned(
+            group = CGRectMake(
+                clipped.left / density,
+                clipped.top / density,
+                clipped.width / density,
+                clipped.height / density,
+            ),
+            host = CGRectMake(
+                (unclipped.left - clipped.left) / density,
+                (unclipped.top - clipped.top) / density,
+                unclipped.width / density,
+                unclipped.height / density,
+            ),
+        )
     }
 }
 

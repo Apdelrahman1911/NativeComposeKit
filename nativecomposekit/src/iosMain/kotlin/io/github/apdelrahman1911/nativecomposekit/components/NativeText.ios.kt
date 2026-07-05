@@ -53,7 +53,9 @@ internal actual fun PlatformNativeText(
     testTag: String?,
 ) {
     val surface = LocalNativeSurface.current
-    if (surface.isSpecified) {
+    // Inside NativeCollapsible the interop label is skipped even on a solid surface: its canvas cut-out
+    // flashes dark while the queue fills it, which reads as a black box during the open animation.
+    if (surface.isSpecified && !LocalNativeTextPrefersCompose.current) {
         // Native path: a real UILabel, filled opaquely with the exact surface color so the UIKitView interop
         // region never reveals the system backdrop. Seeded with the first text/font so the very first Compose
         // measure (which precedes the first `update`) already sees real content instead of an empty label.
@@ -77,7 +79,8 @@ internal actual fun PlatformNativeText(
             // would be INVISIBLE to VoiceOver (the a11y mediator ignores un-flagged native views).
             modifier = modifier
                 .remeasureRequester(remeasure)
-                .semantics { this.text = mirroredText },
+                .semantics { this.text = mirroredText }
+                .then(rememberInteropPositionHeal(label)),
             properties = NativeInteropTouch.NonInteractive.toInteropProperties(),
             update = { l ->
                 l.text = text

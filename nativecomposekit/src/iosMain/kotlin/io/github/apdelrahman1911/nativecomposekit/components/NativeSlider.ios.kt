@@ -118,7 +118,7 @@ internal actual fun PlatformNativeSlider(
             backing.pinFilling(control)
             backing
         },
-        modifier = modifier.height(36.dp).remeasureRequester(remeasure),
+        modifier = modifier.height(36.dp).remeasureRequester(remeasure).then(rememberInteropPositionHeal(backing)),
         properties = scrollSafeInteropProperties(), // overlay placement so the backing isn't clipped on scroll
         update = { _ ->
             handler.updateGeneration++ // composition responded — disarms any pending rejection re-assert

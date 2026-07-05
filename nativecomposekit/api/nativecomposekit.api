@@ -188,6 +188,10 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeC
 	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/NativeChipStyle;
 }
 
+public final class io/github/apdelrahman1911/nativecomposekit/components/NativeCollapsible_androidKt {
+	public static final fun NativeCollapsible (ZLandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}
+
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeColorWellIosOptions {
 	public static final field $stable I
 	public fun <init> ()V

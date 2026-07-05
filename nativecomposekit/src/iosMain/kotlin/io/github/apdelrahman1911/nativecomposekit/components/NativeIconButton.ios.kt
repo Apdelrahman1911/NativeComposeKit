@@ -85,7 +85,7 @@ internal actual fun PlatformNativeIconButton(
             )
             backing
         },
-        modifier = modifier.size(if (compact) minTouch else style.height).remeasureRequester(remeasure),
+        modifier = modifier.size(if (compact) minTouch else style.height).remeasureRequester(remeasure).then(rememberInteropPositionHeal(backing)),
         properties = touch.toInteropProperties(overlay = overlay, nativeAccessibility = true),
         update = { _ ->
             backing.backgroundColor = backingColor

@@ -77,7 +77,7 @@ private fun IosSpinner(
             backing.pinFilling(spinner.also { it.startAnimating() })
             backing
         },
-        modifier = m,
+        modifier = m.then(rememberInteropPositionHeal(backing)),
         properties = scrollSafeInteropProperties(nativeAccessibility = false),
         update = {
             backing.backgroundColor = backingColor
@@ -118,7 +118,7 @@ private fun IosProgressBar(
             backing.pinFilling(bar)
             backing
         },
-        modifier = m,
+        modifier = m.then(rememberInteropPositionHeal(backing)),
         properties = scrollSafeInteropProperties(nativeAccessibility = false),
         update = {
             backing.backgroundColor = backingColor

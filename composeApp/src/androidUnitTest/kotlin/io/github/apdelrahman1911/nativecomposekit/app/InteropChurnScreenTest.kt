@@ -11,9 +11,10 @@ import org.robolectric.annotation.Config
 
 /**
  * Smoke-pins the Android path of the interop-churn harness. The interesting behavior (the CMP interop
- * transaction-loss ghosting and the kit's `InteropDisposeFailSafe`) is iOS-runtime-only — this guards
- * that the shared screen composes, starts expanded, and exposes its controls. `autoRun = false` because
- * the endless auto-cycle would keep the compose test clock from ever going idle.
+ * transaction delay/desync and the kit's dispose fail-safe / position heal) is iOS-runtime-only — this
+ * guards that the shared screen composes, starts expanded with both safe flavors, and exposes the
+ * wedge-repro toggle. `autoRun = false` because the endless auto-cycle would keep the compose test
+ * clock from ever going idle.
  */
 @OptIn(ExperimentalTestApi::class)
 @RunWith(RobolectricTestRunner::class)
@@ -26,6 +27,7 @@ class InteropChurnScreenTest {
 
         onNodeWithText("Auto-cycle").assertIsDisplayed()
         onNodeWithText("Completed cycles: 0").assertIsDisplayed()
-        onNodeWithText("Row 1").assertIsDisplayed() // rows start expanded, controls composed
+        onNodeWithText("Reproduce the wedge").assertIsDisplayed() // the AnimatedVisibility repro stays opt-in
+        onNodeWithText("Row 1 · collapsible").assertIsDisplayed() // NativeCollapsible flavor, expanded
     }
 }

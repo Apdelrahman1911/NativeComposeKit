@@ -7,20 +7,28 @@ changes; the public surface is ABI-locked per release via binary-compatibility-v
 
 ## [Unreleased]
 
-## [0.2.1] — 2026-07-05
+### Added
+
+- **`NativeCollapsible`** — the platform-safe way to collapse/expand content containing native
+  controls (use instead of `AnimatedVisibility` around `Native*` components). A real
+  `AnimatedVisibility` on Android; on iOS it animates the container's size while content enters and
+  leaves in one clean step, and `NativeText` inside renders through Compose (no interop cut-out
+  flash during the animation).
+- **"Interop churn test" screen** in the sample app (Settings → Developer) — regression harness for
+  the interop synchronization behaviors below, with the pathological `AnimatedVisibility` pattern
+  reproducible behind an off-by-default toggle.
 
 ### Fixed
 
 - **iOS: ghost / doubled / stale native controls after interop churn.** Compose Multiplatform queues
-  every UIKit-side interop mutation (insert, position update, removal, `onRelease`) into a transaction
-  executed only when the next rendered frame is presented; a frame dropped at the wrong moment loses
-  those mutations for good, and with the kit's overlay placement a lost removal stayed **visible** — a
-  control lingering after its row collapsed, doubling when a lazy item was recreated, or sitting at a
-  stale position. Every kit-hosted `UIKitView` now detaches its native view **synchronously** at node
-  disposal (`InteropDisposeFailSafe`), which eliminates the persistent ghost/double classes; lost
-  position updates of still-composed views remain upstream behavior and self-correct on the next layout
-  change. Reproduced and verified on the sample app's new **"Interop churn test"** screen
-  (Settings → Developer) under appearance-flip frame pressure.
+  every UIKit-side interop mutation (insert, position update, removal, `onRelease`) into a
+  transaction executed only when the next rendered frame is presented; actions can execute with
+  severe delay (visibly desynced controls during animated visibility) and, in a narrower window, be
+  lost outright. Every kit-hosted `UIKitView` now detaches its native view **synchronously** at node
+  disposal (removal delay bounded to zero — no lingering/doubled controls), and settled positions
+  self-heal against the Compose-side layout truth. The remaining delay on the *insert* side is a
+  Compose Multiplatform engine limitation, documented with hard usage rules in
+  `docs/interop-notes.md` §4 and reported upstream (`docs/upstream/cmp-interop-transaction-lag.md`).
 
 ## [0.2.0] — 2026-07-05
 
@@ -65,6 +73,5 @@ First public release.
   behavior notes with upstream issue references, and per-component references with platform capability
   tables.
 
-[0.2.1]: https://github.com/ukkkera/NativeComposeKit/releases/tag/v0.2.1
 [0.2.0]: https://github.com/ukkkera/NativeComposeKit/releases/tag/v0.2.0
 [0.1.0]: https://github.com/ukkkera/NativeComposeKit/releases/tag/v0.1.0

@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.apdelrahman1911.nativecomposekit.components.NativeCard
 import io.github.apdelrahman1911.nativecomposekit.components.NativeCardVariant
+import io.github.apdelrahman1911.nativecomposekit.components.NativeCollapsible
 import io.github.apdelrahman1911.nativecomposekit.components.NativeListItem
 import io.github.apdelrahman1911.nativecomposekit.components.NativeSegmentedControl
 import io.github.apdelrahman1911.nativecomposekit.components.NativeSlider
@@ -34,16 +35,18 @@ import kotlinx.coroutines.delay
 /**
  * Debug screen: interop **churn** regression harness (primarily iOS).
  *
- * Collapsing/expanding native leaf controls inside lazy items is the churn pattern the catalog's static
- * pages never exercised: every [AnimatedVisibility] cycle bursts insert/remove/frame mutations through
- * Compose Multiplatform's interop transaction queue, whose actions execute only when the next rendered
- * frame is presented — a frame skipped between retrieval and presentation loses them, and with the kit's
- * overlay placement a lost REMOVAL is a fully visible ghost/doubled control (see
- * `InteropDisposeFailSafe` in the kit and docs/interop-notes.md). This screen auto-cycles so the pattern
- * reproduces hands-free.
+ * Cycling native leaf controls in/out of lazy items stresses Compose Multiplatform's interop
+ * transaction queue, whose actions execute only when a rendered frame is presented. Animating the
+ * controls' VISIBILITY (`AnimatedVisibility`) makes the UIKit side fall visibly out of sync on real
+ * devices — controls lag their collapsing row, draw outside their container, appear/disappear late,
+ * and under continuous churn the backlog stops draining (see docs/interop-notes.md §4 and the
+ * upstream report in docs/upstream/). That pathological flavor is kept behind the off-by-default
+ * "Reproduce the wedge" toggle. The default rows exercise the SAFE patterns: [NativeCollapsible]
+ * (animated container size, one-step gating, Compose-rendered text inside — the bare [NativeText]
+ * in each row regression-proves that mode) and a plain `if` gate.
  *
- * PASS: rows appear/disappear cleanly, controls stay inside their cards, the count keeps climbing.
- * FAIL: a toggle/slider/segmented lingers after collapse, doubles up, or sits at a stale position.
+ * PASS: rows appear/disappear cleanly and stay inside their cards; the count keeps climbing.
+ * FAIL: a control lingers after collapse, doubles up, lags visibly, or sits at a stale position.
  *
  * [autoRun] exists for the Android unit test, where an endlessly self-advancing animation clock would
  * never go idle.
@@ -51,6 +54,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun InteropChurnScreen(autoRun: Boolean = true) {
     var running by remember { mutableStateOf(autoRun) }
+    var reproduceWedge by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(true) }
     var cycles by remember { mutableIntStateOf(0) }
     var level by remember { mutableStateOf(0.4f) }
@@ -86,39 +90,83 @@ fun InteropChurnScreen(autoRun: Boolean = true) {
                         )
                     },
                 )
+                NativeListItem(
+                    "Reproduce the wedge",
+                    supporting = "Wraps the first rows in AnimatedVisibility — WEDGES the iOS device interop queue (the documented CMP defect); relaunch to recover",
+                    trailing = {
+                        NativeToggle(
+                            checked = reproduceWedge,
+                            onCheckedChange = { reproduceWedge = it },
+                            contentDescription = "Reproduce the wedge",
+                        )
+                    },
+                )
             }
         }
+        // Three churn flavors: NativeCollapsible (the kit's safe animated collapse — the pattern apps
+        // should use), a plain `if` gate (instant, always safe), and — behind the header toggle — the
+        // AnimatedVisibility killer that wedges the iOS device interop queue (kept for reproduction).
         items(count = 8, key = { it }) { index ->
-            AnimatedVisibility(visible = expanded, enter = expandVertically(), exit = shrinkVertically()) {
-                NativeCard(variant = NativeCardVariant.Filled, modifier = Modifier.fillMaxWidth()) {
-                    Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            NativeText("Row ${index + 1}", style = NativeTextStyle.Label, modifier = Modifier.fillMaxWidth(0.5f))
-                            NativeToggle(
-                                checked = index % 2 == 0,
-                                onCheckedChange = null, // read-only: churn harness, not an input form
-                                contentDescription = "Row ${index + 1} toggle",
-                            )
-                        }
-                        NativeSlider(
-                            value = level,
-                            onValueChange = { level = it },
-                            modifier = Modifier.fillMaxWidth(),
-                            contentDescription = "Row ${index + 1} level",
-                        )
-                        NativeSegmentedControl(
-                            options = listOf("One", "Two"),
-                            selectedIndex = segment,
-                            onSelectedIndexChange = { segment = it },
-                            modifier = Modifier.fillMaxWidth(),
-                            contentDescription = "Row ${index + 1} segments",
-                        )
+            when {
+                reproduceWedge && index < 2 -> {
+                    AnimatedVisibility(visible = expanded, enter = expandVertically(), exit = shrinkVertically()) {
+                        ChurnRow(index = index, flavor = "animated", level = level, onLevel = { level = it }, segment = segment, onSegment = { segment = it })
                     }
                 }
+                index < 4 -> {
+                    NativeCollapsible(visible = expanded) {
+                        ChurnRow(index = index, flavor = "collapsible", level = level, onLevel = { level = it }, segment = segment, onSegment = { segment = it })
+                    }
+                }
+                expanded -> {
+                    ChurnRow(index = index, flavor = "gated", level = level, onLevel = { level = it }, segment = segment, onSegment = { segment = it })
+                }
             }
+        }
+    }
+}
+
+@Composable
+private fun ChurnRow(
+    index: Int,
+    flavor: String,
+    level: Float,
+    onLevel: (Float) -> Unit,
+    segment: Int,
+    onSegment: (Int) -> Unit,
+) {
+    NativeCard(variant = NativeCardVariant.Filled, modifier = Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                // Bare NativeText ON PURPOSE: inside NativeCollapsible it must render through Compose
+                // (no interop cut-out), so a dark flash here would be a regression of that mode.
+                NativeText(
+                    "Row ${index + 1} · $flavor",
+                    style = NativeTextStyle.Label,
+                    modifier = Modifier.fillMaxWidth(0.5f),
+                )
+                NativeToggle(
+                    checked = index % 2 == 0,
+                    onCheckedChange = null, // read-only: churn harness, not an input form
+                    contentDescription = "Row ${index + 1} toggle",
+                )
+            }
+            NativeSlider(
+                value = level,
+                onValueChange = onLevel,
+                modifier = Modifier.fillMaxWidth(),
+                contentDescription = "Row ${index + 1} level",
+            )
+            NativeSegmentedControl(
+                options = listOf("One", "Two"),
+                selectedIndex = segment,
+                onSelectedIndexChange = onSegment,
+                modifier = Modifier.fillMaxWidth(),
+                contentDescription = "Row ${index + 1} segments",
+            )
         }
     }
 }

@@ -94,7 +94,7 @@ internal actual fun PlatformNativeButton(
             )
             backing
         },
-        modifier = m.remeasureRequester(remeasure),
+        modifier = m.remeasureRequester(remeasure).then(rememberInteropPositionHeal(backing)),
         properties = touch.toInteropProperties(overlay = overlay, nativeAccessibility = true),
         update = { _ ->
             backing.backgroundColor = backingColor

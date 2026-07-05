@@ -106,7 +106,7 @@ internal actual fun PlatformNativeSplitButton(
             backing
         },
         // HIG: ≥44pt touch target (both segments fill the host height).
-        modifier = modifier.height(maxOf(style.height, 44.dp)).remeasureRequester(remeasure),
+        modifier = modifier.height(maxOf(style.height, 44.dp)).remeasureRequester(remeasure).then(rememberInteropPositionHeal(backing)),
         properties = touch.toInteropProperties(overlay = overlay, nativeAccessibility = true),
         update = { _ ->
             backing.backgroundColor = backingColor

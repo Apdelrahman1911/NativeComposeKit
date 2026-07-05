@@ -54,33 +54,59 @@ don't scroll, so overlay's drift trade-off doesn't apply here.
 
 Upstream: [CMP-10400](https://youtrack.jetbrains.com/issue/CMP-10400). Related: CMP-7509, CMP-8114.
 
-## 4. Deferred interop transactions can drop mutations (ghost / doubled / stale controls)
+## 4. Deferred interop transactions: delayed/out-of-sync mutations under animated visibility
 
 Every UIKit-side interop mutation — inserting a view, **every frame/position update**, the final
 removal, and the `onRelease` callback — is queued into an internal CMP transaction
-(`UIKitInteropMutableTransaction`) and executed only when the next rendered Compose frame is actually
-**presented**. A transaction retrieved for a frame that never presents (a dropped frame or display-link
-hiccup — easy to hit during layout storms: an appearance flip, `AnimatedVisibility` churn inside lazy
-items) is discarded without re-queueing, while Compose's own bookkeeping has already moved on. A
-per-holder rect cache compounds it: a lost position update is deduped against a rect the view never
-received, so it is never re-sent.
+(`UIKitInteropMutableTransaction`) and executed only when the next rendered Compose frame is
+**presented**. Two failure shapes follow, both verified against the CMP 1.11 sources and on real
+hardware (iPhone 17, Debug AND Release — the simulator only shows the milder form under forced frame
+pressure):
 
-The failure is placement-asymmetric. With cut-out placement a leaked view hides behind the opaque
-canvas — invisible. With the kit's **overlay** placement (`scrollSafeInteropProperties`) the identical
-loss is fully visible: **ghost controls** hanging in the window after their row collapsed, **doubled
-controls** when a lazy item is recreated (old removal lost + new instance inserted), **stale positions**
-after rows shift. Reproduced deterministically on the sample app's **Settings → Developer → "Interop
-churn test"** screen by flipping light/dark appearance while it auto-cycles.
+- **Delay / desync (the dominant device behavior).** Animating the *visibility* of interop views
+  (`AnimatedVisibility` enter/exit around native controls) floods the queue with per-frame
+  insert/remove/clip actions and the UIKit side falls visibly behind the Compose layout: controls
+  lag their collapsing row, get drawn **outside the container they belong to**, appear late on
+  expand, and clear only after a delayed catch-up. Under a continuous cycle the backlog does not
+  drain while the churn runs, so the desync looks stuck until it stops. The identical insert/remove
+  rate WITHOUT animation (plain `if` gating) stays frame-accurate indefinitely on the same device.
+- **Outright loss (narrower window).** A transaction retrieved for a frame that never presents is
+  discarded without re-queueing, while Compose's bookkeeping has already moved on; a per-holder rect
+  cache then dedupes the never-delivered update so it is never re-sent. Visible as ghost/doubled
+  controls with the kit's overlay placement (reproduced on the simulator with light/dark flips
+  during churn).
 
-**Kit mitigation (`InteropDisposeFailSafe`, applied beside every `UIKitView` the kit hosts):** a
-`DisposableEffect` detaches the factory root synchronously at node disposal. `onDispose` runs in the
-composition apply pass — it does not ride the losable transaction — so the control leaves the window the
-moment its node is disposed, whatever happens to the queued container cleanup. This kills the
-*permanent* artifact classes (ghosts, doubles) deterministically. Lost *position* updates of
-still-composed views remain a CMP-level issue with no clean external fix: they self-correct on the next
-layout change of that node (next animation frame, scroll, or churn cycle), so they can only appear as a
-transient lag under extreme frame pressure, not as a settled corruption. Worth an upstream report —
-overlay placement is experimental in CMP 1.10/1.11.
+Reproduced hands-free on the sample app's **Settings → Developer → "Interop churn test"** screen —
+the pathological `AnimatedVisibility` flavor is kept behind its off-by-default "Reproduce the wedge"
+toggle. An upstream report with a self-contained repro lives in
+[`docs/upstream/cmp-interop-transaction-lag.md`](upstream/cmp-interop-transaction-lag.md); the root
+fix (re-queue on skipped presents, no dedup of undelivered rects) is engine-level.
+
+**Kit mitigations (shipped):**
+
+- `InteropDisposeFailSafe` (beside every kit `UIKitView`): a `DisposableEffect` detaches the factory
+  root synchronously at node disposal — `onDispose` runs in the composition apply pass and does not
+  ride the queue, so the *removal* delay is bounded to zero and lost-removal ghosts/doubles cannot
+  occur.
+- `InteropPositionHeal` (same coverage): `onGloballyPositioned` re-derives the holder's expected
+  frames and — only on the **trailing edge**, ≥120ms after the last placement — corrects the actual
+  frames when they diverge, healing lost settle-positions. (Correcting mid-animation was tested and
+  rejected: out-of-band writes visibly fight the CATransaction-synchronized frame updates.)
+- Neither can bound the *insert* side — a view whose insert action is still queued has nothing user
+  code can reach. Hence the hard rules below.
+
+**Hard rules for app code (iOS):**
+
+1. **Never wrap native controls in `AnimatedVisibility`** (or any per-frame animated clip). Use
+   [`NativeCollapsible`] — a real `AnimatedVisibility` on Android, and on iOS a container-size
+   animation with one-step gating.
+2. Conditionally inserted native controls always appear a frame or two late (the queue is
+   asynchronous by design); a design that animates their *entrance* will never be frame-perfect.
+   For a fully native feel, prefer disclosure by navigation (push / `NativeSheet`) or keep controls
+   permanently composed and dim/disable them.
+3. Bare `NativeText` on a solid surface inside a collapsible region briefly shows its cut-out hole
+   (dark backdrop) while the fill action is queued. `NativeCollapsible` switches `NativeText` inside
+   it to Compose rendering automatically; `NativeListItem` text is always Compose-drawn and safe.
 
 ## Practical guidance
 

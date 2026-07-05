@@ -342,7 +342,7 @@ private fun SingleLineField(
             backing.pinFilling(field)
             backing
         },
-        modifier = Modifier.fillMaxWidth().height(hostHeight),
+        modifier = Modifier.fillMaxWidth().height(hostHeight).then(rememberInteropPositionHeal(backing)),
         properties = touch.toInteropProperties(nativeAccessibility = true),
         update = { _ ->
             backing.backgroundColor = style.colors.container.toUIColor()
@@ -462,7 +462,7 @@ private fun MultilineField(
             backing.pinFilling(textView)
             backing
         },
-        modifier = Modifier.fillMaxWidth().height(minHeight),
+        modifier = Modifier.fillMaxWidth().height(minHeight).then(rememberInteropPositionHeal(backing)),
         properties = touch.toInteropProperties(nativeAccessibility = true),
         update = { _ ->
             backing.backgroundColor = style.colors.container.toUIColor()

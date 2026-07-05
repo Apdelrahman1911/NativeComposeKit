@@ -91,7 +91,7 @@ internal actual fun PlatformNativeDatePicker(
             backing.pinFilling(control)
             backing
         },
-        modifier = modifier.remeasureRequester(remeasure),
+        modifier = modifier.remeasureRequester(remeasure).then(rememberInteropPositionHeal(backing)),
         properties = scrollSafeInteropProperties(), // overlay placement so the backing isn't clipped on scroll
         update = {
             backing.backgroundColor = backingColor
