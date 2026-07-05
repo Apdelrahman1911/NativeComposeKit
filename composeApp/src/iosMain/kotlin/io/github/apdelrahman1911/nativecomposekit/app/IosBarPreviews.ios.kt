@@ -52,6 +52,9 @@ actual fun IosNavBarPreview(
     UIKitView(
         factory = {
             bar.userInteractionEnabled = false
+            // A standalone UINavigationBar paints its background UPWARD past its bounds (the status-bar
+            // extension); unclipped that bleeds above the preview slot as fake top padding.
+            bar.clipsToBounds = true
             bar
         },
         modifier = modifier.fillMaxWidth().height(44.dp),
@@ -111,6 +114,7 @@ actual fun IosTabBarPreview(
     UIKitView(
         factory = {
             bar.userInteractionEnabled = false
+            bar.clipsToBounds = true // same out-of-bounds background painting as the nav bar
             val items = listOf(
                 UITabBarItem(title = "Components", image = UIImage.systemImageNamed("square.grid.2x2"), tag = 0),
                 UITabBarItem(title = "Library", image = UIImage.systemImageNamed("books.vertical"), tag = 1),
@@ -120,7 +124,9 @@ actual fun IosTabBarPreview(
             bar.selectedItem = items.first()
             bar
         },
-        modifier = modifier.fillMaxWidth().height(50.dp),
+        // A bare UITabBar needs room for the iOS 26 pill's icon-above-label layout — squeezed below
+        // ~84pt the labels collapse onto the icons.
+        modifier = modifier.fillMaxWidth().height(84.dp),
         properties = UIKitInteropProperties(interactionMode = null, placedAsOverlay = true),
         update = { _ ->
             val appearance = UITabBarAppearance()
