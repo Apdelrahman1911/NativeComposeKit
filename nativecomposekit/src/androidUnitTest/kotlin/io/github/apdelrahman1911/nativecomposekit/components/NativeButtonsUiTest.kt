@@ -15,6 +15,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosBackground
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosOptions
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenu
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenuItem
@@ -36,6 +38,24 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class NativeButtonsUiTest {
+
+    @Test
+    fun glass_ios_options_are_a_no_op_on_android() = runComposeUiTest {
+        var clicks = 0
+        setContent {
+            NativeAppearanceScope {
+                NativeButton(
+                    "Glassy",
+                    onClick = { clicks++ },
+                    ios = NativeButtonIosOptions(background = NativeButtonIosBackground.Glass),
+                )
+            }
+        }
+        // Same Material rendering and semantics as any other button — the ios knob must change nothing here.
+        onNodeWithText("Glassy").assertIsDisplayed()
+        onNodeWithText("Glassy").performClick()
+        assertEquals(1, clicks)
+    }
 
     /** Matches the node whose click action carries the given `onClickLabel`. */
     private fun hasClickLabel(label: String): SemanticsMatcher =

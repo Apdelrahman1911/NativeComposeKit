@@ -4,7 +4,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenu
 import platform.UIKit.UIMenu
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosBackground
 import io.github.apdelrahman1911.nativecomposekit.components.model.ResolvedButtonStyle
+import platform.Foundation.NSClassFromString
+import platform.Foundation.NSNumber
+import platform.Foundation.NSSelectorFromString
+import platform.Foundation.numberWithBool
+import platform.Foundation.performSelector
+import platform.Foundation.setValue
+import platform.UIKit.UIVisualEffect
+import platform.UIKit.UIVisualEffectView
+import platform.UIKit.labelColor
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.CValue
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -51,12 +61,41 @@ internal class ButtonTapHandler : NSObject() {
  * TouchUpInside into one frame, so an instant set/reset would be invisible. Forcing the pressed state in
  * [pressUp] and animating back guarantees a visible pop for any tap speed (and a held press still dims).
  */
+
+/** Liquid Glass exists on this system (iOS 26+). Cheap runtime class lookup — the kit has no SDK gate. */
+internal fun nativeGlassAvailable(): Boolean = NSClassFromString("UIGlassEffect") != null
+
+/**
+ * Builds a `UIGlassEffect` at runtime — the class is newer than the Kotlin/Native UIKit bindings, so it
+ * is looked up by name, instantiated by sending `new` to the class object, and used through the bound
+ * `UIVisualEffect` supertype (device-verified: the effect refracts the Compose canvas through an
+ * overlay-placed interop view). `interactive` gives the system press morph; [tint] makes it the
+ * "prominent" tinted flavor. Returns null below iOS 26 — callers fall back to the flat style.
+ */
+@OptIn(ExperimentalForeignApi::class)
+internal fun nativeGlassEffect(tint: UIColor?): UIVisualEffect? {
+    val cls = NSClassFromString("UIGlassEffect") ?: return null
+    val clsObj = cls as? NSObject ?: return null
+    val effect = clsObj.performSelector(NSSelectorFromString("new")) as? UIVisualEffect ?: return null
+    if (effect.respondsToSelector(NSSelectorFromString("setInteractive:"))) {
+        effect.setValue(NSNumber.numberWithBool(true), forKey = "interactive")
+    }
+    if (tint != null && effect.respondsToSelector(NSSelectorFromString("setTintColor:"))) {
+        effect.setValue(tint, forKey = "tintColor")
+    }
+    return effect
+}
+
 @OptIn(BetaInteropApi::class, ExperimentalForeignApi::class)
 internal class ButtonPressDimmer : NSObject() {
     var target: UIView? = null
 
+    /** True while a Liquid Glass backdrop is active — the interactive glass owns press feedback. */
+    var suppressed: Boolean = false
+
     @ObjCAction
     fun pressDown() {
+        if (suppressed) return
         val v = target ?: return
         UIView.animateWithDuration(0.09, animations = {
             v.transform = CGAffineTransformMakeScale(0.96, 0.96)
@@ -66,6 +105,7 @@ internal class ButtonPressDimmer : NSObject() {
 
     @ObjCAction
     fun pressUp() {
+        if (suppressed) return
         val v = target ?: return
         // Ensure the pressed state is applied, then animate back — so an instant tap still shows the pop.
         v.transform = CGAffineTransformMakeScale(0.96, 0.96)
@@ -232,6 +272,53 @@ internal class NativeButtonViews {
      * Re-theme and set state. [showLabel] is false for icon-only buttons. [leadName]/[trailName] are SF
      * Symbol names (null = hidden). When [menu] is non-null the button presents it as its primary action.
      */
+    private var glassView: UIVisualEffectView? = null
+    private var glassSpec: String? = null
+
+    /**
+     * Installs/updates/removes the Liquid Glass backdrop behind the content stack. The effect view sits
+     * at index 0 inside the button (below the `[icon|label|icon]` stack), non-interactive so touches
+     * reach the button, clipped to the button's corner radius; the effect object is rebuilt only when
+     * the requested flavor/tint changes (effects are copied on assignment — mutating a live one is not
+     * reliable).
+     */
+    private fun applyGlassBackdrop(style: ResolvedButtonStyle, active: Boolean) {
+        if (!active) {
+            glassView?.removeFromSuperview()
+            glassView = null
+            glassSpec = null
+            return
+        }
+        val prominent = style.iosBackground == NativeButtonIosBackground.ProminentGlass
+        val spec = if (prominent) "prominent:${style.colors.container.value}" else "glass"
+        if (glassSpec != spec) {
+            glassView?.removeFromSuperview()
+            glassView = null
+            glassSpec = null
+            val effect = nativeGlassEffect(
+                tint = if (prominent) style.colors.container.toUIColor() else null,
+            ) ?: return
+            val gv = UIVisualEffectView(effect = effect)
+            gv.userInteractionEnabled = false
+            gv.translatesAutoresizingMaskIntoConstraints = false
+            button.insertSubview(gv, atIndex = 0)
+            NSLayoutConstraint.activateConstraints(
+                listOf(
+                    gv.leadingAnchor.constraintEqualToAnchor(button.leadingAnchor),
+                    gv.trailingAnchor.constraintEqualToAnchor(button.trailingAnchor),
+                    gv.topAnchor.constraintEqualToAnchor(button.topAnchor),
+                    gv.bottomAnchor.constraintEqualToAnchor(button.bottomAnchor),
+                ),
+            )
+            glassView = gv
+            glassSpec = spec
+        }
+        glassView?.let {
+            it.layer.cornerRadius = style.cornerRadius.value.toDouble()
+            it.clipsToBounds = true
+        }
+    }
+
     fun apply(
         style: ResolvedButtonStyle,
         text: String,
@@ -242,17 +329,34 @@ internal class NativeButtonViews {
         trailName: String?,
         menu: NativeMenu?,
     ) {
-        val content = style.colors.content.toUIColor()
+        val glassActive = style.iosBackground != NativeButtonIosBackground.Automatic && nativeGlassAvailable()
+        applyGlassBackdrop(style, glassActive)
+        dimmer.suppressed = glassActive // interactive glass owns press feedback
+
+        // Clear glass is content-adaptive: the system label color reads on whatever is refracted.
+        // Prominent (tinted) glass keeps the variant's content color on its tinted body.
+        val content =
+            if (glassActive && style.iosBackground == NativeButtonIosBackground.Glass) UIColor.labelColor()
+            else style.colors.content.toUIColor()
         val transparent = style.colors.container == Color.Transparent
 
-        button.backgroundColor = if (transparent) UIColor.clearColor() else style.colors.container.toUIColor()
-        button.layer.cornerRadius = style.cornerRadius.value.toDouble()
-        button.clipsToBounds = true
-        if (style.colors.border.isSpecified) {
-            button.layer.borderWidth = 1.0
-            button.layer.borderColor = style.colors.border.toUIColor().CGColor
-        } else {
+        if (glassActive) {
+            button.backgroundColor = UIColor.clearColor()
+            // The glass lens highlight paints just past the capsule edge — clipping the button would
+            // shave it; the effect view itself is clipped to the corner radius instead.
+            button.clipsToBounds = false
+            button.layer.cornerRadius = 0.0
             button.layer.borderWidth = 0.0
+        } else {
+            button.backgroundColor = if (transparent) UIColor.clearColor() else style.colors.container.toUIColor()
+            button.layer.cornerRadius = style.cornerRadius.value.toDouble()
+            button.clipsToBounds = true
+            if (style.colors.border.isSpecified) {
+                button.layer.borderWidth = 1.0
+                button.layer.borderColor = style.colors.border.toUIColor().CGColor
+            } else {
+                button.layer.borderWidth = 0.0
+            }
         }
 
         leadingConstraint?.setConstant(style.insets.start.value.toDouble())

@@ -10,6 +10,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.viewinterop.remeasureRequester
 import androidx.compose.ui.viewinterop.rememberUIKitInteropRemeasureRequester
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosBackground
+import platform.UIKit.UIColor
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeInteropTouch
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenu
@@ -59,6 +61,9 @@ internal actual fun PlatformNativeButton(
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     // Overlay placement inside a NativeDialog (no cut-out hole → no first-frame black flash); cut-out elsewhere.
     val overlay = LocalNativeInteropPlacement.current == NativeInteropPlacement.Overlay
+    // Liquid Glass must composite ABOVE the canvas: its backdrop sampling refracts the Compose content
+    // there; behind the canvas (cut-out) it would sample the empty backdrop. Backing goes clear too.
+    val glassActive = style.iosBackground != NativeButtonIosBackground.Automatic && nativeGlassAvailable()
 
     // Trailing glyph is an explicit trailing icon, or the auto chevron for a menu button.
     val trailGlyph = trailingIcon?.sfSymbolName ?: if (menu != null) "chevron.down" else null
@@ -95,9 +100,9 @@ internal actual fun PlatformNativeButton(
             backing
         },
         modifier = m.remeasureRequester(remeasure).then(rememberInteropPositionHeal(backing)),
-        properties = touch.toInteropProperties(overlay = overlay, nativeAccessibility = true),
+        properties = touch.toInteropProperties(overlay = overlay || glassActive, nativeAccessibility = true),
         update = { _ ->
-            backing.backgroundColor = backingColor
+            backing.backgroundColor = if (glassActive) UIColor.clearColor() else backingColor
             views.apply(
                 style = style,
                 text = if (loading) "" else text,

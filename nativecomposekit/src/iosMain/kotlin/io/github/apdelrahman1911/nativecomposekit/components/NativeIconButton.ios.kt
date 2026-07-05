@@ -9,6 +9,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.viewinterop.remeasureRequester
 import androidx.compose.ui.viewinterop.rememberUIKitInteropRemeasureRequester
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosBackground
+import platform.UIKit.UIColor
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeInteropTouch
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeMenu
@@ -47,6 +49,9 @@ internal actual fun PlatformNativeIconButton(
     val remeasure = rememberUIKitInteropRemeasureRequester()
     // Overlay placement inside a NativeDialog (no cut-out hole → no first-frame black flash); cut-out elsewhere.
     val overlay = LocalNativeInteropPlacement.current == NativeInteropPlacement.Overlay
+    // Liquid Glass must composite ABOVE the canvas: its backdrop sampling refracts the Compose content
+    // there; behind the canvas (cut-out) it would sample the empty backdrop. Backing goes clear too.
+    val glassActive = style.iosBackground != NativeButtonIosBackground.Automatic && nativeGlassAvailable()
 
     // HIG: ≥44pt touch target. A compact visual keeps its true size, centered in a 44pt host square,
     // with MinHitButton accepting taps in the surrounding margin.
@@ -86,9 +91,9 @@ internal actual fun PlatformNativeIconButton(
             backing
         },
         modifier = modifier.size(if (compact) minTouch else style.height).remeasureRequester(remeasure).then(rememberInteropPositionHeal(backing)),
-        properties = touch.toInteropProperties(overlay = overlay, nativeAccessibility = true),
+        properties = touch.toInteropProperties(overlay = overlay || glassActive, nativeAccessibility = true),
         update = { _ ->
-            backing.backgroundColor = backingColor
+            backing.backgroundColor = if (glassActive) UIColor.clearColor() else backingColor
             views.apply(
                 style = style,
                 text = "",

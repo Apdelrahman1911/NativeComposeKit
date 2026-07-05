@@ -17,6 +17,33 @@ A text button with optional leading and trailing icons, an optional loading stat
 - The control is icon-only — use `NativeIconButton`.
 - You need one main action plus a related menu — use `NativeSplitButton` (a menu-bearing button's tap only opens the menu; `onClick` is not called).
 
+#### Liquid Glass (`ios = NativeButtonIosOptions(background = …)`)
+
+iOS 26 introduced **Liquid Glass** — a system material that refracts the content beneath a control and
+morphs on press. The button family opts in per call site through `NativeButtonIosOptions`; it is an
+iOS-only appearance knob layered on the variant, never a shared abstraction:
+
+| `background` | iOS 26+ | iOS < 26 | Android |
+|---|---|---|---|
+| `Automatic` (default) | the variant's flat rendering | same | the variant's Material rendering |
+| `Glass` | clear adaptive glass capsule; content uses the system label color | falls back to `Automatic` | no-op (`Automatic`) |
+| `ProminentGlass` | glass tinted with the variant's **container** color; content keeps the variant's content color | falls back to `Automatic` | no-op (`Automatic`) |
+
+Implementation notes and constraints:
+
+- The glass is a **real `UIGlassEffect`** (instantiated at runtime — the class postdates the K/N
+  bindings), not a blur imitation. Reduce Transparency is handled by the system material itself.
+- A glass button is composited **above** the Compose canvas (overlay interop placement) so the effect
+  can sample the content it floats over; the overlay scroll-drift trade from
+  [interop-notes §1](../interop-notes.md) applies while actively scrolling.
+- Per the HIG, glass belongs to elements **floating above content** — action buttons over a scroll,
+  control strips — not to every inline form button.
+- `NativeSplitButton` renders glass as `Automatic` in this release: a two-segment control needs one
+  *shared* glass body (`UIGlassEffectContainer` territory), and per-half capsules read wrong. The
+  option is accepted so call sites are forward-compatible.
+- Live demo: sample app → Settings → Developer → **"Liquid glass buttons"** (glass capsules refracting
+  auto-scrolling stripes).
+
 **Parameters**
 
 | Parameter | Type | Default | Description |

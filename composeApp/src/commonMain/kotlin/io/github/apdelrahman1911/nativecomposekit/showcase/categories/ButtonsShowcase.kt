@@ -24,6 +24,8 @@ import io.github.apdelrahman1911.nativecomposekit.components.NativeSplitButton
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.LocalNativeFeedbackController
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeAlertAction
 import io.github.apdelrahman1911.nativecomposekit.components.feedback.NativeAlertActionRole
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosBackground
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosOptions
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonShape
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonSize
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonVariant
@@ -68,6 +70,24 @@ fun ButtonsShowcase() = ShowcaseScreen(
             NativeButton("Tertiary", { feedback.toast("Tertiary") }, variant = NativeButtonVariant.Tertiary)
             NativeButton("Outline", { feedback.toast("Outline") }, variant = NativeButtonVariant.Outline)
             NativeButton("Destructive", { feedback.toast("Destructive") }, variant = NativeButtonVariant.Destructive)
+        }
+
+        ExampleLabel("Liquid Glass (iOS 26)")
+        // iOS: a real UIGlassEffect capsule that refracts the content beneath (Automatic below
+        // iOS 26). Android: the ios options are a documented no-op — these render as the variant.
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            NativeButton(
+                "Glass",
+                { feedback.toast("Glass") },
+                variant = NativeButtonVariant.Secondary,
+                ios = NativeButtonIosOptions(background = NativeButtonIosBackground.Glass),
+            )
+            NativeButton(
+                "Prominent glass",
+                { feedback.toast("Prominent glass") },
+                variant = NativeButtonVariant.Primary,
+                ios = NativeButtonIosOptions(background = NativeButtonIosBackground.ProminentGlass),
+            )
         }
 
         ExampleLabel("Sizes")

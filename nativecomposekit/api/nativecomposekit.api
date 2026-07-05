@@ -154,7 +154,7 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeB
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeButtonKt {
-	public static final fun NativeButton-Ew51_bE (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonShape;ZZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;Landroidx/compose/ui/text/TextStyle;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+	public static final fun NativeButton-Z13oVjI (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonShape;ZZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;Landroidx/compose/ui/text/TextStyle;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosOptions;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeCardKt {
@@ -257,7 +257,7 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeF
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeIconButtonKt {
-	public static final fun NativeIconButton-j5vxNqM (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;ZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+	public static final fun NativeIconButton-o_a_alY (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;ZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosOptions;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeImePadding_androidKt {
@@ -446,7 +446,7 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/NativeS
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeSplitButtonKt {
-	public static final fun NativeSplitButton-b1Ouy7s (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;ZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;Landroidx/compose/ui/text/TextStyle;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
+	public static final fun NativeSplitButton-_w2l-jM (Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeMenu;Landroidx/compose/ui/Modifier;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonVariant;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonSize;ZZLio/github/apdelrahman1911/nativecomposekit/components/model/NativeIcon;Landroidx/compose/ui/unit/Dp;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonColors;Landroidx/compose/ui/text/TextStyle;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeInteropTouch;Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosOptions;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class io/github/apdelrahman1911/nativecomposekit/components/NativeStepperKt {
@@ -623,6 +623,25 @@ public final class io/github/apdelrahman1911/nativecomposekit/components/model/N
 	public final fun getBorder-0d7_KjU ()J
 	public final fun getContainer-0d7_KjU ()J
 	public final fun getContent-0d7_KjU ()J
+	public fun hashCode ()I
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosBackground : java/lang/Enum {
+	public static final field Automatic Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosBackground;
+	public static final field Glass Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosBackground;
+	public static final field ProminentGlass Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosBackground;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosBackground;
+	public static fun values ()[Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosBackground;
+}
+
+public final class io/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosOptions {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosBackground;)V
+	public synthetic fun <init> (Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosBackground;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBackground ()Lio/github/apdelrahman1911/nativecomposekit/components/model/NativeButtonIosBackground;
 	public fun hashCode ()I
 }
 

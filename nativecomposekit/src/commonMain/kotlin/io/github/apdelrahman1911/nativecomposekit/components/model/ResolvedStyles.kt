@@ -50,6 +50,8 @@ internal data class ResolvedButtonStyle(
     /** Gap between a leading/trailing icon and the label (from NativeTokens.spacingSm). */
     val iconSpacing: Dp,
     val textStyle: TextStyle,
+    /** iOS background treatment (Liquid Glass opt-in); Android and pre-26 iOS render [NativeButtonIosBackground.Automatic]. */
+    val iosBackground: NativeButtonIosBackground = NativeButtonIosBackground.Automatic,
 )
 
 /**

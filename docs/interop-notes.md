@@ -110,6 +110,9 @@ fix (re-queue on skipped presents, no dedup of undelivered rects) is engine-leve
 
 ## Practical guidance
 
+- Liquid Glass buttons (`ios = NativeButtonIosOptions(background = Glass/ProminentGlass)`) are
+  overlay-placed by construction — the glass must sit above the canvas to refract it — so the overlay
+  drift trade in §1 applies to them while scrolling.
 - Don't put many menu-bearing buttons in a long scroll if the post-open drift would be noticeable;
   prefer a non-menu action or present the menu from a fixed bar.
 - For sheet-style content use `NativeSheet` (a real `UISheetPresentationController`) rather than

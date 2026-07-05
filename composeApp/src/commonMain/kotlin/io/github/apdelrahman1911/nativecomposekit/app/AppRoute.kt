@@ -53,6 +53,11 @@ sealed interface AppRoute : NativeRoute {
         override val id = "debug/interop-repro"
     }
 
+    /** Debug screen: Liquid Glass buttons refracting live content (device-verified iOS 26 behavior). */
+    data object LiquidGlassDemo : AppRoute {
+        override val id = "debug/liquid-glass"
+    }
+
     /** Debug screen: the interop-churn regression harness (AnimatedVisibility collapse of native leaves). */
     data object InteropChurn : AppRoute {
         override val id = "debug/interop-churn"

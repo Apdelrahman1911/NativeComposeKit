@@ -30,6 +30,7 @@ fun SettingsScreen(
     onOpenComponentMatrix: () -> Unit = {},
     onOpenInteropRepro: () -> Unit = {},
     onOpenInteropChurn: () -> Unit = {},
+    onOpenLiquidGlass: () -> Unit = {},
     onOpenChromeDemo: () -> Unit = {},
     onOpenToolbarStyles: () -> Unit = {},
 ) {
@@ -69,6 +70,13 @@ fun SettingsScreen(
                         "iOS interop repro",
                         supporting = "Raw UIKitView scroll clip/drift, UIMenu drift, Dialog first-frame (iOS-only)",
                         onClick = onOpenInteropRepro,
+                    )
+                },
+                {
+                    NativeListItem(
+                        "Liquid glass buttons",
+                        supporting = "Glass and prominent-glass NativeButtons refracting auto-scrolling content (iOS 26)",
+                        onClick = onOpenLiquidGlass,
                     )
                 },
                 {
