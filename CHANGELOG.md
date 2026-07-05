@@ -7,6 +7,8 @@ changes; the public surface is ABI-locked per release via binary-compatibility-v
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-07-05
+
 ### Added
 
 - **Per-screen chrome behavior** — `NativeBarConfig` (`hidesTopBar`, `hidesTabBar`, per-screen
@@ -48,4 +50,5 @@ First public release.
   behavior notes with upstream issue references, and per-component references with platform capability
   tables.
 
+[0.2.0]: https://github.com/Apdelrahman1911/NativeComposeKit/releases/tag/v0.2.0
 [0.1.0]: https://github.com/Apdelrahman1911/NativeComposeKit/releases/tag/v0.1.0
