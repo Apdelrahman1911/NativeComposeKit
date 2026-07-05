@@ -85,7 +85,7 @@ Releases publish to **Maven Central** as `io.github.apdelrahman1911:nativecompos
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.apdelrahman1911:nativecomposekit:0.2.0")
+            implementation("io.github.apdelrahman1911:nativecomposekit:0.2.1")
         }
     }
 }

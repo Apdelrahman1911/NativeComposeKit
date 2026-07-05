@@ -7,6 +7,21 @@ changes; the public surface is ABI-locked per release via binary-compatibility-v
 
 ## [Unreleased]
 
+## [0.2.1] — 2026-07-05
+
+### Fixed
+
+- **iOS: ghost / doubled / stale native controls after interop churn.** Compose Multiplatform queues
+  every UIKit-side interop mutation (insert, position update, removal, `onRelease`) into a transaction
+  executed only when the next rendered frame is presented; a frame dropped at the wrong moment loses
+  those mutations for good, and with the kit's overlay placement a lost removal stayed **visible** — a
+  control lingering after its row collapsed, doubling when a lazy item was recreated, or sitting at a
+  stale position. Every kit-hosted `UIKitView` now detaches its native view **synchronously** at node
+  disposal (`InteropDisposeFailSafe`), which eliminates the persistent ghost/double classes; lost
+  position updates of still-composed views remain upstream behavior and self-correct on the next layout
+  change. Reproduced and verified on the sample app's new **"Interop churn test"** screen
+  (Settings → Developer) under appearance-flip frame pressure.
+
 ## [0.2.0] — 2026-07-05
 
 ### Added
@@ -50,5 +65,6 @@ First public release.
   behavior notes with upstream issue references, and per-component references with platform capability
   tables.
 
+[0.2.1]: https://github.com/ukkkera/NativeComposeKit/releases/tag/v0.2.1
 [0.2.0]: https://github.com/ukkkera/NativeComposeKit/releases/tag/v0.2.0
 [0.1.0]: https://github.com/ukkkera/NativeComposeKit/releases/tag/v0.1.0
