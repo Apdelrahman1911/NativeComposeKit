@@ -69,6 +69,7 @@ internal actual fun PlatformNativeText(
         val layoutDirection = LocalLayoutDirection.current
         val mirroredText = AnnotatedString(text) // captured before the semantics scope shadows `text`
         DynamicTypeRemeasureEffect(remeasure) // live text-size changes rescale glyphs; re-measure the host
+        InteropDisposeFailSafe(label) // synchronous ghost-kill; see UiKitInterop.ios.kt
         UIKitView(
             factory = { label },
             // The UILabel is display-only, so the interop node stays out of gesture arbitration

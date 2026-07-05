@@ -54,6 +54,34 @@ don't scroll, so overlay's drift trade-off doesn't apply here.
 
 Upstream: [CMP-10400](https://youtrack.jetbrains.com/issue/CMP-10400). Related: CMP-7509, CMP-8114.
 
+## 4. Deferred interop transactions can drop mutations (ghost / doubled / stale controls)
+
+Every UIKit-side interop mutation — inserting a view, **every frame/position update**, the final
+removal, and the `onRelease` callback — is queued into an internal CMP transaction
+(`UIKitInteropMutableTransaction`) and executed only when the next rendered Compose frame is actually
+**presented**. A transaction retrieved for a frame that never presents (a dropped frame or display-link
+hiccup — easy to hit during layout storms: an appearance flip, `AnimatedVisibility` churn inside lazy
+items) is discarded without re-queueing, while Compose's own bookkeeping has already moved on. A
+per-holder rect cache compounds it: a lost position update is deduped against a rect the view never
+received, so it is never re-sent.
+
+The failure is placement-asymmetric. With cut-out placement a leaked view hides behind the opaque
+canvas — invisible. With the kit's **overlay** placement (`scrollSafeInteropProperties`) the identical
+loss is fully visible: **ghost controls** hanging in the window after their row collapsed, **doubled
+controls** when a lazy item is recreated (old removal lost + new instance inserted), **stale positions**
+after rows shift. Reproduced deterministically on the sample app's **Settings → Developer → "Interop
+churn test"** screen by flipping light/dark appearance while it auto-cycles.
+
+**Kit mitigation (`InteropDisposeFailSafe`, applied beside every `UIKitView` the kit hosts):** a
+`DisposableEffect` detaches the factory root synchronously at node disposal. `onDispose` runs in the
+composition apply pass — it does not ride the losable transaction — so the control leaves the window the
+moment its node is disposed, whatever happens to the queued container cleanup. This kills the
+*permanent* artifact classes (ghosts, doubles) deterministically. Lost *position* updates of
+still-composed views remain a CMP-level issue with no clean external fix: they self-correct on the next
+layout change of that node (next animation frame, scroll, or churn cycle), so they can only appear as a
+transient lag under extreme frame pressure, not as a settled corruption. Worth an upstream report —
+overlay placement is experimental in CMP 1.10/1.11.
+
 ## Practical guidance
 
 - Don't put many menu-bearing buttons in a long scroll if the post-open drift would be noticeable;

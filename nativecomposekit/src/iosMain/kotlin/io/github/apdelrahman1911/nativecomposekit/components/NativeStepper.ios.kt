@@ -85,6 +85,7 @@ internal actual fun PlatformNativeStepper(
     val remeasure = rememberUIKitInteropRemeasureRequester()
     val sizeFp = remember { InteropSizeFingerprint() }
 
+    InteropDisposeFailSafe(backing) // synchronous ghost-kill; see UiKitInterop.ios.kt
     UIKitView(
         factory = {
             backing.pinFilling(control)

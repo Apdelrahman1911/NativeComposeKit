@@ -34,6 +34,7 @@ fun appRouteTitle(route: NativeRoute): String = when (route) {
     is AppRoute.GlassInteropTest -> "Interop test"
     is AppRoute.ComponentMatrix -> "Component matrix"
     is AppRoute.InteropRepro -> "iOS interop repro"
+    is AppRoute.InteropChurn -> "Interop churn"
     is AppRoute.ChromeDemo -> "Chrome demo"
     is AppRoute.ToolbarStyles -> "Toolbar styles"
     is AppRoute.ImmersiveDemo -> "Immersive"
@@ -78,6 +79,7 @@ fun appNavGraph(navigator: NativeNavigator): NativeNavGraph = nativeNavGraph {
         SettingsScreen(
             onOpenComponentMatrix = { navigator.push(AppRoute.ComponentMatrix) },
             onOpenInteropRepro = { navigator.push(AppRoute.InteropRepro) },
+            onOpenInteropChurn = { navigator.push(AppRoute.InteropChurn) },
             onOpenChromeDemo = { navigator.push(AppRoute.ChromeDemo) },
             onOpenToolbarStyles = { navigator.push(AppRoute.ToolbarStyles) },
         )
@@ -89,6 +91,7 @@ fun appNavGraph(navigator: NativeNavigator): NativeNavGraph = nativeNavGraph {
     }
     screen<AppRoute.ImmersiveDemo> { ImmersiveDemoScreen(onBack = { navigator.pop() }) }
     screen<AppRoute.InteropRepro> { InteropReproScreen() }
+    screen<AppRoute.InteropChurn> { InteropChurnScreen() }
     screen<AppRoute.CatalogRoot> {
         ShowcaseHomeScreen(onOpenCategory = { key -> navigator.push(AppRoute.Showcase(key)) })
     }

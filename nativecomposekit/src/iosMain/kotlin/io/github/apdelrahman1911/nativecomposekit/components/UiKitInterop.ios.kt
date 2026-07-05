@@ -1,6 +1,7 @@
 package io.github.apdelrahman1911.nativecomposekit.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
@@ -199,6 +200,40 @@ internal fun scrollSafeInteropProperties(
         placedAsOverlay = true,
         isNativeAccessibilityEnabled = nativeAccessibility,
     )
+
+/**
+ * Dispose-time fail-safe for every interop view the kit hosts, closing a CMP 1.11 overlay-interop hazard:
+ * ALL UIKit-side interop mutations — insertion, every frame/position update, the final removal, and even
+ * the `onRelease` callback — are queued into an internal `UIKitInteropMutableTransaction` and executed
+ * only when the next rendered Compose frame is actually presented. A transaction retrieved for a frame
+ * that never presents (dropped frame / display-link hiccup — easy to hit during layout storms like an
+ * appearance flip or AnimatedVisibility churn in a lazy list) is discarded WITHOUT re-queueing, while the
+ * Kotlin-side bookkeeping has already moved on — so the queued `removeFromSuperview` never happens and a
+ * per-holder rect cache means a lost position update is never re-sent either. With cut-out placement such
+ * a leak hides behind the opaque canvas; with the kit's overlay placement ([scrollSafeInteropProperties])
+ * it is fully visible: ghost controls hanging in the window, doubled controls when a lazy item is
+ * recreated, stale positions after rows settle. Reproduced deterministically by the sample app's
+ * "Interop churn" screen under an appearance flip.
+ *
+ * `DisposableEffect.onDispose` runs synchronously in the composition apply pass — it does NOT ride the
+ * losable transaction — so detaching the factory [root] here guarantees the control leaves the window the
+ * moment its node is disposed, whatever happens to the queued container cleanup. Idempotent against the
+ * normal path: CMP's own deferred removal targets its wrapper view, not [root], and removing an already
+ * removed view is a no-op. Lost *position* updates of still-composed views remain a CMP-level issue (they
+ * self-correct on the next layout change); the permanent artifacts — ghosts and doubles — die here.
+ *
+ * Call it next to the `UIKitView` whose factory returns [root]. Must NOT be combined with `onReset`-based
+ * view reuse (the kit uses none): a reused node's root would never be re-attached.
+ */
+@Composable
+internal fun InteropDisposeFailSafe(root: UIView) {
+    DisposableEffect(root) {
+        onDispose {
+            root.hidden = true
+            root.removeFromSuperview()
+        }
+    }
+}
 
 /**
  * Sets the native `accessibilityIdentifier` (maps from `testTag`, for UI tests) via KVC. We use KVC

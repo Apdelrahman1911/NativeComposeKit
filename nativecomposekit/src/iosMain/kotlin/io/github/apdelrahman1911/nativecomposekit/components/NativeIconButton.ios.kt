@@ -55,6 +55,7 @@ internal actual fun PlatformNativeIconButton(
 
     val sizeFp = remember { InteropSizeFingerprint() }
 
+    InteropDisposeFailSafe(backing) // synchronous ghost-kill; see UiKitInterop.ios.kt
     UIKitView(
         factory = {
             views.build(style.iconSpacing.value.toDouble(), centered = true)

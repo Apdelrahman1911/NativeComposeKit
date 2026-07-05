@@ -86,6 +86,7 @@ internal actual fun PlatformNativeToggle(
     val backingColor = interopBackingColor()
     val sizeFp = remember { InteropSizeFingerprint() }
 
+    InteropDisposeFailSafe(backing) // synchronous ghost-kill; see UiKitInterop.ios.kt
     UIKitView(
         factory = {
             backing.pinFilling(control)

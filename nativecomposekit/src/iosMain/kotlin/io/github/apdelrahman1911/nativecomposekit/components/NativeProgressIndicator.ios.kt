@@ -71,6 +71,7 @@ private fun IosSpinner(
     // and overlay-placed like every pinFilling-backed control so scrolling doesn't clip the backing.
     var m = modifier.remeasureRequester(remeasure)
     contentDescription?.let { cd -> m = m.semantics { this.contentDescription = cd } }
+    InteropDisposeFailSafe(backing) // synchronous ghost-kill; see UiKitInterop.ios.kt
     UIKitView(
         factory = {
             backing.pinFilling(spinner.also { it.startAnimating() })
@@ -110,6 +111,7 @@ private fun IosProgressBar(
         .remeasureRequester(remeasure)
         .progressSemantics(value = progress.coerceIn(0f, 1f))
     contentDescription?.let { cd -> m = m.semantics { this.contentDescription = cd } }
+    InteropDisposeFailSafe(backing) // synchronous ghost-kill; see UiKitInterop.ios.kt
     UIKitView(
         factory = {
             bar.progressViewStyle = UIProgressViewStyle.UIProgressViewStyleDefault

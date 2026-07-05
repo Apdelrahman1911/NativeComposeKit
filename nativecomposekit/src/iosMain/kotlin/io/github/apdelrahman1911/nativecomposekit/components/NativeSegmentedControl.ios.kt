@@ -108,6 +108,7 @@ internal actual fun PlatformNativeSegmentedControl(
     // per-frame update re-runs (scrolling changes bounds) don't re-derive them every frame.
     val styleFp = remember { InteropSizeFingerprint() }
 
+    InteropDisposeFailSafe(backing) // synchronous ghost-kill; see UiKitInterop.ios.kt
     UIKitView(
         factory = {
             // Seed the segments + styling the first update would apply: the first Compose measure runs

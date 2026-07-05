@@ -29,6 +29,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextSty
 fun SettingsScreen(
     onOpenComponentMatrix: () -> Unit = {},
     onOpenInteropRepro: () -> Unit = {},
+    onOpenInteropChurn: () -> Unit = {},
     onOpenChromeDemo: () -> Unit = {},
     onOpenToolbarStyles: () -> Unit = {},
 ) {
@@ -68,6 +69,13 @@ fun SettingsScreen(
                         "iOS interop repro",
                         supporting = "Raw UIKitView scroll clip/drift, UIMenu drift, Dialog first-frame (iOS-only)",
                         onClick = onOpenInteropRepro,
+                    )
+                },
+                {
+                    NativeListItem(
+                        "Interop churn test",
+                        supporting = "Auto-collapsing native controls in a lazy list — ghost/double regression harness",
+                        onClick = onOpenInteropChurn,
                     )
                 },
                 {

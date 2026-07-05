@@ -53,6 +53,11 @@ sealed interface AppRoute : NativeRoute {
         override val id = "debug/interop-repro"
     }
 
+    /** Debug screen: the interop-churn regression harness (AnimatedVisibility collapse of native leaves). */
+    data object InteropChurn : AppRoute {
+        override val id = "debug/interop-churn"
+    }
+
     /**
      * Debug screen: the navigation-chrome customization demo. Its `NativeBarConfig` (see `appBarConfig`)
      * hides the tab bar while pushed and, on iOS, carries a per-screen bar action; the screen's content

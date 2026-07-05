@@ -336,6 +336,7 @@ private fun SingleLineField(
     // accessibility sizes clip inside it. Compose surfaces the preferred content size as Density.fontScale.
     val hostHeight = style.minHeight * maxOf(1f, LocalDensity.current.fontScale)
 
+    InteropDisposeFailSafe(backing) // synchronous ghost-kill; see UiKitInterop.ios.kt
     UIKitView(
         factory = {
             backing.pinFilling(field)
@@ -451,6 +452,7 @@ private fun MultilineField(
     val computedHeight = (lineHeightPoints * input.minLines.coerceAtLeast(1) + 2 * V_PADDING).toFloat().dp
     val minHeight = maxOf(style.minHeight, computedHeight)
 
+    InteropDisposeFailSafe(backing) // synchronous ghost-kill; see UiKitInterop.ios.kt
     UIKitView(
         factory = {
             textView.addSubview(placeholderLabel)

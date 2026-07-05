@@ -65,6 +65,7 @@ internal actual fun PlatformNativeSplitButton(
 
     val sizeFp = remember { InteropSizeFingerprint() }
 
+    InteropDisposeFailSafe(backing) // synchronous ghost-kill; see UiKitInterop.ios.kt
     UIKitView(
         factory = {
             primary.build(style.iconSpacing.value.toDouble(), centered = false)

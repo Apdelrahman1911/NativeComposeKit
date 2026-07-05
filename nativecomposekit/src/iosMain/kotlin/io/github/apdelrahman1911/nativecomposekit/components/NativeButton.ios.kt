@@ -64,6 +64,7 @@ internal actual fun PlatformNativeButton(
     val trailGlyph = trailingIcon?.sfSymbolName ?: if (menu != null) "chevron.down" else null
     val sizeFp = remember { InteropSizeFingerprint() }
 
+    InteropDisposeFailSafe(backing) // synchronous ghost-kill; see UiKitInterop.ios.kt
     UIKitView(
         factory = {
             views.build(style.iconSpacing.value.toDouble())
