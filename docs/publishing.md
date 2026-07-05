@@ -26,7 +26,10 @@ io.github.apdelrahman1911 : nativecomposekit : <version>
 
 - **Group `io.github.apdelrahman1911` is load-bearing** — Central Portal verifies `io.github.*` namespaces
   against the GitHub account, so it must equal the repo owner's GitHub username
-  ([github.com/Apdelrahman1911](https://github.com/Apdelrahman1911)), lowercased. Do not "fix" the spelling.
+  (`Apdelrahman1911` at claim time), lowercased. Do not "fix" the spelling. The GitHub account has since
+  been renamed to [`ukkkera`](https://github.com/ukkkera) — that does NOT change the namespace: an
+  `io.github.*` namespace is verified once in the Portal and stays claimed; published coordinates never
+  change. Old `github.com/Apdelrahman1911/...` links redirect while the old username stays unregistered.
 - Artifact id = the Gradle module name (`nativecomposekit`). The KMP plugin derives per-target artifacts
   from it (`nativecomposekit-android`, `nativecomposekit-iosarm64`, `nativecomposekit-iossimulatorarm64`).
 - Version lives in `nativecomposekit/build.gradle.kts` (`version = "0.1.0"`).
@@ -53,7 +56,7 @@ io.github.apdelrahman1911 : nativecomposekit : <version>
 Owner-only steps; nothing here touches the repo.
 
 1. **Central Portal account** — sign up at [central.sonatype.com](https://central.sonatype.com), ideally
-   **Sign in with GitHub** (as the `Apdelrahman1911` account).
+   **Sign in with GitHub** (the account that owns the namespace — renamed `ukkkera`, formerly `Apdelrahman1911`).
 2. **Namespace** — add namespace `io.github.apdelrahman1911`. With GitHub sign-in it verifies
    automatically; otherwise the Portal shows a verification key and you create a public GitHub repo named
    exactly that key to prove ownership. Wait for the namespace to show **Verified**.

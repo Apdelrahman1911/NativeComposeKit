@@ -1,15 +1,24 @@
 # NativeComposeKit
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.apdelrahman1911/nativecomposekit?label=Maven%20Central&color=blue)](https://central.sonatype.com/artifact/io.github.apdelrahman1911/nativecomposekit)
+[![CI](https://github.com/ukkkera/NativeComposeKit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ukkkera/NativeComposeKit/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-93450a.svg)](LICENSE)
+![Kotlin](https://img.shields.io/badge/Kotlin-2.3.21-7F52FF?logo=kotlin&logoColor=white)
+![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.11.0-4285F4)
+![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS-34A853)
+
 A Compose Multiplatform UI kit for Android and iOS. You call one shared component API from
 `commonMain`, and each platform renders with the most native widget available: Jetpack Compose
 Material 3 on Android, real UIKit controls on iOS. A `NativeToggle` is a `Switch` on Android and a
 `UISwitch` on iOS; a `NativeSegmentedControl` is a `UISegmentedControl` on iOS. The shared code stays
 the same — the rendering doesn't pretend.
 
-![Android catalog — native Material 3 rendering](docs/android-catalog.png)
-
-> The shared catalog running on Android with Material 3. The same `commonMain` code renders with real
-> UIKit controls on iOS.
+<p align="center">
+  <img src="docs/media/catalog-android.png" width="262" alt="Android — Material 3" />
+  <img src="docs/media/catalog-ios-light.png" width="262" alt="iOS — real UIKit chrome, light" />
+  <img src="docs/media/catalog-ios-dark.png" width="262" alt="iOS — real UIKit chrome, dark" />
+</p>
+<p align="center"><sub>The same <code>commonMain</code> screen — Material&nbsp;3 on Android&ensp;·&ensp;real UIKit chrome and controls on iOS, light and dark.</sub></p>
 
 ## The idea
 

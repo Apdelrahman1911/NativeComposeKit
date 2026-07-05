@@ -50,5 +50,5 @@ First public release.
   behavior notes with upstream issue references, and per-component references with platform capability
   tables.
 
-[0.2.0]: https://github.com/Apdelrahman1911/NativeComposeKit/releases/tag/v0.2.0
-[0.1.0]: https://github.com/Apdelrahman1911/NativeComposeKit/releases/tag/v0.1.0
+[0.2.0]: https://github.com/ukkkera/NativeComposeKit/releases/tag/v0.2.0
+[0.1.0]: https://github.com/ukkkera/NativeComposeKit/releases/tag/v0.1.0

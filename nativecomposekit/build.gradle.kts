@@ -25,7 +25,8 @@ plugins {
 
 // Published coordinates: io.github.apdelrahman1911:nativecomposekit:<version> — the group MUST stay
 // `io.github.apdelrahman1911` verbatim: Central Portal namespace ownership is verified against the GitHub
-// username (github.com/Apdelrahman1911), lowercased. These coordinates also make Gradle composite-build
+// username at claim time (Apdelrahman1911; the account is now github.com/ukkkera — a rename never moves a
+// claimed namespace). These coordinates also make Gradle composite-build
 // substitution work (`includeBuild(...)` in a consumer maps this module onto them), and
 // `publishToMavenLocal` produces the full consumable artifact set locally.
 group = "io.github.apdelrahman1911"
@@ -149,7 +150,7 @@ mavenPublishing {
             "Compose Multiplatform UI kit: one shared component API, rendered with Material 3 on " +
                 "Android and real UIKit controls on iOS.",
         )
-        url.set("https://github.com/Apdelrahman1911/NativeComposeKit")
+        url.set("https://github.com/ukkkera/NativeComposeKit")
         licenses {
             license {
                 name.set("The Apache License, Version 2.0")
@@ -160,13 +161,13 @@ mavenPublishing {
             developer {
                 id.set("Apdelrahman1911")
                 name.set("Apdelrahman1911")
-                url.set("https://github.com/Apdelrahman1911")
+                url.set("https://github.com/ukkkera")
             }
         }
         scm {
-            url.set("https://github.com/Apdelrahman1911/NativeComposeKit")
-            connection.set("scm:git:https://github.com/Apdelrahman1911/NativeComposeKit.git")
-            developerConnection.set("scm:git:https://github.com/Apdelrahman1911/NativeComposeKit.git")
+            url.set("https://github.com/ukkkera/NativeComposeKit")
+            connection.set("scm:git:https://github.com/ukkkera/NativeComposeKit.git")
+            developerConnection.set("scm:git:https://github.com/ukkkera/NativeComposeKit.git")
         }
     }
 }
