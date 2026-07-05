@@ -1,7 +1,10 @@
 package io.github.apdelrahman1911.nativecomposekit.app
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -16,6 +19,10 @@ import platform.UIKit.NSForegroundColorAttributeName
 import platform.UIKit.UIBarButtonItem
 import platform.UIKit.UIBarButtonItemStyle
 import platform.UIKit.UIColor
+import platform.Foundation.NSNumber
+import platform.Foundation.NSSelectorFromString
+import platform.Foundation.numberWithBool
+import platform.Foundation.setValue
 import platform.UIKit.UIImage
 import platform.UIKit.UINavigationBar
 import platform.UIKit.UINavigationBarAppearance
@@ -30,6 +37,25 @@ import platform.UIKit.labelColor
 // Preview-local Color→UIColor bridge (the kit's converter is internal by design).
 private fun Color.toPreviewUIColor(): UIColor =
     UIColor(red = red.toDouble(), green = green.toDouble(), blue = blue.toDouble(), alpha = alpha.toDouble())
+
+// iOS 26 wraps every UIBarButtonItem (even custom-view ones) in a Liquid Glass capsule; a standalone
+// clipped preview bar gives the capsule's backdrop sampling nothing to sample, so it degrades into a
+// washed-out disc. UIKit's per-item opt-out is `hidesSharedBackground` — set via KVC behind a selector
+// check so this still compiles/runs against pre-26 SDK bindings. Previews therefore show the classic
+// flat icons; the app's real bars and the live pushed demos show the true glass treatment.
+@OptIn(ExperimentalForeignApi::class)
+private fun flatPreviewItem(symbol: String): UIBarButtonItem {
+    val item = UIBarButtonItem(
+        image = UIImage.systemImageNamed(symbol),
+        style = UIBarButtonItemStyle.UIBarButtonItemStylePlain,
+        target = null,
+        action = null,
+    )
+    if (item.respondsToSelector(NSSelectorFromString("setHidesSharedBackground:"))) {
+        item.setValue(NSNumber.numberWithBool(true), forKey = "hidesSharedBackground")
+    }
+    return item
+}
 
 /**
  * A real `UINavigationBar` as an inline, non-interactive preview. Raw `UIKitView` on purpose (display-only
@@ -49,7 +75,16 @@ actual fun IosNavBarPreview(
     hairline: Boolean,
 ) {
     val bar = remember { UINavigationBar() }
-    UIKitView(
+    // The 44pt bar sits centered in a padded frame; for a Custom background the frame is painted in the
+    // same color, so the preview block has even breathing room above AND below the bar content.
+    val frameModifier =
+        if (background == IosPreviewBackground.Custom && customBackground != null) {
+            modifier.fillMaxWidth().background(customBackground)
+        } else {
+            modifier.fillMaxWidth()
+        }
+    Box(frameModifier.padding(vertical = 10.dp)) {
+        UIKitView(
         factory = {
             bar.userInteractionEnabled = false
             // A standalone UINavigationBar paints its background UPWARD past its bounds (the status-bar
@@ -57,7 +92,7 @@ actual fun IosNavBarPreview(
             bar.clipsToBounds = true
             bar
         },
-        modifier = modifier.fillMaxWidth().height(44.dp),
+        modifier = Modifier.fillMaxWidth().height(44.dp),
         properties = UIKitInteropProperties(interactionMode = null, placedAsOverlay = true),
         update = { _ ->
             val appearance = UINavigationBarAppearance()
@@ -84,21 +119,14 @@ actual fun IosNavBarPreview(
             tint?.let { bar.tintColor = it.toPreviewUIColor() }
 
             val item = UINavigationItem(title = title)
-            item.rightBarButtonItems = actionSymbols.map { symbol ->
-                UIBarButtonItem(
-                    image = UIImage.systemImageNamed(symbol),
-                    style = UIBarButtonItemStyle.UIBarButtonItemStylePlain,
-                    target = null,
-                    action = null,
-                )
-            }
+            item.rightBarButtonItems = actionSymbols.map { symbol -> flatPreviewItem(symbol) }
             if (showsBack) {
-                bar.setItems(listOf(UINavigationItem(title = "Back"), item), animated = false)
-            } else {
-                bar.setItems(listOf(item), animated = false)
+                item.leftBarButtonItems = listOf(flatPreviewItem("chevron.left"))
             }
+            bar.setItems(listOf(item), animated = false)
         },
-    )
+        )
+    }
 }
 
 /** A real `UITabBar` as an inline, non-interactive preview. */
