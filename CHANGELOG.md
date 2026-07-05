@@ -7,6 +7,19 @@ changes; the public surface is ABI-locked per release via binary-compatibility-v
 
 ## [Unreleased]
 
+### Added
+
+- **Per-screen chrome behavior** — `NativeBarConfig` (`hidesTopBar`, `hidesTabBar`, per-screen
+  `actions`) carried on `NativeChromeEntry.bar`, so any host can drive per-screen bar visibility and
+  native toolbar actions through the existing chrome projection. Defaults unchanged; fully opt-in.
+- **iOS shell style registry** — `NativeShellStyle` + `applyNativeShellStyle()` (iosMain): themed /
+  system-material / custom bar backgrounds, global tint, tab-item selected/unselected colors, title
+  font, and hairline visibility for the native `UINavigationBar`/`UITabBar` chrome, with
+  `nativeShell…UIColor` resolvers for Swift shells.
+- The sample app gained Compose-side bar slots + restylable defaults (`NativeNavDefaults`) and a
+  "Navigation toolbar styles" catalog (Settings → Developer) demonstrating the full customization
+  surface on both platforms, including documented limitations.
+
 ## [0.1.0] — 2026-07-04
 
 First public release.

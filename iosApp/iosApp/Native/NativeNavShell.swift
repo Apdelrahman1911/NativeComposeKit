@@ -28,7 +28,6 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
     private var expectedEntries: [String: [String]] = [:]
     private var isApplying = false
     private var syncScheduled = false
-    private var actionIdByTag: [Int: String] = [:]
 
     private var presentedSheet: UIViewController?
     private var presentedSheetId: String?
@@ -93,8 +92,7 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
             let nav = navsByTab[tab.id] ?? {
                 let nav = UINavigationController()
                 nav.delegate = self
-                nav.navigationBar.prefersLargeTitles = false
-                configureNavBarAppearance(nav.navigationBar)
+                configureNavBarAppearance(nav.navigationBar) // owns prefersLargeTitles (style master switch)
                 // The transition container backdrop: visible in the gaps while views move. Themed so no
                 // system default (black/grey) can peek through or be sampled mid-transition.
                 nav.view.backgroundColor = UIColor { traits in
@@ -132,18 +130,24 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
             // Entry ids are unique per STACK, not per app — the same route id may live on two tabs, and each
             // needs its own controller (one UIViewController can never sit in two navigation stacks).
             let hostKey = "\(tabId)|\(entry.id)"
+            let host: RouteHostController
             if let existing = hostsByEntry[hostKey] {
-                existing.navigationItem.title = entry.title
-                target.append(existing)
+                host = existing
             } else {
                 guard let content = root.chrome.contentViewController(entryId: entry.id) else {
                     NSLog("NCK-Shell: no content for entry '%@' (stale projection) — deferring tab '%@'", entry.id, tabId)
                     return
                 }
-                let host = RouteHostController(entryId: entry.id, title: entry.title, content: content)
+                host = RouteHostController(entryId: entry.id, title: entry.title, content: content)
                 hostsByEntry[hostKey] = host
-                target.append(host)
             }
+            // Per-entry chrome must land BEFORE the mutations below: UIKit reads `hidesBottomBarWhenPushed`
+            // AT PUSH TIME (setting it after the push means the tab bar never hides), and navigationItem
+            // changes once a transition has started re-lay the bar mid-animation.
+            host.navigationItem.title = entry.title
+            host.hidesBottomBarWhenPushed = entry.bar.hidesTabBar
+            applyActions(entry, to: host, state: state, tabId: tabId)
+            target.append(host)
         }
 
         let current = nav.viewControllers.compactMap { $0 as? RouteHostController }
@@ -166,31 +170,39 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
         expectedEntries[tabId] = targetIds // in lockstep with the mutation, never from didShow
         isApplying = false
 
-        applyActions(state, to: target, tabId: tabId)
+        // Top-bar visibility follows the TOP entry. Applied here (at apply/settle time, animated when
+        // visible) rather than mid-gesture: a cancelled interactive pop then needs no compensation —
+        // no state change, no sync, no bar flicker.
+        if let topEntry = entries.last, nav.isNavigationBarHidden != topEntry.bar.hidesTopBar {
+            nav.setNavigationBarHidden(topEntry.bar.hidesTopBar, animated: visible)
+        }
         purgeHosts(state)
     }
 
-    /// Right-bar actions apply to EVERY entry of the selected tab (each `navigationItem` needs its own
-    /// item instances): during an interactive pop UIKit cross-fades between the two entries' bar items, so
-    /// the incoming entry's actions must already be correct mid-gesture. Items are rebuilt only when the
-    /// actions VALUE changes — replacing a live item resets its glass backing, which then re-renders through
-    /// its dark "not sampled yet" fallback for a frame (the plus-button flash).
-    private func applyActions(_ state: NativeChromeState, to hosts: [RouteHostController], tabId: String) {
-        guard tabId == state.selectedTabId else { return }
-        actionIdByTag = Dictionary(uniqueKeysWithValues: state.actions.enumerated().map { ($0, $1.id) })
-        for host in hosts {
-            let unchanged = host.appliedActions.count == state.actions.count
-                && zip(host.appliedActions, state.actions).allSatisfy { $0.isEqual($1) }
-            if unchanged { continue }
-            host.navigationItem.rightBarButtonItems = state.actions.enumerated().map { (i, action) in
-                let b = UIBarButtonItem(
-                    image: UIImage(systemName: action.sfSymbol),
-                    style: .plain, target: self, action: #selector(actionTapped(_:)))
-                b.tag = i
-                return b
-            }
-            host.appliedActions = state.actions
+    /// One entry's right-bar items. Per-SCREEN actions (`entry.bar.actions`) win; a screen without its own
+    /// falls back to the tab-scoped actions (the pre-config behavior, so existing sources look identical).
+    /// Each item carries its id in its own `UIAction` — no shared tag table, so two screens' actions can
+    /// never collide. Items are rebuilt only when the actions VALUE changes — replacing a live item resets
+    /// its glass backing, which re-renders through its dark "not sampled yet" fallback for a frame.
+    private func applyActions(_ entry: NativeChromeEntry, to host: RouteHostController, state: NativeChromeState, tabId: String) {
+        let actions: [NativeChromeAction]
+        let entryActions = entry.bar.actions
+        if !entryActions.isEmpty {
+            actions = entryActions
+        } else if tabId == state.selectedTabId {
+            actions = state.actions
+        } else {
+            return // background tab without per-entry actions: refreshed when it becomes selected
         }
+        let unchanged = host.appliedActions.count == actions.count
+            && zip(host.appliedActions, actions).allSatisfy { $0.isEqual($1) }
+        if unchanged { return }
+        host.navigationItem.rightBarButtonItems = actions.map { action in
+            UIBarButtonItem(primaryAction: UIAction(image: UIImage(systemName: action.sfSymbol)) { [weak self] _ in
+                self?.root.chrome.actionTapped(actionId: action.id)
+            })
+        }
+        host.appliedActions = actions
     }
 
     /// Drop hosts for entries no longer in their tab's projected stack (sync is deferred during transitions,
@@ -288,38 +300,73 @@ final class NativeShellViewController: UITabBarController, UINavigationControlle
         return false
     }
 
-    @objc private func actionTapped(_ sender: UIBarButtonItem) {
-        if let id = actionIdByTag[sender.tag] { root.chrome.actionTapped(actionId: id) }
-    }
-
     // MARK: - Appearance
 
-    /// OPAQUE, theme-colored bars — deliberately not the translucent default material. The bar's material
-    /// samples whatever is composited behind it, and during a navigation transition that is UIKit's dimmed
-    /// transition container: a translucent bar visibly darkens for the duration of every push/pop/interactive
-    /// swipe (full-width grey band over the status+bar strip) and snaps back on settle. Content never scrolls
-    /// under the top bar in this shell (screens are laid out below it), so translucency buys nothing here —
-    /// opaque in the same background color renders identically at rest and stays rock-stable mid-gesture.
+    /// Bar appearance from the kit's `NativeShellStyle` registry (applied by the app BEFORE the shell is
+    /// created; every default is today's exact look). The DEFAULT background stays OPAQUE, theme-colored —
+    /// deliberately not the translucent material: a translucent bar samples whatever is composited behind
+    /// it, and during a navigation transition that is UIKit's dimmed transition container, so it visibly
+    /// darkens mid-swipe. `SystemMaterial` is an explicit opt-in for apps that accept that trade-off.
     private func configureNavBarAppearance(_ navBar: UINavigationBar) {
+        let style = NativeShellStyleKt.nativeShellStyle()
         let nav = UINavigationBarAppearance()
-        nav.configureWithOpaqueBackground()
-        nav.backgroundColor = UIColor { traits in
-            NativeShellChromeKt.nativeBackgroundUIColor(dark: traits.userInterfaceStyle == .dark)
+        if style.barBackground == NativeShellBarBackground.systemmaterial { // K/N exports enum cases lowercased
+            nav.configureWithDefaultBackground()
+        } else {
+            nav.configureWithOpaqueBackground()
+            nav.backgroundColor = UIColor { traits in
+                NativeShellStyleKt.nativeShellBarBackgroundUIColor(dark: traits.userInterfaceStyle == .dark)
+            }
         }
-        nav.shadowColor = .clear // the themed background is seamless with content; no hairline at rest today
-        nav.titleTextAttributes = [.foregroundColor: UIColor.label]
-        nav.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
+        if !style.showsHairline { nav.shadowColor = .clear }
+        var titleAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.label]
+        if let font = style.titleFont { titleAttributes[.font] = font }
+        nav.titleTextAttributes = titleAttributes
         navBar.standardAppearance = nav
         navBar.compactAppearance = nav
         navBar.scrollEdgeAppearance = nav
         if #available(iOS 15.0, *) { navBar.compactScrollEdgeAppearance = nav }
+        if NativeShellStyleKt.nativeShellTintUIColor(dark: false) != nil {
+            navBar.tintColor = UIColor { traits in
+                NativeShellStyleKt.nativeShellTintUIColor(dark: traits.userInterfaceStyle == .dark) ?? .tintColor
+            }
+        }
+        // Compact titles only: large titles need content that UNDERLAPS the bar for UIKit to animate the
+        // mixed large<->compact bar-height change of an interactive pop, and this shell lays screens below
+        // the bar (see docs/native-chrome.md § Deferred: large titles).
+        navBar.prefersLargeTitles = false
     }
 
     private func configureTabBarAppearance() {
         let tab = UITabBarAppearance()
         tab.configureWithDefaultBackground()
+        let hasSelected = NativeShellStyleKt.nativeShellTabItemSelectedUIColor(dark: false) != nil
+        let hasUnselected = NativeShellStyleKt.nativeShellTabItemUnselectedUIColor(dark: false) != nil
+        if hasSelected || hasUnselected {
+            let selected = UIColor { traits in
+                NativeShellStyleKt.nativeShellTabItemSelectedUIColor(dark: traits.userInterfaceStyle == .dark) ?? .tintColor
+            }
+            let unselected = UIColor { traits in
+                NativeShellStyleKt.nativeShellTabItemUnselectedUIColor(dark: traits.userInterfaceStyle == .dark) ?? .secondaryLabel
+            }
+            for item in [tab.stackedLayoutAppearance, tab.inlineLayoutAppearance, tab.compactInlineLayoutAppearance] {
+                if hasSelected {
+                    item.selected.iconColor = selected
+                    item.selected.titleTextAttributes = [.foregroundColor: selected]
+                }
+                if hasUnselected {
+                    item.normal.iconColor = unselected
+                    item.normal.titleTextAttributes = [.foregroundColor: unselected]
+                }
+            }
+        }
         tabBar.standardAppearance = tab
         if #available(iOS 15.0, *) { tabBar.scrollEdgeAppearance = tab }
+        if NativeShellStyleKt.nativeShellTintUIColor(dark: false) != nil {
+            tabBar.tintColor = UIColor { traits in
+                NativeShellStyleKt.nativeShellTintUIColor(dark: traits.userInterfaceStyle == .dark) ?? .tintColor
+            }
+        }
     }
 
     // MARK: - Sheet

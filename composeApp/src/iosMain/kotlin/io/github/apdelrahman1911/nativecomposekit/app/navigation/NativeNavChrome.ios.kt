@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.runtime.CompositionLocalProvider
 import io.github.apdelrahman1911.nativecomposekit.app.LocalNativeContentBottomInset
+import io.github.apdelrahman1911.nativecomposekit.chrome.NativeBarConfig
 import io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeAction
 import io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeCancellable
 import io.github.apdelrahman1911.nativecomposekit.chrome.NativeChromeEntry
@@ -32,6 +33,9 @@ class NativeNavChrome(
     private val tabs: List<NativeChromeTab>,
     private val actionsForTab: (String) -> List<NativeChromeAction>,
     private val onAction: (String) -> Unit,
+    // Per-screen chrome behavior (bar visibility, large title, this screen's own actions) — the
+    // platform-neutral half of customization; appearance stays in each platform's own styling surface.
+    private val barConfigForRoute: (NativeRoute) -> NativeBarConfig = { NativeBarConfig.Default },
 ) : NativeChromeSource {
 
     override fun currentState(): NativeChromeState {
@@ -46,7 +50,9 @@ class NativeNavChrome(
             sheetId = state.sheet?.id,
             backTitle = stack.getOrNull(stack.size - 2)?.let(titleForRoute),
             backStacksByTab = state.tabs.associate { tab ->
-                tab.id to state.stackFor(tab).map { NativeChromeEntry(it.id, titleForRoute(it)) }
+                tab.id to state.stackFor(tab).map {
+                    NativeChromeEntry(it.id, titleForRoute(it), barConfigForRoute(it))
+                }
             },
         )
     }

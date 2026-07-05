@@ -37,23 +37,68 @@ public class NativeChromeAction(
 }
 
 /**
- * One back-stack entry as chrome may render it: a stable [id] (unique within its stack — renderers key on it)
- * and the [title] shown while that entry is on screen. This is still **display data, not a navigable stack**:
- * a shell may build one screen/bar item per entry and animate between them, but the only way it can change
- * navigation is the intent methods — it never mutates these lists. Compares by value.
+ * Per-screen chrome BEHAVIOR for one back-stack entry — the platform-neutral knobs that must travel with
+ * the entry itself (appearance stays per-platform: Compose parameters/slots on a Material host, the iOS
+ * shell style registry on UIKit). Everything defaults to today's behavior; a config is pure display data
+ * like the rest of the projection. Compares by value; not a `data class` so fields stay appendable
+ * binary-compatibly.
+ *
+ * - [hidesTopBar] / [hidesTabBar] — hide the navigation/tab bar while this entry is on top (immersive
+ *   readers, full-bleed media). Renderers animate the change with their platform's own transition.
+ * - [actions] — this entry's OWN top-bar actions (rendered as native bar button items by the iOS shell),
+ *   replacing the tab-scoped actions while the entry is on top. Empty = no per-screen actions.
+ *
+ * (A per-screen large-title opt-in was evaluated and deliberately NOT shipped: UIKit can only animate the
+ * mixed large↔compact bar-height change of an interactive pop over content that underlaps the bar, and the
+ * shell lays screens below it — see docs/native-chrome.md § Deferred: large titles.)
+ */
+@Immutable
+public class NativeBarConfig(
+    public val hidesTopBar: Boolean = false,
+    public val hidesTabBar: Boolean = false,
+    public val actions: List<NativeChromeAction> = emptyList(),
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NativeBarConfig) return false
+        return hidesTopBar == other.hidesTopBar &&
+            hidesTabBar == other.hidesTabBar &&
+            actions == other.actions
+    }
+
+    override fun hashCode(): Int {
+        var result = hidesTopBar.hashCode()
+        result = 31 * result + hidesTabBar.hashCode()
+        result = 31 * result + actions.hashCode()
+        return result
+    }
+
+    public companion object {
+        /** Today's behavior: bars visible, no per-screen actions. */
+        public val Default: NativeBarConfig = NativeBarConfig()
+    }
+}
+
+/**
+ * One back-stack entry as chrome may render it: a stable [id] (unique within its stack — renderers key on it),
+ * the [title] shown while that entry is on screen, and the entry's per-screen [bar] behavior. This is still
+ * **display data, not a navigable stack**: a shell may build one screen/bar item per entry and animate between
+ * them, but the only way it can change navigation is the intent methods — it never mutates these lists.
+ * Compares by value.
  */
 @Immutable
 public class NativeChromeEntry(
     public val id: String,
     public val title: String,
+    public val bar: NativeBarConfig = NativeBarConfig.Default,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is NativeChromeEntry) return false
-        return id == other.id && title == other.title
+        return id == other.id && title == other.title && bar == other.bar
     }
 
-    override fun hashCode(): Int = id.hashCode() * 31 + title.hashCode()
+    override fun hashCode(): Int = (id.hashCode() * 31 + title.hashCode()) * 31 + bar.hashCode()
 }
 
 /**

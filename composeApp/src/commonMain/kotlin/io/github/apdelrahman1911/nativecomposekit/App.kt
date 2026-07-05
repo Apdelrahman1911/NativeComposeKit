@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import io.github.apdelrahman1911.nativecomposekit.app.AppDevTools
 import io.github.apdelrahman1911.nativecomposekit.app.AppRoute
 import io.github.apdelrahman1911.nativecomposekit.app.AppTab
+import io.github.apdelrahman1911.nativecomposekit.app.appBarConfig
 import io.github.apdelrahman1911.nativecomposekit.app.appNavGraph
 import io.github.apdelrahman1911.nativecomposekit.app.appRootRoute
 import io.github.apdelrahman1911.nativecomposekit.app.appRouteTitle
@@ -51,6 +52,8 @@ fun App() {
                     NativeNavBarItem(AppTab.Settings, "Settings", Icons.Filled.Settings),
                 ),
                 title = ::appRouteTitle,
+                barConfig = ::appBarConfig, // per-screen chrome behavior, shared with the iOS shell
+
                 actions = {
                     // Debug builds only: the "+" on the Library tab presents the glass-interop stress
                     // test as a sheet. Rendered with the kit's own icon button (the sample models kit usage).

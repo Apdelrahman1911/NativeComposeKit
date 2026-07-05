@@ -61,8 +61,11 @@ projection in shared code** — and only the iOS-specific pieces live in `iosMai
 
 - **`NativeChromeState(title, canGoBack, selectedTabId, tabs, actions, sheetId, backTitle, backStacksByTab)`**
   *(commonMain)* — an immutable projection. `backStacksByTab` (tabId → root-first `NativeChromeEntry(id,
-  title)` list) is what a **stack-rendering** shell renders — one native screen per entry; it is still display
-  data, not a navigable stack. Flat shells (a bare title bar) can ignore it and use `title`/`backTitle`.
+  title, bar)` list) is what a **stack-rendering** shell renders — one native screen per entry; it is still
+  display data, not a navigable stack. Each entry's `bar` is its **`NativeBarConfig`** — the per-screen
+  chrome behavior (hide the top/tab bar while on top, this screen's own bar actions); see
+  docs/native-chrome.md § Customizing the chrome. Flat shells (a bare title bar) can ignore
+  all of it and use `title`/`backTitle`.
   `NativeChromeTab(id, title, sfSymbol)` / `NativeChromeAction(id, sfSymbol)` describe tabs + top-bar actions;
   `sheetId` only says whether a sheet should be up.
 - **`NativeChromeStateSource`** *(commonMain)* — the nav-agnostic core: state out + intents in.
@@ -139,7 +142,8 @@ wiring, not library API.** A real consumer swaps it for its own library and writ
   without a running composition (the iOS case). `push` is idempotent at the top and **fails fast on a
   duplicate id deeper in the stack** — ids are the entry identity every renderer keys on.
 - **`NativeNavChrome`** — adapts `NativeNavigator` into `NativeChromeSource` (projection, ratification via
-  `popTo`, per-entry content hosts). This is the file to read before writing your own adapter.
+  `popTo`, per-entry content hosts, and per-screen chrome behavior via `barConfigForRoute` — the same
+  lambda the Material host takes as `barConfig`). This is the file to read before writing your own adapter.
 - **`nativeNavGraph { screen<R> { route -> … } }`** — route → `@Composable`, matched by reified route type.
 - **`NativeNavHost` / `NativeNavContent`** — the **Compose-canvas** renderer used where the native shell
   isn't: all of Android, and the iOS pure-Compose fallback (`MainViewController()`).
