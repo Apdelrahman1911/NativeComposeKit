@@ -29,7 +29,7 @@ plugins {
 // substitution work (`includeBuild(...)` in a consumer maps this module onto them), and
 // `publishToMavenLocal` produces the full consumable artifact set locally.
 group = "io.github.apdelrahman1911"
-version = "0.2.0"
+version = "0.3.0"
 
 // ABI lock: the public surface is dumped to nativecomposekit/api/*.api (JVM) + *.klib.api (native), and `apiCheck`
 // (wired into `check`) fails the build if the public API changes without an intentional `:nativecomposekit:apiDump`.
