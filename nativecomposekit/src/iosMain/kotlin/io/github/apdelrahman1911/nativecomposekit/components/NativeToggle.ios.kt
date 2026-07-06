@@ -89,11 +89,21 @@ internal actual fun PlatformNativeToggle(
     InteropDisposeFailSafe(backing) // synchronous ghost-kill; see UiKitInterop.ios.kt
     UIKitView(
         factory = {
-            backing.pinFilling(control)
+            // Cut-out geometry: 2pt bleed margin absorbs CMP's whole-pixel rounding of the interop
+            // wrapper frame — edge-pinned, the capsule could overhang the canvas hole by up to 1px
+            // and get its rounded edge shaved (see pinCenteredWithBleed).
+            backing.pinCenteredWithBleed(control, bleed = 2.0)
             backing
         },
         modifier = modifier.remeasureRequester(remeasure).then(rememberInteropPositionHeal(backing)),
-        properties = scrollSafeInteropProperties(), // overlay placement so the backing isn't clipped on scroll
+        // Cut-out placement on purpose: an overlay-placed switch composites above the WHOLE canvas —
+        // in single-canvas hosts it drew over incoming routes during navigation transitions and over
+        // floating chrome, and delayed position updates stranded it over the new screen. Cut-out keeps
+        // it under the canvas; the brief scroll edge clip (interop-notes §1) is the lesser trade for a
+        // control that lives in settings rows. Known limitation: an in-app theme flip can flash the
+        // backing rect for 1-2 frames (UIKit repaints before the canvas presents) — see
+        // docs/interop-notes.md §5 and docs/upstream/cmp-interop-transaction-lag.md.
+        properties = scrollSafeInteropProperties(placedAsOverlay = false),
         update = { _ ->
             handler.updateGeneration++ // composition responded — disarms any pending rejection re-assert
             // Appearance setters rebuild the switch's layers and must not re-fire on the recomposition an

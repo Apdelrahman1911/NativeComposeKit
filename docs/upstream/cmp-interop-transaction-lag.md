@@ -1,6 +1,6 @@
-# Draft upstream issue — file at https://github.com/JetBrains/compose-multiplatform/issues
+# Upstream issue — FILED as CMP-10398 / CMP-10399 / CMP-10400 (JetBrains YouTrack)
 
-Formatted for the Compose Multiplatform issue template. Copy the body below into a new issue. Where
+Original draft below, kept for reference. Formatted for the Compose Multiplatform issue template. Copy the body below into a new issue. Where
 you see `📎 ATTACH:`, drag the named file from `docs/upstream/media/` onto the issue so GitHub embeds
 it at that spot.
 
@@ -241,3 +241,16 @@ expandable list sections) shows visibly desynced/misplaced native views during a
 animation on real devices — controls drawn outside their containers, late appearance, delayed
 disappearance. Because the behavior needs physical hardware, it ships unnoticed past simulator-based
 testing.
+
+---
+
+## Addendum (2026-07-06): theme-change repaint desync — same root, opposite direction
+
+A further data point for the same family, seen in a consumer app and reproduced with the kit's
+churn harness ("Cycle theme" toggle): on an in-app dark/light flip, cut-out-placed interop controls
+flash a wrong-theme rectangle (their backing view) for 1–2 frames — here the UIKit CALayer commits
+land EARLY (next refresh) while the new-theme canvas frame, the most expensive frame the app
+produces, presents 1–2 vsyncs late. User/library code has no way to enqueue its CALayer work into
+the transaction the `MetalRedrawer` executes at present time, so the two sides cannot be
+synchronized from outside. Present-synchronized interop mutations (an accessible equivalent of
+`UIKitInteropMutableTransaction`) would fix this class together with the lag family above.

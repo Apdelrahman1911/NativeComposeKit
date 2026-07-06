@@ -26,6 +26,17 @@ drift is subtler than a hard clipped edge and settles instantly. Button-family c
 Upstream: [CMP-10398](https://youtrack.jetbrains.com/issue/CMP-10398). Related: CMP-3525, CMP-9728,
 CMP-3534.
 
+**Placement is per-control, and two hazards beyond scrolling weigh in.** Overlay composites above
+the WHOLE canvas: in a single-canvas host nothing Compose-drawn can cover it — an incoming route
+during a navigation transition slides UNDER an overlay control, floating chrome is painted over,
+and a delayed position update (§4) strands it visibly on the new screen. `NativeToggle` therefore
+ships **cut-out**, centered in its backing with a 2pt bleed (`pinCenteredWithBleed`) so CMP's
+whole-pixel wrapper rounding cannot shave the capsule edge against the canvas hole; its scroll
+edge-clip is the accepted lesser trade for a control that lives in settings rows. The other backed
+leaves keep overlay pending the same per-control evaluation. (The kit's own native navigation shell
+is immune to the transition hazard — each route is its own UIKit view controller — but the kit must
+stay correct in single-canvas hosts too.)
+
 ## 2. Menu buttons: drift after first open
 
 A `UIButton` with a native `UIMenu` (`showsMenuAsPrimaryAction`, or a `UIContextMenuInteraction`)
@@ -53,6 +64,27 @@ above the opaque card with no cut-out hole — the card's own pixels show from t
 don't scroll, so overlay's drift trade-off doesn't apply here.
 
 Upstream: [CMP-10400](https://youtrack.jetbrains.com/issue/CMP-10400). Related: CMP-7509, CMP-8114.
+
+## 5. Theme-flip repaint desync: the cut-out backing flash (known limitation)
+
+An in-app theme change (dark ↔ light via `NativeAppearance.setDark`) repaints two compositors that
+cannot be ordered against each other from the main thread: the UIKit side (window
+`overrideUserInterfaceStyle`, the interop backing's `backgroundColor`, the control's own appearance)
+commits with the implicit `CATransaction` and is on screen at the next refresh, while the new-theme
+Compose canvas — the most expensive frame the app produces — presents 1–2 vsyncs later. A
+**cut-out** placed control whose backing color derives from the theme (`NativeToggle`) can therefore
+flash a wrong-theme rectangle around itself for 1–2 frames on device before settling. Steady state
+is unaffected.
+
+Status: **accepted limitation** in this release. Two mitigation attempts are archived on the
+`archive/theme-flash-experiments` branch with a post-mortem: draw-phase appearance writes (fails —
+record time ≠ present time) and a window snapshot crossfade (most promising retry: the snapshot must
+be armed BEFORE the theme state reaches the composition, which needs a
+`NativeAppearance.setDark(dark, transition = …)`-shaped API so the kit can snapshot first and flip
+the state second). The real fix is upstream — present-synchronized interop mutations — tracked with
+the transaction-lag family in
+[`docs/upstream/cmp-interop-transaction-lag.md`](upstream/cmp-interop-transaction-lag.md).
+Regression harness: the "Interop churn test" screen's **"Cycle theme"** toggle.
 
 ## 4. Deferred interop transactions: delayed/out-of-sync mutations under animated visibility
 

@@ -204,10 +204,20 @@ internal fun NativeInteropTouch.toInteropProperties(
 internal fun scrollSafeInteropProperties(
     /** See [toInteropProperties]. Defaults to true: the pinFilling-backed leaves are interactive controls. */
     nativeAccessibility: Boolean = true,
+    /**
+     * Overlay (default) draws ABOVE the whole canvas — nothing Compose-drawn (an incoming route
+     * during a single-canvas navigation transition, floating chrome) can ever cover the control,
+     * and a delayed position update leaves it visibly stranded over the new screen. Cut-out
+     * (false) keeps the control UNDER the canvas showing through a hole: during a transition the
+     * incoming screen paints over it like normal content, at the cost of the brief leading-edge
+     * clip during scroll (docs/interop-notes.md §1) — pair it with [pinCenteredWithBleed] so pixel
+     * rounding can't shave the control's edge. `NativeToggle` ships cut-out for exactly this trade.
+     */
+    placedAsOverlay: Boolean = true,
 ): UIKitInteropProperties =
     UIKitInteropProperties(
         interactionMode = UIKitInteropInteractionMode.Cooperative(),
-        placedAsOverlay = true,
+        placedAsOverlay = placedAsOverlay,
         isNativeAccessibilityEnabled = nativeAccessibility,
     )
 
@@ -382,6 +392,34 @@ internal fun UIView.pinFilling(child: UIView) {
             child.trailingAnchor.constraintEqualToAnchor(trailingAnchor),
             child.topAnchor.constraintEqualToAnchor(topAnchor),
             child.bottomAnchor.constraintEqualToAnchor(bottomAnchor),
+        ),
+    )
+}
+
+/**
+ * Pins [child] CENTERED in this view with a [bleed]-pt margin on every edge (the backing's Auto
+ * Layout fitting size = child intrinsic + 2·bleed per axis, so the interop node measures slightly
+ * larger than the visible control).
+ *
+ * Exists for CUT-OUT placed controls: the canvas hole is the node's exact fractional-px rect, but
+ * CMP rounds the interop wrapper's frame to whole pixels before converting to points (see
+ * [InteropPositionHeal]'s rect math) — an edge-pinned child can therefore sit up to one device
+ * pixel offset from the hole, and whatever overhangs is covered by the canvas (a visibly shaved,
+ * no-longer-rounded capsule edge; invisible under overlay placement, where the control drew ABOVE
+ * the canvas). Centering with a small bleed keeps the whole rounding error inside the transparent
+ * margin instead of under the canvas edge. The margin renders as [interopBackingColor] — the
+ * surrounding surface color (or clear on glass) — so it is invisible.
+ */
+internal fun UIView.pinCenteredWithBleed(child: UIView, bleed: Double) {
+    if (child.superview == this) return
+    child.translatesAutoresizingMaskIntoConstraints = false
+    addSubview(child)
+    NSLayoutConstraint.activateConstraints(
+        listOf(
+            child.centerXAnchor.constraintEqualToAnchor(centerXAnchor),
+            child.centerYAnchor.constraintEqualToAnchor(centerYAnchor),
+            widthAnchor.constraintEqualToAnchor(child.widthAnchor, multiplier = 1.0, constant = 2 * bleed),
+            heightAnchor.constraintEqualToAnchor(child.heightAnchor, multiplier = 1.0, constant = 2 * bleed),
         ),
     )
 }

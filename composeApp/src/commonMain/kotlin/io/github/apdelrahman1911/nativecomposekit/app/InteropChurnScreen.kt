@@ -30,6 +30,7 @@ import io.github.apdelrahman1911.nativecomposekit.components.NativeSlider
 import io.github.apdelrahman1911.nativecomposekit.components.NativeText
 import io.github.apdelrahman1911.nativecomposekit.components.NativeToggle
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeTextStyle
+import io.github.apdelrahman1911.nativecomposekit.theme.NativeAppearance
 import kotlinx.coroutines.delay
 
 /**
@@ -55,6 +56,25 @@ import kotlinx.coroutines.delay
 fun InteropChurnScreen(autoRun: Boolean = true) {
     var running by remember { mutableStateOf(autoRun) }
     var reproduceWedge by remember { mutableStateOf(false) }
+    var cycleTheme by remember { mutableStateOf(false) }
+    LaunchedEffect(cycleTheme) {
+        // Theme-flip cycler: regression harness for the cut-out backing flash — a theme change
+        // repaints UIKit (backing color, control appearance) and the Compose canvas on clocks that
+        // cannot be ordered from the main thread, so cut-out controls can flash a wrong-theme rect
+        // for 1-2 frames on device (docs/interop-notes.md §5). Restores the system theme when off.
+        if (cycleTheme) {
+            var dark = false
+            try {
+                while (true) {
+                    delay(1200)
+                    dark = !dark
+                    NativeAppearance.setDark(dark)
+                }
+            } finally {
+                NativeAppearance.setDark(null)
+            }
+        }
+    }
     var expanded by remember { mutableStateOf(true) }
     var cycles by remember { mutableIntStateOf(0) }
     var level by remember { mutableStateOf(0.4f) }
@@ -87,6 +107,17 @@ fun InteropChurnScreen(autoRun: Boolean = true) {
                             checked = running,
                             onCheckedChange = { running = it },
                             contentDescription = "Auto-cycle",
+                        )
+                    },
+                )
+                NativeListItem(
+                    "Cycle theme",
+                    supporting = "Flips dark/light every 1.2s — watch cut-out controls for a 1-2 frame wrong-theme rect (known CMP repaint-desync limitation)",
+                    trailing = {
+                        NativeToggle(
+                            checked = cycleTheme,
+                            onCheckedChange = { cycleTheme = it },
+                            contentDescription = "Cycle theme",
                         )
                     },
                 )
