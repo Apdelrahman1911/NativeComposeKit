@@ -14,6 +14,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonColors
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosBackground
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosOptions
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonShape
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonSize
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonVariant
@@ -54,11 +56,13 @@ public fun NativeButton(
     colorsOverride: NativeButtonColors? = null,
     textStyleOverride: TextStyle? = null,
     touch: NativeInteropTouch = NativeInteropTouch.Cooperative,
+    ios: NativeButtonIosOptions = NativeButtonIosOptions(),
     contentDescription: String? = null,
     testTag: String? = null,
 ) {
     val resolved = resolveButtonStyle(
         variant, size, shape, enabled, contentPadding, cornerRadius, colorsOverride, textStyleOverride,
+        iosBackground = ios.background,
     )
     PlatformNativeButton(
         text = text,
@@ -87,6 +91,7 @@ private fun resolveButtonStyle(
     cornerRadius: Dp?,
     colorsOverride: NativeButtonColors?,
     textStyleOverride: TextStyle?,
+    iosBackground: NativeButtonIosBackground = NativeButtonIosBackground.Automatic,
 ): ResolvedButtonStyle {
     val tokens = NativeTheme.tokens
     val scheme = MaterialTheme.colorScheme
@@ -142,6 +147,7 @@ private fun resolveButtonStyle(
         cornerRadius = resolvedCorner,
         iconSpacing = tokens.spacingSm,
         textStyle = textStyle,
+        iosBackground = iosBackground,
     )
 }
 

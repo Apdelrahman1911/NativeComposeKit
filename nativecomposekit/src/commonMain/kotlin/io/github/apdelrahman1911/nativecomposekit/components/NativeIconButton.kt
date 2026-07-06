@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonColors
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosBackground
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosOptions
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonSize
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonVariant
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon
@@ -39,9 +41,10 @@ public fun NativeIconButton(
     cornerRadius: Dp? = null,
     colorsOverride: NativeButtonColors? = null,
     touch: NativeInteropTouch = NativeInteropTouch.Cooperative,
+    ios: NativeButtonIosOptions = NativeButtonIosOptions(),
     testTag: String? = null,
 ) {
-    val resolved = resolveIconButtonStyle(variant, size, enabled, cornerRadius, colorsOverride)
+    val resolved = resolveIconButtonStyle(variant, size, enabled, cornerRadius, colorsOverride, iosBackground = ios.background)
     PlatformNativeIconButton(
         icon = icon,
         onClick = onClick,
@@ -63,6 +66,7 @@ private fun resolveIconButtonStyle(
     enabled: Boolean,
     cornerRadius: Dp?,
     colorsOverride: NativeButtonColors?,
+    iosBackground: NativeButtonIosBackground = NativeButtonIosBackground.Automatic,
 ): ResolvedButtonStyle {
     val tokens = NativeTheme.tokens
     val scheme = MaterialTheme.colorScheme
@@ -81,6 +85,7 @@ private fun resolveIconButtonStyle(
         cornerRadius = cornerRadius ?: side / 2f, // circular by default
         iconSpacing = tokens.spacingSm,
         textStyle = MaterialTheme.typography.labelLarge.copy(color = colors.content), // unused (no label)
+        iosBackground = iosBackground,
     )
 }
 

@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.viewinterop.remeasureRequester
 import androidx.compose.ui.viewinterop.rememberUIKitInteropRemeasureRequester
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosBackground
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon
 import io.github.apdelrahman1911.nativecomposekit.theme.LocalNativeStrings
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeInteropTouch
@@ -59,6 +60,10 @@ internal actual fun PlatformNativeSplitButton(
     val backingColor = interopBackingColor() // published surface on solid; clear on Liquid Glass
     val remeasure = rememberUIKitInteropRemeasureRequester()
     // Overlay placement inside a NativeDialog (no cut-out hole → no first-frame black flash); cut-out elsewhere.
+    // Split renders `ios.background` as Automatic in this release: a two-segment capsule needs a SHARED
+    // glass body (UIGlassEffectContainer territory), and per-half capsules read wrong. Documented in
+    // docs/components/buttons.md; the option stays accepted so call sites are forward-compatible.
+    @Suppress("NAME_SHADOWING") val style = style.copy(iosBackground = NativeButtonIosBackground.Automatic)
     val overlay = LocalNativeInteropPlacement.current == NativeInteropPlacement.Overlay
     val layoutDirection = LocalLayoutDirection.current
     val moreLabel = LocalNativeStrings.current.splitButtonMore

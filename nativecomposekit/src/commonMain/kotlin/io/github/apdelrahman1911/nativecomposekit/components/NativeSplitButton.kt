@@ -7,6 +7,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonColors
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosBackground
+import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonIosOptions
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonSize
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeButtonVariant
 import io.github.apdelrahman1911.nativecomposekit.components.model.NativeIcon
@@ -37,10 +39,11 @@ public fun NativeSplitButton(
     colorsOverride: NativeButtonColors? = null,
     textStyleOverride: TextStyle? = null,
     touch: NativeInteropTouch = NativeInteropTouch.Cooperative,
+    ios: NativeButtonIosOptions = NativeButtonIosOptions(),
     contentDescription: String? = null,
     testTag: String? = null,
 ) {
-    val resolved = resolveSplitButtonStyle(variant, size, enabled, cornerRadius, colorsOverride, textStyleOverride)
+    val resolved = resolveSplitButtonStyle(variant, size, enabled, cornerRadius, colorsOverride, textStyleOverride, iosBackground = ios.background)
     PlatformNativeSplitButton(
         text = text,
         onPrimaryClick = onPrimaryClick,
@@ -64,6 +67,7 @@ private fun resolveSplitButtonStyle(
     cornerRadius: Dp?,
     colorsOverride: NativeButtonColors?,
     textStyleOverride: TextStyle?,
+    iosBackground: NativeButtonIosBackground = NativeButtonIosBackground.Automatic,
 ): ResolvedButtonStyle {
     val tokens = NativeTheme.tokens
     val scheme = MaterialTheme.colorScheme
@@ -97,6 +101,7 @@ private fun resolveSplitButtonStyle(
         cornerRadius = cornerRadius ?: tokens.cornerMedium,
         iconSpacing = tokens.spacingSm,
         textStyle = textStyle,
+        iosBackground = iosBackground,
     )
 }
 

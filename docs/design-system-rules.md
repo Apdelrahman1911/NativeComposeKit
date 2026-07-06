@@ -51,6 +51,10 @@ Shared props where behavior aligns; a typed `ios`/`android` option object where 
 recorded on the component's reference page. `NativeText` is the one sanctioned Compose-fallback (Compose `Text` on
 material surfaces, native `UILabel` on solid) — and that exception is documented, not silent.
 
+- **Liquid Glass buttons** are the pattern in action: `ios = NativeButtonIosOptions(background = Glass)`
+  is an explicitly iOS-scoped knob — real `UIGlassEffect` on iOS 26, documented `Automatic` fallback
+  below iOS 26, documented no-op on Android. No fake cross-platform "glass" is drawn anywhere.
+
 ## What is intentionally NOT in the kit
 - **`NativeImage` / image loading** → app-level via Coil 3 (rules 3 + 4).
 - **Wheel / `UIPickerView` picker** → covered by `NativeSegmentedControl` / `NativeMenu` / `NativeRadioGroup` /
