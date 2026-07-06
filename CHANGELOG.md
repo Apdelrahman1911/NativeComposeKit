@@ -7,8 +7,17 @@ changes; the public surface is ABI-locked per release via binary-compatibility-v
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-07-06
+
 ### Added
 
+- **Liquid Glass buttons (iOS 26)** — `NativeButton` / `NativeIconButton` gain
+  `ios = NativeButtonIosOptions(background = Glass | ProminentGlass)`: a real `UIGlassEffect` capsule
+  that refracts the content beneath the button and morphs on press. `Glass` is the clear adaptive
+  flavor (content adopts the system label color); `ProminentGlass` tints the glass with the variant's
+  container color. Silent fallback to the flat variant below iOS 26; documented no-op on Android;
+  `NativeSplitButton` accepts the option but renders `Automatic` this release. Demo: sample app →
+  Settings → Developer → "Liquid glass buttons".
 - **`NativeCollapsible`** — the platform-safe way to collapse/expand content containing native
   controls (use instead of `AnimatedVisibility` around `Native*` components). A real
   `AnimatedVisibility` on Android; on iOS it animates the container's size while content enters and
@@ -73,5 +82,6 @@ First public release.
   behavior notes with upstream issue references, and per-component references with platform capability
   tables.
 
+[0.3.0]: https://github.com/ukkkera/NativeComposeKit/releases/tag/v0.3.0
 [0.2.0]: https://github.com/ukkkera/NativeComposeKit/releases/tag/v0.2.0
 [0.1.0]: https://github.com/ukkkera/NativeComposeKit/releases/tag/v0.1.0
